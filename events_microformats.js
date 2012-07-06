@@ -31,7 +31,7 @@ function findDate(vevent, cssAttribute) {
   if (dtstartend) {
     if (dtstartend.attr('title')) {
       return dtstartend.attr('title').toString();
-  
+
     } else if (dtstartend.children().length) {
       // http://lakefieldmusic.com/tour-dates-concerts-shows-live-performances
       // <span class="dtstart">
@@ -45,12 +45,12 @@ function findDate(vevent, cssAttribute) {
           return $(child).attr('title').toString();
         }
       }
-  
+
     } else if (dtstartend.text()) {
       return dtstartend.text().toString();
     }
   }
-  
+
   var published = $(vevent).find('.published');
   if (published) {
     if (published.attr('title')) {

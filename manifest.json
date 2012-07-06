@@ -2,6 +2,9 @@
   "manifest_version": 2,
   "name": "__MSG_google_calendar_extension_name__",
   "description": "__MSG_google_calendar_extension_desc__",
+  "version": "0.11",
+  "default_locale": "en",
+
   "icons": {
     "16": "icons/event_calendar-lb16.png",
     "19": "icons/event_calendar-lb19.png",
@@ -9,7 +12,7 @@
     "48": "icons/event_calendar-lb48.png",
     "128": "icons/event_calendar-lb128.png"
   },
-  "default_locale": "en",
+
   "permissions": [
     "tabs",
     "http://*/*",
@@ -17,8 +20,6 @@
     "http://www.google.com/calendar/",
     "https://www.google.com/calendar/"
   ],
-  "update_url": "http://clients2.google.com/service/update2/crx",
-  "version": "0.11",
 
   "background": {
     "scripts": [
@@ -65,8 +66,8 @@
       "run_at": "document_idle"
     }
   ],
-  
+
   "web_accessible_resources": [
     "icons/calendar_add_19.png"
-  ]  
+  ]
 }

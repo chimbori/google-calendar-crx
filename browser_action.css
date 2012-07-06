@@ -1,10 +1,10 @@
-.crx_calendar, 
+.crx_calendar,
 .crx_calendar * {
   font-family: Helvetica, sans-serif;
   font-size: 11pt;
   line-height: 1.4em;
 }
-      
+
 .crx_calendar #logo {
   float: left;
 }
@@ -54,7 +54,7 @@
   left: 0;
   right: 0;
 }
- 
+
 .crx_calendar #events {
   padding: 12px;
   overflow: auto;

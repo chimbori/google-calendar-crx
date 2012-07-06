@@ -121,7 +121,7 @@ module.exports = function(grunt) {
         jsOutputFile: 'bin/content_script.compiled.js'
       }
     },
-    
+
     csslint: {
       all: {
         src: [
