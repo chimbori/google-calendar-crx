@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Unit Tests for CalendarUtils</title>
+    <script type="text/javascript" src="../common.js"></script>
+    <script type="text/javascript" src="../calendar_utils.js"></script>
+  </head>
+  <body>
+    <textarea id="failures" style="width:100%;font-family:Monaco" rows="40"></textarea>
+    <script language="javascript">
+      var I18n = function() {};  // Mock.
+      I18n.monthNames = [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December'
+      ];
+      I18n.prototype.getMessage = function(msgId) {
+        if (msgId.indexOf('month_') == 0) {
+          var monthId = parseInt(msgId.replace('month_', ''), 10) - 1;
+          return I18n.monthNames[monthId];
+        }
+        return undefined;
+      };
+
+      var Chrome = function(){};  // Mock
+      Chrome.prototype.i18n = new I18n();
+
+      var chrome = new Chrome();
+
+      // Poor Man's JavaScript unit tests.
+      var tests = {};
+      tests.MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+      tests.assertEquals = function(message, expected, actual) {
+        if (!expected ||
+            !actual ||
+            expected.toString() !== actual.toString()) {
+          document.getElementById('failures').value +=
+              ["\nTEST FAILED: ", message,
+               "\nExpected: ", expected == null ? 'null' : expected, " (", typeof expected, ")",
+               "\nActual  : ", actual == null ? 'null' : actual,  " (", typeof actual, ")",
+               "\n"].join('');
+        } else {
+          // document.getElementById('failures').value +=
+          //     ["\nTEST PASSED: ", message].join('');
+        }
+      };
+
+      tests.assertDatesEqual = function(jsDate, isoDate) {
+        var actual = CalendarUtils.fromIso8601(isoDate);
+        tests.assertEquals(
+            ['Comparing [', jsDate, '] and [', isoDate, ']'].join(''),
+            (new Date(jsDate).toUTCString()),
+            actual && actual.toUTCString());
+      };
+
+      tests.assertFormattedDatesEqual = function(formattedDate, fromStr, toStr) {
+        var fromDate = CalendarUtils.fromIso8601(fromStr);
+        var toDate = CalendarUtils.fromIso8601(toStr);
+        tests.assertEquals(
+            ['Comparing [', formattedDate, '] for [from=', fromDate, 'to=', toDate, ']'].join(''),
+            formattedDate, CalendarUtils.getFormattedDatesFromTo(fromDate, toDate));
+      };
+
+      tests.runAllTests = function() {
+        document.getElementById('failures').value = '';
+        tests.testCalendarUtilsFromIso8601();
+        tests.testFormattedDates();
+
+        if (document.getElementById('failures').value == '') {
+          document.getElementById('failures').value = 'ALL PASSED.';
+        }
+      };
+
+      tests.testCalendarUtilsFromIso8601 = function() {
+        // http://www.cl.cam.ac.uk/~mgk25/iso-time.html
+        tests.assertDatesEqual('31 December, 2005', '2005-12-31');
+        tests.assertDatesEqual('4 February, 1995', '1995-02-04');
+        tests.assertDatesEqual('4 February, 1995', '19950204');
+
+        // http://microformats.org/wiki/hcalendar-examples-in-wild
+        tests.assertDatesEqual('27 July, 2010, 10:10:00', '20100727T101000');
+
+        // http://www.metalgigs.de/
+        tests.assertDatesEqual('25 July, 2010', '2010-07-25T00:00:00+02:00');
+
+        // http://lakefieldmusic.com/tour-dates-concerts-shows-live-performances
+        tests.assertDatesEqual('14 Aug, 2010 15:00:00', '2010-08-14T15:00:00-0700');
+
+        // http://www.xfront.com/microformats/hCalendar.html, Slide 8.
+        tests.assertDatesEqual('10 May 2007, 14:00:00', '2007-05-10T14:00:00');
+
+        // http://en.wikipedia.org/wiki/Apollo_11
+        tests.assertDatesEqual('16 July, 1969', '1969-07-16');
+
+        // More dates
+        tests.assertDatesEqual('31 December, 2005, 9:10:00 UTC+00:00', '2005-12-31T091000Z');
+
+        // Zulu time (UTC)
+        tests.assertDatesEqual('25 July, 2010 01:02:45 UTC+00:00', '2010-07-25T01:02:45Z');
+
+        // No seconds (www.last.fm/events)
+        tests.assertDatesEqual('30 September, 2010 19:30:00 UTC+00:00', '20100930T1930Z');
+
+        // No seconds and no Z (www.last.fm/events)
+        tests.assertDatesEqual('Fri, 01 Oct 2010 02:30:00 UTC+00:00', '20100930T1930');
+      };
+
+      tests.testFormattedDates = function() {
+        // Random first test case.
+        tests.assertFormattedDatesEqual('September 30, 2010 &nbsp; &bull; &nbsp; 12:30pm &mdash; 5pm', '20100930T1930Z', '20101001T0000Z');
+      };
+
+      tests.zeroPad = function(num) {
+        return (num >= 0 && num <= 9 ? '0' : '') + num;
+      };
+
+      tests.getTodaysDate = function() {
+        var now = new Date();
+        return now.getFullYear() + '-' + tests.MONTHS[now.getMonth()] + '-' + now.getDate();
+      };
+
+      tests.runAllTests();
+    </script>
+  </body>
+</html>
