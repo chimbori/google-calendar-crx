@@ -19,12 +19,47 @@
  * @author manas@google.com (Manas Tungare)
  */
 
-var mfEvents = detectHCalendarEvents();
-
-if (mfEvents.length > 0) {
-  chrome.extension.sendRequest(mfEvents, function(response) {});
+/**
+ * Locate a start or end date given the parent node and an attribute.
+ * @param {Element} vevent Top-level vevent element.
+ * @param {string} cssAttribute Either '.dtstart' or '.dtend'.
+ * @return {string} Date located, or null if none found.
+ */
+function findDate(vevent, cssAttribute) {
+  // Spec says: attr 'title' of class 'dtstart' or 'dtend'.
+  var dtstartend = $(vevent).find(cssAttribute);
+  if (dtstartend) {
+    if (dtstartend.attr('title')) {
+      return dtstartend.attr('title').toString();
+  
+    } else if (dtstartend.children().length) {
+      // http://lakefieldmusic.com/tour-dates-concerts-shows-live-performances
+      // <span class="dtstart">
+      //   August 14, 2010 <span class="value-title"
+      //   title="2010-08-14T15:00:00-0700"></span>
+      // </span>
+      var children = dtstartend.children();
+      for (var i = 0; i < children.length; ++i) {
+        var child = children[i];
+        if ($(child).attr('title')) {
+          return $(child).attr('title').toString();
+        }
+      }
+  
+    } else if (dtstartend.text()) {
+      return dtstartend.text().toString();
+    }
+  }
+  
+  var published = $(vevent).find('.published');
+  if (published) {
+    if (published.attr('title')) {
+      return published.attr('title').toString();
+    } else if (published.text()) {
+      return published.text().toString();
+    }
+  }
 }
-
 
 function detectHCalendarEvents() {
   var events = [];
@@ -32,13 +67,13 @@ function detectHCalendarEvents() {
   $.each($('.vevent'), function(i, vevent) {
     var fields = {};
 
-    fields.title = getFirstFieldText(vevent, '.summary');
-    fields.description = getFirstFieldText(vevent, '.description');
+    fields.title = common.getFirstFieldText(vevent, '.summary');
+    fields.description = common.getFirstFieldText(vevent, '.description');
 
     // HACK(manas): This is a fix for Facebook, who incorrectly tag their
     // title as "fn" instead of "summary".
-    var fn = getFirstFieldText(vevent, '.fn');
-    if (fields.title.length > 200 && !isBlankOrUndef(fn)) {
+    var fn = common.getFirstFieldText(vevent, '.fn');
+    if (fields.title.length > 200 && !common.isBlankOrUndef(fn)) {
       fields.title = fn;
     }
 
@@ -53,11 +88,11 @@ function detectHCalendarEvents() {
     var urlElement = $(vevent).find('.url');
     if (urlElement && urlElement.attr('href')) {
       var hrefAttr = urlElement.attr('href');
-      if (hrefAttr.indexOf('http://') == 0 ||
-          hrefAttr.indexOf('https://') == 0) {
+      if (hrefAttr.indexOf('http://') === 0 ||
+          hrefAttr.indexOf('https://') === 0) {
         // Absolute URL with hostname.
         fields.url = hrefAttr;
-      } else if (hrefAttr.indexOf('/') == 0) {
+      } else if (hrefAttr.indexOf('/') === 0) {
         // Absolute URL without hostname.
         fields.url = window.location.protocol + '//' +
             window.location.host + hrefAttr;
@@ -89,44 +124,8 @@ function detectHCalendarEvents() {
 }
 
 
-/**
- * Locate a start or end date given the parent node and an attribute.
- * @param {Element} vevent Top-level vevent element.
- * @param {string} cssAttribute Either '.dtstart' or '.dtend'.
- * @return {string} Date located, or null if none found.
- */
-function findDate(vevent, cssAttribute) {
-  // Spec says: attr 'title' of class 'dtstart' or 'dtend'.
-  var dtstartend = $(vevent).find(cssAttribute);
-  if (dtstartend) {
-    if (dtstartend.attr('title')) {
-      return dtstartend.attr('title').toString();
 
-    } else if (dtstartend.children().length) {
-      // http://lakefieldmusic.com/tour-dates-concerts-shows-live-performances
-      // <span class="dtstart">
-      //   August 14, 2010 <span class="value-title"
-      //   title="2010-08-14T15:00:00-0700"></span>
-      // </span>
-      var children = dtstartend.children();
-      for (var i = 0; i < children.length; ++i) {
-        var child = children[i];
-        if ($(child).attr('title')) {
-          return $(child).attr('title').toString();
-        }
-      }
-
-    } else if (dtstartend.text()) {
-      return dtstartend.text().toString();
-    }
-  }
-
-  var published = $(vevent).find('.published');
-  if (published) {
-    if (published.attr('title')) {
-      return published.attr('title').toString();
-    } else if (published.text()) {
-      return published.text().toString();
-    }
-  }
+var mfEvents = detectHCalendarEvents();
+if (mfEvents.length > 0) {
+  chrome.extension.sendRequest(mfEvents, function(response) {});
 }

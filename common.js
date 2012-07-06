@@ -19,6 +19,8 @@
  * @author manas@google.com (Manas Tungare)
  */
 
+var common = {};
+
 /**
  * Some events don't have a duration that we can accurately determine.
  * So we default it to a certain length, and the user can tweak it before
@@ -26,7 +28,7 @@
  * @type {number}
  * @const
  */
-var DEFAULT_DURATION_HOURS_IF_ABSENT = 2;
+common.DEFAULT_DURATION_HOURS_IF_ABSENT = 2;
 
 /**
  * Instead of reimplementing a small calendar view, we reuse the one
@@ -34,7 +36,7 @@ var DEFAULT_DURATION_HOURS_IF_ABSENT = 2;
  * @type {string}
  * @const
  */
-var IGOOGLE_CALENDAR_URL =
+common.IGOOGLE_CALENDAR_URL =
    'https://www.google.com/calendar/ig?up_showDatepicker=0&up_hideAgenda=0';
 
 /**
@@ -42,16 +44,20 @@ var IGOOGLE_CALENDAR_URL =
  * @type {string}
  * @const
  */
-var ADD_TO_CALENDAR_BUTTON_URL =
+common.ADD_TO_CALENDAR_BUTTON_URL =
     'http://www.google.com/calendar/images/ext/gc_button6.gif';
 
 /**
  * Logs a message to the console, if present; else shows an alert.
  * @param {string} msg Message to log.
  */
-function log(msg) {
-  window.console ? window.console.log(msg) : alert(msg);
-}
+common.log = function(msg) {
+  if (window.console) {
+    window.console.log(msg);
+  } else {
+    alert(msg);
+  }
+};
 
 
 /**
@@ -61,9 +67,9 @@ function log(msg) {
  * @return {string} Two-character string representing the number, perhaps
  * with zero padding.
  */
-function zeroPad(num) {
+common.zeroPad = function(num) {
   return (num.toString().length == 1) ? '0' + num.toString() : num.toString();
-}
+};
 
 
 /**
@@ -71,9 +77,9 @@ function zeroPad(num) {
  * @param {string|Object|number|undefined} x Value to be checked.
  * @return {boolean} true iff the parameter is "" or undefined.
  */
-function isBlankOrUndef(x) {
-  return (typeof x == 'undefined') || (x.toString() == '');
-}
+common.isBlankOrUndef = function(x) {
+  return (typeof x == 'undefined') || (x.toString() === '');
+};
 
 
 /**
@@ -85,13 +91,13 @@ function isBlankOrUndef(x) {
  * @param {number} numChars Maximum number of characters to return.
  * @return {string} Trimmed string.
  */
-function trimTo(str, numChars) {
+common.trimTo = function(str, numChars) {
   if (str && str.length > numChars) {
     var op = str.substring(0, numChars - 2) + " \u2026";
     return op;
   }
   return str;
-}
+};
 
 
 /**
@@ -101,10 +107,10 @@ function trimTo(str, numChars) {
  * @param {string} selector What to look for, as a CSS selector.
  * @return {string} The text of the first child if found; "" otherwise.
  */
-function getFirstFieldText(element, selector) {
+common.getFirstFieldText = function(element, selector) {
   var rawField = $(element).find(selector);
   if (rawField && rawField.length > 0) {
     return $(rawField[0]).text().trim();
   }
   return '';
-}
+};

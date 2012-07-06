@@ -67,7 +67,7 @@ function detectEviteEvents() {
 
         fields.end = new Date(Date.parse(startDateTime));
         fields.end.setHours(fields.start.getHours() +
-            DEFAULT_DURATION_HOURS_IF_ABSENT);
+            common.DEFAULT_DURATION_HOURS_IF_ABSENT);
         break;
 
       case 'phone':

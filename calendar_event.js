@@ -48,7 +48,7 @@ var MAX_CHARS_PER_FIELD = 500;
  * @private
  */
 CalendarEvent.prototype.populateMissingFields_ = function() {
-  if (isBlankOrUndef(this.fields.end)) {
+  if (common.isBlankOrUndef(this.fields.end)) {
     // If there's no end time, infer one as best as we can.
     this.fields.end = this.inferEndTime_(this.fields.start);
   }
@@ -60,10 +60,10 @@ CalendarEvent.prototype.populateMissingFields_ = function() {
  * @private
  */
 CalendarEvent.prototype.trimAllFieldsToMaxChars_ = function() {
-  this.fields.title = trimTo(this.fields.title, MAX_CHARS_PER_FIELD);
-  this.fields.description = trimTo(this.fields.description,
+  this.fields.title = common.trimTo(this.fields.title, MAX_CHARS_PER_FIELD);
+  this.fields.description = common.trimTo(this.fields.description,
       MAX_CHARS_PER_FIELD);
-  this.fields.location = trimTo(this.fields.location, MAX_CHARS_PER_FIELD);
+  this.fields.location = common.trimTo(this.fields.location, MAX_CHARS_PER_FIELD);
 };
 
 
@@ -80,11 +80,11 @@ CalendarEvent.prototype.getGCalUrl_ = function() {
       encodeURIComponent(this.fields.title);
 
   // Dates could be optional.
-  if (!isBlankOrUndef(this.fields.start)) {
+  if (!common.isBlankOrUndef(this.fields.start)) {
     link += '&dates=' + CalendarUtils.getDateGoogleCalendar(this.fields.start);
 
     // Even if start date is present, end date could be missing.
-    if (!isBlankOrUndef(this.fields.end)) {
+    if (!common.isBlankOrUndef(this.fields.end)) {
       link += '/' + CalendarUtils.getDateGoogleCalendar(this.fields.end);
     }
   }
@@ -93,14 +93,14 @@ CalendarEvent.prototype.getGCalUrl_ = function() {
   link += '&location=' + this.getFormattedLocation_();
 
   // URL
-  if (!isBlankOrUndef(this.fields.url)) {
-    link += '&sprop=' + encodeURIComponent(this.fields.url)
-        + '&sprop=name:' + encodeURIComponent(this.fields.title);
+  if (!common.isBlankOrUndef(this.fields.url)) {
+    link += '&sprop=' + encodeURIComponent(this.fields.url) +
+        '&sprop=name:' + encodeURIComponent(this.fields.title);
   }
 
   // Details
   link += '&details=';
-  if (!isBlankOrUndef(this.fields.description)) {
+  if (!common.isBlankOrUndef(this.fields.description)) {
     link += encodeURIComponent(this.fields.description + "\n\n");
   }
   link += chrome.i18n.getMessage('read_more_at_original_url') +
@@ -121,11 +121,11 @@ CalendarEvent.prototype.inferEndTime_ = function(startTime) {
   var endTime = new Date(Date.parse(startTime.toString()));
 
   // Assume it's an all-day event if hh=0 & mm=0.
-  if (startTime.getHours() == 0 && startTime.getMinutes() == 0) {
+  if (startTime.getHours() === 0 && startTime.getMinutes() === 0) {
     endTime.setDate(startTime.getDate() + 1);
   } else {
     // It's not an all-day event, so default to start + X hours.
-    endTime.setHours(startTime.getHours() + DEFAULT_DURATION_HOURS_IF_ABSENT);
+    endTime.setHours(startTime.getHours() + common.DEFAULT_DURATION_HOURS_IF_ABSENT);
   }
   return endTime;
 };
@@ -139,16 +139,16 @@ CalendarEvent.prototype.inferEndTime_ = function(startTime) {
  */
 CalendarEvent.prototype.getFormattedLocation_ = function() {
   var loc = '';
-  if (!isBlankOrUndef(this.fields.address)) {
+  if (!common.isBlankOrUndef(this.fields.address)) {
     // Do we have a well-formatted address?
     loc += encodeURIComponent(this.fields.address);
 
     // Do we have a descriptive location in addition to an address?
-    if (!isBlankOrUndef(this.fields.location)) {
+    if (!common.isBlankOrUndef(this.fields.location)) {
       loc += encodeURIComponent(' (' + this.fields.location + ')');
     }
 
-  } else if (!isBlankOrUndef(this.fields.location)) {
+  } else if (!common.isBlankOrUndef(this.fields.location)) {
     // We only have a descriptive location; no address.
     loc = encodeURIComponent(this.fields.location);
   }

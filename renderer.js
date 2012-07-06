@@ -22,11 +22,8 @@
 /**
  * Renders (generates HTML for) various events and stuff to be inserted into
  * the page.
- * @constructor
  */
-function Renderer() {
-  // Nothing
-}
+var Renderer = {};
 
 /**
  * Create a popup for a single Calendar Event.
@@ -44,7 +41,7 @@ Renderer.getSingleEventPopup = function(event) {
       '<p>', Renderer.getEventButton(event, true), '</p>'
   ].join('');
 
-  if (!isBlankOrUndef(event.fields.address)) {
+  if (!common.isBlankOrUndef(event.fields.address)) {
     popup += [
         '<p><a target="_blank" href="http://maps.google.com/maps?q=',
         encodeURIComponent(event.fields.address),
@@ -74,7 +71,7 @@ Renderer.getInlineIconLarge = function(event) {
       '" title="',
       chrome.i18n.getMessage('add_to_google_calendar'),
       '" target="_blank"><img src="',
-      ADD_TO_CALENDAR_BUTTON_URL,
+      common.ADD_TO_CALENDAR_BUTTON_URL,
       '"/></a>'
       ].join('');
 };

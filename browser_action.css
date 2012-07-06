@@ -20,25 +20,24 @@
   padding: 3px 8px;
 
   border: 1px solid #939393;
-  margin: 0;
 
   display: inline;
   background: -webkit-gradient(linear, 0 40%, 0 70%, from(#eee), to(#fff));
   max-width: 100px;
 }
 
-.crx_calendar .tabstrip h1.tabstrip_sel {
+.crx_calendar .tabstrip_sel {
   background: -webkit-gradient(linear, 0 40%, 0 70%, from(#777), to(#999));
   font-weight: bold;
   color: white;
 }
 
-.crx_calendar .tabstrip h1.leftmost {
+.crx_calendar .leftmost {
   border-top-left-radius: 3px;
   border-bottom-left-radius: 3px;
 }
 
-.crx_calendar .tabstrip h1.rightmost {
+.crx_calendar .rightmost {
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;
   border-left: 0;

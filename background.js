@@ -32,6 +32,28 @@ var selectedTabId = 0;
 var events = [];
 
 /**
+ * Chrome flattens our CalendarEvent object when passing from the content
+ * script to the background page. Deserialize the object correctly before
+ * storing it, so there's no ambiguity when accessing it.
+ * @param {Object} events JSON object to deserialize.
+ * @return {Array.<CalendarEvent>} The deserialized array of events created
+ *     from the JSON Object.
+ * @private
+ */
+function deserializeJsonEvents_(events) {
+  var deserializedEvents = [];
+  for (var i = 0; i < events.length; ++i) {
+    var event = events[i];
+    event.fields.start = CalendarUtils.fromIso8601(event.fields.start);
+    if (event.fields.end) {
+      event.fields.end = CalendarUtils.fromIso8601(event.fields.end);
+    }
+    deserializedEvents.push(event);
+  }
+  return deserializedEvents;
+}
+
+/**
  * Setup a listener for receiving requests from the content script.
  */
 chrome.extension.onRequest.addListener(function onRequest(
@@ -66,24 +88,3 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
   }
 });
 
-/**
- * Chrome flattens our CalendarEvent object when passing from the content
- * script to the background page. Deserialize the object correctly before
- * storing it, so there's no ambiguity when accessing it.
- * @param {Object} events JSON object to deserialize.
- * @return {Array.<CalendarEvent>} The deserialized array of events created
- *     from the JSON Object.
- * @private
- */
-function deserializeJsonEvents_(events) {
-  var deserializedEvents = [];
-  for (var i = 0; i < events.length; ++i) {
-    var event = events[i];
-    event.fields.start = CalendarUtils.fromIso8601(event.fields.start);
-    if (event.fields.end) {
-      event.fields.end = CalendarUtils.fromIso8601(event.fields.end);
-    }
-    deserializedEvents.push(event);
-  }
-  return deserializedEvents;
-}

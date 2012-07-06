@@ -50,7 +50,7 @@ window.onload = function() {
   var eventsOnPage = bgPage.events['tab' + bgPage.selectedTabId];
 
   // Pick a layout based on how many events we have to show: 0, 1, or >1.
-  if (isBlankOrUndef(eventsOnPage)) {
+  if (common.isBlankOrUndef(eventsOnPage)) {
     $('#events_on_this_page').hide();
     $('#show_calendar').click();
 
@@ -75,13 +75,13 @@ window.onload = function() {
   }
 
   // 'cal' is the name of the iframe in which the calendar loads.
-  window.parent['cal'].location.replace(IGOOGLE_CALENDAR_URL);
+  window.parent['cal'].location.replace(common.IGOOGLE_CALENDAR_URL);
 };
 
 function bglog(msg) {
   if (chrome.extension.getBackgroundPage()) {
     chrome.extension.getBackgroundPage().console.log(msg);
-  } else {
-    window.console && window.console.log(msg);
+  } else if (window.console) {
+    window.console.log(msg);
   }
 }

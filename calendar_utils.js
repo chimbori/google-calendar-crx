@@ -37,15 +37,15 @@ function CalendarUtils() {
 CalendarUtils.getDateGoogleCalendar = function(date) {
   var dateIso = [
       date.getFullYear(),
-      zeroPad(date.getMonth() + 1),
-      zeroPad(date.getDate())].join('');
+      common.zeroPad(date.getMonth() + 1),
+      common.zeroPad(date.getDate())].join('');
 
   // If the time is exactly midnight, this might be an all-day event.
-  if (date.getHours() != 0 || date.getMinutes() != 0) {
+  if (date.getHours() !== 0 || date.getMinutes() !== 0) {
     dateIso += [
         'T',
-        zeroPad(date.getHours()),
-        zeroPad(date.getMinutes()),
+        common.zeroPad(date.getHours()),
+        common.zeroPad(date.getMinutes()),
         '00'].join('');
   }
 
@@ -75,7 +75,7 @@ CalendarUtils.amPmTimeToIso8601 = function(time) {
  */
 CalendarUtils.fromIso8601 = function(s) {
   var parsed = '';
-  if (parsed = s.match(new RegExp(/(\d{4})(-)?(\d{2})(-)?(\d{2})(T)?(\d{2})(:)?(\d{2})(:)?(\d{2})?(\.\d+)?(Z|([+-])(\d{2})(:)?(\d{2}))?/))) {
+  if (parsed = s.match(new RegExp(/(\d{4})(-)?(\d{2})(-)?(\d{2})(T)?(\d{2})(:)?(\d{2})(:)?(\d{2})?(\.\d+)?(Z|([+\-])(\d{2})(:)?(\d{2}))?/))) {
     if (parsed[13] === 'Z') {
       var date = new Date();
       date.setUTCFullYear(parseInt(parsed[1], 10));
@@ -100,7 +100,7 @@ CalendarUtils.fromIso8601 = function(s) {
     return new Date(parsed[1], parseInt(parsed[3], 10) - 1, parsed[5]);
 
   } else if (parsed = s.match(new RegExp(
-      /(\d{1,2})(:)?(\d{2})(:)?(\d{2})(\.\d+)?(Z|([+-])(\d\d)(:)?(\d\d))?/))) {
+      /(\d{1,2})(:)?(\d{2})(:)?(\d{2})(\.\d+)?(Z|([+\-])(\d\d)(:)?(\d\d))?/))) {
     // Parse as just a time, no date.
     var now = new Date();
     return new Date(
@@ -138,10 +138,10 @@ CalendarUtils.getFormattedDatesFromTo = function(fromDate, toDate) {
 
   // Skip the ":00" if the time is on the hour.
   var hour12hr = fromDate.getHours() % 12;
-  hour12hr = (hour12hr == 0) ? 12 : hour12hr;  // If 0, make it 12.
+  hour12hr = (hour12hr === 0) ? 12 : hour12hr;  // If 0, make it 12.
 
   niceDate += hour12hr +
-      ((fromDate.getMinutes() == 0) ? '' : ':' + fromDate.getMinutes()) +
+      ((fromDate.getMinutes() === 0) ? '' : ':' + fromDate.getMinutes()) +
       (fromDate.getHours() >= 12 ? 'pm' : 'am');
 
   niceDate += ' &mdash; ';
@@ -156,7 +156,7 @@ CalendarUtils.getFormattedDatesFromTo = function(fromDate, toDate) {
 
   // Finally, append the end time, skipping unnecessary ":00" as above.
   niceDate += (toDate.getHours() % 12) +
-      ((toDate.getMinutes() == 0) ? '' : ':' + toDate.getMinutes()) +
+      ((toDate.getMinutes() === 0) ? '' : ':' + toDate.getMinutes()) +
       (toDate.getHours() >= 12 ? 'pm' : 'am');
 
   return niceDate;
