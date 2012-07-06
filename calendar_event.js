@@ -40,7 +40,7 @@ function CalendarEvent(fields) {
  * limit each field to a certain number of characters.
  * @type {number}
  */
-var MAX_CHARS_PER_FIELD = 500;
+var MAX_CHARS_PER_FIELD = 300;
 
 
 /**
