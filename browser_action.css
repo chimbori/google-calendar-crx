@@ -9,6 +9,10 @@
   float: left;
 }
 
+.crx_calendar #calendar_ui_url {
+  outline: none;
+}
+
 .crx_calendar .tabstrip {
   float: right;
   cursor: default;

@@ -76,7 +76,7 @@ CalendarEvent.prototype.trimAllFieldsToMaxChars_ = function() {
 CalendarEvent.prototype.getGCalUrl_ = function() {
   // Basic event information: Title, Start, End.
   var link =
-      'https://www.google.com/calendar/event?action=TEMPLATE&trp=false&text=' +
+      common.CALENDAR_CREATE_EVENT_TPL +
       encodeURIComponent(this.fields.title);
 
   // Dates could be optional.

@@ -18,7 +18,7 @@
     "https://www.google.com/calendar/"
   ],
   "update_url": "http://clients2.google.com/service/update2/crx",
-  "version": "0.10",
+  "version": "0.11",
 
   "background": {
     "scripts": [

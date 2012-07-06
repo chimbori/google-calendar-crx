@@ -30,6 +30,8 @@ window.onload = function() {
     j.text(chrome.i18n.getMessage(j.attr('id').toString()));
   });
 
+  $('#calendar_ui_url').attr('href', common.CALENDAR_UI_URL);
+
   // Load tab strip click handlers.
   $('#events_on_this_page').click(function() {
     $('.tabstrip').children().removeClass('tabstrip_sel');

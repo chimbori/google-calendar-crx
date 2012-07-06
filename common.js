@@ -31,6 +31,21 @@ var common = {};
 common.DEFAULT_DURATION_HOURS_IF_ABSENT = 2;
 
 /**
+ * The URL of the browser UI for Google Calendar.
+ * @type {string}
+ * @const
+ */
+common.CALENDAR_UI_URL = 'https://www.google.com/calendar/';
+
+/**
+ * The template URL used to create a new calendar event.
+ * @type {string}
+ * @const
+ */
+common.CALENDAR_CREATE_EVENT_TPL =
+    'https://www.google.com/calendar/event?action=TEMPLATE&trp=false&text=';
+
+/**
  * Instead of reimplementing a small calendar view, we reuse the one
  * provided by the iGoogle calendar gadget. The URL to that is provided here.
  * @type {string}
@@ -45,7 +60,7 @@ common.IGOOGLE_CALENDAR_URL =
  * @const
  */
 common.ADD_TO_CALENDAR_BUTTON_URL =
-    'http://www.google.com/calendar/images/ext/gc_button6.gif';
+    'https://www.google.com/calendar/images/ext/gc_button6.gif';
 
 /**
  * Logs a message to the console, if present; else shows an alert.
