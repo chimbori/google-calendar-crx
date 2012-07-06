@@ -24,7 +24,7 @@ var eviteEvents = detectEviteEvents();
 if (eviteEvents.length > 0) {
   $($('.detailsName')[0]).next().prepend(
       Renderer.getInlineIconLarge(eviteEvents[0]));
-  chrome.extension.sendRequest(eviteEvents, function(response) {});
+  chrome.extension.sendMessage(eviteEvents, function(response) {});
 }
 
 

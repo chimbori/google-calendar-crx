@@ -127,5 +127,5 @@ function detectHCalendarEvents() {
 
 var mfEvents = detectHCalendarEvents();
 if (mfEvents.length > 0) {
-  chrome.extension.sendRequest(mfEvents, function(response) {});
+  chrome.extension.sendMessage(mfEvents, function(response) {});
 }

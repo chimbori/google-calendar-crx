@@ -56,7 +56,7 @@ function deserializeJsonEvents_(events) {
 /**
  * Setup a listener for receiving requests from the content script.
  */
-chrome.extension.onRequest.addListener(function onRequest(
+chrome.extension.onMessage.addListener(function(
     request, sender, sendResponse) {
   events['tab' + sender.tab.id] = deserializeJsonEvents_(request);
   selectedTabId = sender.tab.id;

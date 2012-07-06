@@ -1,4 +1,5 @@
 {
+  "manifest_version": 2,
   "name": "__MSG_google_calendar_extension_name__",
   "description": "__MSG_google_calendar_extension_desc__",
   "icons": {
@@ -17,39 +18,55 @@
     "https://www.google.com/calendar/"
   ],
   "update_url": "http://clients2.google.com/service/update2/crx",
-  "version": "0.9",
-  "background_page": "background.html",
+  "version": "0.10",
+
+  "background": {
+    "scripts": [
+      "common.js",
+      "calendar_utils.js",
+      "background.js"
+    ]
+  },
+
   "browser_action": {
      "default_icon": "icons/event_calendar-lb19.png",
      "default_title": "__MSG_google_calendar_extension_name__",
-     "popup": "browser_action.html"
+     "default_popup": "browser_action.html"
   },
-  "content_scripts": [ {
-    "matches": [
-      "http://*/*",
-      "https://*/*"
-    ],
-    "js": [
-      "jquery.js",
-      "common.js",
-      "calendar_utils.js",
-      "calendar_event.js",
-      "renderer.js",
-      "events_microformats.js"
-    ],
-    "run_at": "document_idle"
-  },
-  {
-    "matches": [ "http://www.evite.com/pages/invite/viewInvite.jsp?inviteId=*" ],
-    "run_at": "document_idle",
-    "js": [
-      "calendar_event.js",
-      "calendar_utils.js",
-      "common.js",
-      "jquery.js",
-      "renderer.js",
-      "events_evite.js"
-    ]
-  }
-  ]
+
+  "content_scripts": [
+    {
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ],
+      "js": [
+        "jquery.js",
+        "common.js",
+        "calendar_utils.js",
+        "calendar_event.js",
+        "renderer.js",
+        "events_microformats.js"
+      ],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": [
+        "http://www.evite.com/pages/invite/viewInvite.jsp?inviteId=*"
+      ],
+      "js": [
+        "jquery.js",
+        "common.js",
+        "calendar_utils.js",
+        "calendar_event.js",
+        "renderer.js",
+        "events_evite.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  
+  "web_accessible_resources": [
+    "icons/calendar_add_19.png"
+  ]  
 }
