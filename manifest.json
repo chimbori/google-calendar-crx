@@ -1,0 +1,55 @@
+{
+  "name": "__MSG_google_calendar_extension_name__",
+  "description": "__MSG_google_calendar_extension_desc__",
+  "icons": {
+    "16": "icons/event_calendar-lb16.png",
+    "19": "icons/event_calendar-lb19.png",
+    "32": "icons/event_calendar-lb32.png",
+    "48": "icons/event_calendar-lb48.png",
+    "128": "icons/event_calendar-lb128.png"
+  },
+  "default_locale": "en",
+  "permissions": [
+    "tabs",
+    "http://*/*",
+    "https://*/*",
+    "http://www.google.com/calendar/",
+    "https://www.google.com/calendar/"
+  ],
+  "update_url": "http://clients2.google.com/service/update2/crx",
+  "version": "0.8",
+  "background_page": "background.html",
+  "browser_action": {
+     "default_icon": "icons/event_calendar-lb19.png",
+     "default_title": "__MSG_google_calendar_extension_name__",
+     "popup": "browser_action.html"
+  },
+  "content_scripts": [ {
+    "matches": [
+      "http://*/*",
+      "https://*/*"
+    ],
+    "js": [
+      "calendar_event.js",
+      "calendar_utils.js",
+      "common.js",
+      "jquery.js",
+      "renderer.js",
+      "events_microformats.js"
+    ],
+    "run_at": "document_idle"
+  },
+  {
+    "matches": [ "http://www.evite.com/pages/invite/viewInvite.jsp?inviteId=*" ],
+    "run_at": "document_idle",
+    "js": [
+      "calendar_event.js",
+      "calendar_utils.js",
+      "common.js",
+      "jquery.js",
+      "renderer.js",
+      "events_evite.js"
+    ]
+  }
+  ]
+}

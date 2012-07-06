@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html style="width:365px;">
+  <head>
+    <link rel="stylesheet" href="browser_action.css" type="text/css">
+    <script src="calendar_utils.js" type="text/javascript"></script>
+    <script src="common.js" type="text/javascript"></script>
+    <script src="jquery.js" type="text/javascript"></script>
+    <script src="renderer.js" type="text/javascript"></script>
+    <script src="browser_action.js" type="text/javascript"></script>
+  </head>
+  <body style="height:500px;width:350px;" class="crx_calendar">
+    <div>
+      <div class="tabstrip">
+        <h1 class="i18n leftmost" id="events_on_this_page"></h1><h1 class="i18n rightmost" id="show_calendar"></h1>
+      </div>
+      <div id="logo">
+        <img src="icons/calendar_logo_sm_en.png" width="117" height="23" alt="Google Calendar">
+      </div>
+    </div>
+    <div class="tab" id="events">
+    </div>
+    <div class="tab" id="agenda">
+      <iframe name="cal" id="cal" scrolling="no" src="about:blank" frameborder="0" height="100%" width="100%"></iframe>
+    </div>
+  </body>
+</html>

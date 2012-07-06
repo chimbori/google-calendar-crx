@@ -1,0 +1,84 @@
+{
+  "google_calendar_extension_name": {
+    "message": "Google Calendar (by Google)",
+    "description": "The name of this extension."
+  },
+
+  "google_calendar_extension_desc": {
+    "message": "Easily check Google Calendar and add new events from websites you visit.",
+    "description": "Description of what this extension does."
+  },
+
+  "read_more_at_original_url": {
+    "message": "Read more at the original site: ",
+    "description": "Descriptive text for a link at the bottom of each event description that asks the user to click on the link for more information."
+  },
+
+  "show_calendar": {
+    "message": "Calendar",
+    "description": "Used in the popup view just before the actual calendar agenda."
+  },
+
+  "events_on_this_page": {
+    "message": "Events ($num_events$)",
+    "description": "Title of div that shows all events from this page.",
+    "placeholders": {
+      "num_events": {
+        "content": "$1",
+        "example": "5"
+      }
+    }
+  },
+  "add_to_google_calendar": {
+    "message": "Add to Google Calendar",
+    "description": "Alt text and/or link text for the link that users click to add event to their calendar."
+  },
+  "month_1": {
+    "message": "January",
+    "description": "The month of January"
+  },
+  "month_2": {
+    "message": "February",
+    "description": "The month of February"
+  },
+  "month_3": {
+    "message": "March",
+    "description": "The month of March"
+  },
+  "month_4": {
+    "message": "April",
+    "description": "The month of April"
+  },
+  "month_5": {
+    "message": "May",
+    "description": "The month of May"
+  },
+  "month_6": {
+    "message": "June",
+    "description": "The month of June"
+  },
+  "month_7": {
+    "message": "July",
+    "description": "The month of July"
+  },
+  "month_8": {
+    "message": "August",
+    "description": "The month of August"
+  },
+  "month_9": {
+    "message": "September",
+    "description": "The month of September"
+  },
+  "month_10": {
+    "message": "October",
+    "description": "The month of October"
+  },
+  "month_11": {
+    "message": "November",
+    "description": "The month of November"
+  },
+  "month_12": {
+    "message": "December",
+    "description": "The month of December"
+  }
+}
