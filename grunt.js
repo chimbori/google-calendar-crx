@@ -19,6 +19,28 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('/usr/local/lib/node_modules/grunt-closure-compiler');
   grunt.loadNpmTasks('/usr/local/lib/node_modules/grunt-css');
 
+  var closure_options = {
+    "compilation_level": "ADVANCED_OPTIMIZATIONS",
+    "debug": true,
+    "jscomp_error": [
+      "accessControls",
+      "ambiguousFunctionDecl",
+      "checkTypes",
+      "checkVars",
+      "externsValidation",
+      "globalThis",
+      "internetExplorerChecks",
+      "invalidCasts",
+      "missingProperties",
+      "nonStandardJsDocs",
+      "strictModuleDepCheck",
+      "unknownDefines",
+      "uselessCode",
+      "visibility"
+    ],
+    "warning_level": "verbose"
+  };
+
   var browser_action_files = [
     'common.js',
     'calendar_utils.js',
@@ -29,6 +51,7 @@ module.exports = function(grunt) {
   var background_page_files = [
     'common.js',
     'calendar_utils.js',
+    'feeds.js',
     'background.js'
   ];
 
@@ -109,16 +132,19 @@ module.exports = function(grunt) {
 
     'closure-compiler': {
       background_page: {
-        js: background_page_files,
-        jsOutputFile: 'bin/background_page.compiled.js'
+        js: '<config:concat.background_page.dest>',
+        jsOutputFile: 'bin/background_page.compiled.js',
+        options: closure_options
       },
       browser_action: {
-        js: browser_action_files,
-        jsOutputFile: 'bin/browser_action.compiled.js'
+        js: '<config:concat.browser_action.dest>',
+        jsOutputFile: 'bin/browser_action.compiled.js',
+        options: closure_options
       },
       content_script: {
-        js: content_script_files,
-        jsOutputFile: 'bin/content_script.compiled.js'
+        js: '<config:concat.content_script.dest>',
+        jsOutputFile: 'bin/content_script.compiled.js',
+        options: closure_options
       }
     },
 
