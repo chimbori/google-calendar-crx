@@ -51,7 +51,6 @@ module.exports = function(grunt) {
   var background_page_files = [
     'common.js',
     'calendar_utils.js',
-    'feeds.js',
     'background.js'
   ];
 
