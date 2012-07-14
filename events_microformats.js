@@ -67,22 +67,22 @@ function detectHCalendarEvents() {
   $.each($('.vevent'), function(i, vevent) {
     var fields = {};
 
-    fields.title = common.getFirstFieldText(vevent, '.summary');
-    fields.description = common.getFirstFieldText(vevent, '.description');
+    fields.title = utils.getFirstFieldText(vevent, '.summary');
+    fields.description = utils.getFirstFieldText(vevent, '.description');
 
     // HACK(manas): This is a fix for Facebook, who incorrectly tag their
     // title as "fn" instead of "summary".
-    var fn = common.getFirstFieldText(vevent, '.fn');
-    if (fields.title.length > 200 && !common.isBlankOrUndef(fn)) {
+    var fn = utils.getFirstFieldText(vevent, '.fn');
+    if (fields.title.length > 200 && !utils.isBlankOrUndef(fn)) {
       fields.title = fn;
     }
 
     fields.start = new Date(Date.parse(
-        CalendarUtils.fromIso8601(findDate(vevent, '.dtstart'))));
+        utils.fromIso8601(findDate(vevent, '.dtstart'))));
 
     var endDate = findDate(vevent, '.dtend');
     if (endDate) {
-      fields.end = new Date(Date.parse(CalendarUtils.fromIso8601(endDate)));
+      fields.end = new Date(Date.parse(utils.fromIso8601(endDate)));
     }
 
     var urlElement = $(vevent).find('.url');

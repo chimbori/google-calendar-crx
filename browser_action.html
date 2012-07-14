@@ -6,6 +6,7 @@
     <script src="jquery.js"></script>
     <script src="calendar_utils.js"></script>
     <script src="renderer.js"></script>
+    <script src="feeds.js"></script>
     <script src="browser_action.js"></script>
   </head>
   <body style="height:500px;width:350px;" class="crx_calendar">
@@ -14,13 +15,16 @@
         <h1 class="i18n leftmost" id="events_on_this_page"></h1><h1 class="i18n rightmost" id="show_calendar"></h1>
       </div>
       <div id="logo">
-        <a id="calendar_ui_url" target="_blank"><img src="icons/calendar_logo_sm_en.png" width="117" height="23" alt="Google Calendar"></a>
+        <a data-href="calendar_ui_url" target="_blank"><img src="icons/calendar_logo_sm_en.png" width="117" height="23" alt="Google Calendar"></a>
       </div>
     </div>
     <div class="tab" id="events">
     </div>
     <div class="tab" id="agenda">
       <iframe name="cal" id="cal" scrolling="no" src="about:blank" frameborder="0" height="100%" width="100%"></iframe>
+    </div>
+    <div class="tab" id="error">
+      <a data-href="calendar_ui_url" class="singleEvent" target="_blank"><span class="i18n" id="authorization_required"></span></a>
     </div>
   </body>
 </html>

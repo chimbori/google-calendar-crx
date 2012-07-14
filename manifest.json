@@ -17,14 +17,19 @@
     "tabs",
     "http://*/*",
     "https://*/*",
-    "http://www.google.com/calendar/",
-    "https://www.google.com/calendar/"
+    "http://www.google.com/calendar/*",
+    "https://www.google.com/calendar/*"
   ],
+
+  "content_security_policy": "script-src 'self' https://www.google.com; object-src 'self'",
 
   "background": {
     "scripts": [
+      "jquery.js",
       "common.js",
       "calendar_utils.js",
+      "feeds.js",
+      "scheduler.js",
       "background.js"
     ]
   },

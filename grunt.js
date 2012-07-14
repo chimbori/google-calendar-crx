@@ -15,14 +15,17 @@
 
 
 module.exports = function(grunt) {
-  // TODO(manas): USE process.env.NODE_PATH instead.
-  grunt.loadNpmTasks('/usr/local/lib/node_modules/grunt-closure-compiler');
-  grunt.loadNpmTasks('/usr/local/lib/node_modules/grunt-css');
+  grunt.loadNpmTasks(process.env.NODE_PATH + 'grunt-closure-compiler');
+  grunt.loadNpmTasks(process.env.NODE_PATH + 'grunt-css');
 
   var closure_options = {
-    "compilation_level": "ADVANCED_OPTIMIZATIONS",
-    "debug": true,
-    "jscomp_error": [
+    compilation_level: "ADVANCED_OPTIMIZATIONS",
+    debug: true,
+    externs: [
+      process.env.CLOSURE_PATH + '/contrib/externs/jquery-1.7.js',
+      process.env.CLOSURE_PATH + '/contrib/externs/chrome_extensions.js'
+    ],
+    jscomp_error: [
       "accessControls",
       "ambiguousFunctionDecl",
       "checkTypes",
@@ -38,19 +41,22 @@ module.exports = function(grunt) {
       "uselessCode",
       "visibility"
     ],
-    "warning_level": "verbose"
+    warning_level: "verbose"
   };
 
   var browser_action_files = [
     'common.js',
     'calendar_utils.js',
+    'calendar_event.js',
     'renderer.js',
+    'feeds.js',
     'browser_action.js'
   ];
 
   var background_page_files = [
     'common.js',
     'calendar_utils.js',
+    'calendar_event.js',
     'feeds.js',
     'background.js'
   ];

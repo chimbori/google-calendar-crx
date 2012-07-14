@@ -19,6 +19,11 @@
  */
 
 /**
+ * Namespace for browser action functionality.
+ */
+var browseraction = {};
+
+/**
  * When the popup is loaded, fetch the events in this tab from the
  * background page, set up the appropriate layout, etc.
  */
@@ -30,7 +35,7 @@ window.onload = function() {
     j.text(chrome.i18n.getMessage(j.attr('id').toString()));
   });
 
-  $('#calendar_ui_url').attr('href', common.CALENDAR_UI_URL);
+  $('[data-href="calendar_ui_url"]').attr('href', common.CALENDAR_UI_URL);
 
   // Load tab strip click handlers.
   $('#events_on_this_page').click(function() {
@@ -48,11 +53,11 @@ window.onload = function() {
   });
 
   // Load events.
-  var bgPage = chrome.extension.getBackgroundPage();
-  var eventsOnPage = bgPage.events['tab' + bgPage.selectedTabId];
+  var background = chrome.extension.getBackgroundPage()['background'];
+  var eventsOnPage = background.events['tab' + background.selectedTabId];
 
   // Pick a layout based on how many events we have to show: 0, 1, or >1.
-  if (common.isBlankOrUndef(eventsOnPage)) {
+  if (utils.isBlankOrUndef(eventsOnPage)) {
     $('#events_on_this_page').hide();
     $('#show_calendar').click();
 
@@ -61,7 +66,7 @@ window.onload = function() {
         chrome.i18n.getMessage('events_on_this_page', ['1']));
     var event = eventsOnPage[0];
     $('#events_on_this_page').click();
-    $('#events').append(Renderer.getSingleEventPopup(event));
+    $('#events').append(browseraction.getSingleEventPopup(event));
 
   } else {  // We have more than one event on this page.
     $('#events_on_this_page').text(
@@ -72,18 +77,54 @@ window.onload = function() {
     $.each(eventsOnPage, function(i, event) {
       $('#eventsList').append(Renderer.getEventButton(event, false));
     });
+  }
 
+  if (common.isAuthenticated) {
     $('#events_on_this_page').click();
+  } else {
+    $('.tabstrip').children().removeClass('tabstrip_sel');
+    $('.tab').hide();
+    $('#error').show();
+
+    // If we're not authenticated, then it's fine to re-request the feed
+    // upon explicit user interaction (i.e. opening the popup.)
+    feeds.fetch(feeds.updateBadge);
   }
 
   // 'cal' is the name of the iframe in which the calendar loads.
   window.parent['cal'].location.replace(common.IGOOGLE_CALENDAR_URL);
 };
 
-function bglog(msg) {
-  if (chrome.extension.getBackgroundPage()) {
-    chrome.extension.getBackgroundPage().console.log(msg);
-  } else if (window.console) {
-    window.console.log(msg);
+
+/**
+ * Create a popup for a single Calendar Event.
+ * @param {CalendarEvent} event The calendar event model for this view.
+ * @return {jQuery} Generated DOMElement.
+ */
+browseraction.getSingleEventPopup = function(event) {
+  var popup = [
+      '<div>',
+      '<h1>', event.fields.title, '</h1>',
+      '<p>',
+      utils.getFormattedDatesFromTo(
+          event.fields.start, event.fields.end),
+      '</p>',
+      '<p>', Renderer.getEventButton(event, true), '</p>'
+  ].join('');
+
+  if (!utils.isBlankOrUndef(event.fields.address)) {
+    popup += [
+        '<p><a target="_blank" href="http://maps.google.com/maps?q=',
+        encodeURIComponent(event.fields.address),
+        '"><img src="',
+        'http://maps.google.com/maps/api/staticmap?center=',
+        encodeURIComponent(event.fields.address),
+        '&zoom=12&size=320x270&maptype=roadmap&sensor=false',
+        '&markers=',
+        encodeURIComponent(event.fields.address),
+        '"/></a></p>'
+        ].join('');
   }
-}
+
+  return $(popup);
+};

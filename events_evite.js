@@ -23,7 +23,7 @@ var eviteEvents = detectEviteEvents();
 
 if (eviteEvents.length > 0) {
   $($('.detailsName')[0]).next().prepend(
-      Renderer.getInlineIconLarge(eviteEvents[0]));
+      utils.getInlineIconLarge(eviteEvents[0]));
   chrome.extension.sendMessage(eviteEvents, function(response) {});
 }
 
@@ -61,7 +61,7 @@ function detectEviteEvents() {
             parts[1], ' ',
             parts[2], ', ',
             currentYear, ', ',
-            CalendarUtils.amPmTimeToIso8601(parts[3])].join('');
+            utils.amPmTimeToIso8601(parts[3])].join('');
 
         fields.start = new Date(Date.parse(startDateTime));
 

@@ -13,19 +13,16 @@
 // limitations under the License.
 
 /**
- * @fileoverview Calendar-related utils, all grouped together as static
- * methods of the CalendarUtils class defined here.
+ * @fileoverview Calendar-related utils, all under the utils namespace.
  *
  * @author manas@google.com (Manas Tungare)
  */
 
 /**
- * CalendarUtils exposes several static methods.
- * @constructor
+ * The namespace for calendar-related utils.
+ * @namespace
  */
-function CalendarUtils() {
-  // Nothing
-}
+var utils = {};
 
 
 /**
@@ -34,18 +31,18 @@ function CalendarUtils() {
  * @param {Date} date Date to convert.
  * @return {string} Date in (almost but not quite) ISO 8601 format.
  */
-CalendarUtils.getDateGoogleCalendar = function(date) {
+utils.getDateGoogleCalendar = function(date) {
   var dateIso = [
       date.getFullYear(),
-      common.zeroPad(date.getMonth() + 1),
-      common.zeroPad(date.getDate())].join('');
+      utils.padTo2(date.getMonth() + 1),
+      utils.padTo2(date.getDate())].join('');
 
   // If the time is exactly midnight, this might be an all-day event.
   if (date.getHours() !== 0 || date.getMinutes() !== 0) {
     dateIso += [
         'T',
-        common.zeroPad(date.getHours()),
-        common.zeroPad(date.getMinutes()),
+        utils.padTo2(date.getHours()),
+        utils.padTo2(date.getMinutes()),
         '00'].join('');
   }
 
@@ -58,7 +55,7 @@ CalendarUtils.getDateGoogleCalendar = function(date) {
  * @param {string} time Time that looks like '10:00am' or '6:00PM'.
  * @return {string} Time (without a date) in ISO 8601 format.
  */
-CalendarUtils.amPmTimeToIso8601 = function(time) {
+utils.amPmTimeToIso8601 = function(time) {
   var parts = time.toLowerCase().match(/([0-9]{1,2}):([0-9]{2})(am|pm)/);
   return [
       (parts[3] == 'am') ? parts[1] : 12 + parseInt(parts[1], 10),
@@ -70,10 +67,14 @@ CalendarUtils.amPmTimeToIso8601 = function(time) {
 /**
  * Parse ISO 8601 date/time into a JavaScript date.
  * ** This function adapted from GData's JavaScript Date/time parser. **
- * @param {string} s ISO 8601 date as a string.
+ * @param {string|jQuery} s ISO 8601 date as a string.
  * @return {Date} Parsed JavaScript date object.
  */
-CalendarUtils.fromIso8601 = function(s) {
+utils.fromIso8601 = function(s) {
+  if (!s) {
+    return null;
+  }
+
   var parsed = '';
   if (parsed = s.match(new RegExp(/(\d{4})(-)?(\d{2})(-)?(\d{2})(T)?(\d{2})(:)?(\d{2})(:)?(\d{2})?(\.\d+)?(Z|([+\-])(\d{2})(:)?(\d{2}))?/))) {
     if (parsed[13] === 'Z') {
@@ -123,7 +124,7 @@ CalendarUtils.fromIso8601 = function(s) {
  * @param {Date} toDate A JavaScript date.
  * @return {string} A human-readable date.
  */
-CalendarUtils.getFormattedDatesFromTo = function(fromDate, toDate) {
+utils.getFormattedDatesFromTo = function(fromDate, toDate) {
   var now = new Date();
   var niceDate = '';
 
@@ -160,4 +161,98 @@ CalendarUtils.getFormattedDatesFromTo = function(fromDate, toDate) {
       (toDate.getHours() >= 12 ? 'pm' : 'am');
 
   return niceDate;
+};
+
+utils.toIso8601 = function(date) {
+  return date.getFullYear() + "-" +
+      utils.padTo2(date.getMonth() + 1) + "-" +
+      utils.padTo2(date.getDate()) + "T" +
+      utils.padTo2(date.getHours()) + ":" +
+      utils.padTo2(date.getMinutes()) + ":" +
+      utils.padTo2(date.getSeconds());
+};
+
+/**
+ * If num is a single-digit number, return it prefixed with a single leading
+ * zero; else return it as is.
+ * @param {string|number} s 1- or 2-character string or 1- or 2-digit number.
+ * @return {string} Two-character string representing the number, perhaps
+ * with zero padding.
+ */
+utils.padTo2 = function(s) {
+  s = s.toString();
+  return (s.length == 1) ? "0" + s : s;
+};
+
+
+/**
+ * Return true iff the parameter passed is undefined or the blank string.
+ * @param {string|Object|number|undefined} x Value to be checked.
+ * @return {boolean} true iff the parameter is "" or undefined.
+ */
+utils.isBlankOrUndef = function(x) {
+  return (typeof x == 'undefined') || (x.toString() === '');
+};
+
+
+/**
+ * If a string is longer than numChars, then return a trimmed version of the
+ * string with an ellipsis at the end. The returned string is guaranteed to be
+ * numChars or fewer, so the actual string will be trimmed to numChars - 2 to
+ * accommodate a space and the Unicode ellipsis (U+2026).
+ * @param {string} str String to trim.
+ * @param {number} numChars Maximum number of characters to return.
+ * @return {string} Trimmed string.
+ */
+utils.trimTo = function(str, numChars) {
+  if (str && str.length > numChars) {
+    var op = str.substring(0, numChars - 2) + " \u2026";
+    return op;
+  }
+  return str;
+};
+
+
+/**
+ * In a DOMElement, locate the first instance of the given selector. If
+ * such an instance is present, then return its text. Else return "".
+ * @param {Element} element The DOMElement to start looking under.
+ * @param {string} selector What to look for, as a CSS selector.
+ * @return {string} The text of the first child if found; "" otherwise.
+ */
+utils.getFirstFieldText = function(element, selector) {
+  var rawField = $(element).find(selector);
+  if (rawField && rawField.length > 0) {
+    return $(rawField[0]).text().trim();
+  }
+  return '';
+};
+
+
+/**
+ * Return HTML for an inline "Add to Calendar" button in large size.
+ * @param {CalendarEvent} event The calendar event model for this view.
+ * @return {string} Generated HTML.
+ */
+utils.getInlineIconLarge = function(event) {
+  return [
+      '<a style="float: right;" href="',
+      event.fields.gcal_url,
+      '" title="',
+      chrome.i18n.getMessage('add_to_google_calendar'),
+      '" target="_blank"><img src="',
+      common.ADD_TO_CALENDAR_BUTTON_URL,
+      '"/></a>'
+      ].join('');
+};
+
+utils.getTimeUntil = function(timeOfNextEvent) {
+  var minutesUntil = Math.ceil((timeOfNextEvent - (new Date()).getTime()) / (1000 * 60));
+  if (minutesUntil < 60) {
+    return minutesUntil + 'm';
+  } else if (minutesUntil < 24 * 60) {
+    return Math.round(minutesUntil / 60) + 'h';
+  } else {
+    return Math.round(minutesUntil / (24 * 60)) + 'd';
+  }
 };

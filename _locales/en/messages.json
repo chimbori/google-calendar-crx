@@ -29,6 +29,12 @@
       }
     }
   },
+
+  "authorization_required": {
+    "message": "Login to Google Calendar to see event updates.",
+    "description": "A message shown when the user has not logged in to Google Calendar in the current window."
+  },
+
   "add_to_google_calendar": {
     "message": "Add to Google Calendar",
     "description": "Alt text and/or link text for the link that users click to add event to their calendar."

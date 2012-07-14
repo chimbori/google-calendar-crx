@@ -26,58 +26,6 @@
 var Renderer = {};
 
 /**
- * Create a popup for a single Calendar Event.
- * @param {CalendarEvent} event The calendar event model for this view.
- * @return {jQuery} Generated DOMElement.
- */
-Renderer.getSingleEventPopup = function(event) {
-  var popup = [
-      '<div>',
-      '<h1>', event.fields.title, '</h1>',
-      '<p>',
-      CalendarUtils.getFormattedDatesFromTo(
-          event.fields.start, event.fields.end),
-      '</p>',
-      '<p>', Renderer.getEventButton(event, true), '</p>'
-  ].join('');
-
-  if (!common.isBlankOrUndef(event.fields.address)) {
-    popup += [
-        '<p><a target="_blank" href="http://maps.google.com/maps?q=',
-        encodeURIComponent(event.fields.address),
-        '"><img src="',
-        'http://maps.google.com/maps/api/staticmap?center=',
-        encodeURIComponent(event.fields.address),
-        '&zoom=12&size=320x270&maptype=roadmap&sensor=false',
-        '&markers=',
-        encodeURIComponent(event.fields.address),
-        '"/></a></p>'
-        ].join('');
-  }
-
-  return $(popup);
-};
-
-
-/**
- * Return HTML for an inline "Add to Calendar" button in large size.
- * @param {CalendarEvent} event The calendar event model for this view.
- * @return {string} Generated HTML.
- */
-Renderer.getInlineIconLarge = function(event) {
-  return [
-      '<a style="float: right;" href="',
-      event.fields.gcal_url,
-      '" title="',
-      chrome.i18n.getMessage('add_to_google_calendar'),
-      '" target="_blank"><img src="',
-      common.ADD_TO_CALENDAR_BUTTON_URL,
-      '"/></a>'
-      ].join('');
-};
-
-
-/**
  * Return HTML for an inline "Add to Calendar" button in small size.
  * @param {CalendarEvent} event The calendar event model for this view.
  * @return {string} Generated HTML.

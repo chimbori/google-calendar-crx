@@ -14,22 +14,29 @@
 
 /**
  * @fileoverview Script that runs in the context of the background page.
- *
  * @author manas@google.com (Manas Tungare)
  */
+
+/**
+ * The namespace for background page related functionality.
+ * @namespace
+ */
+var background = {};
 
 /**
  * The icon needs to reflect whether or not the event we've detected is in
  * the current tag. Page actions do this correctly by default, but since
  * we're using a browser action, we need to keep track of the currently open
  * tab.
+ * @type {number}
  */
-var selectedTabId = 0;
+background.selectedTabId = 0;
 
 /**
  * A list of events we have detected in the selected tab.
+ * @type {Array}
  */
-var events = [];
+background.events = [];
 
 /**
  * Chrome flattens our CalendarEvent object when passing from the content
@@ -40,51 +47,52 @@ var events = [];
  *     from the JSON Object.
  * @private
  */
-function deserializeJsonEvents_(events) {
+background.deserializeJsonEvents_ = function(events) {
   var deserializedEvents = [];
   for (var i = 0; i < events.length; ++i) {
     var event = events[i];
-    event.fields.start = CalendarUtils.fromIso8601(event.fields.start);
+    event.fields.start = utils.fromIso8601(event.fields.start);
     if (event.fields.end) {
-      event.fields.end = CalendarUtils.fromIso8601(event.fields.end);
+      event.fields.end = utils.fromIso8601(event.fields.end);
     }
     deserializedEvents.push(event);
   }
   return deserializedEvents;
-}
+};
 
 /**
- * Setup a listener for receiving requests from the content script.
+ * Initializes the background page by registering listeners.
  */
-chrome.extension.onMessage.addListener(function(
-    request, sender, sendResponse) {
-  events['tab' + sender.tab.id] = deserializeJsonEvents_(request);
-  selectedTabId = sender.tab.id;
+background.initialize = function() {
+  // Setup a listener for receiving requests from the content script.
+  chrome.extension.onMessage.addListener(function(
+      request, sender, sendResponse) {
+    background.events['tab' + sender.tab.id] =
+        background.deserializeJsonEvents_(request);
+    background.selectedTabId = sender.tab.id;
 
-  chrome.browserAction.setIcon({
-    path: 'icons/calendar_add_19.png',
-    tabId: sender.tab.id
+    chrome.browserAction.setIcon({
+      path: 'icons/calendar_add_19.png',
+      tabId: sender.tab.id
+    });
+
+    sendResponse({});
   });
 
-  sendResponse({});
-});
+  // Listen to when user changes the tab, so we can show/hide the icon.
+  chrome.tabs.onSelectionChanged.addListener(function(tabId, selectInfo) {
+    background.selectedTabId = tabId;
+  });
 
-/**
- * Listen to when user changes the tab, so we can show/hide the icon.
- */
-chrome.tabs.onSelectionChanged.addListener(function(tabId, selectInfo) {
-  selectedTabId = tabId;
-});
+  // We need to reset the events detected in case the page was reloaded
+  // in the same tab. Otherwise, even after the user clicks away
+  // from the page that originally contained that event, we would
+  // continue to show the green button and events list.
+  chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
+    if (changeInfo.status == 'loading') {
+      delete background.events['tab' + tabId];
+    }
+  });
+};
 
-/**
- * We need to reset the events detected in case the page was reloaded
- * in the same tab. Otherwise, even after the user clicks away
- * from the page that originally contained that event, we would
- * continue to show the green button and events list.
- */
-chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
-  if (changeInfo.status == 'loading') {
-    delete events['tab' + tabId];
-  }
-});
-
+background.initialize();
