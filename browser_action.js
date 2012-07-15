@@ -52,6 +52,19 @@ window.onload = function() {
     $('#agenda').show();
   });
 
+  if (common.isAuthenticated) {
+    $('.tab').show();
+    $('#error').hide();
+  } else {
+    $('.tabstrip').children().removeClass('tabstrip_sel');
+    $('.tab').hide();
+    $('#error').show();
+
+    // If we're not authenticated, then it's fine to re-request the feed
+    // upon explicit user interaction (i.e. opening the popup.)
+    feeds.fetch(feeds.updateBadge);
+  }
+
   // Load events.
   var background = chrome.extension.getBackgroundPage()['background'];
   var eventsOnPage = background.events['tab' + background.selectedTabId];
@@ -64,31 +77,18 @@ window.onload = function() {
   } else if (eventsOnPage.length == 1) {
     $('#events_on_this_page').text(
         chrome.i18n.getMessage('events_on_this_page', ['1']));
-    var event = eventsOnPage[0];
+    $('#events').append(browseraction.getSingleEventPopup(eventsOnPage[0]));
     $('#events_on_this_page').click();
-    $('#events').append(browseraction.getSingleEventPopup(event));
 
   } else {  // We have more than one event on this page.
     $('#events_on_this_page').text(
         chrome.i18n.getMessage('events_on_this_page',
             [eventsOnPage.length]));
-
     $('#events').append('<div id="eventsList"></div>');
     $.each(eventsOnPage, function(i, event) {
       $('#eventsList').append(Renderer.getEventButton(event, false));
     });
-  }
-
-  if (common.isAuthenticated) {
     $('#events_on_this_page').click();
-  } else {
-    $('.tabstrip').children().removeClass('tabstrip_sel');
-    $('.tab').hide();
-    $('#error').show();
-
-    // If we're not authenticated, then it's fine to re-request the feed
-    // upon explicit user interaction (i.e. opening the popup.)
-    feeds.fetch(feeds.updateBadge);
   }
 
   // 'cal' is the name of the iframe in which the calendar loads.
