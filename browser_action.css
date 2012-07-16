@@ -33,7 +33,6 @@ a[data-href="calendar_ui_url"] {
 }
 
 .tabstrip .selected {
-  /*background: -webkit-gradient(linear, 0 40%, 0 70%, from(#777), to(#999));*/
   font-weight: bold;
   color: black;
   border-bottom: 1px solid white;
