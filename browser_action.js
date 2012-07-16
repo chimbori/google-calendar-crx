@@ -39,31 +39,32 @@ window.onload = function() {
 
   // Load tab strip click handlers.
   $('#events_on_this_page').click(function() {
-    $('.tabstrip').children().removeClass('tabstrip_sel');
+    $('.selected').removeClass('selected');
     $('.tab').hide();
-    $('#events_on_this_page').addClass('tabstrip_sel');
+    $('#events_on_this_page').addClass('selected');
     $('#events').show();
   });
 
   $('#show_calendar').click(function() {
-    $('.tabstrip').children().removeClass('tabstrip_sel');
+    $('.selected').removeClass('selected');
     $('.tab').hide();
-    $('#show_calendar').addClass('tabstrip_sel');
+    $('#show_calendar').addClass('selected');
     $('#agenda').show();
   });
 
-  if (common.isAuthenticated) {
-    $('.tab').show();
-    $('#error').hide();
-  } else {
-    $('.tabstrip').children().removeClass('tabstrip_sel');
-    $('.tab').hide();
-    $('#error').show();
+  chrome.browserAction.getBadgeText({}, function(text) {
+    if (text == '?') {  // Not authorized.
+      $('.tab-container').hide();
+      $('#error').show();
 
-    // If we're not authenticated, then it's fine to re-request the feed
-    // upon explicit user interaction (i.e. opening the popup.)
-    feeds.fetch(feeds.updateBadge);
-  }
+      // If we're not authenticated, then it's fine to re-request the feed
+      // upon explicit user interaction (i.e. opening the popup.)
+      feeds.fetch(feeds.updateBadge);
+    } else {
+      $('.tab-container').show();
+      $('#error').hide();
+    }
+  });
 
   // Load events.
   var background = chrome.extension.getBackgroundPage()['background'];
@@ -71,16 +72,19 @@ window.onload = function() {
 
   // Pick a layout based on how many events we have to show: 0, 1, or >1.
   if (utils.isBlankOrUndef(eventsOnPage)) {
+    $('.tabstrip').hide();
     $('#events_on_this_page').hide();
     $('#show_calendar').click();
 
   } else if (eventsOnPage.length == 1) {
+    $('.tabstrip').show();
     $('#events_on_this_page').text(
         chrome.i18n.getMessage('events_on_this_page', ['1']));
     $('#events').append(browseraction.getSingleEventPopup(eventsOnPage[0]));
     $('#events_on_this_page').click();
 
   } else {  // We have more than one event on this page.
+    $('.tabstrip').show();
     $('#events_on_this_page').text(
         chrome.i18n.getMessage('events_on_this_page',
             [eventsOnPage.length]));

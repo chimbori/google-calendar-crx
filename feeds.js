@@ -52,7 +52,6 @@ feeds.lastFetchedAt = null;
  */
 feeds.getCalendars_ = function(callback) {
   $.get(common.CALENDAR_LIST_FEED_URL, function(data) {
-    common.isAuthenticated = true;
     var calendars = [];
     // See the raw feed to understand this parsing.
     $(data).find('entry').each(function() {
@@ -74,7 +73,6 @@ feeds.getCalendars_ = function(callback) {
 
   }).error(function(response) {
     if (response.status === 401) {
-      common.isAuthenticated = false;
       callback([]);
     }
   });

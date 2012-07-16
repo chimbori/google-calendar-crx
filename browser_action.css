@@ -1,66 +1,63 @@
-.crx_calendar,
-.crx_calendar * {
+* {
   font-family: Helvetica, sans-serif;
   font-size: 11pt;
   line-height: 1.4em;
+  box-sizing: border-box;
 }
 
-.crx_calendar #logo {
-  float: left;
+body {
+  height: 480px;
+  width: 300px;
 }
 
-.crx_calendar [data-href="calendar_ui_url"] {
+a[data-href="calendar_ui_url"] {
   outline: none;
 }
 
-.crx_calendar .tabstrip {
-  float: right;
+.tabstrip {
   cursor: default;
+  border-bottom: 1px solid #939393;
 }
 
-.crx_calendar .tabstrip h1 {
+.tabstrip a {
   font-size: 10pt;
   font-weight: normal;
   padding: 3px 8px;
-
+  display: inline-block;
   border: 1px solid #939393;
-
-  display: inline;
   background: -webkit-gradient(linear, 0 40%, 0 70%, from(#eee), to(#fff));
-  max-width: 100px;
+  margin-bottom: -1px;
+
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
 }
 
-.crx_calendar .tabstrip_sel {
-  background: -webkit-gradient(linear, 0 40%, 0 70%, from(#777), to(#999));
+.tabstrip .selected {
+  /*background: -webkit-gradient(linear, 0 40%, 0 70%, from(#777), to(#999));*/
   font-weight: bold;
-  color: white;
+  color: black;
+  border-bottom: 1px solid white;
 }
 
-.crx_calendar .leftmost {
-  border-top-left-radius: 3px;
-  border-bottom-left-radius: 3px;
+.tab-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
 }
 
-.crx_calendar .rightmost {
-  border-top-right-radius: 3px;
-  border-bottom-right-radius: 3px;
-  border-left: 0;
-}
-
-.crx_calendar .tab {
+.tab {
   position: absolute;
-  top: 42px;
+  top: 0;
   bottom: 0;
   left: 0;
   right: 0;
-}
-
-.crx_calendar #events {
-  padding: 12px;
+  margin: 12px 0;
+  padding: 0;
   overflow: auto;
 }
 
-.crx_calendar .singleEvent {
+.singleEvent {
   padding: 6px;
   border: 1px solid #bbb;
   border-radius: 4px;
@@ -72,7 +69,7 @@
   display: block;
 }
 
-.crx_calendar .singleEvent:hover {
+.singleEvent:hover {
   border: 1px solid #939393;
   background: -webkit-gradient(linear, 0 30%, 0 70%, from(#d5e2ff), to(#c2d1f0));
 }

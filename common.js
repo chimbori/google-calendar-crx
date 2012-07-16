@@ -71,9 +71,3 @@ common.IGOOGLE_CALENDAR_URL =
 common.ADD_TO_CALENDAR_BUTTON_URL =
     'https://www.google.com/calendar/images/ext/gc_button6.gif';
 
-
-/**
- * Has the user logged in to Google Calendar in the current browsing context?
- * @type {boolean}
- */
-common.isAuthenticated = false;
