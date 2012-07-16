@@ -73,7 +73,7 @@ function detectHCalendarEvents() {
     // HACK(manas): This is a fix for Facebook, who incorrectly tag their
     // title as "fn" instead of "summary".
     var fn = utils.getFirstFieldText(vevent, '.fn');
-    if (fields.title.length > 200 && !utils.isBlankOrUndef(fn)) {
+    if (fields.title.length > 200 && fn) {
       fields.title = fn;
     }
 

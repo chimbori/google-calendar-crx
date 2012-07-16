@@ -71,7 +71,7 @@ window.onload = function() {
   var eventsOnPage = background.events['tab' + background.selectedTabId];
 
   // Pick a layout based on how many events we have to show: 0, 1, or >1.
-  if (utils.isBlankOrUndef(eventsOnPage)) {
+  if (!eventsOnPage) {
     $('.tabstrip').hide();
     $('#events_on_this_page').hide();
     $('#show_calendar').click();
@@ -116,7 +116,7 @@ browseraction.getSingleEventPopup = function(event) {
       '<p>', Renderer.getEventButton(event, true), '</p>'
   ].join('');
 
-  if (!utils.isBlankOrUndef(event.fields.address)) {
+  if (event.fields.address) {
     popup += [
         '<p><a target="_blank" href="http://maps.google.com/maps?q=',
         encodeURIComponent(event.fields.address),

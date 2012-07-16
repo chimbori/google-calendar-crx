@@ -186,16 +186,6 @@ utils.padTo2 = function(s) {
 
 
 /**
- * Return true iff the parameter passed is undefined or the blank string.
- * @param {string|Object|number|undefined} x Value to be checked.
- * @return {boolean} true iff the parameter is "" or undefined.
- */
-utils.isBlankOrUndef = function(x) {
-  return (typeof x == 'undefined') || (x.toString() === '');
-};
-
-
-/**
  * If a string is longer than numChars, then return a trimmed version of the
  * string with an ellipsis at the end. The returned string is guaranteed to be
  * numChars or fewer, so the actual string will be trimmed to numChars - 2 to
