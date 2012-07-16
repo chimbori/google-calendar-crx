@@ -25,7 +25,8 @@
 
   "background": {
     "scripts": [
-      "lib/jquery.js",
+      "lib/jquery.min.js",
+      "lib/moment.min.js",
       "common.js",
       "calendar_utils.js",
       "feeds.js",
