@@ -102,7 +102,11 @@ feeds.getEventsFrom_ = function(feed, callback) {
           feed: feed,
           title: eventEntry.find('title').text(),
           startTime: utils.fromIso8601(eventEntry.find('when').attr('startTime')),
-          endTime: utils.fromIso8601(eventEntry.find('when').attr('endTime'))
+          endTime: utils.fromIso8601(eventEntry.find('when').attr('endTime')),
+          description: eventEntry.find('content').text(),
+          location: eventEntry.find('where').attr('valueString'),
+          reminder: eventEntry.find('when').find('reminder').attr('minutes'),
+          url: eventEntry.find('link[rel=alternate]').attr('href')
         });
       });
 
