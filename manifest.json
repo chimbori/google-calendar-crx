@@ -25,7 +25,8 @@
 
   "background": {
     "scripts": [
-      "lib/jquery.js",
+      "lib/jquery.min.js",
+      "lib/moment.min.js",
       "common.js",
       "calendar_utils.js",
       "feeds.js",
@@ -47,7 +48,7 @@
         "https://*/*"
       ],
       "js": [
-        "lib/jquery.js",
+        "lib/jquery.min.js",
         "common.js",
         "calendar_utils.js",
         "calendar_event.js",
@@ -61,7 +62,7 @@
         "http://www.evite.com/pages/invite/viewInvite.jsp?inviteId=*"
       ],
       "js": [
-        "lib/jquery.js",
+        "lib/jquery.min.js",
         "common.js",
         "calendar_utils.js",
         "calendar_event.js",
