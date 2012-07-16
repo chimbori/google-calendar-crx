@@ -9,7 +9,7 @@
   float: left;
 }
 
-.crx_calendar #calendar_ui_url {
+.crx_calendar [data-href="calendar_ui_url"] {
   outline: none;
 }
 
