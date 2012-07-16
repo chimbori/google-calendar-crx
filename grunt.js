@@ -47,7 +47,7 @@ module.exports = function(grunt) {
 
   var browser_action_files = [
     'common.js',
-    'calendar_utils.js',
+    'utils.js',
     'calendar_event.js',
     'renderer.js',
     'feeds.js',
@@ -56,7 +56,7 @@ module.exports = function(grunt) {
 
   var background_page_files = [
     'common.js',
-    'calendar_utils.js',
+    'utils.js',
     'calendar_event.js',
     'feeds.js',
     'background.js'
@@ -64,7 +64,7 @@ module.exports = function(grunt) {
 
   var content_script_files = [
     'common.js',
-    'calendar_utils.js',
+    'utils.js',
     'calendar_event.js',
     'renderer.js',
     'events_microformats.js'

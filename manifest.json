@@ -28,7 +28,7 @@
       "lib/jquery.min.js",
       "lib/moment.min.js",
       "common.js",
-      "calendar_utils.js",
+      "utils.js",
       "feeds.js",
       "scheduler.js",
       "background.js"
@@ -50,7 +50,7 @@
       "js": [
         "lib/jquery.min.js",
         "common.js",
-        "calendar_utils.js",
+        "utils.js",
         "calendar_event.js",
         "renderer.js",
         "events_microformats.js"
@@ -64,7 +64,7 @@
       "js": [
         "lib/jquery.min.js",
         "common.js",
-        "calendar_utils.js",
+        "utils.js",
         "calendar_event.js",
         "renderer.js",
         "events_evite.js"
