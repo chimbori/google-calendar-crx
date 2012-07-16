@@ -23,7 +23,8 @@ module.exports = function(grunt) {
     debug: true,
     externs: [
       process.env.CLOSURE_PATH + '/contrib/externs/jquery-1.7.js',
-      process.env.CLOSURE_PATH + '/contrib/externs/chrome_extensions.js'
+      process.env.CLOSURE_PATH + '/contrib/externs/chrome_extensions.js',
+      'externs.js'
     ],
     jscomp_error: [
       "accessControls",

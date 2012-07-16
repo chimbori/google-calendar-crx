@@ -236,9 +236,14 @@ feeds.updateBadge = function() {
  */
 feeds.getTooltipForEvents_ = function(nextEvents) {
   var tooltipLines = [];
+  if (nextEvents.length > 0) {
+    var startMoment = moment(nextEvents[0].startTime);
+    tooltipLines.push(startMoment.calendar() + ' (' + startMoment.fromNow() + ')');
+  }
+
   for (var i = 0; i < nextEvents.length; i++) {
     var event = nextEvents[i];
-    tooltipLines.push(event.title + ' ' + '(' + event.feed.title + ')');
+    tooltipLines.push(' • ' + event.title + ' (' + event.feed.title + ')');
   }
   return tooltipLines.join('\n');
 };
