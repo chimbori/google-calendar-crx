@@ -171,5 +171,5 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('default', 'concat lint min closure-compiler csslint');
+  grunt.registerTask('default', 'concat lint min csslint closure-compiler');
 };
