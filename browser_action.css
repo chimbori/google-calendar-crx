@@ -43,7 +43,7 @@ a[data-href="calendar_ui_url"] {
   position: relative;
   width: 100%;
   height: 100%;
-  overflow: visible;
+  overflow: hidden;
 }
 
 .tab {
@@ -55,6 +55,10 @@ a[data-href="calendar_ui_url"] {
   margin: 12px 0;
   padding: 0;
   overflow: auto;
+}
+
+.tab#agenda {
+  overflow: hidden;
 }
 
 .singleEvent {
