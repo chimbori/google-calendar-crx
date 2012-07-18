@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "__MSG_google_calendar_extension_name__",
   "description": "__MSG_google_calendar_extension_desc__",
-  "version": "0.14",
+  "version": "0.15",
   "default_locale": "en",
 
   "icons": {
@@ -49,6 +49,7 @@
       ],
       "js": [
         "lib/jquery.min.js",
+        "lib/moment.min.js",
         "common.js",
         "utils.js",
         "calendar_event.js",
@@ -63,6 +64,7 @@
       ],
       "js": [
         "lib/jquery.min.js",
+        "lib/moment.min.js",
         "common.js",
         "utils.js",
         "calendar_event.js",
