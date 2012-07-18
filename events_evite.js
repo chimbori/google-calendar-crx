@@ -61,7 +61,8 @@ function detectEviteEvents() {
             parts[1], ' ',
             parts[2], ', ',
             currentYear, ', ',
-            utils.amPmTimeToIso8601(parts[3])].join('');
+            // Convert from '10:00am' or '6:00PM' to '10:00:00' or '18:00:00'.
+            moment(parts[3], 'hh:mm:ssa').format('HH:mm:ss')].join('');
 
         fields.start = new Date(Date.parse(startDateTime));
 

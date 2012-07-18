@@ -26,20 +26,6 @@ var utils = {};
 
 
 /**
- * Convert time that looks like '10:00am' or '6:00PM' to ISO 8601 format.
- * @param {string} time Time that looks like '10:00am' or '6:00PM'.
- * @return {string} Time (without a date) in ISO 8601 format.
- */
-utils.amPmTimeToIso8601 = function(time) {
-  var parts = time.toLowerCase().match(/([0-9]{1,2}):([0-9]{2})(am|pm)/);
-  return [
-      (parts[3] == 'am') ? parts[1] : 12 + parseInt(parts[1], 10),
-      ':', parts[2], ':00'
-      ].join('');
-};
-
-
-/**
  * Parse ISO 8601 date/time into a JavaScript date.
  * ** This function adapted from GData's JavaScript Date/time parser. **
  * @param {string|jQuery} s ISO 8601 date as a string.
