@@ -221,9 +221,17 @@ feeds.updateBadge = function() {
   chrome.browserAction.setBadgeBackgroundColor({
     color: nextEvent.feed.color
   });
+
+  // Use the Moment.js library to get a formatted string, but change the
+  // templates temporarily to the strings that we want. Make sure we reset it
+  // to 'en' afterwards.
+  moment.relativeTime = {future : "%s", past : "%s",
+      ss : "%ds", mm : "%dm", hh : "%dh", dd : "%dd", MM : "%dm", yy : "%dy"};
   chrome.browserAction.setBadgeText({
-    text: utils.getTimeUntil(nextEvent.startTime)
+    text: moment(nextEvent.startTime).fromNow()
   });
+  moment.lang('en');
+
   chrome.browserAction.setTitle({
     title : feeds.getTooltipForEvents_(feeds.nextEvents)
   });

@@ -235,14 +235,3 @@ utils.getInlineIconLarge = function(event) {
       '"/></a>'
       ].join('');
 };
-
-utils.getTimeUntil = function(timeOfNextEvent) {
-  var minutesUntil = Math.ceil((timeOfNextEvent - (new Date()).getTime()) / (1000 * 60));
-  if (minutesUntil < 60) {
-    return minutesUntil + 'm';
-  } else if (minutesUntil < 24 * 60) {
-    return Math.round(minutesUntil / 60) + 'h';
-  } else {
-    return Math.round(minutesUntil / (24 * 60)) + 'd';
-  }
-};
