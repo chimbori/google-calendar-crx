@@ -231,7 +231,12 @@ feeds.updateBadge = function() {
   // templates temporarily to the strings that we want. Make sure we reset it
   // to 'en' afterwards.
   moment.relativeTime = {future : "%s", past : "%s",
-      ss : "%ds", mm : "%dm", hh : "%dh", dd : "%dd", MM : "%dm", yy : "%dy"};
+      s: "1s", ss : "%ds",
+      m: "1m", mm : "%dm",
+      h: "1h", hh : "%dh",
+      d: "1d", dd : "%dd",
+      M: "1mo", MM : "%dmo",
+      y: "1yr", yy : "%dy"};
   chrome.browserAction.setBadgeText({
     text: moment(nextEvent.startTime).fromNow()
   });
