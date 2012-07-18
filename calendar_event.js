@@ -81,11 +81,15 @@ CalendarEvent.prototype.getGCalUrl_ = function() {
 
   // Dates could be optional.
   if (this.fields.start) {
-    link += '&dates=' + utils.getDateGoogleCalendar(this.fields.start);
+    // If the time is exactly midnight, this might be an all-day event, so skip
+    // the T000000 part.
+    link += '&dates=' +
+        moment(this.fields.start).format('YYYYMMDDTHHmmss').replace('T000000', '');
 
     // Even if start date is present, end date could be missing.
     if (this.fields.end) {
-      link += '/' + utils.getDateGoogleCalendar(this.fields.end);
+      link += '/' +
+          moment(this.fields.end).format('YYYYMMDDTHHmmss').replace('T000000', '');
     }
   }
 

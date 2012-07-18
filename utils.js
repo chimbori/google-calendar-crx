@@ -26,31 +26,6 @@ var utils = {};
 
 
 /**
- * Given a date in JavaScript format, convert it to a type that Google
- * Calendar likes.
- * @param {Date} date Date to convert.
- * @return {string} Date in (almost but not quite) ISO 8601 format.
- */
-utils.getDateGoogleCalendar = function(date) {
-  var dateIso = [
-      date.getFullYear(),
-      utils.padTo2(date.getMonth() + 1),
-      utils.padTo2(date.getDate())].join('');
-
-  // If the time is exactly midnight, this might be an all-day event.
-  if (date.getHours() !== 0 || date.getMinutes() !== 0) {
-    dateIso += [
-        'T',
-        utils.padTo2(date.getHours()),
-        utils.padTo2(date.getMinutes()),
-        '00'].join('');
-  }
-
-  return dateIso;
-};
-
-
-/**
  * Convert time that looks like '10:00am' or '6:00PM' to ISO 8601 format.
  * @param {string} time Time that looks like '10:00am' or '6:00PM'.
  * @return {string} Time (without a date) in ISO 8601 format.
@@ -235,3 +210,4 @@ utils.getInlineIconLarge = function(event) {
       '"/></a>'
       ].join('');
 };
+
