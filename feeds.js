@@ -74,6 +74,9 @@ feeds.getCalendars_ = function(callback) {
   }).error(function(response) {
     if (response.status === 401) {
       callback([]);
+    } else {
+      window.console.log('An error was encountered in fetching the feed:',
+          response);
     }
   });
 };
@@ -129,8 +132,8 @@ feeds.fetch = function(callback) {
   feeds.getCalendars_(function(calendars) {
     // If no calendars are available, then either all are hidden, or the user
     // has not authenticated yet.
-    if (calendars.length === 0) {
-      callback && callback();
+    if (calendars.length === 0 && callback) {
+      callback();
     }
 
     var allEvents = [];
@@ -144,7 +147,9 @@ feeds.fetch = function(callback) {
             return first.startTime.getTime() - second.startTime.getTime();
           });
           feeds.events = allEvents;
-          callback && callback();
+          if (callback) {
+            callback();
+          }
         }
       });
     }
