@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "__MSG_google_calendar_extension_name__",
   "description": "__MSG_google_calendar_extension_desc__",
-  "version": "0.15",
+  "version": "0.16",
   "default_locale": "en",
 
   "icons": {
@@ -54,20 +54,6 @@
         "utils.js",
         "calendar_event.js",
         "events_microformats.js"
-      ],
-      "run_at": "document_idle"
-    },
-    {
-      "matches": [
-        "http://www.evite.com/pages/invite/viewInvite.jsp?inviteId=*"
-      ],
-      "js": [
-        "lib/jquery.min.js",
-        "lib/moment.min.js",
-        "common.js",
-        "utils.js",
-        "calendar_event.js",
-        "events_evite.js"
       ],
       "run_at": "document_idle"
     }

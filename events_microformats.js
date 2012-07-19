@@ -88,13 +88,6 @@ function detectHCalendarEvents() {
     fields.title = utils.getFirstFieldText(vevent, '.summary');
     fields.description = utils.getFirstFieldText(vevent, '.description');
 
-    // HACK(manas): This is a fix for Facebook, who incorrectly tag their
-    // title as "fn" instead of "summary".
-    var fn = utils.getFirstFieldText(vevent, '.fn');
-    if (fields.title.length > 200 && fn) {
-      fields.title = fn;
-    }
-
     fields.start = new Date(Date.parse(
         utils.fromIso8601(findDate(vevent, '.dtstart'))));
 
