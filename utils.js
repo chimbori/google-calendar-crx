@@ -36,46 +36,15 @@ utils.fromIso8601 = function(s) {
     return null;
   }
 
-  var parsed = '';
-  if (parsed = s.match(new RegExp(/(\d{4})(-)?(\d{2})(-)?(\d{2})(T)?(\d{2})(:)?(\d{2})(:)?(\d{2})?(\.\d+)?(Z|([+\-])(\d{2})(:)?(\d{2}))?/))) {
-    if (parsed[13] === 'Z') {
-      var date = new Date();
-      date.setUTCFullYear(parseInt(parsed[1], 10));
-      date.setUTCMonth(parseInt(parsed[3], 10) - 1);
-      date.setUTCDate(parseInt(parsed[5], 10));
-      date.setUTCHours(parseInt(parsed[7], 10));
-      date.setUTCMinutes(parseInt(parsed[9], 10));
-      date.setUTCSeconds(parseInt(parsed[11], 10) || 0);
-      return date;
-    } else {
-      return new Date(
-          parseInt(parsed[1], 10),
-          parseInt(parsed[3], 10) - 1,
-          parseInt(parsed[5], 10),
-          parseInt(parsed[7], 10),
-          parseInt(parsed[9], 10),
-          parseInt(parsed[11], 10) || 0);
-    }
-
-  } else if (parsed = s.match(new RegExp(/(\d{4})(-)?(\d{2})(-)?(\d{2})/))) {
-    // Parse as just a date, no time.
-    return new Date(parsed[1], parseInt(parsed[3], 10) - 1, parsed[5]);
-
-  } else if (parsed = s.match(new RegExp(
-      /(\d{1,2})(:)?(\d{2})(:)?(\d{2})(\.\d+)?(Z|([+\-])(\d\d)(:)?(\d\d))?/))) {
-    // Parse as just a time, no date.
-    var now = new Date();
-    return new Date(
-        now.getFullYear(),
-        now.getMonth(),
-        now.getDate(),
-        parsed[1],
-        parseInt(parsed[3], 10) - 1,
-        parsed[5]);
-
-  } else {
-    return null;
-  }
+  s = s.replace('Z', '+00:00');
+  return moment(s, [
+    "YYYY-MM-DDTHH:mm:ssZZ", "YYYY-MM-DDTHHmmssZZ", "YYYYMMDDTHHmmssZZ",
+    "YYYY-MM-DDTHH:mm:ss",   "YYYY-MM-DDTHHmmss",   "YYYYMMDDTHHmmss",
+    "YYYY-MM-DDTHH:mmZZ",    "YYYY-MM-DDTHHmmZZ",   "YYYYMMDDTHHmmZZ",
+    "YYYY-MM-DDTHH:mm",      "YYYY-MM-DDTHHmm",     "YYYYMMDDTHHmm",
+    "YYYY-MM-DDTHH",                                "YYYYMMDDTHH",
+    "YYYY-MM-DD",                                   "YYYYMMDD"
+  ]).toDate();
 };
 
 
@@ -122,27 +91,6 @@ utils.getFormattedDatesFromTo = function(fromDate, toDate) {
       (toDate.getHours() >= 12 ? 'pm' : 'am');
 
   return niceDate;
-};
-
-utils.toIso8601 = function(date) {
-  return date.getFullYear() + "-" +
-      utils.padTo2(date.getMonth() + 1) + "-" +
-      utils.padTo2(date.getDate()) + "T" +
-      utils.padTo2(date.getHours()) + ":" +
-      utils.padTo2(date.getMinutes()) + ":" +
-      utils.padTo2(date.getSeconds());
-};
-
-/**
- * If num is a single-digit number, return it prefixed with a single leading
- * zero; else return it as is.
- * @param {string|number} s 1- or 2-character string or 1- or 2-digit number.
- * @return {string} Two-character string representing the number, perhaps
- * with zero padding.
- */
-utils.padTo2 = function(s) {
-  s = s.toString();
-  return (s.length == 1) ? "0" + s : s;
 };
 
 

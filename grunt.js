@@ -97,7 +97,8 @@ module.exports = function(grunt) {
       },
       globals: {
         $: true,
-        chrome: true
+        chrome: true,
+        moment: true
       }
     },
 

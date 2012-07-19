@@ -26,11 +26,26 @@ function Moment() {};
 /** @return {string} */
 Moment.prototype.calendar = function() {};
 
+/**
+ * @param {string=} opt_formatString
+ * @return {string}
+ */
+Moment.prototype.format = function(opt_formatString) {};
+
 /** @return {string} */
 Moment.prototype.fromNow = function() {};
 
 /**
- * @param {Date} date
+ * @param {string=} opt_locale
+ */
+Moment.lang = function(opt_locale) {};
+
+/** @return {Date} */
+Moment.prototype.toDate = function() {};
+
+/**
+ * @param {Date|string} date
+ * @param {Array.<string>|string=} opt_formatString
  * return {Moment}
  */
-function moment(date) {};
+function moment(date, opt_formatString) {};
