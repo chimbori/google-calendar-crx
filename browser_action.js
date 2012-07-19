@@ -108,32 +108,31 @@ browseraction.showLoginMessageIfNotAuthenticated_ = function() {
  * @private
  */
 browseraction.showDetectedEvents_ = function() {
-  var background = chrome.extension.getBackgroundPage()['background'];
-  var eventsFromPage = background.eventsFromPage['tab' + background.selectedTabId];
+  chrome.extension.sendMessage({method: 'events.detected.get'}, function(eventsFromPage) {
+    // Pick a layout based on how many events we have to show: 0, 1, or >1.
+    if (!eventsFromPage) {
+      $('.tabstrip').hide();
+      $('#events_on_this_page').hide();
+      $('#show_calendar').click();
 
-  // Pick a layout based on how many events we have to show: 0, 1, or >1.
-  if (!eventsFromPage) {
-    $('.tabstrip').hide();
-    $('#events_on_this_page').hide();
-    $('#show_calendar').click();
+    } else if (eventsFromPage.length == 1) {
+      $('.tabstrip').show();
+      $('#events_on_this_page').text(
+          chrome.i18n.getMessage('events_on_this_page', ['1']));
+      $('#events').append(browseraction.createEventPreview_(eventsFromPage[0]));
+      $('#events_on_this_page').click();
 
-  } else if (eventsFromPage.length == 1) {
-    $('.tabstrip').show();
-    $('#events_on_this_page').text(
-        chrome.i18n.getMessage('events_on_this_page', ['1']));
-    $('#events').append(browseraction.createEventPreview_(eventsFromPage[0]));
-    $('#events_on_this_page').click();
-
-  } else {  // We have more than one event on this page.
-    $('.tabstrip').show();
-    $('#events_on_this_page').text(
-        chrome.i18n.getMessage('events_on_this_page', [eventsFromPage.length]));
-    $('#events').append('<div id="eventsList"></div>');
-    $.each(eventsFromPage, function(i, event) {
-      $('#eventsList').append(browseraction.createEventButton_(event, false));
-    });
-    $('#events_on_this_page').click();
-  }
+    } else {  // We have more than one event on this page.
+      $('.tabstrip').show();
+      $('#events_on_this_page').text(
+          chrome.i18n.getMessage('events_on_this_page', [eventsFromPage.length]));
+      $('#events').append('<div id="eventsList"></div>');
+      $.each(eventsFromPage, function(i, event) {
+        $('#eventsList').append(browseraction.createEventButton_(event, false));
+      });
+      $('#events_on_this_page').click();
+    }
+  });
 };
 
 

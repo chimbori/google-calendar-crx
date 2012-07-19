@@ -35,7 +35,7 @@ function getInlineIconSmall_(event) {
       chrome.i18n.getMessage('add_to_google_calendar'),
       '"/></a>'
       ].join('');
-};
+}
 
 /**
  * Locate a start or end date given the parent node and an attribute.
@@ -138,5 +138,10 @@ function detectHCalendarEvents() {
 
 var mfEvents = detectHCalendarEvents();
 if (mfEvents.length > 0) {
-  chrome.extension.sendMessage(mfEvents, function(response) {});
+  chrome.extension.sendMessage({
+    method: 'events.detected.set',
+    parameters: {
+      events: mfEvents
+    }
+  });
 }

@@ -52,6 +52,7 @@ module.exports = function(grunt) {
   ];
 
   var background_page_files = [
+    'types.js',
     'utils.js',
     'feeds.js',
     'scheduler.js',

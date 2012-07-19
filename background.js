@@ -24,60 +24,62 @@
 var background = {};
 
 /**
- * The icon needs to reflect whether or not the event we've detected is in
- * the current tag. Page actions do this correctly by default, but since
- * we're using a browser action, we need to keep track of the currently open
- * tab.
+ * The ID of the currently-selected tab. This is required because the same
+ * browser action icon shows the status for multiple tabs, and must be updated
+ * on every tab switch to indicate the events in that particular tab.
  * @type {number}
  */
 background.selectedTabId = 0;
 
 /**
- * A list of events we have detected in the selected tab.
- * @type {Array}
+ * A map of tab IDs to the list of events we have detected in that tab.
+ * @type {Object.<string,Array.<Object>>}
  */
-background.eventsFromPage = [];
-
-/**
- * Chrome flattens our CalendarEvent object when passing from the content
- * script to the background page. Deserialize the object correctly before
- * storing it, so there's no ambiguity when accessing it.
- * @param {Object} events JSON object to deserialize.
- * @return {Array.<CalendarEvent>} The deserialized array of events created
- *     from the JSON Object.
- * @private
- */
-background.deserializeJsonEvents_ = function(events) {
-  var deserializedEvents = [];
-  for (var i = 0; i < events.length; ++i) {
-    var event = events[i];
-    event.fields.start = utils.fromIso8601(event.fields.start);
-    if (event.fields.end) {
-      event.fields.end = utils.fromIso8601(event.fields.end);
-    }
-    deserializedEvents.push(event);
-  }
-  return deserializedEvents;
-};
+background.eventsFromPage = {};
 
 /**
  * Initializes the background page by registering listeners.
  */
 background.initialize = function() {
-  // Setup a listener for receiving requests from the content script.
-  chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
-    background.eventsFromPage['tab' + sender.tab.id] = background.deserializeJsonEvents_(request);
-    background.selectedTabId = sender.tab.id;
+  background.listenForRequests_();
+  background.listenForTabUpdates_();
+  scheduler.start();
+};
 
-    chrome.browserAction.setIcon({
-      path: 'icons/calendar_add_19.png',
-      tabId: sender.tab.id
-    });
 
-    sendResponse({});
+/**
+ * Listens for incoming RPC calls from the browser action and content scripts
+ * and takes the appropriate actions.
+ * @private
+ */
+background.listenForRequests_ = function() {
+  chrome.extension.onMessage.addListener(function(request, sender, opt_callback) {
+    switch(request.method) {
+      case 'events.detected.set':
+        background.selectedTabId = sender.tab.id;
+        background.eventsFromPage['tab' + background.selectedTabId] =
+            request.parameters.events;
+        chrome.browserAction.setIcon({
+          path: 'icons/calendar_add_19.png',
+          tabId: sender.tab.id
+        });
+        break;
+
+      case 'events.detected.get':
+        if (opt_callback) {
+          opt_callback(background.eventsFromPage['tab' + background.selectedTabId]);
+        }
+        break;
+    }
   });
+};
 
-  // Listen to when user changes the tab, so we can show/hide the icon.
+
+/**
+ * Listen to when user changes the tab, so we can show/hide the icon.
+ * @private
+ */
+background.listenForTabUpdates_ = function() {
   chrome.tabs.onSelectionChanged.addListener(function(tabId, selectInfo) {
     background.selectedTabId = tabId;
   });
@@ -85,15 +87,13 @@ background.initialize = function() {
   // We need to reset the events detected in case the page was reloaded
   // in the same tab. Otherwise, even after the user clicks away
   // from the page that originally contained that event, we would
-  // continue to show the green button and events list.
+  // continue to show the orange button and events list.
   chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
     if (changeInfo.status == 'loading') {
       delete background.eventsFromPage['tab' + tabId];
     }
   });
-
-  // Start the scheduler that refreshes the badge and fetches fresh feeds.
-  scheduler.start();
 };
+
 
 background.initialize();
