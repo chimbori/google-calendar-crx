@@ -113,7 +113,7 @@ browseraction.showDetectedEvents_ = function() {
     $('.tabstrip').show();
     $('#events_on_this_page').text(
         chrome.i18n.getMessage('events_on_this_page', ['1']));
-    $('#events').append(browseraction.getSingleEventPopup_(eventsOnPage[0]));
+    $('#events').append(browseraction.createEventPreview_(eventsOnPage[0]));
     $('#events_on_this_page').click();
 
   } else {  // We have more than one event on this page.
@@ -123,7 +123,7 @@ browseraction.showDetectedEvents_ = function() {
             [eventsOnPage.length]));
     $('#events').append('<div id="eventsList"></div>');
     $.each(eventsOnPage, function(i, event) {
-      $('#eventsList').append(Renderer.getEventButton(event, false));
+      $('#eventsList').append(browseraction.createEventButton_(event, false));
     });
     $('#events_on_this_page').click();
   }
@@ -131,12 +131,12 @@ browseraction.showDetectedEvents_ = function() {
 
 
 /**
- * Create a popup for a single Calendar Event.
+ * Creates a widget-sized preview for a single extracted event.
  * @param {CalendarEvent} event The calendar event model for this view.
  * @return {jQuery} Generated DOMElement.
  * @private
  */
-browseraction.getSingleEventPopup_ = function(event) {
+browseraction.createEventPreview_ = function(event) {
   var popup = [
       '<div>',
       '<h1>', event.fields.title, '</h1>',
@@ -144,7 +144,7 @@ browseraction.getSingleEventPopup_ = function(event) {
       utils.getFormattedDatesFromTo(
           event.fields.start, event.fields.end),
       '</p>',
-      '<p>', Renderer.getEventButton(event, true), '</p>'
+      '<p>', browseraction.createEventButton_(event, true), '</p>'
   ].join('');
 
   if (event.fields.address) {
@@ -162,4 +162,28 @@ browseraction.getSingleEventPopup_ = function(event) {
   }
 
   return $(popup);
+};
+
+
+/**
+ * Returns HTML for a button for a single event, which when clicked, will
+ * add that event to the user's Google Calendar.
+ * @param {CalendarEvent} event The calendar event.
+ * @param {boolean} opt_UseDefaultAnchorText True to ignore event title and use
+ *     standard anchor text instead. Used in single event mode.
+ * @return {string} HTML for the 'Add to Calendar' button.
+ * @private
+ */
+browseraction.createEventButton_ = function(event, opt_UseDefaultAnchorText) {
+  opt_UseDefaultAnchorText = opt_UseDefaultAnchorText || false;
+  return [
+      '<a class="singleEvent" href="',
+      event.fields.gcal_url,
+      '" title="',
+      chrome.i18n.getMessage('add_to_google_calendar'),
+      '" target="_blank">',
+      opt_UseDefaultAnchorText ?
+          chrome.i18n.getMessage('add_to_google_calendar') :
+          event.fields.title,
+      '</a>'].join('');
 };

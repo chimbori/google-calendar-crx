@@ -20,6 +20,24 @@
  */
 
 /**
+ * Return HTML for an inline "Add to Calendar" button in small size.
+ * @param {CalendarEvent} event The calendar event model for this view.
+ * @return {string} Generated HTML.
+ * @private
+ */
+function getInlineIconSmall_(event) {
+  return [
+      '<a style="float: right;" href="',
+      event.fields.gcal_url,
+      '" target="_blank"><img src="',
+      chrome.extension.getURL('icons/calendar_add_19.png'),
+      '" alt="',
+      chrome.i18n.getMessage('add_to_google_calendar'),
+      '"/></a>'
+      ].join('');
+};
+
+/**
  * Locate a start or end date given the parent node and an attribute.
  * @param {Element} vevent Top-level vevent element.
  * @param {string} cssAttribute Either '.dtstart' or '.dtend'.
@@ -117,7 +135,7 @@ function detectHCalendarEvents() {
     events.push(calendarEvent);
 
     // Insert a button inline near the title of the page.
-    $(vevent).find('.summary').prepend(Renderer.getInlineIconSmall(calendarEvent));
+    $(vevent).find('.summary').prepend(getInlineIconSmall_(calendarEvent));
   });
 
   return events;

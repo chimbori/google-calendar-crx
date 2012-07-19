@@ -127,21 +127,3 @@ utils.getFirstFieldText = function(element, selector) {
   return '';
 };
 
-
-/**
- * Return HTML for an inline "Add to Calendar" button in large size.
- * @param {CalendarEvent} event The calendar event model for this view.
- * @return {string} Generated HTML.
- */
-utils.getInlineIconLarge = function(event) {
-  return [
-      '<a style="float: right;" href="',
-      event.fields.gcal_url,
-      '" title="',
-      chrome.i18n.getMessage('add_to_google_calendar'),
-      '" target="_blank"><img src="',
-      common.ADD_TO_CALENDAR_BUTTON_URL,
-      '"/></a>'
-      ].join('');
-};
-

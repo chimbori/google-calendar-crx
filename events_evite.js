@@ -19,13 +19,23 @@
  * @author manas@google.com (Manas Tungare)
  */
 
-var eviteEvents = detectEviteEvents();
-
-if (eviteEvents.length > 0) {
-  $($('.detailsName')[0]).next().prepend(
-      utils.getInlineIconLarge(eviteEvents[0]));
-  chrome.extension.sendMessage(eviteEvents, function(response) {});
-}
+/**
+ * Return HTML for an inline "Add to Calendar" button in large size.
+ * @param {CalendarEvent} event The calendar event model for this view.
+ * @return {string} Generated HTML.
+ * @private
+ */
+function getInlineIconLarge_(event) {
+  return [
+      '<a style="float: right;" href="',
+      event.fields.gcal_url,
+      '" title="',
+      chrome.i18n.getMessage('add_to_google_calendar'),
+      '" target="_blank"><img src="',
+      common.ADD_TO_CALENDAR_BUTTON_URL,
+      '"/></a>'
+      ].join('');
+};
 
 
 function detectEviteEvents() {
@@ -79,4 +89,12 @@ function detectEviteEvents() {
 
   events.push(new CalendarEvent(fields));
   return events;
+}
+
+
+var eviteEvents = detectEviteEvents();
+
+if (eviteEvents.length > 0) {
+  $($('.detailsName')[0]).next().prepend(getInlineIconLarge_(eviteEvents[0]));
+  chrome.extension.sendMessage(eviteEvents, function(response) {});
 }

@@ -49,7 +49,6 @@ module.exports = function(grunt) {
     'common.js',
     'utils.js',
     'calendar_event.js',
-    'renderer.js',
     'feeds.js',
     'browser_action.js'
   ];
@@ -66,7 +65,6 @@ module.exports = function(grunt) {
     'common.js',
     'utils.js',
     'calendar_event.js',
-    'renderer.js',
     'events_microformats.js'
   ];
 
