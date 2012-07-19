@@ -28,16 +28,32 @@ var browseraction = {};
  * background page, set up the appropriate layout, etc.
  */
 window.onload = function() {
+  browseraction.fillMessages_();
+  browseraction.installTabStripClickHandlers_();
+  browseraction.showLoginMessageIfNotAuthenticated_();
+  browseraction.showDetectedEvents_();
+};
+
+
+/**
+ * Fills i18n versions of messages from the Chrome API into DOM objects.
+ * @private
+ */
+browseraction.fillMessages_ = function() {
   // Load internationalized messages.
-  $('.i18n').each(function(i, el) {
-    var j = $(el);
-    // JSCompiler throws a warning about the next line about type. Ignore it.
-    j.text(chrome.i18n.getMessage(j.attr('id').toString()));
+  $('.i18n').each(function() {
+    $(this).text(chrome.i18n.getMessage($(this).attr('id').toString()));
   });
 
   $('[data-href="calendar_ui_url"]').attr('href', common.CALENDAR_UI_URL);
+};
 
-  // Load tab strip click handlers.
+
+/**
+ * Makes the tab strip clickable, and sets it up to switch tabs on clicking.
+ * @private
+ */
+browseraction.installTabStripClickHandlers_ = function() {
   $('#events_on_this_page').click(function() {
     $('.selected').removeClass('selected');
     $('.tab').hide();
@@ -51,7 +67,17 @@ window.onload = function() {
     $('#show_calendar').addClass('selected');
     $('#agenda').show();
   });
+};
 
+
+/**
+ * Checks if we're logged in (by using the badge icon text as a proxy) and
+ * either shows or hides a message asking the user to login.
+ * @private
+ */
+browseraction.showLoginMessageIfNotAuthenticated_ = function() {
+    // Check if we're authenticated or not, and display either the "Login Now"
+  // message, or show the tab strip.
   chrome.browserAction.getBadgeText({}, function(text) {
     if (text == '?') {  // Not authorized.
       $('.tab-container').hide();
@@ -65,8 +91,15 @@ window.onload = function() {
       $('#error').hide();
     }
   });
+};
 
-  // Load events.
+
+/**
+ * Shows events detected on the current page (by one of the parsers) in a list
+ * inside the browser action popup.
+ * @private
+ */
+browseraction.showDetectedEvents_ = function() {
   var background = chrome.extension.getBackgroundPage()['background'];
   var eventsOnPage = background.events['tab' + background.selectedTabId];
 
@@ -80,7 +113,7 @@ window.onload = function() {
     $('.tabstrip').show();
     $('#events_on_this_page').text(
         chrome.i18n.getMessage('events_on_this_page', ['1']));
-    $('#events').append(browseraction.getSingleEventPopup(eventsOnPage[0]));
+    $('#events').append(browseraction.getSingleEventPopup_(eventsOnPage[0]));
     $('#events_on_this_page').click();
 
   } else {  // We have more than one event on this page.
@@ -94,18 +127,16 @@ window.onload = function() {
     });
     $('#events_on_this_page').click();
   }
-
-  // 'cal' is the name of the iframe in which the calendar loads.
-  window.parent['cal'].location.replace(common.IGOOGLE_CALENDAR_URL);
-};
+}
 
 
 /**
  * Create a popup for a single Calendar Event.
  * @param {CalendarEvent} event The calendar event model for this view.
  * @return {jQuery} Generated DOMElement.
+ * @private
  */
-browseraction.getSingleEventPopup = function(event) {
+browseraction.getSingleEventPopup_ = function(event) {
   var popup = [
       '<div>',
       '<h1>', event.fields.title, '</h1>',

@@ -54,20 +54,9 @@ common.CALENDAR_LIST_FEED_URL =
     'https://www.google.com/calendar/feeds/default/allcalendars/full';
 
 /**
- * Instead of reimplementing a small calendar view, we reuse the one
- * provided by the iGoogle calendar gadget. The URL to that is provided here.
- * @type {string}
- * @const
- */
-common.IGOOGLE_CALENDAR_URL =
-   'https://www.google.com/calendar/ig?up_showDatepicker=0&up_hideAgenda=0';
-
-
-/**
  * Add to Google Calendar button URL.
  * @type {string}
  * @const
  */
 common.ADD_TO_CALENDAR_BUTTON_URL =
     'https://www.google.com/calendar/images/ext/gc_button6.gif';
-
