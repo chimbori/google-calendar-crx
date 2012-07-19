@@ -57,7 +57,3 @@ scheduler.start = function() {
 
   }, scheduler.BADGE_UPDATE_INTERVAL_MS_);
 };
-
-
-// TODO(manas): Move this into an initializer function.
-scheduler.start();

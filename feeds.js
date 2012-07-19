@@ -24,6 +24,15 @@
 var feeds = {};
 
 /**
+ * URL of the feed that lists all calendars for the current user.
+ * @type {string}
+ * @const
+ * @private
+ */
+feeds.CALENDAR_LIST_FEED_URL_ =
+    'https://www.google.com/calendar/feeds/default/allcalendars/full';
+
+/**
  * All events from visible calendars obtained during the last fetch.
  * @type {Array.<Object>}
  */
@@ -51,7 +60,7 @@ feeds.lastFetchedAt = null;
  *     calendar titles, urls, and colors.
  */
 feeds.getCalendars_ = function(callback) {
-  $.get(common.CALENDAR_LIST_FEED_URL, function(data) {
+  $.get(feeds.CALENDAR_LIST_FEED_URL_, function(data) {
     var calendars = [];
     // See the raw feed to understand this parsing.
     $(data).find('entry').each(function() {

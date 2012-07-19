@@ -36,7 +36,7 @@ background.selectedTabId = 0;
  * A list of events we have detected in the selected tab.
  * @type {Array}
  */
-background.events = [];
+background.eventsFromPage = [];
 
 /**
  * Chrome flattens our CalendarEvent object when passing from the content
@@ -65,10 +65,8 @@ background.deserializeJsonEvents_ = function(events) {
  */
 background.initialize = function() {
   // Setup a listener for receiving requests from the content script.
-  chrome.extension.onMessage.addListener(function(
-      request, sender, sendResponse) {
-    background.events['tab' + sender.tab.id] =
-        background.deserializeJsonEvents_(request);
+  chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
+    background.eventsFromPage['tab' + sender.tab.id] = background.deserializeJsonEvents_(request);
     background.selectedTabId = sender.tab.id;
 
     chrome.browserAction.setIcon({
@@ -90,9 +88,12 @@ background.initialize = function() {
   // continue to show the green button and events list.
   chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
     if (changeInfo.status == 'loading') {
-      delete background.events['tab' + tabId];
+      delete background.eventsFromPage['tab' + tabId];
     }
   });
+
+  // Start the scheduler that refreshes the badge and fetches fresh feeds.
+  scheduler.start();
 };
 
 background.initialize();

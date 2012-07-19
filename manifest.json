@@ -27,7 +27,6 @@
     "scripts": [
       "lib/jquery.min.js",
       "lib/moment.min.js",
-      "common.js",
       "utils.js",
       "feeds.js",
       "scheduler.js",
@@ -50,7 +49,6 @@
       "js": [
         "lib/jquery.min.js",
         "lib/moment.min.js",
-        "common.js",
         "utils.js",
         "calendar_event.js",
         "events_microformats.js"

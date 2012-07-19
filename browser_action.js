@@ -24,10 +24,17 @@
 var browseraction = {};
 
 /**
- * When the popup is loaded, fetch the events in this tab from the
- * background page, set up the appropriate layout, etc.
+ * The URL of the browser UI for Google Calendar.
+ * @type {string}
+ * @const
  */
-window.onload = function() {
+browseraction.CALENDAR_UI_URL_ = 'https://www.google.com/calendar/';
+
+
+/**
+ * Initializes UI elements in the browser action popup.
+ */
+browseraction.initialize = function() {
   browseraction.fillMessages_();
   browseraction.installTabStripClickHandlers_();
   browseraction.showLoginMessageIfNotAuthenticated_();
@@ -45,7 +52,7 @@ browseraction.fillMessages_ = function() {
     $(this).text(chrome.i18n.getMessage($(this).attr('id').toString()));
   });
 
-  $('[data-href="calendar_ui_url"]').attr('href', common.CALENDAR_UI_URL);
+  $('[data-href="calendar_ui_url"]').attr('href', browseraction.CALENDAR_UI_URL_);
 };
 
 
@@ -83,9 +90,10 @@ browseraction.showLoginMessageIfNotAuthenticated_ = function() {
       $('.tab-container').hide();
       $('#error').show();
 
+      // TODO(manas): Send a request to the background page to refetch the feed.
       // If we're not authenticated, then it's fine to re-request the feed
       // upon explicit user interaction (i.e. opening the popup.)
-      feeds.fetch(feeds.updateBadge);
+      // feeds.fetch(feeds.updateBadge);
     } else {
       $('.tab-container').show();
       $('#error').hide();
@@ -101,33 +109,32 @@ browseraction.showLoginMessageIfNotAuthenticated_ = function() {
  */
 browseraction.showDetectedEvents_ = function() {
   var background = chrome.extension.getBackgroundPage()['background'];
-  var eventsOnPage = background.events['tab' + background.selectedTabId];
+  var eventsFromPage = background.eventsFromPage['tab' + background.selectedTabId];
 
   // Pick a layout based on how many events we have to show: 0, 1, or >1.
-  if (!eventsOnPage) {
+  if (!eventsFromPage) {
     $('.tabstrip').hide();
     $('#events_on_this_page').hide();
     $('#show_calendar').click();
 
-  } else if (eventsOnPage.length == 1) {
+  } else if (eventsFromPage.length == 1) {
     $('.tabstrip').show();
     $('#events_on_this_page').text(
         chrome.i18n.getMessage('events_on_this_page', ['1']));
-    $('#events').append(browseraction.createEventPreview_(eventsOnPage[0]));
+    $('#events').append(browseraction.createEventPreview_(eventsFromPage[0]));
     $('#events_on_this_page').click();
 
   } else {  // We have more than one event on this page.
     $('.tabstrip').show();
     $('#events_on_this_page').text(
-        chrome.i18n.getMessage('events_on_this_page',
-            [eventsOnPage.length]));
+        chrome.i18n.getMessage('events_on_this_page', [eventsFromPage.length]));
     $('#events').append('<div id="eventsList"></div>');
-    $.each(eventsOnPage, function(i, event) {
+    $.each(eventsFromPage, function(i, event) {
       $('#eventsList').append(browseraction.createEventButton_(event, false));
     });
     $('#events_on_this_page').click();
   }
-}
+};
 
 
 /**
@@ -187,3 +194,13 @@ browseraction.createEventButton_ = function(event, opt_UseDefaultAnchorText) {
           event.fields.title,
       '</a>'].join('');
 };
+
+
+/**
+ * When the popup is loaded, fetch the events in this tab from the
+ * background page, set up the appropriate layout, etc.
+ */
+window.onload = function() {
+  browseraction.initialize();
+};
+
