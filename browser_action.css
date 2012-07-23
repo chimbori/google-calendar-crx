@@ -76,3 +76,7 @@ a[data-href="calendar_ui_url"] {
   border: 1px solid #939393;
   background: -webkit-gradient(linear, 0 30%, 0 70%, from(#d5e2ff), to(#c2d1f0));
 }
+
+#events img {
+  max-width: 100%;
+}

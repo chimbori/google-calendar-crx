@@ -61,8 +61,6 @@ CalendarEvent.prototype.end = '';
 /** @type {string} */
 CalendarEvent.prototype.url = '';
 /** @type {string} */
-CalendarEvent.prototype.address = '';
-/** @type {string} */
 CalendarEvent.prototype.location = '';
 /** @type {CalendarFeed} */
 CalendarEvent.prototype.feed = new CalendarFeed();

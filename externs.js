@@ -40,7 +40,7 @@ Moment.prototype.calendar = function() {};
 
 /**
  * @param {Moment} another
- * @param {number=} opt_unit
+ * @param {string=} opt_unit
  * @param {boolean=} opt_float
  * @return {number}
  */
@@ -65,5 +65,5 @@ Moment.prototype.minutes = function() {};
 Moment.prototype.toDate = function() {};
 
 /** @return {number} */
-Moment.prototype.years = function() {};
+Moment.prototype.year = function() {};
 

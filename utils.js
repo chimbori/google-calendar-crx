@@ -63,6 +63,15 @@ utils.processEvent = function(event) {
     }
   }
 
+  if (event.address) {
+    if (event.location) {
+      event.location = event.address + ' (' + event.location + ')';
+    } else {
+      event.location = event.address;
+    }
+    delete event.address;
+  }
+
   // Create Calendar URL after all fields have been trimmed.
   event.gcal_url = utils.getGCalUrl_(event);
 
@@ -98,17 +107,7 @@ utils.getGCalUrl_ = function(event) {
   }
 
   // Location
-  if (event.address) {
-    // Do we have a well-formatted address?
-    link += '&location=' + encodeURIComponent(event.address);
-
-    // Do we have a descriptive location in addition to an address?
-    if (event.location) {
-      link += encodeURIComponent(' (' + event.location + ')');
-    }
-
-  } else if (event.location) {
-    // We only have a descriptive location; no address.
+  if (event.location) {
     link += '&location=' + encodeURIComponent(event.location);
   }
 
@@ -162,23 +161,30 @@ utils.fromIso8601 = function(s) {
 utils.getFormattedDatesFromTo = function(fromDate, toDate) {
   var niceDate = '';
   var now = moment();
-  var from = moment(fromDate);
-  var to = moment(toDate);
+  var from = utils.fromIso8601(fromDate);
+  var to = utils.fromIso8601(toDate);
+  var allDay = (from.hours() === 0 && from.minutes() === 0 && to.hours() === 0 && to.minutes() === 0);
 
   // Include the year if it's in a different year from now, else skip it.
-  niceDate = from.format((now.years() == from.years()) ? 'MMM D' : 'MMM D, YYYY') +
-      ' &nbsp; &bull; &nbsp; ';
+  niceDate = from.format((now.year() == from.year()) ? 'MMM D' : 'MMM D, YYYY');
 
   // Add the minutes if not zero, else skip it if the time is on the hour.
-  niceDate += from.format(from.minutes() === 0 ? 'hha': 'hh:mma') + ' &mdash; ';
+  if (!allDay) {
+    niceDate += ' &bull; ' + from.format(from.minutes() === 0 ? 'ha': 'h:mma');
+  }
+
+  // Insert an em dash between the two parts.
+  niceDate += ' &mdash; ';
 
   // If the event ends on a different day, add the to date, else skip it.
-  if (from.diff(to, 'd') > 1) {
+  if (to.diff(from, 'days') > 1) {
     niceDate += to.format('MMM D');
   }
 
   // Finally, append the end time, skipping unnecessary ":00" as above.
-  niceDate += to.format(to.minutes() === 0 ? 'hha': 'hh:mma');
+  if (!allDay) {
+    niceDate += ' &bull; ' + to.format(to.minutes() === 0 ? 'ha': 'h:mma');
+  }
 
   return niceDate;
 };

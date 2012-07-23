@@ -22,20 +22,21 @@
 /**
  * Return HTML for an inline "Add to Calendar" button in small size.
  * @param {CalendarEvent} event The calendar event object.
- * @return {string} Generated HTML.
+ * @return {jQuery} The generated DOM element.
  * @private
  */
 function getInlineIconSmall_(event) {
-  console.log(event);
-  return [
-      '<a style="float: right;" href="',
-      event.gcal_url,
-      '" target="_blank"><img src="',
-      chrome.extension.getURL('icons/calendar_add_19.png'),
-      '" alt="',
-      chrome.i18n.getMessage('add_to_google_calendar'),
-      '"/></a>'
-      ].join('');
+  return $('<a>').css({
+        'float': 'right'
+      }).attr({
+        'href': event.gcal_url,
+        'target': '_blank'
+      }).append(
+        $('<img>').attr({
+          'src': chrome.extension.getURL('icons/calendar_add_19.png'),
+          'alt': chrome.i18n.getMessage('add_to_google_calendar')
+        })
+      );
 }
 
 /**

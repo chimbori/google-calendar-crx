@@ -122,7 +122,7 @@ browseraction.showDetectedEvents_ = function() {
       $('#events').append(browseraction.createEventPreview_(eventsFromPage[0]));
       $('#events_on_this_page').click();
 
-    } else {  // We have more than one event on this page.
+    } else {  // Two or more events on this page.
       $('.tabstrip').show();
       $('#events_on_this_page').text(
           chrome.i18n.getMessage('events_on_this_page', [eventsFromPage.length]));
@@ -143,30 +143,30 @@ browseraction.showDetectedEvents_ = function() {
  * @private
  */
 browseraction.createEventPreview_ = function(event) {
-  var popup = [
-      '<div>',
-      '<h1>', event.title, '</h1>',
-      '<p>',
-      utils.getFormattedDatesFromTo(event.start, event.end),
-      '</p>',
-      '<p>', browseraction.createEventButton_(event, true), '</p>'
-  ].join('');
+  var popup = $('<div>');
+  popup.append($('<h1>').text(event.title));
+  popup.append($('<p>').html(utils.getFormattedDatesFromTo(event.start, event.end)));
+  popup.append($('<p>').append(browseraction.createEventButton_(event, true)));
 
-  if (event.address) {
-    popup += [
-        '<p><a target="_blank" href="http://maps.google.com/maps?q=',
-        encodeURIComponent(event.address),
-        '"><img src="',
-        'http://maps.google.com/maps/api/staticmap?center=',
-        encodeURIComponent(event.address),
-        '&zoom=12&size=320x270&maptype=roadmap&sensor=false',
-        '&markers=',
-        encodeURIComponent(event.address),
-        '"/></a></p>'
-        ].join('');
+  if (event.location) {
+    popup.append(
+      $('<p>').append(
+        $('<a>').attr({
+          'target': '_blank',
+          'href': 'http://maps.google.com/maps?q=' + encodeURIComponent(event.location)
+        }).append(
+          $('<img>').attr({
+            'src': 'http://maps.google.com/maps/api/staticmap?center=' +
+                   encodeURIComponent(event.location) +
+                   '&zoom=12&size=320x270&maptype=roadmap&sensor=false&markers=' +
+                   encodeURIComponent(event.location)
+          })
+        )
+      )
+    );
   }
 
-  return $(popup);
+  return popup;
 };
 
 
@@ -174,23 +174,23 @@ browseraction.createEventPreview_ = function(event) {
  * Returns HTML for a button for a single event, which when clicked, will
  * add that event to the user's Google Calendar.
  * @param {CalendarEvent} event The calendar event.
- * @param {boolean} opt_UseDefaultAnchorText True to ignore event title and use
+ * @param {boolean} opt_useDefaultAnchorText True to ignore event title and use
  *     standard anchor text instead. Used in single event mode.
- * @return {string} HTML for the 'Add to Calendar' button.
+ * @return {jQuery} The rendered 'Add to Calendar' button.
  * @private
  */
-browseraction.createEventButton_ = function(event, opt_UseDefaultAnchorText) {
-  opt_UseDefaultAnchorText = opt_UseDefaultAnchorText || false;
-  return [
-      '<a class="singleEvent" href="',
-      event.gcal_url,
-      '" title="',
-      chrome.i18n.getMessage('add_to_google_calendar'),
-      '" target="_blank">',
-      opt_UseDefaultAnchorText ?
+browseraction.createEventButton_ = function(event, opt_useDefaultAnchorText) {
+  var button = $('<a>');
+  button.addClass('singleEvent')
+      .attr({
+        'href': event.gcal_url,
+        'title': chrome.i18n.getMessage('add_to_google_calendar'),
+        'target': '_blank'
+      })
+      .html(opt_useDefaultAnchorText ?
           chrome.i18n.getMessage('add_to_google_calendar') :
-          event.title,
-      '</a>'].join('');
+          event.title);
+  return button;
 };
 
 
@@ -198,7 +198,7 @@ browseraction.createEventButton_ = function(event, opt_UseDefaultAnchorText) {
  * When the popup is loaded, fetch the events in this tab from the
  * background page, set up the appropriate layout, etc.
  */
-window.onload = function() {
+window.addEventListener('load', function() {
   browseraction.initialize();
-};
+}, false);
 
