@@ -21,14 +21,15 @@
 
 /**
  * Return HTML for an inline "Add to Calendar" button in small size.
- * @param {CalendarEvent} event The calendar event model for this view.
+ * @param {CalendarEvent} event The calendar event object.
  * @return {string} Generated HTML.
  * @private
  */
 function getInlineIconSmall_(event) {
+  console.log(event);
   return [
       '<a style="float: right;" href="',
-      event.fields.gcal_url,
+      event.gcal_url,
       '" target="_blank"><img src="',
       chrome.extension.getURL('icons/calendar_add_19.png'),
       '" alt="',
@@ -83,57 +84,58 @@ function detectHCalendarEvents() {
   var events = [];
 
   $.each($('.vevent'), function(i, vevent) {
-    var fields = {};
+    var event = /** @type {CalendarEvent} */ {};
 
-    fields.title = utils.getFirstFieldText(vevent, '.summary');
-    fields.description = utils.getFirstFieldText(vevent, '.description');
+    event.title = utils.getFirstFieldText(vevent, '.summary');
+    event.description = utils.getFirstFieldText(vevent, '.description');
 
-    fields.start = new Date(Date.parse(
-        utils.fromIso8601(findDate(vevent, '.dtstart'))));
+    var startDate = findDate(vevent, '.dtstart');
+    if (startDate) {
+      event.start = utils.fromIso8601(startDate).format();
+    }
 
     var endDate = findDate(vevent, '.dtend');
     if (endDate) {
-      fields.end = new Date(Date.parse(utils.fromIso8601(endDate)));
+      event.end = utils.fromIso8601(endDate).format();
     }
 
     var urlElement = $(vevent).find('.url');
     if (urlElement && urlElement.attr('href')) {
-      var hrefAttr = urlElement.attr('href');
+      var hrefAttr = urlElement.attr('href').toString();
       if (hrefAttr.indexOf('http://') === 0 ||
           hrefAttr.indexOf('https://') === 0) {
         // Absolute URL with hostname.
-        fields.url = hrefAttr;
+        event.url = hrefAttr;
       } else if (hrefAttr.indexOf('/') === 0) {
         // Absolute URL without hostname.
-        fields.url = window.location.protocol + '//' +
+        event.url = window.location.protocol + '//' +
             window.location.host + hrefAttr;
       } else {
         // Relative URL
-        fields.url = window.location.href + hrefAttr;
+        event.url = window.location.href + hrefAttr;
       }
     } else {
-      fields.url = window.location.href;
+      event.url = window.location.href;
     }
 
-    var maybeAdr = $(vevent).find('adr');
-    if (maybeAdr != null) {
-      fields.citytown = maybeAdr.find('.locality').text().trim() + ' ' +
-          maybeAdr.find('.region').text().trim();
-    } else {
-      fields.citytown = vevent.find('.location').html()
-          .replace(/<[^>]*>/g, ' ').trim();
+    var adr = $(vevent).find('adr');
+    var location = $(vevent).find('.location');
+    if (adr.length) {
+      event.location = adr.find('.locality').text().trim() + ' '
+                     + adr.find('.region').text().trim();
+    } else if (location.length) {
+      event.location = location.html().replace(/<[^>]*>/g, ' ').trim();
     }
 
-    var calendarEvent = new CalendarEvent(fields);
-    events.push(calendarEvent);
+    event = utils.processEvent(event);
+    events.push(event);
 
     // Insert a button inline near the title of the page.
-    $(vevent).find('.summary').prepend(getInlineIconSmall_(calendarEvent));
+    $(vevent).find('.summary').prepend(getInlineIconSmall_(event));
   });
 
   return events;
 }
-
 
 
 var mfEvents = detectHCalendarEvents();

@@ -145,24 +145,23 @@ browseraction.showDetectedEvents_ = function() {
 browseraction.createEventPreview_ = function(event) {
   var popup = [
       '<div>',
-      '<h1>', event.fields.title, '</h1>',
+      '<h1>', event.title, '</h1>',
       '<p>',
-      utils.getFormattedDatesFromTo(
-          event.fields.start, event.fields.end),
+      utils.getFormattedDatesFromTo(event.start, event.end),
       '</p>',
       '<p>', browseraction.createEventButton_(event, true), '</p>'
   ].join('');
 
-  if (event.fields.address) {
+  if (event.address) {
     popup += [
         '<p><a target="_blank" href="http://maps.google.com/maps?q=',
-        encodeURIComponent(event.fields.address),
+        encodeURIComponent(event.address),
         '"><img src="',
         'http://maps.google.com/maps/api/staticmap?center=',
-        encodeURIComponent(event.fields.address),
+        encodeURIComponent(event.address),
         '&zoom=12&size=320x270&maptype=roadmap&sensor=false',
         '&markers=',
-        encodeURIComponent(event.fields.address),
+        encodeURIComponent(event.address),
         '"/></a></p>'
         ].join('');
   }
@@ -184,13 +183,13 @@ browseraction.createEventButton_ = function(event, opt_UseDefaultAnchorText) {
   opt_UseDefaultAnchorText = opt_UseDefaultAnchorText || false;
   return [
       '<a class="singleEvent" href="',
-      event.fields.gcal_url,
+      event.gcal_url,
       '" title="',
       chrome.i18n.getMessage('add_to_google_calendar'),
       '" target="_blank">',
       opt_UseDefaultAnchorText ?
           chrome.i18n.getMessage('add_to_google_calendar') :
-          event.fields.title,
+          event.title,
       '</a>'].join('');
 };
 

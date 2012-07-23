@@ -24,12 +24,45 @@
  * @constructor
  */
 function RequestObject() {}
-
 /** @type {string} */
-RequestObject.method = '';
-
+RequestObject.prototype.method = '';
 /** @type {Object.<string>} */
-RequestObject.parameters = {};
-
+RequestObject.prototype.parameters = {};
 /** @type {function()} */
-RequestObject.callback = function() {};
+RequestObject.prototype.callback = function() {};
+
+
+/**
+ * A calendar feed object.
+ * @constructor
+ */
+function CalendarFeed() {}
+/** @type {string} */
+CalendarFeed.prototype.title = '';
+/** @type {string} */
+CalendarFeed.prototype.url = '';
+/** @type {string} */
+CalendarFeed.prototype.color = '';
+
+
+/**
+ * A calendar event, either detected or from the feed.
+ * @constructor
+ */
+function CalendarEvent() {}
+/** @type {string} */
+CalendarEvent.prototype.title = '';
+/** @type {string} */
+CalendarEvent.prototype.description = '';
+/** @type {string} */
+CalendarEvent.prototype.start = '';
+/** @type {string} */
+CalendarEvent.prototype.end = '';
+/** @type {string} */
+CalendarEvent.prototype.url = '';
+/** @type {string} */
+CalendarEvent.prototype.address = '';
+/** @type {string} */
+CalendarEvent.prototype.location = '';
+/** @type {CalendarFeed} */
+CalendarEvent.prototype.feed = new CalendarFeed();

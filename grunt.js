@@ -46,8 +46,8 @@ module.exports = function(grunt) {
   };
 
   var browser_action_files = [
+    'types.js',
     'utils.js',
-    'calendar_event.js',
     'browser_action.js'
   ];
 
@@ -60,8 +60,8 @@ module.exports = function(grunt) {
   ];
 
   var content_script_files = [
+    'types.js',
     'utils.js',
-    'calendar_event.js',
     'events_microformats.js'
   ];
 

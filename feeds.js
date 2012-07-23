@@ -110,11 +110,13 @@ feeds.getEventsFrom_ = function(feed, callback) {
       var events = [];
       $(data).find('entry').each(function() {
         var eventEntry = $(this);
+        var startMoment = utils.fromIso8601(eventEntry.find('when').attr('startTime'));
+        var endMoment = utils.fromIso8601(eventEntry.find('when').attr('endTime'));
         events.push({
           feed: feed,
           title: eventEntry.find('title').text(),
-          startTime: utils.fromIso8601(eventEntry.find('when').attr('startTime')),
-          endTime: utils.fromIso8601(eventEntry.find('when').attr('endTime')),
+          startTime: startMoment ? startMoment.toDate() : null,
+          endTime: endMoment ? endMoment.toDate() : null,
           description: eventEntry.find('content').text(),
           location: eventEntry.find('where').attr('valueString'),
           reminder: eventEntry.find('when').find('reminder').attr('minutes'),

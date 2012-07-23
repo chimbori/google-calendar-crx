@@ -18,13 +18,33 @@
  */
 
 /**
+ * @param {Date|string=} opt_date
+ * @param {Array.<string>|string=} opt_formatString
+ * return {Moment}
+ */
+function moment(opt_date, opt_formatString) {};
+
+/**
  * Externs for the Moment.js library.
  * @constructor
  */
 function Moment() {};
 
+/**
+ * @param {string=} opt_locale
+ */
+Moment.lang = function(opt_locale) {};
+
 /** @return {string} */
 Moment.prototype.calendar = function() {};
+
+/**
+ * @param {Moment} another
+ * @param {number=} opt_unit
+ * @param {boolean=} opt_float
+ * @return {number}
+ */
+Moment.prototype.diff = function(another, opt_unit, opt_float) {};
 
 /**
  * @param {string=} opt_formatString
@@ -35,17 +55,15 @@ Moment.prototype.format = function(opt_formatString) {};
 /** @return {string} */
 Moment.prototype.fromNow = function() {};
 
-/**
- * @param {string=} opt_locale
- */
-Moment.lang = function(opt_locale) {};
+/** @return {number} */
+Moment.prototype.hours = function() {};
+
+/** @return {number} */
+Moment.prototype.minutes = function() {};
 
 /** @return {Date} */
 Moment.prototype.toDate = function() {};
 
-/**
- * @param {Date|string} date
- * @param {Array.<string>|string=} opt_formatString
- * return {Moment}
- */
-function moment(date, opt_formatString) {};
+/** @return {number} */
+Moment.prototype.years = function() {};
+

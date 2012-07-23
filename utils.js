@@ -26,10 +26,115 @@ var utils = {};
 
 
 /**
+ * The maximum number of characters per field, to keep the resulting Google
+ * Calendar template URL below acceptable limits.
+ * @type {number}
+ * @const
+ * @private
+ */
+utils.MAX_CHARS_PER_FIELD_ = 300;
+
+
+/**
+ * Processes a calendar event object by inferring missing fields,
+ * trimming lengths of fields that are too long, and adding computed fields.
+ * @param {CalendarEvent} event The event to process.
+ * @return {CalendarEvent} The processed event.
+ */
+utils.processEvent = function(event) {
+  if (!event.end) {  // If there's no end time, infer one as best as we can.
+    var startMoment = moment(event.start);
+    if (startMoment.hours() === 0 && startMoment.minutes() === 0) {
+      // Assume it's an all-day event if hh=0 & mm=0.
+      event.end = startMoment.add('d', 1).format();
+    } else {
+      // It's not an all-day event, so default to start + X hours, and the user
+      // can tweak it before adding to their calendar.
+      event.end = startMoment.add('h', 2).format();
+    }
+  }
+
+  // Trim each field to a maximum acceptable length.
+  for (var field in event) {
+    if (event.hasOwnProperty(field) &&
+        event[field].length > utils.MAX_CHARS_PER_FIELD_) {
+      event[field] = event[field].replace(/[\s]+/gi, ' ').
+          substring(0, utils.MAX_CHARS_PER_FIELD_ - 2) + ' \u2026';
+    }
+  }
+
+  // Create Calendar URL after all fields have been trimmed.
+  event.gcal_url = utils.getGCalUrl_(event);
+
+  return event;
+};
+
+
+/**
+ * Returns a link to a template URL that prefills a Google Calendar event
+ * template with the details of this event.
+ * @param {CalendarEvent} event The event to create the URL for.
+ * @return {string} Google Calendar event template link.
+ * @private
+ */
+utils.getGCalUrl_ = function(event) {
+  // Basic event information: Title, Start, End.
+  var link =
+      'https://www.google.com/calendar/event?action=TEMPLATE&trp=false&text=' +
+      encodeURIComponent(event.title);
+
+  // Dates could be optional.
+  if (event.start) {
+    // If the time is exactly midnight, this might be an all-day event, so skip
+    // the T000000 part.
+    link += '&dates=' +
+        moment(event.start).format('YYYYMMDDTHHmmss').replace('T000000', '');
+
+    // Even if start date is present, end date could be missing.
+    if (event.end) {
+      link += '/' +
+          moment(event.end).format('YYYYMMDDTHHmmss').replace('T000000', '');
+    }
+  }
+
+  // Location
+  if (event.address) {
+    // Do we have a well-formatted address?
+    link += '&location=' + encodeURIComponent(event.address);
+
+    // Do we have a descriptive location in addition to an address?
+    if (event.location) {
+      link += encodeURIComponent(' (' + event.location + ')');
+    }
+
+  } else if (event.location) {
+    // We only have a descriptive location; no address.
+    link += '&location=' + encodeURIComponent(event.location);
+  }
+
+  // URL
+  if (event.url) {
+    link += '&sprop=' + encodeURIComponent(event.url) +
+        '&sprop=name:' + encodeURIComponent(event.title);
+  }
+
+  // Details
+  link += '&details=';
+  if (event.description) {
+    link += encodeURIComponent(event.description + '\n\n');
+  }
+  link += chrome.i18n.getMessage('read_more_at_original_url') +
+      encodeURIComponent(event.url);
+
+  return link;
+};
+
+
+/**
  * Parse ISO 8601 date/time into a JavaScript date.
  * ** This function adapted from GData's JavaScript Date/time parser. **
  * @param {string|jQuery} s ISO 8601 date as a string.
- * @return {Date} Parsed JavaScript date object.
+ * @return {Moment} Parsed JavaScript date object.
  */
 utils.fromIso8601 = function(s) {
   if (!s) {
@@ -38,77 +143,44 @@ utils.fromIso8601 = function(s) {
 
   s = s.replace('Z', '+00:00');
   return moment(s, [
-    "YYYY-MM-DDTHH:mm:ssZZ", "YYYY-MM-DDTHHmmssZZ", "YYYYMMDDTHHmmssZZ",
-    "YYYY-MM-DDTHH:mm:ss",   "YYYY-MM-DDTHHmmss",   "YYYYMMDDTHHmmss",
-    "YYYY-MM-DDTHH:mmZZ",    "YYYY-MM-DDTHHmmZZ",   "YYYYMMDDTHHmmZZ",
-    "YYYY-MM-DDTHH:mm",      "YYYY-MM-DDTHHmm",     "YYYYMMDDTHHmm",
-    "YYYY-MM-DDTHH",                                "YYYYMMDDTHH",
-    "YYYY-MM-DD",                                   "YYYYMMDD"
-  ]).toDate();
+    'YYYY-MM-DDTHH:mm:ssZZ', 'YYYY-MM-DDTHHmmssZZ', 'YYYYMMDDTHHmmssZZ',
+    'YYYY-MM-DDTHH:mm:ss',   'YYYY-MM-DDTHHmmss',   'YYYYMMDDTHHmmss',
+    'YYYY-MM-DDTHH:mmZZ',    'YYYY-MM-DDTHHmmZZ',   'YYYYMMDDTHHmmZZ',
+    'YYYY-MM-DDTHH:mm',      'YYYY-MM-DDTHHmm',     'YYYYMMDDTHHmm',
+    'YYYY-MM-DDTHH',                                'YYYYMMDDTHH',
+    'YYYY-MM-DD',                                   'YYYYMMDD'
+  ]);
 };
 
 
 /**
  * Display a time duration, taking into account the from, to, and current date.
- * @param {Date} fromDate A JavaScript date.
- * @param {Date} toDate A JavaScript date.
+ * @param {string} fromDate An ISO 8601-formatted date.
+ * @param {string} toDate An ISO 8601-formatted date.
  * @return {string} A human-readable date.
  */
 utils.getFormattedDatesFromTo = function(fromDate, toDate) {
-  var now = new Date();
   var niceDate = '';
+  var now = moment();
+  var from = moment(fromDate);
+  var to = moment(toDate);
 
-  // Show the year only if different from the current year.
-  if (now.getFullYear() != fromDate.getFullYear()) {
-    niceDate = ', ' + fromDate.getFullYear();
-  }
+  // Include the year if it's in a different year from now, else skip it.
+  niceDate = from.format((now.years() == from.years()) ? 'MMM D' : 'MMM D, YYYY') +
+      ' &nbsp; &bull; &nbsp; ';
 
-  // Append the internationalized name of the month. And date.
-  niceDate = chrome.i18n.getMessage('month_' + (fromDate.getMonth() + 1)) +
-      ' ' + fromDate.getDate() + niceDate + ' &nbsp; &bull; &nbsp; ';
+  // Add the minutes if not zero, else skip it if the time is on the hour.
+  niceDate += from.format(from.minutes() === 0 ? 'hha': 'hh:mma') + ' &mdash; ';
 
-  // Skip the ":00" if the time is on the hour.
-  var hour12hr = fromDate.getHours() % 12;
-  hour12hr = (hour12hr === 0) ? 12 : hour12hr;  // If 0, make it 12.
-
-  niceDate += hour12hr +
-      ((fromDate.getMinutes() === 0) ? '' : ':' + fromDate.getMinutes()) +
-      (fromDate.getHours() >= 12 ? 'pm' : 'am');
-
-  niceDate += ' &mdash; ';
-
-  // If the event ends on the same day, then skip duplicating the date.
-  if (!(fromDate.getFullYear() == toDate.getFullYear() &&
-        fromDate.getMonth() == toDate.getMonth() &&
-        fromDate.getDate() == toDate.getDate())) {
-    niceDate += chrome.i18n.getMessage('month_' + (toDate.getMonth() + 1)) +
-        ' ' + toDate.getDate();
+  // If the event ends on a different day, add the to date, else skip it.
+  if (from.diff(to, 'd') > 1) {
+    niceDate += to.format('MMM D');
   }
 
   // Finally, append the end time, skipping unnecessary ":00" as above.
-  niceDate += (toDate.getHours() % 12) +
-      ((toDate.getMinutes() === 0) ? '' : ':' + toDate.getMinutes()) +
-      (toDate.getHours() >= 12 ? 'pm' : 'am');
+  niceDate += to.format(to.minutes() === 0 ? 'hha': 'hh:mma');
 
   return niceDate;
-};
-
-
-/**
- * If a string is longer than numChars, then return a trimmed version of the
- * string with an ellipsis at the end. The returned string is guaranteed to be
- * numChars or fewer, so the actual string will be trimmed to numChars - 2 to
- * accommodate a space and the Unicode ellipsis (U+2026).
- * @param {string} str String to trim.
- * @param {number} numChars Maximum number of characters to return.
- * @return {string} Trimmed string.
- */
-utils.trimTo = function(str, numChars) {
-  if (str && str.length > numChars) {
-    var op = str.substring(0, numChars - 2) + " \u2026";
-    return op;
-  }
-  return str;
 };
 
 

@@ -50,7 +50,6 @@
         "lib/jquery.min.js",
         "lib/moment.min.js",
         "utils.js",
-        "calendar_event.js",
         "events_microformats.js"
       ],
       "run_at": "document_idle"
