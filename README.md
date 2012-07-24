@@ -9,17 +9,27 @@ you can click the button to instantly add events to your calendar.
 The button shows an orange plus sign whenever there are events on the page you’re viewing that can be added to your calendar.
 
 
-Instructions
-------------
-* This extension shows whatever calendars you are logged in within Chrome.
+Features
+--------
+* Displays a preview of your calendar while you’re navigating. (works on any page.)
+* If you’re on certain sites where it detects the presence of events, the icon changes to an orange “+”. Clicking that icon lets you add the event to your Google Calendar, and shows you a map (if there’s a location it could detect.)
+* Any site that uses the hCalendar microformat or derivative microformats such as hResume are supported.
+* This extension shows events from whatever calendars you are logged in within Chrome.
 * If you want to use a Google Apps calendar, you should login to that account first, then open the extension.
 
 
-Features
---------
-* Displays a preview of your calendar while you're navigating. (works on any page.)
-* If you're on certain sites where it detects the presence of events, the icon changes to an orange "+". Clicking that icon lets you add the event to your Google Calendar, and shows you a map (if there's a location it could detect.)
-* Any site that uses the hCalendar microformat or derivative microformats such as hResume are supported.
+How to install a pre-release version
+------------------------------------
+The released version will always be available from the Google Chrome Web Store.
+If you’d like to check out new features before they are released to the public, you can install a pre-release version.
+Note that there may be bugs and stability issues with pre-release versions.
+
+1. Click on the “[ZIP](https://github.com/manastungare/google-calendar-crx/zipball/master)” button above to download the zip file, then unzip it.
+2. In Chrome, type “chrome://extensions” in the omnibox.
+3. Turn on the “Developer mode” feature in the top right corner.
+4. Click on “Load unpacked extension…” and pick the directory in which you unzipped the extension.
+5. The extension should now appear in the list.
+6. If a button labeled “Show button” also appears in the list, then click it.
 
 
 For Webmasters
@@ -27,10 +37,6 @@ For Webmasters
 * The extension detects events on any site that uses the hCalendar microformat or derivative microformats like hResume.
 If you’d like events on your page to be automatically accessible, make sure you are using these microformats for your event data.
 
-
-Known Issues
-------------
-* Some date formats in hCalendar are not parsed correctly.
 
 Featured on the Chrome Blog as a “By Google” extension:
 <http://chrome.blogspot.com/2010/11/new-chrome-extensions-by-google.html>
