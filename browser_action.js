@@ -39,6 +39,7 @@ browseraction.initialize = function() {
   browseraction.installTabStripClickHandlers_();
   browseraction.showLoginMessageIfNotAuthenticated_();
   browseraction.showDetectedEvents_();
+  browseraction.showEventsFromFeed_();
 };
 
 
@@ -131,6 +132,67 @@ browseraction.showDetectedEvents_ = function() {
         $('#eventsList').append(browseraction.createEventButton_(event, false));
       });
       $('#events_on_this_page').click();
+    }
+  });
+};
+
+
+/**
+ * Retrieves events from the calendar feed, sorted by start time, and displays
+ * them in the browser action popup.
+ * @private
+ */
+browseraction.showEventsFromFeed_ = function() {
+  chrome.extension.sendMessage({method: 'events.feed.get'}, function(events) {
+    for (var i = 0; i < events.length; i++) {
+      var event = events[i];
+
+      var start = utils.fromIso8601(event.start);
+      var end = utils.fromIso8601(event.end);
+      var allDay = !end ||
+          (start.hours() === 0 && start.minutes() === 0 &&
+          end.hours() === 0 && end.minutes() === 0);
+
+      // Insert a date header if the date of this event is not the same as that of the
+      // previous event.
+      var lastDateHeader;
+      var startDate = start.clone().hours(0).minutes(0).seconds(0);
+      if (!lastDateHeader || startDate.diff(lastDateHeader, 'hours') > 23) {
+        lastDateHeader = startDate;
+        $('<div>').addClass('date-header')
+            .text(lastDateHeader.format('dddd MMMM, D'))
+            .appendTo($('#agenda'));
+      }
+
+      var eventDiv = $('<div>')
+          .addClass('event')
+          .attr({'data-url': event.url})
+          .appendTo($('#agenda'));
+
+      eventDiv.on('click', function() {
+        chrome.tabs.create({'url': $(this).attr('data-url')});
+      });
+
+      $('<div>').addClass('feed-color')
+          .css({'background-color': event.feed.color})
+          .attr({'title': event.feed.title})
+          .appendTo(eventDiv);
+
+      var eventDetails = $('<div>').addClass('event-details').appendTo(eventDiv);
+
+      $('<h1>').text(event.title).appendTo(eventDetails);
+
+      if (!allDay) {
+        $('<div>').addClass('start-and-end-times')
+            .append($('<span>').addClass('start').text(start.format('h:mma')))
+            .append(' – ')
+            .append($('<span>').addClass('end').text(end.format('h:mma')))
+            .appendTo(eventDetails);
+      }
+
+      if (event.location) {
+        $('<div>').addClass('location').text(event.location).appendTo(eventDetails);
+      }
     }
   });
 };

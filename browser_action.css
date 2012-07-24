@@ -1,7 +1,6 @@
 * {
   font-family: Helvetica, sans-serif;
   font-size: 11pt;
-  line-height: 1.4em;
   box-sizing: border-box;
 }
 
@@ -57,7 +56,7 @@ a[data-href="calendar_ui_url"] {
 }
 
 .tab#agenda {
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 .singleEvent {
@@ -79,4 +78,53 @@ a[data-href="calendar_ui_url"] {
 
 #events img {
   max-width: 100%;
+}
+
+.date-header {
+  background: rgba(0,0,0,0.5);
+  color: white;
+  padding: 4px 0 4px 24px;
+  text-transform: uppercase;
+  font-size: 0.8em;
+  font-weight: bold;
+  margin: 24px 0 0 0;
+}
+
+.date-header:first-child {
+  margin: 0;
+}
+
+.event {
+  border-bottom: 1px solid #ccc;
+  position: relative;
+  padding: 6px 0 3px 0;
+  cursor: pointer !important;
+}
+
+.event .feed-color {
+  width: 16px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 2px;
+  margin: 0 12px 0 0;
+}
+
+.event .event-details {
+  margin-left: 24px;
+}
+
+.event h1 {
+  margin: 0 0 3px 0;
+  line-height: 1;
+}
+
+.event .start-and-end-times {
+  color: #888;
+}
+
+.event .location {
+  color: #888;
+  font-size: 0.9em;
+  margin-top: 3px;
 }

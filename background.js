@@ -69,6 +69,12 @@ background.listenForRequests_ = function() {
           opt_callback(background.eventsFromPage['tab' + background.selectedTabId]);
         }
         break;
+
+      case 'events.feed.get':
+        if (opt_callback) {
+          opt_callback(feeds.events);
+        }
+        break;
     }
   });
 };
