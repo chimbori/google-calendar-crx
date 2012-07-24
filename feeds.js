@@ -41,7 +41,7 @@ feeds.events = [];
 /**
  * The event or events that will occur in the immediate future. If this contains
  * more than one event, then all those events must begin at the exact same time
- * and there should be no other event between now and the startTime of all of
+ * and there should be no other event between now and the start time of all of
  * these events.
  * @type {Array.<Object>}
  */
@@ -110,13 +110,29 @@ feeds.getEventsFrom_ = function(feed, callback) {
       var events = [];
       $(data).find('entry').each(function() {
         var eventEntry = $(this);
-        var startMoment = utils.fromIso8601(eventEntry.find('when').attr('startTime'));
-        var endMoment = utils.fromIso8601(eventEntry.find('when').attr('endTime'));
+
+        // In case of recurring events, the entry has multiple <gd:when> fields.
+        // One of them has only a startTime, and another has both a startTime and an endTime.
+        // This is a workaround for this crazy behavior.
+        var startTime, endTime;
+        var when = eventEntry.find('when');
+        for (var i = 0; i < when.length; i++) {
+          if ($(when[i]).attr('startTime')) {
+            startTime = $(when[i]).attr('startTime');
+          }
+          if ($(when[i]).attr('endTime')) {
+            endTime = $(when[i]).attr('endTime');
+          }
+        }
+
+        var start = utils.fromIso8601(startTime);
+        var end = utils.fromIso8601(endTime);
+
         events.push({
           feed: feed,
           title: eventEntry.find('title').text(),
-          startTime: startMoment ? startMoment.toDate() : null,
-          endTime: endMoment ? endMoment.toDate() : null,
+          start: start ? start.toDate() : null,
+          end: end ? end.toDate() : null,
           description: eventEntry.find('content').text(),
           location: eventEntry.find('where').attr('valueString'),
           reminder: eventEntry.find('when').find('reminder').attr('minutes'),
@@ -155,7 +171,7 @@ feeds.fetch = function(callback) {
         allEvents = allEvents.concat(events);
         if (--pendingRequests === 0) {
           allEvents.sort(function(first, second) {
-            return first.startTime.getTime() - second.startTime.getTime();
+            return first.start.getTime() - second.start.getTime();
           });
           feeds.events = allEvents;
           if (callback) {
@@ -183,7 +199,7 @@ feeds.removePastEvents_ = function() {
 
   // At this point, there are non-zero events present, so it's not a completely
   // empty calendar.
-  while (feeds.events[0].startTime < (new Date()).getTime()) {
+  while (feeds.events[0].start < (new Date()).getTime()) {
     feeds.events.splice(0, 1);  // Remove the first element of the array.
   }
 
@@ -207,8 +223,8 @@ feeds.determineNextEvents_ = function() {
 
   feeds.nextEvents = [feeds.events[0]];
   for (var i = 1; i < feeds.events.length; i++) {
-    if (feeds.events[i].startTime.getTime() ==
-        feeds.events[0].startTime.getTime()) {
+    if (feeds.events[i].start.getTime() ==
+        feeds.events[0].start.getTime()) {
       feeds.nextEvents.push(feeds.events[i]);
     } else {
       break;
@@ -249,12 +265,12 @@ feeds.updateBadge = function() {
       M: "1mo", MM : "%dmo",
       y: "1yr", yy : "%dy"};
   chrome.browserAction.setBadgeText({
-    text: moment(nextEvent.startTime).fromNow()
+    'text': moment(nextEvent.start).fromNow()
   });
   moment.lang('en');
 
   chrome.browserAction.setTitle({
-    title : feeds.getTooltipForEvents_(feeds.nextEvents)
+    'title': feeds.getTooltipForEvents_(feeds.nextEvents)
   });
 };
 
@@ -268,7 +284,7 @@ feeds.updateBadge = function() {
 feeds.getTooltipForEvents_ = function(nextEvents) {
   var tooltipLines = [];
   if (nextEvents.length > 0) {
-    var startMoment = moment(nextEvents[0].startTime);
+    var startMoment = moment(nextEvents[0].start);
     tooltipLines.push(startMoment.calendar() + ' (' + startMoment.fromNow() + ')');
   }
 
