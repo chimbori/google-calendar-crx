@@ -131,9 +131,8 @@ browseraction.showDetectedEvents_ = function() {
   chrome.extension.sendMessage({method: 'events.detected.get'}, function(eventsFromPage) {
     // Pick a layout based on how many events we have to show: 0, 1, or >1.
     if (eventsFromPage && eventsFromPage.length > 0) {
-      $('#events').append('<div id="events_list"></div>');
       $.each(eventsFromPage, function(i, event) {
-        $('#events_list').append(browseraction.createEventButton_(event, false));
+        $('#events-list').append(browseraction.createEventButton_(event, false));
       });
       $('#add-events').click();
     }
