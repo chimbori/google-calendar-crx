@@ -157,6 +157,7 @@ module.exports = function(grunt) {
           '*.css'
         ],
         rules: {
+          'box-sizing': false,
           'gradients': false,
           'ids': false,
           'qualified-headings': false,
