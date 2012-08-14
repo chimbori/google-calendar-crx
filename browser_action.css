@@ -70,7 +70,7 @@ a[data-href="calendar_ui_url"] {
   overflow-x: hidden;
 }
 
-.singleEvent {
+.single-event {
   padding: 6px;
   border: 1px solid #bbb;
   border-radius: 4px;
@@ -82,7 +82,7 @@ a[data-href="calendar_ui_url"] {
   display: block;
 }
 
-.singleEvent:hover {
+.single-event:hover {
   border: 1px solid #939393;
   background: -webkit-gradient(linear, 0 30%, 0 70%, from(#d5e2ff), to(#c2d1f0));
 }

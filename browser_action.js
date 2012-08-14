@@ -40,7 +40,8 @@ browseraction.initialize = function() {
   browseraction.installButtonClickHandlers_();
   browseraction.showLoginMessageIfNotAuthenticated_();
   browseraction.showDetectedEvents_();
-  chrome.extension.sendMessage({method: 'events.feed.get'}, browseraction.showEventsFromFeed_);
+  chrome.extension.sendMessage({method: 'events.feed.get'},
+      browseraction.showEventsFromFeed_);
 };
 
 
@@ -68,19 +69,19 @@ browseraction.fillMessages_ = function() {
  * @private
  */
 browseraction.installTabStripClickHandlers_ = function() {
-  $('#events_on_this_page').click(function() {
+  $('#add-events').click(function() {
     $('.selected').removeClass('selected');
     $('.tab').hide();
-    $('#events_on_this_page').addClass('selected');
+    $('#add-events').addClass('selected');
     $('#events').show();
   });
 
-  $('#show_calendar').click(function() {
+  $('#view_agenda').click(function() {
     $('.selected').removeClass('selected');
     $('.tab').hide();
-    $('#show_calendar').addClass('selected');
+    $('#view_agenda').addClass('selected');
     $('#agenda').show();
-  });
+  }).click();  // Execute the handler that was just assigned.
 };
 
 
@@ -102,17 +103,17 @@ browseraction.installButtonClickHandlers_ = function() {
  * @private
  */
 browseraction.showLoginMessageIfNotAuthenticated_ = function() {
-    // Check if we're authenticated or not, and display either the "Login Now"
+  // Check if we're authenticated or not, and display either the "Login Now"
   // message, or show the tab strip.
   chrome.browserAction.getBadgeText({}, function(text) {
     if (text == '?') {  // Not authorized.
       $('.tab-container').hide();
       $('#error').show();
 
-      // TODO(manas): Send a request to the background page to refetch the feed.
       // If we're not authenticated, then it's fine to re-request the feed
       // upon explicit user interaction (i.e. opening the popup.)
-      // feeds.fetch(feeds.updateBadge);
+      chrome.extension.sendMessage({method: 'events.feed.fetch'},
+          browseraction.showEventsFromFeed_);
     } else {
       $('.tab-container').show();
       $('#error').hide();
@@ -129,27 +130,12 @@ browseraction.showLoginMessageIfNotAuthenticated_ = function() {
 browseraction.showDetectedEvents_ = function() {
   chrome.extension.sendMessage({method: 'events.detected.get'}, function(eventsFromPage) {
     // Pick a layout based on how many events we have to show: 0, 1, or >1.
-    if (!eventsFromPage) {
-      $('.tabstrip').hide();
-      $('#events_on_this_page').hide();
-      $('#show_calendar').click();
-
-    } else if (eventsFromPage.length == 1) {
-      $('.tabstrip').show();
-      $('#events_on_this_page').text(
-          chrome.i18n.getMessage('events_on_this_page', ['1']));
-      $('#events').append(browseraction.createEventPreview_(eventsFromPage[0]));
-      $('#events_on_this_page').click();
-
-    } else {  // Two or more events on this page.
-      $('.tabstrip').show();
-      $('#events_on_this_page').text(
-          chrome.i18n.getMessage('events_on_this_page', [eventsFromPage.length]));
-      $('#events').append('<div id="eventsList"></div>');
+    if (eventsFromPage && eventsFromPage.length > 0) {
+      $('#events').append('<div id="events_list"></div>');
       $.each(eventsFromPage, function(i, event) {
-        $('#eventsList').append(browseraction.createEventButton_(event, false));
+        $('#events_list').append(browseraction.createEventButton_(event, false));
       });
-      $('#events_on_this_page').click();
+      $('#add-events').click();
     }
   });
 };
@@ -216,40 +202,6 @@ browseraction.showEventsFromFeed_ = function(events) {
 
 
 /**
- * Creates a widget-sized preview for a single extracted event.
- * @param {CalendarEvent} event The calendar event model for this view.
- * @return {jQuery} Generated DOMElement.
- * @private
- */
-browseraction.createEventPreview_ = function(event) {
-  var popup = $('<div>');
-  popup.append($('<h1>').text(event.title));
-  popup.append($('<p>').html(utils.getFormattedDatesFromTo(event.start, event.end)));
-  popup.append($('<p>').append(browseraction.createEventButton_(event, true)));
-
-  if (event.location) {
-    popup.append(
-      $('<p>').append(
-        $('<a>').attr({
-          'target': '_blank',
-          'href': 'http://maps.google.com/maps?q=' + encodeURIComponent(event.location)
-        }).append(
-          $('<img>').attr({
-            'src': 'http://maps.google.com/maps/api/staticmap?center=' +
-                   encodeURIComponent(event.location) +
-                   '&zoom=12&size=320x270&maptype=roadmap&sensor=false&markers=' +
-                   encodeURIComponent(event.location)
-          })
-        )
-      )
-    );
-  }
-
-  return popup;
-};
-
-
-/**
  * Returns HTML for a button for a single event, which when clicked, will
  * add that event to the user's Google Calendar.
  * @param {CalendarEvent} event The calendar event.
@@ -260,7 +212,7 @@ browseraction.createEventPreview_ = function(event) {
  */
 browseraction.createEventButton_ = function(event, opt_useDefaultAnchorText) {
   var button = $('<a>');
-  button.addClass('singleEvent')
+  button.addClass('single-event')
       .attr({
         'href': event.gcal_url,
         'title': chrome.i18n.getMessage('add_to_google_calendar'),

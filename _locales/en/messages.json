@@ -14,20 +14,9 @@
     "description": "Descriptive text for a link at the bottom of each event description that asks the user to click on the link for more information."
   },
 
-  "show_calendar": {
+  "view_agenda": {
     "message": "Calendar",
     "description": "Used in the popup view just before the actual calendar agenda."
-  },
-
-  "events_on_this_page": {
-    "message": "Events ($num_events$)",
-    "description": "Title of div that shows all events from this page.",
-    "placeholders": {
-      "num_events": {
-        "content": "$1",
-        "example": "5"
-      }
-    }
   },
 
   "authorization_required": {

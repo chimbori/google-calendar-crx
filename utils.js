@@ -153,44 +153,6 @@ utils.fromIso8601 = function(s) {
 
 
 /**
- * Display a time duration, taking into account the from, to, and current date.
- * @param {string} fromDate An ISO 8601-formatted date.
- * @param {string} toDate An ISO 8601-formatted date.
- * @return {string} A human-readable date.
- */
-utils.getFormattedDatesFromTo = function(fromDate, toDate) {
-  var niceDate = '';
-  var now = moment();
-  var from = utils.fromIso8601(fromDate);
-  var to = utils.fromIso8601(toDate);
-  var allDay = (from.hours() === 0 && from.minutes() === 0 && to.hours() === 0 && to.minutes() === 0);
-
-  // Include the year if it's in a different year from now, else skip it.
-  niceDate = from.format((now.year() == from.year()) ? 'MMM D' : 'MMM D, YYYY');
-
-  // Add the minutes if not zero, else skip it if the time is on the hour.
-  if (!allDay) {
-    niceDate += ' &bull; ' + from.format(from.minutes() === 0 ? 'ha': 'h:mma');
-  }
-
-  // Insert an em dash between the two parts.
-  niceDate += ' &mdash; ';
-
-  // If the event ends on a different day, add the to date, else skip it.
-  if (to.diff(from, 'days') > 1) {
-    niceDate += to.format('MMM D');
-  }
-
-  // Finally, append the end time, skipping unnecessary ":00" as above.
-  if (!allDay) {
-    niceDate += ' &bull; ' + to.format(to.minutes() === 0 ? 'ha': 'h:mma');
-  }
-
-  return niceDate;
-};
-
-
-/**
  * In a DOMElement, locate the first instance of the given selector. If
  * such an instance is present, then return its text. Else return "".
  * @param {Element} element The DOMElement to start looking under.
