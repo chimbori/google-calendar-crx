@@ -86,5 +86,13 @@
   "month_12": {
     "message": "December",
     "description": "The month of December"
+  },
+  "sync_now": {
+    "message": "Update the list of events from the server.",
+    "description": "Alternate text for the icon that forces syncing the calendar right away."
+  },
+  "fetching_feed": {
+    "message": "The list of events is being updated.",
+    "description": "Tooltip text for when the extension is fetching the feed from the server."
   }
 }

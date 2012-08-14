@@ -13,6 +13,16 @@ a[data-href="calendar_ui_url"] {
   outline: none;
 }
 
+.actionbar {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+}
+
+.actionbar img {
+  cursor: pointer;
+}
+
 .tabstrip {
   cursor: default;
   border-bottom: 1px solid #939393;
@@ -20,15 +30,16 @@ a[data-href="calendar_ui_url"] {
 
 .tabstrip a {
   font-size: 10pt;
-  font-weight: normal;
+  font-weight: bold;
+  text-transform: uppercase;
   padding: 3px 8px;
   display: inline-block;
   border: 1px solid #939393;
   background: -webkit-gradient(linear, 0 40%, 0 70%, from(#eee), to(#fff));
   margin-bottom: -1px;
 
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
 }
 
 .tabstrip .selected {
@@ -99,6 +110,7 @@ a[data-href="calendar_ui_url"] {
   position: relative;
   padding: 6px 0 3px 0;
   cursor: pointer !important;
+  color: #222;
 }
 
 .event .feed-color {

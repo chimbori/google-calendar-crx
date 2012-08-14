@@ -24,6 +24,14 @@
 var background = {};
 
 /**
+ * A static constant that decides whether debug messages get shown or not.
+ * @type {boolean}
+ * @private
+ * @const
+ */
+background.DEBUG_ = false;
+
+/**
  * The ID of the currently-selected tab. This is required because the same
  * browser action icon shows the status for multiple tabs, and must be updated
  * on every tab switch to indicate the events in that particular tab.
@@ -38,6 +46,15 @@ background.selectedTabId = 0;
 background.eventsFromPage = {};
 
 /**
+ * @typedef {{
+ *   text: string,
+ *   color: string,
+ *   title: string
+ * }}
+ */
+background.BadgeProperties;
+
+/**
  * Initializes the background page by registering listeners.
  */
 background.initialize = function() {
@@ -46,6 +63,20 @@ background.initialize = function() {
   scheduler.start();
 };
 
+/**
+ * A function that logs all its arguments if background.DEBUG_ is true.
+ * @param {string} message The message to log.
+ * @param {*=} opt_dump An optional set of parameters to show in the console.
+ */
+background.log = function(message, opt_dump) {
+  if (background.DEBUG_) {
+    if (opt_dump) {
+      window.console.log(message, opt_dump);
+    } else {
+      window.console.log(message);
+    }
+  }
+};
 
 /**
  * Listens for incoming RPC calls from the browser action and content scripts
@@ -75,7 +106,15 @@ background.listenForRequests_ = function() {
           opt_callback(feeds.events);
         }
         break;
+
+      case 'events.feed.fetch':
+        feeds.fetch(opt_callback);
+        break;
     }
+
+    // Indicates to Chrome that a pending async request will eventually issue
+    // the callback passed to this function.
+    return true;
   });
 };
 
@@ -98,6 +137,23 @@ background.listenForTabUpdates_ = function() {
       delete background.eventsFromPage['tab' + tabId];
     }
   });
+};
+
+
+/**
+ * Update specific properties of the badge.
+ * @param {background.BadgeProperties} props The properties to update.
+ */
+background.updateBadge = function(props) {
+  if (props.text) {
+    chrome.browserAction.setBadgeText({'text': props.text});
+  }
+  if (props.color) {
+    chrome.browserAction.setBadgeBackgroundColor({'color': props.color});
+  }
+  if (props.title) {
+    chrome.browserAction.setTitle({'title': props.title});
+  }
 };
 
 

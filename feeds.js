@@ -60,6 +60,8 @@ feeds.lastFetchedAt = null;
  *     calendar titles, urls, and colors.
  */
 feeds.getCalendars_ = function(callback) {
+  background.log('Fetching list of calendars.');
+
   $.get(feeds.CALENDAR_LIST_FEED_URL_, function(data) {
     var calendars = [];
     // See the raw feed to understand this parsing.
@@ -105,8 +107,12 @@ feeds.getEventsFrom_ = function(feed, callback) {
       'singleevents=true',
       'sortorder=ascending'].join('&');
 
+  background.log('Fetching events from ' + feed.url);
+
   $.get(feedUrl, (function(feed) {
     return function(data) {
+      background.log('Received events, now parsing.');
+
       var events = [];
       $(data).find('entry').each(function() {
         var eventEntry = $(this);
@@ -155,6 +161,12 @@ feeds.getEventsFrom_ = function(feed, callback) {
  */
 feeds.fetch = function(callback) {
   feeds.lastFetchedAt = new Date();
+
+  background.updateBadge({
+    'text': '\u2026',  // Ellipsis.
+    'color': '#efefef',
+    'title': chrome.i18n.getMessage('fetching_feed')
+  });
 
   feeds.getCalendars_(function(calendars) {
     // If no calendars are available, then either all are hidden, or the user
@@ -242,9 +254,9 @@ feeds.updateBadge = function() {
 
   // If there are no more next events to show, bail out.
   if (feeds.nextEvents.length === 0) {
-    chrome.browserAction.setBadgeText({text: '?'});
-    chrome.browserAction.setTitle({
-      title: chrome.i18n.getMessage('authorization_required')
+    background.updateBadge({
+      'text': '?',
+      'title': chrome.i18n.getMessage('authorization_required')
     });
     return;
   }
@@ -264,12 +276,10 @@ feeds.updateBadge = function() {
       d: "1d", dd : "%dd",
       M: "1mo", MM : "%dmo",
       y: "1yr", yy : "%dy"};
-  chrome.browserAction.setBadgeText({
-    'text': moment(nextEvent.start).fromNow()
-  });
-  moment.lang('en');
+  background.updateBadge({'text': moment(nextEvent.start).fromNow()});
 
-  chrome.browserAction.setTitle({
+  moment.lang('en');
+  background.updateBadge({
     'title': feeds.getTooltipForEvents_(feeds.nextEvents)
   });
 };
