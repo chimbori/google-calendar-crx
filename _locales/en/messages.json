@@ -39,58 +39,12 @@
     "message": "Add to Google Calendar",
     "description": "Alt text and/or link text for the link that users click to add event to their calendar."
   },
-  "month_1": {
-    "message": "January",
-    "description": "The month of January"
-  },
-  "month_2": {
-    "message": "February",
-    "description": "The month of February"
-  },
-  "month_3": {
-    "message": "March",
-    "description": "The month of March"
-  },
-  "month_4": {
-    "message": "April",
-    "description": "The month of April"
-  },
-  "month_5": {
-    "message": "May",
-    "description": "The month of May"
-  },
-  "month_6": {
-    "message": "June",
-    "description": "The month of June"
-  },
-  "month_7": {
-    "message": "July",
-    "description": "The month of July"
-  },
-  "month_8": {
-    "message": "August",
-    "description": "The month of August"
-  },
-  "month_9": {
-    "message": "September",
-    "description": "The month of September"
-  },
-  "month_10": {
-    "message": "October",
-    "description": "The month of October"
-  },
-  "month_11": {
-    "message": "November",
-    "description": "The month of November"
-  },
-  "month_12": {
-    "message": "December",
-    "description": "The month of December"
-  },
+
   "sync_now": {
     "message": "Update the list of events from the server.",
     "description": "Alternate text for the icon that forces syncing the calendar right away."
   },
+
   "fetching_feed": {
     "message": "The list of events is being updated.",
     "description": "Tooltip text for when the extension is fetching the feed from the server."
