@@ -38,6 +38,9 @@ Moment.lang = function(opt_locale) {};
 /** @return {string} */
 Moment.prototype.calendar = function() {};
 
+/** @return {Moment} */
+Moment.prototype.clone = function() {};
+
 /**
  * @param {Moment} another
  * @param {string=} opt_unit
@@ -55,11 +58,23 @@ Moment.prototype.format = function(opt_formatString) {};
 /** @return {string} */
 Moment.prototype.fromNow = function() {};
 
-/** @return {number} */
-Moment.prototype.hours = function() {};
+/**
+ * @param {number=} opt_hours
+ * @return {number|Moment}
+ */
+Moment.prototype.hours = function(opt_hours) {};
 
-/** @return {number} */
-Moment.prototype.minutes = function() {};
+/**
+ * @param {number=} opt_minutes
+ * @return {number|Moment}
+ */
+Moment.prototype.minutes = function(opt_minutes) {};
+
+/**
+ * @param {number=} opt_seconds
+ * @return {number|Moment}
+ */
+Moment.prototype.seconds = function(opt_seconds) {};
 
 /** @return {Date} */
 Moment.prototype.toDate = function() {};
