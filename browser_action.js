@@ -94,6 +94,33 @@ browseraction.installButtonClickHandlers_ = function() {
     chrome.extension.sendMessage({method: 'events.feed.fetch'},
         browseraction.showEventsFromFeed_);
   });
+
+  $('#manual-add-details').hide();
+  $('#event-title').on('mousedown', function() {
+    $(this).attr('rows', 3);
+    $('#manual-add-details').slideDown(100);
+
+    // Initialize both from- and to- dates to today.
+    $('#from-date').val(moment().format('YYYY-MM-DD'));
+    $('#to-date').val(moment().format('YYYY-MM-DD'));
+  });
+
+  $('#add-button').on('click', function() {
+    var formats = [
+      'YYYY-MM-DD hh:mma',
+      'YYYY-MM-DD hh:mm',
+      'YYYY-MM-DD hha',
+      'YYYY-MM-DD hh'
+    ];
+
+    var event = /** @type {CalendarEvent} */ {};
+    event.title = event.description = $('#event-title').val();
+    event.start = moment($('#from-date').val() + ' ' + $('#from-time').val(), formats).toDate();
+    event.end = moment($('#to-date').val() + ' ' + $('#to-time').val(), formats).toDate();
+    event = utils.processEvent(event);
+
+    chrome.tabs.create({'url': event.gcal_url});
+  });
 };
 
 
