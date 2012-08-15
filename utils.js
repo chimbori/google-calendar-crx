@@ -118,12 +118,18 @@ utils.getGCalUrl_ = function(event) {
   }
 
   // Details
-  link += '&details=';
-  if (event.description) {
-    link += encodeURIComponent(event.description + '\n\n');
+  if (event.description || event.url) {
+    link += '&details=';
+
+    if (event.description) {
+      link += encodeURIComponent(event.description + '\n\n');
+    }
+
+    if (event.url) {
+      link += chrome.i18n.getMessage('read_more_at_original_url') +
+          encodeURIComponent(event.url);
+    }
   }
-  link += chrome.i18n.getMessage('read_more_at_original_url') +
-      encodeURIComponent(event.url);
 
   return link;
 };
