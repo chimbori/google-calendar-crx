@@ -21,14 +21,15 @@
     <div class="tab-container">
       <div class="tab" id="agenda">
         <div id="error">
-          <a data-href="calendar_ui_url" class="single-event" target="_blank">
+          <a data-href="calendar_ui_url" target="_blank">
             <span class="i18n" id="authorization_required"></span>
           </a>
         </div>
       </div>
       <div class="tab" id="events">
         <div id="manual-add">
-          <textarea id="event-title" placeholder="Add a new event …" style="width:100%" rows="1"></textarea>
+          <div class="date-header">Add an Event</div>
+          <textarea id="event-title" placeholder="Event title …" style="width:100%" rows="1"></textarea>
           <div id="manual-add-details">
             <span class="field-title">From</span><br>
             <input type="date" placeholder="From" id="from-date"><input id="from-time" placeholder="9:00am"><br>

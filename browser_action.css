@@ -75,23 +75,6 @@ textarea {
   overflow-x: hidden;
 }
 
-.single-event {
-  padding: 6px;
-  border: 1px solid #bbb;
-  border-radius: 4px;
-  background: -webkit-gradient(linear, 0 30%, 0 70%, from(#fff), to(#eee));
-  cursor: pointer;
-  margin: 4px 0;
-  text-decoration: none;
-  color: black;
-  display: block;
-}
-
-.single-event:hover {
-  border: 1px solid #939393;
-  background: -webkit-gradient(linear, 0 30%, 0 70%, from(#d5e2ff), to(#c2d1f0));
-}
-
 #events img {
   max-width: 100%;
 }
@@ -126,6 +109,10 @@ textarea {
   top: 0;
   bottom: 2px;
   margin: 0 12px 0 0;
+  text-align: center;
+  padding: 3px 0 0 0;
+  color: white;
+  font-weight: bold;
 }
 
 .event .event-details {

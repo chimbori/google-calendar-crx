@@ -158,8 +158,11 @@ browseraction.showDetectedEvents_ = function() {
   chrome.extension.sendMessage({method: 'events.detected.get'}, function(eventsFromPage) {
     // Pick a layout based on how many events we have to show: 0, 1, or >1.
     if (eventsFromPage && eventsFromPage.length > 0) {
+      $('<div>').addClass('date-header')
+          .text('Events from this page')
+          .appendTo($('#events-list'));
       $.each(eventsFromPage, function(i, event) {
-        $('#events-list').append(browseraction.createEventButton_(event));
+        browseraction.createEventDiv_(event).appendTo($('#events-list'));
       });
       $('#add-events').click();
     }
@@ -217,10 +220,18 @@ browseraction.createEventDiv_ = function(event) {
     chrome.tabs.create({'url': $(this).attr('data-url')});
   });
 
-  $('<div>').addClass('feed-color')
-      .css({'background-color': event.feed.color})
-      .attr({'title': event.feed.title})
-      .appendTo(eventDiv);
+  var isNewEvent = !event.feed;
+  if (isNewEvent) {  // This event has not yet been added to the user's calendar.
+    $('<div>').addClass('feed-color')
+        .css({'background-color': '#e6932e'})
+        .text('+')
+        .appendTo(eventDiv);
+  } else {  // This event is already on the user's calendar.
+    $('<div>').addClass('feed-color')
+        .css({'background-color': event.feed.color})
+        .attr({'title': event.feed.title})
+        .appendTo(eventDiv);
+  }
 
   var eventDetails = $('<div>').addClass('event-details').appendTo(eventDiv);
 
@@ -229,11 +240,21 @@ browseraction.createEventDiv_ = function(event) {
   var allDay = !end ||
       (start.hours() === 0 && start.minutes() === 0 &&
       end.hours() === 0 && end.minutes() === 0);
-  if (!allDay) {
+
+  // Pick a time format based on whether the event is an all-day event, and/or
+  // if it's an event we've detected (versus an event from the feed.)
+  var timeFormat = allDay ?
+      (isNewEvent ? 'MMM D, YYYY' : '') :
+      (isNewEvent ? 'MMM D, YYYY h:mma' : 'h:mma');
+
+  // If it's an all-day event from the feed, we don't need to include any time
+  // information, because it will already be rendered under the appropriate
+  // date header. So, skip this section entirely if timeFormat is ''.
+  if (timeFormat != '') {
     $('<div>').addClass('start-and-end-times')
-        .append($('<span>').addClass('start').text(start.format('h:mma')))
+        .append($('<span>').addClass('start').text(start.format(timeFormat)))
         .append(' – ')
-        .append($('<span>').addClass('end').text(end.format('h:mma')))
+        .append($('<span>').addClass('end').text(end.format(timeFormat)))
         .appendTo(eventDetails);
   }
 
@@ -242,26 +263,6 @@ browseraction.createEventDiv_ = function(event) {
   }
 
   return eventDiv;
-};
-
-
-/**
- * Returns HTML for a button for a single event, which when clicked, will
- * add that event to the user's Google Calendar.
- * @param {CalendarEvent} event The calendar event.
- * @return {jQuery} The rendered 'Add to Calendar' button.
- * @private
- */
-browseraction.createEventButton_ = function(event) {
-  var button = $('<a>');
-  button.addClass('single-event')
-      .attr({
-        'href': event.gcal_url,
-        'title': chrome.i18n.getMessage('add_to_google_calendar'),
-        'target': '_blank'
-      })
-      .html(event.title);
-  return button;
 };
 
 
