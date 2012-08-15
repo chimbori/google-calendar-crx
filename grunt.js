@@ -56,6 +56,7 @@ module.exports = function(grunt) {
     'utils.js',
     'feeds.js',
     'scheduler.js',
+    'context_menu.js',
     'background.js'
   ];
 
