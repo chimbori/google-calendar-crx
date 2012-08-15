@@ -13,14 +13,6 @@ a[data-href="calendar_ui_url"] {
   outline: none;
 }
 
-input[type="date"] {
-  width: 135px;
-}
-
-input[list="times"] {
-  width: 75px;
-}
-
 textarea {
   padding: 4px;
   border: 1px solid #ccc;
@@ -162,6 +154,15 @@ textarea {
 #manual-add-details .field-title {
   font-size: 11px;
   text-transform: uppercase;
+}
+
+#manual-add-details input[type="date"] {
+  width: 135px;
+}
+
+#manual-add-details input#from-time,
+#manual-add-details input#to-time {
+  width: 75px;
 }
 
 .kd-button {
