@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Unit Tests for CalendarUtils</title>
-    <script type="text/javascript" src="../common.js"></script>
-    <script type="text/javascript" src="../calendar_utils.js"></script>
+    <title>Unit Tests for utils</title>
+    <script src="../utils.js"></script>
+    <script src="../lib/moment.min.js"></script>
   </head>
   <body>
     <textarea id="failures" style="width:100%;font-family:Monaco" rows="40"></textarea>
@@ -56,24 +56,16 @@
       };
 
       tests.assertDatesEqual = function(jsDate, isoDate) {
-        var actual = CalendarUtils.fromIso8601(isoDate);
+        var actual = utils.fromIso8601(isoDate).toDate();
         tests.assertEquals(
             ['Comparing [', jsDate, '] and [', isoDate, ']'].join(''),
             (new Date(jsDate).toUTCString()),
             actual && actual.toUTCString());
       };
 
-      tests.assertFormattedDatesEqual = function(formattedDate, fromStr, toStr) {
-        var fromDate = CalendarUtils.fromIso8601(fromStr);
-        var toDate = CalendarUtils.fromIso8601(toStr);
-        tests.assertEquals(
-            ['Comparing [', formattedDate, '] for [from=', fromDate, 'to=', toDate, ']'].join(''),
-            formattedDate, CalendarUtils.getFormattedDatesFromTo(fromDate, toDate));
-      };
-
       tests.runAllTests = function() {
         document.getElementById('failures').value = '';
-        tests.testCalendarUtilsFromIso8601();
+        tests.testutilsFromIso8601();
         tests.testFormattedDates();
 
         if (document.getElementById('failures').value == '') {
@@ -81,7 +73,7 @@
         }
       };
 
-      tests.testCalendarUtilsFromIso8601 = function() {
+      tests.testutilsFromIso8601 = function() {
         // http://www.cl.cam.ac.uk/~mgk25/iso-time.html
         tests.assertDatesEqual('31 December, 2005', '2005-12-31');
         tests.assertDatesEqual('4 February, 1995', '1995-02-04');
@@ -91,7 +83,7 @@
         tests.assertDatesEqual('27 July, 2010, 10:10:00', '20100727T101000');
 
         // http://www.metalgigs.de/
-        tests.assertDatesEqual('25 July, 2010', '2010-07-25T00:00:00+02:00');
+        tests.assertDatesEqual('24 July, 2010 22:00 UTC+00:00', '2010-07-25T00:00:00+02:00');
 
         // http://lakefieldmusic.com/tour-dates-concerts-shows-live-performances
         tests.assertDatesEqual('14 Aug, 2010 15:00:00', '2010-08-14T15:00:00-0700');
@@ -118,10 +110,6 @@
       tests.testFormattedDates = function() {
         // Random first test case.
         tests.assertFormattedDatesEqual('September 30, 2010 &nbsp; &bull; &nbsp; 12:30pm &mdash; 5pm', '20100930T1930Z', '20101001T0000Z');
-      };
-
-      tests.zeroPad = function(num) {
-        return (num >= 0 && num <= 9 ? '0' : '') + num;
       };
 
       tests.getTodaysDate = function() {
