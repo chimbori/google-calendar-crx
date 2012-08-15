@@ -159,7 +159,7 @@ browseraction.showDetectedEvents_ = function() {
     // Pick a layout based on how many events we have to show: 0, 1, or >1.
     if (eventsFromPage && eventsFromPage.length > 0) {
       $.each(eventsFromPage, function(i, event) {
-        $('#events-list').append(browseraction.createEventButton_(event, false));
+        $('#events-list').append(browseraction.createEventButton_(event));
       });
       $('#add-events').click();
     }
@@ -231,12 +231,10 @@ browseraction.showEventsFromFeed_ = function(events) {
  * Returns HTML for a button for a single event, which when clicked, will
  * add that event to the user's Google Calendar.
  * @param {CalendarEvent} event The calendar event.
- * @param {boolean} opt_useDefaultAnchorText True to ignore event title and use
- *     standard anchor text instead. Used in single event mode.
  * @return {jQuery} The rendered 'Add to Calendar' button.
  * @private
  */
-browseraction.createEventButton_ = function(event, opt_useDefaultAnchorText) {
+browseraction.createEventButton_ = function(event) {
   var button = $('<a>');
   button.addClass('single-event')
       .attr({
@@ -244,9 +242,7 @@ browseraction.createEventButton_ = function(event, opt_useDefaultAnchorText) {
         'title': chrome.i18n.getMessage('add_to_google_calendar'),
         'target': '_blank'
       })
-      .html(opt_useDefaultAnchorText ?
-          chrome.i18n.getMessage('add_to_google_calendar') :
-          event.title);
+      .html(event.title);
   return button;
 };
 
