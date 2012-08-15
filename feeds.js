@@ -142,7 +142,7 @@ feeds.getEventsFrom_ = function(feed, callback) {
           description: eventEntry.find('content').text(),
           location: eventEntry.find('where').attr('valueString'),
           reminder: eventEntry.find('when').find('reminder').attr('minutes'),
-          url: eventEntry.find('link[rel=alternate]').attr('href')
+          gcal_url: eventEntry.find('link[rel=alternate]').attr('href')
         });
       });
 

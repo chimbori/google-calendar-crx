@@ -194,36 +194,54 @@ browseraction.showEventsFromFeed_ = function(events) {
           .appendTo($('#agenda'));
     }
 
-    var eventDiv = $('<div>')
-        .addClass('event')
-        .attr({'data-url': event.url})
-        .appendTo($('#agenda'));
-
-    eventDiv.on('click', function() {
-      chrome.tabs.create({'url': $(this).attr('data-url')});
-    });
-
-    $('<div>').addClass('feed-color')
-        .css({'background-color': event.feed.color})
-        .attr({'title': event.feed.title})
-        .appendTo(eventDiv);
-
-    var eventDetails = $('<div>').addClass('event-details').appendTo(eventDiv);
-
-    $('<h1>').text(event.title).appendTo(eventDetails);
-
-    if (!allDay) {
-      $('<div>').addClass('start-and-end-times')
-          .append($('<span>').addClass('start').text(start.format('h:mma')))
-          .append(' – ')
-          .append($('<span>').addClass('end').text(end.format('h:mma')))
-          .appendTo(eventDetails);
-    }
-
-    if (event.location) {
-      $('<div>').addClass('location').text(event.location).appendTo(eventDetails);
-    }
+    browseraction.createEventDiv_(event).appendTo($('#agenda'));
   }
+};
+
+
+/**
+ * TODO(manas)
+ * @param {CalendarEvent} event The calendar event.
+ * @return {jQuery} The rendered 'Add to Calendar' button.
+ * @private
+ */
+browseraction.createEventDiv_ = function(event) {
+  var start = utils.fromIso8601(event.start);
+  var end = utils.fromIso8601(event.end);
+
+  var eventDiv = $('<div>')
+      .addClass('event')
+      .attr({'data-url': event.gcal_url});
+
+  eventDiv.on('click', function() {
+    chrome.tabs.create({'url': $(this).attr('data-url')});
+  });
+
+  $('<div>').addClass('feed-color')
+      .css({'background-color': event.feed.color})
+      .attr({'title': event.feed.title})
+      .appendTo(eventDiv);
+
+  var eventDetails = $('<div>').addClass('event-details').appendTo(eventDiv);
+
+  $('<h1>').text(event.title).appendTo(eventDetails);
+
+  var allDay = !end ||
+      (start.hours() === 0 && start.minutes() === 0 &&
+      end.hours() === 0 && end.minutes() === 0);
+  if (!allDay) {
+    $('<div>').addClass('start-and-end-times')
+        .append($('<span>').addClass('start').text(start.format('h:mma')))
+        .append(' – ')
+        .append($('<span>').addClass('end').text(end.format('h:mma')))
+        .appendTo(eventDetails);
+  }
+
+  if (event.location) {
+    $('<div>').addClass('location').text(event.location).appendTo(eventDetails);
+  }
+
+  return eventDiv;
 };
 
 
@@ -254,4 +272,3 @@ browseraction.createEventButton_ = function(event) {
 window.addEventListener('load', function() {
   browseraction.initialize();
 }, false);
-
