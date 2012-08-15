@@ -157,7 +157,10 @@ module.exports = function(grunt) {
           '*.css'
         ],
         rules: {
+          'box-model': false,
           'box-sizing': false,
+          'compatible-vendor-prefixes': false,
+          'fallback-colors': false,
           'gradients': false,
           'ids': false,
           'qualified-headings': false,

@@ -114,7 +114,7 @@ browseraction.installButtonClickHandlers_ = function() {
     ];
 
     var event = /** @type {CalendarEvent} */ {};
-    event.title = event.description = $('#event-title').val();
+    event.title = event.description = $('#event-title').val().toString();
     event.start = moment($('#from-date').val() + ' ' + $('#from-time').val(), formats).toDate();
     event.end = moment($('#to-date').val() + ' ' + $('#to-time').val(), formats).toDate();
     event = utils.processEvent(event);
