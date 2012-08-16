@@ -61,6 +61,7 @@ browseraction.fillMessages_ = function() {
   });
 
   $('[data-href="calendar_ui_url"]').attr('href', browseraction.CALENDAR_UI_URL_);
+  $('#event-title').attr({'placeholder': chrome.i18n.getMessage('event_title_placeholder')});
 };
 
 
@@ -105,7 +106,7 @@ browseraction.installButtonClickHandlers_ = function() {
     $('#to-date').val(moment().format('YYYY-MM-DD'));
   });
 
-  $('#add-button').on('click', function() {
+  $('#add_button').on('click', function() {
     var formats = [
       'YYYY-MM-DD hh:mma',
       'YYYY-MM-DD hh:mm',
@@ -203,7 +204,7 @@ browseraction.showEventsFromFeed_ = function(events) {
 
 
 /**
- * TODO(manas)
+ * Creates a <div> that renders a detected event or a fetched event.
  * @param {CalendarEvent} event The calendar event.
  * @return {jQuery} The rendered 'Add to Calendar' button.
  * @private

@@ -9,14 +9,44 @@
     "description": "Description of what this extension does."
   },
 
+  "logo_text": {
+    "message": "Calendar",
+    "description": "A single word, appearing after the Google logo, that refers to the Calendar product."
+  },
+
   "read_more_at_original_url": {
     "message": "Read more at the original site: ",
     "description": "Descriptive text for a link at the bottom of each event description that asks the user to click on the link for more information."
   },
 
   "view_agenda": {
-    "message": "Calendar",
+    "message": "Agenda",
     "description": "Used in the popup view just before the actual calendar agenda."
+  },
+
+  "add_an_event": {
+    "message": "Add an Event",
+    "description": "Header that appears just above the form that lets users add custom events."
+  },
+
+  "event_title_placeholder": {
+    "message": "Event title …",
+    "description": "Placeholder in the textarea where the user is instructed to type in the title of the event they want to create."
+  },
+
+  "field_header_from": {
+    "message": "From",
+    "description": "Header placed inside the Add New Event form, just before the 'from' date."
+  },
+
+  "field_header_to": {
+    "message": "to",
+    "description": "Header placed inside the Add New Event form, just before the 'to' date."
+  },
+
+  "add_button": {
+    "message": "Add",
+    "description": "Text on the button that adds a new event to the calendar from user input."
   },
 
   "authorization_required": {

@@ -9,13 +9,16 @@
     <script src="browser_action.js"></script>
   </head>
   <body>
-    <a id="logo" data-href="calendar_ui_url" target="_blank"><img src="icons/google-logo.png" width="70" height="24" alt="Google"> Calendar</a>
+    <a id="logo" data-href="calendar_ui_url" target="_blank">
+      <img src="icons/google-logo.png" width="70" height="24" alt="Google">
+      <span class="i18n" id="logo_text">Calendar</span>
+    </a>
     <div class="actionbar">
       <img src="icons/sync.svg" id="sync_now" class="i18n">
     </div>
     <div class="tabstrip">
       &nbsp;
-      <a class="i18n" id="view_agenda">Calendar</a>
+      <a class="i18n" id="view_agenda">Agenda</a>
       <a id="add-events"> + </a>
     </div>
     <div class="tab-container">
@@ -28,14 +31,14 @@
       </div>
       <div class="tab" id="events">
         <div id="manual-add">
-          <div class="date-header">Add an Event</div>
-          <textarea id="event-title" placeholder="Event title …" style="width:100%" rows="1"></textarea>
+          <div class="date-header i18n" id="add_an_event">Add an Event</div>
+          <textarea id="event-title" style="width:100%" rows="1"></textarea>
           <div id="manual-add-details">
-            <span class="field-title">From</span><br>
+            <span class="field-title i18n" id="field_header_from">From</span><br>
             <input type="date" placeholder="From" id="from-date"><input id="from-time" placeholder="9:00am"><br>
-            <span class="field-title">to</span><br>
+            <span class="field-title i18n" id="field_header_to">to</span><br>
             <input type="date" placeholder="To" id="to-date"><input id="to-time" placeholder="10:00am">
-            <a id="add-button" style="float:right" class="kd-button">Add</a><br>
+            <a id="add_button" style="float:right" class="kd-button i18n">Add</a><br>
           </div>
         </div>
         <div id="events-list"></div>
