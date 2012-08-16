@@ -9,6 +9,18 @@ body {
   width: 300px;
 }
 
+#logo {
+  color:  #dd4b39;
+  display: inline-block;
+  font-size: 17px;
+  height: 36px;
+  text-decoration: none;
+}
+
+#logo img {
+  vertical-align: middle;
+}
+
 a[data-href="calendar_ui_url"] {
   outline: none;
 }
@@ -49,7 +61,7 @@ textarea {
 
 .tabstrip .selected {
   font-weight: bold;
-  color: black;
+  color: #333;
   border-bottom: 1px solid white;
 }
 
@@ -99,7 +111,7 @@ textarea {
   position: relative;
   padding: 6px 0 3px 0;
   cursor: pointer !important;
-  color: #222;
+  color: #333;
 }
 
 .event .feed-color {
