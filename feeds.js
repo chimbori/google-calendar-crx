@@ -156,10 +156,8 @@ feeds.getEventsFrom_ = function(feed, callback) {
  * in the near future. This only fetches the events and sorts them, it does not
  * populate the global nextEvents list, or update the badge. Those actions are
  * to be performed in the callback.
- * @param {function()} callback A callback that gets called when the request
- *     is done.
  */
-feeds.fetch = function(callback) {
+feeds.fetch = function() {
   feeds.lastFetchedAt = new Date();
 
   background.updateBadge({
@@ -171,8 +169,8 @@ feeds.fetch = function(callback) {
   feeds.getCalendars_(function(calendars) {
     // If no calendars are available, then either all are hidden, or the user
     // has not authenticated yet.
-    if (calendars.length === 0 && callback) {
-      callback();
+    if (calendars.length === 0) {
+      feeds.onFetched();
     }
 
     var allEvents = [];
@@ -186,9 +184,7 @@ feeds.fetch = function(callback) {
             return first.start.getTime() - second.start.getTime();
           });
           feeds.events = allEvents;
-          if (callback) {
-            callback();
-          }
+          feeds.onFetched();
         }
       });
     }
@@ -218,7 +214,7 @@ feeds.removePastEvents_ = function() {
   // If there are no more future events left, then fetch a few more & update
   // the badge.
   if (feeds.events.length === 0) {
-    feeds.fetch(feeds.updateBadge);
+    feeds.fetch();
   }
 };
 
@@ -248,7 +244,7 @@ feeds.determineNextEvents_ = function() {
  * Updates the 'minutes/hours/days until' visible badge from the events
  * obtained during the last fetch. Does not fetch new data.
  */
-feeds.updateBadge = function() {
+feeds.onFetched = function() {
   feeds.removePastEvents_();
   feeds.determineNextEvents_();
 
@@ -261,11 +257,6 @@ feeds.updateBadge = function() {
     return;
   }
 
-  var nextEvent = feeds.nextEvents[0];
-  chrome.browserAction.setBadgeBackgroundColor({
-    color: nextEvent.feed.color
-  });
-
   // Use the Moment.js library to get a formatted string, but change the
   // templates temporarily to the strings that we want. Make sure we reset it
   // to 'en' afterwards.
@@ -276,10 +267,16 @@ feeds.updateBadge = function() {
       d: "1d", dd : "%dd",
       M: "1mo", MM : "%dmo",
       y: "1yr", yy : "%dy"};
-  background.updateBadge({'text': moment(nextEvent.start).fromNow()});
+  var nextEvent = feeds.nextEvents[0];
+  var badgeText = moment(nextEvent.start).fromNow();
 
+  // Reset the Moment library's default language to 'en'.
+  // TODO(manas): Internationalize this.
   moment.lang('en');
+
   background.updateBadge({
+    'color': nextEvent.feed.color,
+    'text': badgeText,
     'title': feeds.getTooltipForEvents_(feeds.nextEvents)
   });
 };

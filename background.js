@@ -108,7 +108,7 @@ background.listenForRequests_ = function() {
         break;
 
       case 'events.feed.fetch':
-        feeds.fetch(opt_callback);
+        feeds.fetch();
         break;
     }
 

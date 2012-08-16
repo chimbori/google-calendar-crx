@@ -46,13 +46,13 @@ scheduler.BADGE_UPDATE_INTERVAL_MS_ = 60 * 1000;
  */
 scheduler.start = function() {
   // Do a one-time initial fetch on load.
-  feeds.fetch(feeds.updateBadge);
+  feeds.fetch();
 
   window.setInterval(function() {
-    feeds.updateBadge();
+    feeds.onFetched();
     if ((new Date()).getTime() - feeds.lastFetchedAt.getTime() >
         scheduler.POLL_INTERVAL_MS_) {
-      feeds.fetch(feeds.updateBadge);
+      feeds.fetch();
     }
 
   }, scheduler.BADGE_UPDATE_INTERVAL_MS_);
