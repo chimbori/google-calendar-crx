@@ -46,24 +46,24 @@ module.exports = function(grunt) {
   };
 
   var browser_action_files = [
-    'types.js',
-    'utils.js',
-    'browser_action.js'
+    'src/types.js',
+    'src/utils.js',
+    'src/browser_action.js'
   ];
 
   var background_page_files = [
-    'types.js',
-    'utils.js',
-    'feeds.js',
-    'scheduler.js',
-    'context_menu.js',
-    'background.js'
+    'src/types.js',
+    'src/utils.js',
+    'src/feeds.js',
+    'src/scheduler.js',
+    'src/context_menu.js',
+    'src/background.js'
   ];
 
   var content_script_files = [
-    'types.js',
-    'utils.js',
-    'events_microformats.js'
+    'src/types.js',
+    'src/utils.js',
+    'src/events_microformats.js'
   ];
 
   grunt.initConfig({
