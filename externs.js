@@ -80,5 +80,8 @@ Moment.prototype.seconds = function(opt_seconds) {};
 Moment.prototype.toDate = function() {};
 
 /** @return {number} */
+Moment.prototype.valueOf = function() {};
+
+/** @return {number} */
 Moment.prototype.year = function() {};
 
