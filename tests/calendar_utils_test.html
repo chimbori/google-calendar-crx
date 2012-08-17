@@ -2,8 +2,9 @@
 <html>
   <head>
     <title>Unit Tests for utils</title>
-    <script src="../utils.js"></script>
-    <script src="../lib/moment.min.js"></script>
+    <script src="../src/utils.js"></script>
+    <script src="../src/lib/moment.min.js"></script>
+    <script src="../src/lib/moment.lang.es.min.js"></script>
   </head>
   <body>
     <textarea id="failures" style="width:100%;font-family:Monaco" rows="40"></textarea>
@@ -66,7 +67,6 @@
       tests.runAllTests = function() {
         document.getElementById('failures').value = '';
         tests.testutilsFromIso8601();
-        tests.testFormattedDates();
 
         if (document.getElementById('failures').value == '') {
           document.getElementById('failures').value = 'ALL PASSED.';
@@ -105,11 +105,6 @@
 
         // No seconds and no Z (www.last.fm/events)
         tests.assertDatesEqual('Fri, 01 Oct 2010 02:30:00 UTC+00:00', '20100930T1930');
-      };
-
-      tests.testFormattedDates = function() {
-        // Random first test case.
-        tests.assertFormattedDatesEqual('September 30, 2010 &nbsp; &bull; &nbsp; 12:30pm &mdash; 5pm', '20100930T1930Z', '20101001T0000Z');
       };
 
       tests.getTodaysDate = function() {
