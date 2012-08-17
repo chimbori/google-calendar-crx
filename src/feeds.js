@@ -279,7 +279,7 @@ feeds.onFetched = function() {
 
   // Use the Moment.js library to get a formatted string, but change the
   // templates temporarily to the strings that we want. Make sure we reset it
-  // to 'en' afterwards.
+  // to the original language afterwards.
   moment.relativeTime = {future : "%s", past : "%s",
       s: "1s", ss : "%ds",
       m: "1m", mm : "%dm",
@@ -290,9 +290,10 @@ feeds.onFetched = function() {
   var nextEvent = feeds.nextEvents[0];
   var badgeText = moment(nextEvent.start).fromNow();
 
-  // Reset the Moment library's default language to 'en'.
-  // TODO(manas): Internationalize this.
-  moment.lang('en');
+  // Reset the Moment.js library's default language to the browser language.
+  // This currently supports Spanish ('es') as the only language other than
+  // English, so we use 'es' if Spanish, or else default to 'en'.
+  moment.lang(window.navigator.language == 'es' ? 'es' : 'en');
 
   background.updateBadge({
     'color': nextEvent.feed.color,
