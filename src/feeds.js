@@ -193,8 +193,7 @@ feeds.fetch = function() {
 
 /**
  * Removes events from the global feeds.events list that have already
- * occurred. Events that have started and in progress are deemed to be past,
- * and are removed as well.
+ * occurred. Events that have started and in progress are retained.
  * @private
  */
 feeds.removePastEvents_ = function() {
@@ -206,10 +205,16 @@ feeds.removePastEvents_ = function() {
   }
 
   // At this point, there are non-zero events present, so it's not a completely
-  // empty calendar.
-  while (feeds.events[0].start < (new Date()).getTime()) {
-    feeds.events.splice(0, 1);  // Remove the first element of the array.
+  // empty calendar. Look at the end time instead of the start time, so that
+  // events in progress are retained.
+  var futureAndCurrentEvents = [];
+  var now = new Date();
+  for (var i = 0; i < feeds.events.length; ++i) {
+    if (feeds.events[i].end > now.getTime()) {
+      futureAndCurrentEvents.push(feeds.events[i]);
+    }
   }
+  feeds.events = futureAndCurrentEvents;
 
   // If there are no more future events left, then fetch a few more & update
   // the badge.
@@ -221,7 +226,8 @@ feeds.removePastEvents_ = function() {
 /**
  * Updates the global feeds.nextEvents list by determining the immediately next
  * event to occur from the global feeds.events list. If more than one event
- * starts at the same time, all of them are included.
+ * starts at the same time, all of them are included. This is not the list of
+ * all future events, just the immediately next ones.
  * @private
  */
 feeds.determineNextEvents_ = function() {
@@ -229,10 +235,24 @@ feeds.determineNextEvents_ = function() {
     return;
   }
 
-  feeds.nextEvents = [feeds.events[0]];
-  for (var i = 1; i < feeds.events.length; i++) {
-    if (feeds.events[i].start.getTime() ==
-        feeds.events[0].start.getTime()) {
+  feeds.nextEvents = [];
+  var now = new Date();
+  for (var i = 0; i < feeds.events.length; ++i) {
+    if (feeds.events[i].start.getTime() < now.getTime()) {
+      continue;  // All-day events for today, or events from earlier in the day.
+    }
+
+    if (feeds.nextEvents.length == 0) {
+      // If we have not yet found any next events, then pick the first one that
+      // is not skipped by the above if-condition.
+      feeds.nextEvents.push(feeds.events[i]);
+      continue;
+    }
+
+    // At this point in the loop, we know there is at least one next event
+    // starting at a specific time. Now we need to pick any more events that may
+    // exist, that all start at the exact same time as the first event.
+    if (feeds.events[i].start.getTime() == feeds.nextEvents[0].start.getTime()) {
       feeds.nextEvents.push(feeds.events[i]);
     } else {
       break;

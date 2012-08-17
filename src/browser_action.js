@@ -212,6 +212,7 @@ browseraction.showEventsFromFeed_ = function(events) {
 browseraction.createEventDiv_ = function(event) {
   var start = utils.fromIso8601(event.start);
   var end = utils.fromIso8601(event.end);
+  var now = new Date();
 
   var eventDiv = $('<div>')
       .addClass('event')
@@ -222,6 +223,7 @@ browseraction.createEventDiv_ = function(event) {
   });
 
   var isNewEvent = !event.feed;
+  var isHappeningNow = start.valueOf() < now.getTime() && end.valueOf() >= now.getTime();
   if (isNewEvent) {  // This event has not yet been added to the user's calendar.
     $('<div>').addClass('feed-color')
         .css({'background-color': '#e6932e'})
@@ -231,6 +233,7 @@ browseraction.createEventDiv_ = function(event) {
     $('<div>').addClass('feed-color')
         .css({'background-color': event.feed.color})
         .attr({'title': event.feed.title})
+        .text(isHappeningNow ? '!' : '')
         .appendTo(eventDiv);
   }
 
