@@ -242,7 +242,7 @@ feeds.determineNextEvents_ = function() {
       continue;  // All-day events for today, or events from earlier in the day.
     }
 
-    if (feeds.nextEvents.length == 0) {
+    if (feeds.nextEvents.length === 0) {
       // If we have not yet found any next events, then pick the first one that
       // is not skipped by the above if-condition.
       feeds.nextEvents.push(feeds.events[i]);
