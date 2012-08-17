@@ -100,10 +100,6 @@ browseraction.installButtonClickHandlers_ = function() {
   $('#event-title').on('mousedown', function() {
     $(this).attr('rows', 3);
     $('#manual-add-details').slideDown(100);
-
-    // Initialize both from- and to- dates to today.
-    $('#from-date').val(moment().format('YYYY-MM-DD'));
-    $('#to-date').val(moment().format('YYYY-MM-DD'));
   });
 
   $('#add_button').on('click', function() {
@@ -122,6 +118,10 @@ browseraction.installButtonClickHandlers_ = function() {
 
     chrome.tabs.create({'url': event.gcal_url});
   });
+
+  // Initialize both from- and to- dates to today.
+  $('#from-date').val(moment().format('YYYY-MM-DD'));
+  $('#to-date').val(moment().format('YYYY-MM-DD'));
 };
 
 
