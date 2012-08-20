@@ -1,0 +1,58 @@
+{
+  "google_calendar_extension_name": {
+    "message": "Google Kalender (von Google)",
+    "description": "The name of this extension."
+  },
+  "google_calendar_extension_desc": {
+    "message": "Leicht überprüfen, Google Kalender und neue Ereignisse aus Webseiten, die Sie besuchen.",
+    "description": "Description of what this extension does."
+  },
+  "logo_text": {
+    "message": "Kalender",
+    "description": "A single word, appearing after the Google logo, that refers to the Calendar product."
+  },
+  "read_more_at_original_url": {
+    "message": "Lesen Sie mehr auf der Original-Website: ",
+    "description": "Descriptive text for a link at the bottom of each event description that asks the user to click on the link for more information."
+  },
+  "view_agenda": {
+    "message": "Agenda",
+    "description": "Used in the popup view just before the actual calendar agenda."
+  },
+  "add_an_event": {
+    "message": "Veranstaltung hinzufügen",
+    "description": "Header that appears just above the form that lets users add custom events."
+  },
+  "event_title_placeholder": {
+    "message": "Veranstaltung:",
+    "description": "Placeholder in the textarea where the user is instructed to type in the title of the event they want to create."
+  },
+  "field_header_from": {
+    "message": "Von",
+    "description": "Header placed inside the Add New Event form, just before the 'from' date."
+  },
+  "field_header_to": {
+    "message": "auf",
+    "description": "Header placed inside the Add New Event form, just before the 'to' date."
+  },
+  "add_button": {
+    "message": "Zufügen",
+    "description": "Text on the button that adds a new event to the calendar from user input."
+  },
+  "authorization_required": {
+    "message": "Einloggen, um Google Kalender Event Updates.",
+    "description": "A message shown when the user has not logged in to Google Calendar in the current window."
+  },
+  "add_to_google_calendar": {
+    "message": "Zum Google Kalender hinzufügen",
+    "description": "Alt text and/or link text for the link that users click to add event to their calendar."
+  },
+  "sync_now": {
+    "message": "Aktualisieren Sie die Liste der Ereignisse aus dem Server.",
+    "description": "Alternate text for the icon that forces syncing the calendar right away."
+  },
+  "fetching_feed": {
+    "message": "Die Liste der Ereignisse wird aktualisiert.",
+    "description": "Tooltip text for when the extension is fetching the feed from the server."
+  }
+}
