@@ -102,6 +102,20 @@ browseraction.installButtonClickHandlers_ = function() {
     $('#manual-add-details').slideDown(100);
   });
 
+  // If the user sets the from-date, and the to-date happens to be before the
+  // new from-date, then update the to-date to be the same as the from-date.
+  $('#from-date').on('change', function() {
+    var fromDate = $('#from-date').val();
+    var toDate = $('#to-date').val();
+    if (fromDate !== '' && toDate !== '') {
+      fromDate = moment(fromDate, "YYYY-MM-DD");
+      toDate = moment(toDate, "YYYY-MM-DD");
+      if (toDate.diff(fromDate) < 0) {
+        $('#to-date').val($('#from-date').val());
+      }
+    }
+  });
+
   $('#add_button').on('click', function() {
     var formats = [
       'YYYY-MM-DD hh:mma',
@@ -254,7 +268,7 @@ browseraction.createEventDiv_ = function(event) {
   // If it's an all-day event from the feed, we don't need to include any time
   // information, because it will already be rendered under the appropriate
   // date header. So, skip this section entirely if timeFormat is ''.
-  if (timeFormat != '') {
+  if (timeFormat !== '') {
     $('<div>').addClass('start-and-end-times')
         .append($('<span>').addClass('start').text(start.format(timeFormat)))
         .append(' – ')
