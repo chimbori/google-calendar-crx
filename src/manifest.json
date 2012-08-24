@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "__MSG_google_calendar_extension_name__",
   "description": "__MSG_google_calendar_extension_desc__",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "default_locale": "en",
 
   "icons": {
@@ -28,7 +28,7 @@
     "scripts": [
       "lib/jquery.min.js",
       "lib/moment.min.js",
-      "lib/moment.lang.es.min.js",
+      "lib/moment.lang-all.min.js",
       "utils.js",
       "feeds.js",
       "scheduler.js",
@@ -52,7 +52,7 @@
       "js": [
         "lib/jquery.min.js",
         "lib/moment.min.js",
-        "lib/moment.lang.es.min.js",
+        "lib/moment.lang-all.min.js",
         "utils.js",
         "events_microformats.js"
       ],

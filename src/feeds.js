@@ -291,9 +291,7 @@ feeds.onFetched = function() {
   var badgeText = moment(nextEvent.start).fromNow();
 
   // Reset the Moment.js library's default language to the browser language.
-  // This currently supports Spanish ('es') as the only language other than
-  // English, so we use 'es' if Spanish, or else default to 'en'.
-  moment.lang(window.navigator.language == 'es' ? 'es' : 'en');
+  moment.lang(window.navigator.language);
 
   background.updateBadge({
     'color': nextEvent.feed.color,
