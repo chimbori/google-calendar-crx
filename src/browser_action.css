@@ -87,6 +87,14 @@ textarea {
   overflow-x: hidden;
 }
 
+#error {
+  position: absolute;
+  left: 0;
+  top: 0;
+  text-align: center;
+  margin: auto;
+}
+
 #events img {
   max-width: 100%;
 }

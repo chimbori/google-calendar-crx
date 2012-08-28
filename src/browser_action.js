@@ -149,7 +149,6 @@ browseraction.showLoginMessageIfNotAuthenticated_ = function() {
   // message, or show the tab strip.
   chrome.browserAction.getBadgeText({}, function(text) {
     if (text == '?') {  // Not authorized.
-      $('.tab-container').hide();
       $('#error').show();
 
       // If we're not authenticated, then it's fine to re-request the feed
@@ -157,7 +156,6 @@ browseraction.showLoginMessageIfNotAuthenticated_ = function() {
       chrome.extension.sendMessage({method: 'events.feed.fetch'},
           browseraction.showEventsFromFeed_);
     } else {
-      $('.tab-container').show();
       $('#error').hide();
     }
   });
