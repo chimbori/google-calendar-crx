@@ -292,6 +292,10 @@ feeds.onFetched = function() {
 
   // Reset the Moment.js library's default language to the browser language.
   moment.lang(window.navigator.language);
+  // TODO(manas): This fix should only go in one place, not twice.
+  if (moment.lang() != window.navigator.language) {
+    moment.lang(window.navigator.language.substring(0, 2));
+  }
 
   background.updateBadge({
     'color': nextEvent.feed.color,
