@@ -116,6 +116,7 @@ feeds.getEventsFrom_ = function(feed, callback) {
       var events = [];
       $(data).find('entry').each(function() {
         var eventEntry = $(this);
+        background.log(eventEntry);
 
         // In case of recurring events, the entry has multiple <gd:when> fields.
         // One of them has only a startTime, and another has both a startTime and an endTime.
@@ -277,31 +278,38 @@ feeds.onFetched = function() {
     return;
   }
 
-  // Use the Moment.js library to get a formatted string, but change the
-  // templates temporarily to the strings that we want. Make sure we reset it
-  // to the original language afterwards.
-  moment.relativeTime = {future : "%s", past : "%s",
-      s: "1s", ss : "%ds",
-      m: "1m", mm : "%dm",
-      h: "1h", hh : "%dh",
-      d: "1d", dd : "%dd",
-      M: "1mo", MM : "%dmo",
-      y: "1yr", yy : "%dy"};
-  var nextEvent = feeds.nextEvents[0];
-  var badgeText = moment(nextEvent.start).fromNow();
+  if (options.get(options.Options.BADGE_TEXT_SHOWN)) {
+    // Use the Moment.js library to get a formatted string, but change the
+    // templates temporarily to the strings that we want. Make sure we reset it
+    // to the original language afterwards.
+    moment.relativeTime = {future : "%s", past : "%s",
+        s: "1s", ss : "%ds",
+        m: "1m", mm : "%dm",
+        h: "1h", hh : "%dh",
+        d: "1d", dd : "%dd",
+        M: "1mo", MM : "%dmo",
+        y: "1yr", yy : "%dy"};
+    var nextEvent = feeds.nextEvents[0];
+    var badgeText = moment(nextEvent.start).fromNow();
 
-  // Reset the Moment.js library's default language to the browser language.
-  moment.lang(window.navigator.language);
-  // TODO(manas): This fix should only go in one place, not twice.
-  if (moment.lang() != window.navigator.language) {
-    moment.lang(window.navigator.language.substring(0, 2));
+    // Reset the Moment.js library's default language to the browser language.
+    moment.lang(window.navigator.language);
+    // TODO(manas): This fix should only go in one place, not twice.
+    if (moment.lang() != window.navigator.language) {
+      moment.lang(window.navigator.language.substring(0, 2));
+    }
+
+    background.updateBadge({
+      'color': nextEvent.feed.color,
+      'text': badgeText,
+      'title': feeds.getTooltipForEvents_(feeds.nextEvents)
+    });
+  } else {  // User has chosen not to show a badge, but we still set a tooltip.
+    background.updateBadge({
+      'text': '',
+      'title': feeds.getTooltipForEvents_(feeds.nextEvents)
+    });
   }
-
-  background.updateBadge({
-    'color': nextEvent.feed.color,
-    'text': badgeText,
-    'title': feeds.getTooltipForEvents_(feeds.nextEvents)
-  });
 };
 
 /**
@@ -324,4 +332,3 @@ feeds.getTooltipForEvents_ = function(nextEvents) {
   }
   return tooltipLines.join('\n');
 };
-

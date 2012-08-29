@@ -110,6 +110,10 @@ background.listenForRequests_ = function() {
       case 'events.feed.fetch':
         feeds.fetch();
         break;
+
+      case 'options.changed':
+        feeds.onFetched();
+        break;
     }
 
     // Indicates to Chrome that a pending async request will eventually issue
@@ -145,13 +149,13 @@ background.listenForTabUpdates_ = function() {
  * @param {background.BadgeProperties} props The properties to update.
  */
 background.updateBadge = function(props) {
-  if (props.text) {
+  if ('text' in props) {
     chrome.browserAction.setBadgeText({'text': props.text});
   }
-  if (props.color) {
+  if ('color' in props) {
     chrome.browserAction.setBadgeBackgroundColor({'color': props.color});
   }
-  if (props.title) {
+  if ('title' in props) {
     chrome.browserAction.setTitle({'title': props.title});
   }
 };

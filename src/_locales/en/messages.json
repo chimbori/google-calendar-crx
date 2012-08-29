@@ -67,5 +67,15 @@
   "fetching_feed": {
     "message": "The list of events is being updated.",
     "description": "Tooltip text for when the extension is fetching the feed from the server."
+  },
+
+  "toolbar_icon": {
+    "message": "Toolbar Icon",
+    "description": "The section of the Options page that deals with the toolbar icon."
+  },
+
+  "option_show_time_until_next_event": {
+    "message": "Show time remaining until the next event.",
+    "description": "The name of the option that tells the user that the extension will display the time on the badge."
   }
 }
