@@ -55,6 +55,7 @@ module.exports = function(grunt) {
     'src/types.js',
     'src/utils.js',
     'src/feeds.js',
+    'src/options.js',
     'src/scheduler.js',
     'src/context_menu.js',
     'src/background.js'

@@ -66,7 +66,7 @@ options.OPTIONS_WIDGET_SELECTOR_ = '.option';
 options.get = function(optionKey) {
   var optionValue = window.localStorage[options.OPTION_KEY_PREFIX_ + optionKey];
   if (optionValue) {
-    return JSON.parse(optionValue);
+    return window.JSON.parse(optionValue);
   }
   return options.DEFAULTS_[optionKey];
 };
@@ -78,7 +78,7 @@ options.get = function(optionKey) {
  */
 options.set = function(optionKey, optionValue) {
   window.localStorage[options.OPTION_KEY_PREFIX_ + optionKey] =
-      JSON.stringify(optionValue);
+      window.JSON.stringify(optionValue);
   chrome.extension.sendMessage({method: 'options.changed'});
 };
 

@@ -122,8 +122,8 @@ function detectHCalendarEvents() {
     var adr = $(vevent).find('adr');
     var location = $(vevent).find('.location');
     if (adr.length) {
-      event.location = adr.find('.locality').text().trim() + ' '
-                     + adr.find('.region').text().trim();
+      event.location = adr.find('.locality').text().trim() + ' ' +
+                       adr.find('.region').text().trim();
     } else if (location.length) {
       event.location = location.html().replace(/<[^>]*>/g, ' ').trim();
     }

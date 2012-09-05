@@ -105,13 +105,13 @@ browseraction.installButtonClickHandlers_ = function() {
   // If the user sets the from-date, and the to-date happens to be before the
   // new from-date, then update the to-date to be the same as the from-date.
   $('#from-date').on('change', function() {
-    var fromDate = $('#from-date').val();
-    var toDate = $('#to-date').val();
+    var fromDate = $('#from-date').val().toString();
+    var toDate = $('#to-date').val().toString();
     if (fromDate !== '' && toDate !== '') {
       fromDate = moment(fromDate, "YYYY-MM-DD");
       toDate = moment(toDate, "YYYY-MM-DD");
       if (toDate.diff(fromDate) < 0) {
-        $('#to-date').val($('#from-date').val());
+        $('#to-date').val($('#from-date').val().toString());
       }
     }
   });
