@@ -10,6 +10,17 @@ html {
   max-width: 738px;
 }
 
+article + article {
+  margin: 36px 0 0 0;
+}
+
+code {
+  font: 10pt monospace;
+  background: #efefef;
+  border-radius: 3px;
+  padding: 2px 4px;
+}
+
 h1 {
   font-size: 14pt;
   font-weight: normal;
@@ -25,4 +36,16 @@ h2 {
 
 section {
   margin-left: 18px;
+}
+
+#report-issue-steps {
+  display: none;  /* Hidden by default; revealed when the Report Issue button is clicked. */
+}
+
+#system-info {
+  width: 100%;
+}
+
+#report-issue-steps ol > li {
+  margin-bottom: 1em;
 }
