@@ -40,9 +40,15 @@ function CalendarFeed() {}
 /** @type {string} */
 CalendarFeed.prototype.title = '';
 /** @type {string} */
+CalendarFeed.prototype.summary = '';
+/** @type {string} */
+CalendarFeed.prototype.author = '';
+/** @type {string} */
 CalendarFeed.prototype.url = '';
 /** @type {string} */
 CalendarFeed.prototype.color = '';
+/** @type {boolean} */
+CalendarFeed.prototype.visible = false;
 
 
 /**

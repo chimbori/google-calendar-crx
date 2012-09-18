@@ -25,12 +25,20 @@
 var scheduler = {};
 
 /**
- * Poll the server every hour.
+ * Poll the server every 6 hours for new calendars that may have been added.
  * @type {number}
  * @const
  * @private
  */
-scheduler.POLL_INTERVAL_MS_ = 60 * 60 * 1000;
+scheduler.CALENDARS_POLL_INTERVAL_MS_ = 6 * 60 * 60 * 1000;
+
+/**
+ * Poll the server every hour for new calendar events, but not new calendars.
+ * @type {number}
+ * @const
+ * @private
+ */
+scheduler.EVENTS_POLL_INTERVAL_MS_ = 60 * 60 * 1000;
 
 /**
  * Update the badge every minute.
@@ -45,14 +53,21 @@ scheduler.BADGE_UPDATE_INTERVAL_MS_ = 60 * 1000;
  * the calendar (less often).
  */
 scheduler.start = function() {
+  background.log('scheduler.start');
+
   // Do a one-time initial fetch on load.
-  feeds.fetch();
+  feeds.fetchCalendars();
 
   window.setInterval(function() {
-    feeds.onFetched();
-    if ((new Date()).getTime() - feeds.lastFetchedAt.getTime() >
-        scheduler.POLL_INTERVAL_MS_) {
-      feeds.fetch();
+    feeds.refreshUI();
+
+    var now = (new Date()).getTime();
+    var feedsFetchedAtMs = feeds.lastFetchedAt.getTime();
+
+    if (now - feedsFetchedAtMs > scheduler.CALENDARS_POLL_INTERVAL_MS_) {
+      feeds.fetchCalendars();  // Will trigger fetchEvents automatically.
+    } else if (now - feedsFetchedAtMs > scheduler.EVENTS_POLL_INTERVAL_MS_) {
+      feeds.fetchEvents();
     }
 
   }, scheduler.BADGE_UPDATE_INTERVAL_MS_);

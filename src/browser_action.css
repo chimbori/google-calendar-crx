@@ -88,11 +88,9 @@ textarea {
 }
 
 #error {
-  position: absolute;
-  left: 0;
-  top: 0;
+  width: 100%;
+  padding: 72px 48px;
   text-align: center;
-  margin: auto;
 }
 
 #events img {

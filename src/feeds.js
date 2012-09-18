@@ -54,43 +54,123 @@ feeds.nextEvents = [];
 feeds.lastFetchedAt = null;
 
 /**
- * Sends a request to fetch the list of calendars for the currently-logged in
- * user.
- * @param {function(Array)} callback Gets called with objects representing
- *     calendar titles, urls, and colors.
+ * Indicates whether the user has logged in to Calendar or not. This is set
+ * whenever a fetch returns valid results or a 401 error.
+ * @type {boolean}
  */
-feeds.getCalendars_ = function(callback) {
-  background.log('Fetching list of calendars.');
+feeds.isAuthenticated = false;
 
-  $.get(feeds.CALENDAR_LIST_FEED_URL_, function(data) {
-    var calendars = [];
-    // See the raw feed to understand this parsing.
-    $(data).find('entry').each(function() {
-      var entry = $(this);
+/**
+ * Sends a request to fetch the list of calendars for the currently-logged in
+ * user. When calendars are received, it automatically initiates a request
+ * for events from those calendars.
+ */
+feeds.fetchCalendars = function() {
+  background.log('feeds.fetchCalendars');
 
-      var calendar = {
-        title: entry.find('title').text(),
-        url: entry.find('content').attr('src'),
-        color: entry.find('color').attr('value')
-      };
+  chrome.storage.sync.get('calendars', function(storage) {
+    var storedCalendars = storage['calendars'] || {};
 
-      // If a calendar is selected, and not hidden, add it to our list.
-      if (entry.find('hidden').attr('value') == 'false' &&
-          entry.find('selected').attr('value') == 'true') {
-        calendars.push(calendar);
+    $.get(feeds.CALENDAR_LIST_FEED_URL_, function(data) {
+      feeds.isAuthenticated = true;
+
+      var calendars = {};
+      // See the raw feed to understand this parsing.
+      $(data).find('entry').each(function() {
+        var entry = $(this);
+
+        // The list of calendars from the server must be merged with the list of
+        // stored calendars. The URL is the key for each calendar feed. The title
+        // and color provided by the server override whatever is stored locally
+        // (in case there were changes made through the Web UI). Whether the
+        // calendar is shown in the browser action popup is determined by a
+        // user preference set set locally (via Options) and overrides the
+        // defaults provided by the server. If no such preference exists, then
+        // a calendar is shown if it's selected and not hidden.
+
+        var serverCalendarURL = entry.find('content').attr('src');
+        var storedCalendar = storedCalendars[serverCalendarURL] || {};
+
+        var visible = (typeof storedCalendar.visible !== 'undefined') ?
+            storedCalendar.visible :
+                (entry.find('hidden').attr('value') == 'false' &&
+                 entry.find('selected').attr('value') == 'true');
+
+        var mergedCalendar = {
+          url: serverCalendarURL,
+          title: entry.find('title').text(),
+          summary: entry.find('summary').text(),
+          author: entry.find('author').find('name').text(),
+          color: entry.find('color').attr('value'),
+          visible: visible
+        };
+
+        calendars[serverCalendarURL] = mergedCalendar;
+      });
+
+      chrome.storage.sync.set({'calendars': calendars});
+      feeds.fetchEvents();
+
+    }).error(function(response) {
+      if (response.status === 401) {
+        feeds.isAuthenticated = false;
+        feeds.refreshUI();
+        background.log('  - Error 401 fetching list of calendars.');
+
+      } else {
+        window.console.log('An unknown error was encountered in fetching the feed:',
+            response);
       }
     });
-    callback(calendars);
+  });
+};
 
-  }).error(function(response) {
-    if (response.status === 401) {
-      callback([]);
-    } else {
-      window.console.log('An error was encountered in fetching the feed:',
-          response);
+/**
+ * Sends a request to the server and retrieves a short list of events occurring
+ * in the near future. This only fetches the events and sorts them, it does not
+ * populate the global nextEvents list, or update the badge. After events are
+ * fetched, it initiates a request to update the UI.
+ */
+feeds.fetchEvents = function() {
+  background.log('feeds.fetchEvents');
+
+  feeds.lastFetchedAt = new Date();
+  background.updateBadge({'title': chrome.i18n.getMessage('fetching_feed')});
+
+  chrome.storage.sync.get('calendars', function(storage) {
+    if (!storage['calendars']) {
+      // We don't have any calendars yet? Probably the first time.
+      feeds.fetchCalendars();
+      return;
+    }
+
+    var calendars = storage['calendars'] || {};
+    background.log('  - calendars:', calendars);
+
+    var allEvents = [];
+    var pendingRequests = 0;
+    for (var calendarURL in calendars) {
+      var calendar = calendars[calendarURL] || {};
+      if (typeof calendar.visible !== 'undefined' && calendar.visible) {
+        pendingRequests++;
+        feeds.fetchEventsFromCalendar_(calendar, function(events) {
+          // Merge events from all calendars into a single array.
+          allEvents = allEvents.concat(events);
+          if (--pendingRequests === 0) {
+            allEvents.sort(function(first, second) {
+              return first.start.getTime() - second.start.getTime();
+            });
+            feeds.events = allEvents;
+            feeds.refreshUI();
+          }
+        });
+      } else {
+        background.log('Not showing calendar ' + calendar.title + ' because it\'s turned off.');
+      }
     }
   });
 };
+
 
 /**
  * Retrieves events from a given calendar from the server.
@@ -99,7 +179,9 @@ feeds.getCalendars_ = function(callback) {
  *     are available.
  * @private
  */
-feeds.getEventsFrom_ = function(feed, callback) {
+feeds.fetchEventsFromCalendar_ = function(feed, callback) {
+  background.log('feeds.fetchEventsFromCalendar_', feed);
+
   var feedUrl = feed.url + '?' + [
       'max-results=10',
       'futureevents=true',
@@ -107,16 +189,14 @@ feeds.getEventsFrom_ = function(feed, callback) {
       'singleevents=true',
       'sortorder=ascending'].join('&');
 
-  background.log('Fetching events from ' + feed.url);
-
   $.get(feedUrl, (function(feed) {
     return function(data) {
-      background.log('Received events, now parsing.');
+      feeds.isAuthenticated = true;
+      background.log('  - Received events, now parsing.');
 
       var events = [];
       $(data).find('entry').each(function() {
         var eventEntry = $(this);
-        background.log(eventEntry);
 
         // In case of recurring events, the entry has multiple <gd:when> fields.
         // One of them has only a startTime, and another has both a startTime and an endTime.
@@ -149,48 +229,69 @@ feeds.getEventsFrom_ = function(feed, callback) {
 
       callback(events);
     };
-  })(feed));
+  })(feed)).error(function(response) {
+    // Must callback here, otherwise the caller keeps waiting for all
+    // calendars to load.
+    callback();
+  });
 };
+
 
 /**
- * Sends a request to the server and retrieves a short list of events occurring
- * in the near future. This only fetches the events and sorts them, it does not
- * populate the global nextEvents list, or update the badge. Those actions are
- * to be performed in the callback.
+ * Updates the 'minutes/hours/days until' visible badge from the events
+ * obtained during the last fetch. Does not fetch new data.
  */
-feeds.fetch = function() {
-  feeds.lastFetchedAt = new Date();
+feeds.refreshUI = function() {
+  feeds.removePastEvents_();
+  feeds.determineNextEvents_();
 
-  background.updateBadge({
-    'text': '\u2026',  // Ellipsis.
-    'color': '#efefef',
-    'title': chrome.i18n.getMessage('fetching_feed')
-  });
+  // If the user hasn't authenticated yet, bail out.
+  if (!feeds.isAuthenticated) {
+    background.updateBadge({
+      'color': background.BADGE_COLORS.ERROR,
+      'text': '×',
+      'title': chrome.i18n.getMessage('authorization_required')
+    });
+    return;
+  }
 
-  feeds.getCalendars_(function(calendars) {
-    // If no calendars are available, then either all are hidden, or the user
-    // has not authenticated yet.
-    if (calendars.length === 0) {
-      feeds.onFetched();
-    }
+  // If there are no more next events to show, bail out.
+  if (feeds.nextEvents.length === 0) {
+    return;
+  }
 
-    var allEvents = [];
-    var pendingRequests = calendars.length;
-    for (var i = 0; i < calendars.length; ++i) {
-      feeds.getEventsFrom_(calendars[i], function(events) {
-        // Merge events from all calendars into a single array.
-        allEvents = allEvents.concat(events);
-        if (--pendingRequests === 0) {
-          allEvents.sort(function(first, second) {
-            return first.start.getTime() - second.start.getTime();
-          });
-          feeds.events = allEvents;
-          feeds.onFetched();
-        }
-      });
-    }
-  });
+  if (options.get(options.Options.BADGE_TEXT_SHOWN)) {
+    // Use the Moment.js library to get a formatted string, but change the
+    // templates temporarily to the strings that we want. Make sure we reset it
+    // to the original language afterwards.
+    moment.relativeTime = {future : "%s", past : "%s",
+        s: "1s", ss : "%ds",
+        m: "1m", mm : "%dm",
+        h: "1h", hh : "%dh",
+        d: "1d", dd : "%dd",
+        M: "1mo", MM : "%dmo",
+        y: "1yr", yy : "%dy"};
+    var nextEvent = feeds.nextEvents[0];
+    var badgeText = moment(nextEvent.start).fromNow();
+
+    setMomentJsLanguage();
+
+    background.updateBadge({
+      'color': nextEvent.feed.color,
+      'text': badgeText,
+      'title': feeds.getTooltipForEvents_(feeds.nextEvents)
+    });
+  } else {  // User has chosen not to show a badge, but we still set a tooltip.
+    background.updateBadge({
+      'text': '',
+      'title': feeds.getTooltipForEvents_(feeds.nextEvents)
+    });
+  }
+
+  // Send a message to the browser action in case it's open.
+  chrome.extension.sendMessage({method: 'ui.refresh'});
 };
+
 
 /**
  * Removes events from the global feeds.events list that have already
@@ -220,7 +321,7 @@ feeds.removePastEvents_ = function() {
   // If there are no more future events left, then fetch a few more & update
   // the badge.
   if (feeds.events.length === 0) {
-    feeds.fetch();
+    feeds.fetchEvents();
   }
 };
 
@@ -261,51 +362,6 @@ feeds.determineNextEvents_ = function() {
   }
 };
 
-/**
- * Updates the 'minutes/hours/days until' visible badge from the events
- * obtained during the last fetch. Does not fetch new data.
- */
-feeds.onFetched = function() {
-  feeds.removePastEvents_();
-  feeds.determineNextEvents_();
-
-  // If there are no more next events to show, bail out.
-  if (feeds.nextEvents.length === 0) {
-    background.updateBadge({
-      'text': '?',
-      'title': chrome.i18n.getMessage('authorization_required')
-    });
-    return;
-  }
-
-  if (options.get(options.Options.BADGE_TEXT_SHOWN)) {
-    // Use the Moment.js library to get a formatted string, but change the
-    // templates temporarily to the strings that we want. Make sure we reset it
-    // to the original language afterwards.
-    moment.relativeTime = {future : "%s", past : "%s",
-        s: "1s", ss : "%ds",
-        m: "1m", mm : "%dm",
-        h: "1h", hh : "%dh",
-        d: "1d", dd : "%dd",
-        M: "1mo", MM : "%dmo",
-        y: "1yr", yy : "%dy"};
-    var nextEvent = feeds.nextEvents[0];
-    var badgeText = moment(nextEvent.start).fromNow();
-
-    setMomentJsLanguage();
-
-    background.updateBadge({
-      'color': nextEvent.feed.color,
-      'text': badgeText,
-      'title': feeds.getTooltipForEvents_(feeds.nextEvents)
-    });
-  } else {  // User has chosen not to show a badge, but we still set a tooltip.
-    background.updateBadge({
-      'text': '',
-      'title': feeds.getTooltipForEvents_(feeds.nextEvents)
-    });
-  }
-};
 
 /**
  * Returns a formatted tooltip for the badge, given a set of events that all

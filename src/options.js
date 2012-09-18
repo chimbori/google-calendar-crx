@@ -148,6 +148,50 @@ options.loadOptionsUIFromSavedState = function() {
   }
 };
 
+
+/**
+ * Loads the list of calendars from storage into the Options page so users can
+ * select individual calendars to show or hide.
+ */
+options.loadCalendarList = function() {
+  chrome.extension.getBackgroundPage().background.log('options.loadCalendarList');
+
+  chrome.storage.sync.get('calendars', function(storage) {
+    if (storage['calendars']) {
+      var calendars = storage['calendars'];
+
+      for (var calendarURL in calendars) {
+        var calendar = calendars[calendarURL];
+        var calendarListEntry = $('<label>');
+
+        var darkColor = utils.darkenColor(calendar.color, 75);
+        var gradient = '-webkit-linear-gradient(top, ' + darkColor + ' 0%,' + calendar.color + ' 100%)';
+
+        $('<input>').attr({
+          'type': 'checkbox',
+          'name': calendar.url,
+          'checked': calendar.visible
+        }).addClass('calendar-checkbox').css({
+          'background': gradient,
+          'border': '1px solid ' + calendar.color
+        }).on('change', function() {
+          calendars[ $(this).attr('name') ].visible = $(this).is(':checked');
+          chrome.storage.sync.set({'calendars': calendars});
+          chrome.extension.sendMessage({method: 'events.feed.fetch'});
+        }).appendTo(calendarListEntry);
+
+        $('<span>').text(' ' + calendar.title).appendTo(calendarListEntry);
+        if (calendar.author != calendar.title) {
+          $('<span>').addClass('secondary').text(' • ' + calendar.author)
+              .appendTo(calendarListEntry);
+        }
+
+        calendarListEntry.appendTo($('#calendar-list'));
+      }
+    }
+  });
+};
+
 /**
  * Retrieves internationalized messages and loads them into the UI.
  * @private
@@ -175,7 +219,9 @@ options.fillMessages_ = function() {
     systemInfo.push('  window.navigator.language: ' + window.navigator.language);
     systemInfo.push('  window.navigator.userAgent: ' + window.navigator.userAgent);
     systemInfo.push('');
-    systemInfo.push('Report this issue by copy/pasting this text at\nhttps://github.com/manastungare/google-calendar-crx/issues\nPlease attach a screenshot if possible. Thanks!');
+    systemInfo.push('Report this issue by copy/pasting this text at\n' +
+        'https://github.com/manastungare/google-calendar-crx/issues\n' +
+        'Please attach a screenshot if possible. Thanks!');
 
     $('#system-info').val(systemInfo.join('\n'));
   });
@@ -189,4 +235,5 @@ if ($('html').attr('data-context') == 'options-page') {
   options.installAutoSaveHandlers();
   options.writeDefaultsToStorage();
   options.loadOptionsUIFromSavedState();
+  options.loadCalendarList();
 }

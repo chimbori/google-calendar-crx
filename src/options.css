@@ -38,6 +38,28 @@ section {
   margin-left: 18px;
 }
 
+label {
+  display: block;
+  margin: 6px 0;
+}
+
+.secondary {
+  color: #979CA0;
+}
+
+.calendar-checkbox {
+  -webkit-appearance: none;
+  vertical-align: middle;
+  border-radius: 2px;
+  height: 14px;
+  width: 14px;
+  opacity: 0.2;
+}
+
+.calendar-checkbox:checked {
+  opacity: 1;
+}
+
 #report-issue-steps {
   display: none;  /* Hidden by default; revealed when the Report Issue button is clicked. */
 }

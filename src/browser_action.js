@@ -39,6 +39,7 @@ browseraction.initialize = function() {
   browseraction.installTabStripClickHandlers_();
   browseraction.installButtonClickHandlers_();
   browseraction.showLoginMessageIfNotAuthenticated_();
+  browseraction.listenForRequests_();
   browseraction.showDetectedEvents_();
   chrome.extension.sendMessage({method: 'events.feed.get'},
       browseraction.showEventsFromFeed_);
@@ -61,7 +62,9 @@ browseraction.fillMessages_ = function() {
   });
 
   $('[data-href="calendar_ui_url"]').attr('href', browseraction.CALENDAR_UI_URL_);
-  $('#event-title').attr({'placeholder': chrome.i18n.getMessage('event_title_placeholder')});
+  $('#event-title').attr({
+    'placeholder': chrome.i18n.getMessage('event_title_placeholder'
+  )});
 };
 
 
@@ -147,16 +150,33 @@ browseraction.installButtonClickHandlers_ = function() {
 browseraction.showLoginMessageIfNotAuthenticated_ = function() {
   // Check if we're authenticated or not, and display either the "Login Now"
   // message, or show the tab strip.
-  chrome.browserAction.getBadgeText({}, function(text) {
-    if (text == '?') {  // Not authorized.
-      $('#error').show();
+  if (!chrome.extension.getBackgroundPage().feeds.isAuthenticated) {
+    $('#error').show();
+    $('.tabstrip, .tab-container').hide();
 
-      // If we're not authenticated, then it's fine to re-request the feed
-      // upon explicit user interaction (i.e. opening the popup.)
-      chrome.extension.sendMessage({method: 'events.feed.fetch'},
-          browseraction.showEventsFromFeed_);
-    } else {
-      $('#error').hide();
+    // If we're not authenticated, then it's fine to re-request the feed
+    // upon explicit user interaction (i.e. opening the popup.)
+    chrome.extension.sendMessage({method: 'events.feed.fetch'},
+        browseraction.showEventsFromFeed_);
+  } else {
+    $('#error').hide();
+    $('.tabstrip, .tab-container').show();
+  }
+};
+
+
+/**
+ * Listens for incoming requests from other pages of this extension and calls
+ * the appropriate (local) functions.
+ * @private
+ */
+browseraction.listenForRequests_ = function() {
+  chrome.extension.onMessage.addListener(function(request, sender, opt_callback) {
+    switch(request.method) {
+      case 'ui.refresh':
+        chrome.extension.sendMessage({method: 'events.feed.get'},
+            browseraction.showEventsFromFeed_);
+        break;
     }
   });
 };
@@ -190,6 +210,9 @@ browseraction.showDetectedEvents_ = function() {
  * @private
  */
 browseraction.showEventsFromFeed_ = function(events) {
+  chrome.extension.getBackgroundPage().background.log('browseraction.showEventsFromFeed_');
+  $('#agenda').empty();
+
   for (var i = 0; i < events.length; i++) {
     var event = events[i];
 

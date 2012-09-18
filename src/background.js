@@ -29,7 +29,17 @@ var background = {};
  * @private
  * @const
  */
-background.DEBUG_ = false;
+background.DEBUG_ = true;
+
+/**
+ * Colors used for the badge, other than calendar colors.
+ * @enum {string}
+ * @const
+ */
+background.BADGE_COLORS = {
+  ERROR: '#f00',
+  IN_PROGRESS: '#efefef'
+};
 
 /**
  * The ID of the currently-selected tab. This is required because the same
@@ -108,11 +118,15 @@ background.listenForRequests_ = function() {
         break;
 
       case 'events.feed.fetch':
-        feeds.fetch();
+        feeds.fetchCalendars();
         break;
 
       case 'options.changed':
-        feeds.onFetched();
+        feeds.refreshUI();
+        break;
+
+      default:
+        background.log('Unknown extension message: ', request.method);
         break;
     }
 
