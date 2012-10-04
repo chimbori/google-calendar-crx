@@ -89,22 +89,8 @@ utils.processEvent = function(event) {
 utils.getGCalUrl_ = function(event) {
   // Basic event information: Title, Start, End.
   var link =
-      'https://www.google.com/calendar/event?action=TEMPLATE&trp=false&text=' +
+      'https://www.google.com/calendar/event?action=TEMPLATE&trp=false&ctext=' +
       encodeURIComponent(event.title);
-
-  // Dates could be optional.
-  if (event.start) {
-    // If the time is exactly midnight, this might be an all-day event, so skip
-    // the T000000 part.
-    link += '&dates=' +
-        moment(event.start).format('YYYYMMDDTHHmmss').replace('T000000', '');
-
-    // Even if start date is present, end date could be missing.
-    if (event.end) {
-      link += '/' +
-          moment(event.end).format('YYYYMMDDTHHmmss').replace('T000000', '');
-    }
-  }
 
   // Location
   if (event.location) {
