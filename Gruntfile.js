@@ -1,4 +1,4 @@
-// Copyright 2012 Google Inc. All Rights Reserved.
+// Copyright 2013 Google Inc. All Rights Reserved.
 // Author: manas@google.com (Manas Tungare)
 
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,8 +15,12 @@
 
 
 module.exports = function(grunt) {
-  grunt.loadNpmTasks(process.env.NODE_PATH + 'grunt-closure-compiler');
-  grunt.loadNpmTasks(process.env.NODE_PATH + 'grunt-css');
+  grunt.loadNpmTasks('grunt-closure-compiler');
+  grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-css');
+  grunt.loadNpmTasks('grunt-contrib-csslint');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
 
   var closure_options = {
     compilation_level: "ADVANCED_OPTIMIZATIONS",
@@ -68,6 +72,8 @@ module.exports = function(grunt) {
   ];
 
   grunt.initConfig({
+    pkg: grunt.file.readJSON('package.json'),
+
     jshint: {
       options: {
         boss: true,
@@ -114,22 +120,7 @@ module.exports = function(grunt) {
       }
     },
 
-    min: {
-      background_page: {
-        src: '<config:concat.background_page.dest>',
-        dest: 'bin/background_page.min.js',
-      },
-      browser_action: {
-        src: '<config:concat.browser_action.dest>',
-        dest: 'bin/browser_action.min.js',
-      },
-      content_script: {
-        src: '<config:concat.content_script.dest>',
-        dest: 'bin/content_script.min.js',
-      }
-    },
-
-    lint: {
+    jshint: {
       background_page: 'bin/background_page.concat.js',
       browser_action: 'bin/browser_action.concat.js',
       content_script: 'bin/content_script.concat.js'
@@ -137,17 +128,17 @@ module.exports = function(grunt) {
 
     'closure-compiler': {
       background_page: {
-        js: '<config:concat.background_page.dest>',
+        js: '<%= concat.background_page.dest %>',
         jsOutputFile: 'bin/background_page.compiled.js',
         options: closure_options
       },
       browser_action: {
-        js: '<config:concat.browser_action.dest>',
+        js: '<%= concat.browser_action.dest %>',
         jsOutputFile: 'bin/browser_action.compiled.js',
         options: closure_options
       },
       content_script: {
-        js: '<config:concat.content_script.dest>',
+        js: '<%= concat.content_script.dest %>',
         jsOutputFile: 'bin/content_script.compiled.js',
         options: closure_options
       }
@@ -173,5 +164,10 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('default', 'concat lint min csslint closure-compiler');
+  grunt.registerTask('default', [
+    'concat:*',
+    'jshint:*',
+    'csslint:*',
+    'closure-compiler:*'
+  ]);
 };
