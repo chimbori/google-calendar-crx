@@ -85,7 +85,7 @@ function detectHCalendarEvents() {
   var events = [];
 
   $.each($('.vevent'), function(i, vevent) {
-    var event = /** @type {CalendarEvent} */ {};
+    var event = /** @type {CalendarEvent} */ ({});
 
     event.title = utils.getFirstFieldText(vevent, '.summary');
     event.description = utils.getFirstFieldText(vevent, '.description');

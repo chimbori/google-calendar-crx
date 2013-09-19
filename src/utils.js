@@ -137,8 +137,7 @@ utils.getGCalUrl_ = function(event) {
 
 /**
  * Parse ISO 8601 date/time into a JavaScript date.
- * ** This function adapted from GData's JavaScript Date/time parser. **
- * @param {string|jQuery} s ISO 8601 date as a string.
+ * @param {string} s ISO 8601 date as a string.
  * @return {Moment} Parsed JavaScript date object.
  */
 utils.fromIso8601 = function(s) {

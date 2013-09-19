@@ -127,7 +127,7 @@ browseraction.installButtonClickHandlers_ = function() {
       'YYYY-MM-DD hh'
     ];
 
-    var event = /** @type {CalendarEvent} */ {};
+    var event = /** @type {CalendarEvent} */ ({});
     event.title = event.description = $('#event-title').val().toString();
     event.start = moment($('#from-date').val() + ' ' + $('#from-time').val(), formats).toDate();
     event.end = moment($('#to-date').val() + ' ' + $('#to-time').val(), formats).toDate();
@@ -241,7 +241,7 @@ browseraction.showEventsFromFeed_ = function(events) {
 /**
  * Creates a <div> that renders a detected event or a fetched event.
  * @param {CalendarEvent} event The calendar event.
- * @return {jQuery} The rendered 'Add to Calendar' button.
+ * @return {!jQuery} The rendered 'Add to Calendar' button.
  * @private
  */
 browseraction.createEventDiv_ = function(event) {
@@ -249,9 +249,9 @@ browseraction.createEventDiv_ = function(event) {
   var end = utils.fromIso8601(event.end);
   var now = new Date();
 
-  var eventDiv = $('<div>')
-      .addClass('event')
-      .attr({'data-url': event.gcal_url});
+  var eventDiv = /** @type {jQuery} */ ($('<div>')
+        .addClass('event')
+        .attr({'data-url': event.gcal_url}));
 
   eventDiv.on('click', function() {
     chrome.tabs.create({'url': $(this).attr('data-url')});

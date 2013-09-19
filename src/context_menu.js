@@ -46,7 +46,7 @@ menu.installContextMenu_ = function() {
  * @private
  */
 menu.onClicked_ = function(info, tab) {
-  var event = /** @type {CalendarEvent} */ {};
+  var event = /** @type {CalendarEvent} */ ({});
   event.title = info.selectionText;
   event.url = tab.url;
   event.description = tab.title;

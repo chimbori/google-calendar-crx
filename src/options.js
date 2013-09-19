@@ -118,7 +118,7 @@ options.installAutoSaveHandlers = function() {
  */
 options.writeDefaultsToStorage = function() {
   for (var optionKey in options.DEFAULTS_) {
-    optionKey = /** @type {options.Options} */ optionKey;  // For JSCompiler.
+    optionKey = /** @type {options.Options} */ (optionKey);  // For JSCompiler.
     if (!window.localStorage[options.OPTION_KEY_PREFIX_ + optionKey]) {
       // If the option has not been saved, the type will be undefined. Even if
       // the value is a boolean false, it will be stored as the string "false",
