@@ -155,7 +155,11 @@ feeds.fetchEvents = function() {
         pendingRequests++;
         feeds.fetchEventsFromCalendar_(calendar, function(events) {
           // Merge events from all calendars into a single array.
-          allEvents = allEvents.concat(events);
+          if (events) {
+            // events can be undefined if the calendar fetch resulted in an HTTP error.
+            allEvents = allEvents.concat(events);
+          }
+
           if (--pendingRequests === 0) {
             allEvents.sort(function(first, second) {
               return first.start.getTime() - second.start.getTime();
