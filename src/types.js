@@ -60,9 +60,9 @@ function CalendarEvent() {}
 CalendarEvent.prototype.title = '';
 /** @type {string} */
 CalendarEvent.prototype.description = '';
-/** @type {string} */
+/** @type {number} */
 CalendarEvent.prototype.start = '';
-/** @type {string} */
+/** @type {number} */
 CalendarEvent.prototype.end = '';
 /** @type {string} */
 CalendarEvent.prototype.url = '';
