@@ -138,8 +138,8 @@ feeds.getEventsFrom_ = function(feed, callback) {
         events.push({
           feed: feed,
           title: eventEntry.find('title').text(),
-          start: start ? start.toDate() : null,
-          end: end ? end.toDate() : null,
+          start: start ? start.valueOf() : null,
+          end: end ? end.valueOf() : null,
           description: eventEntry.find('content').text(),
           location: eventEntry.find('where').attr('valueString'),
           reminder: eventEntry.find('when').find('reminder').attr('minutes'),
@@ -182,7 +182,7 @@ feeds.fetch = function() {
         allEvents = allEvents.concat(events);
         if (--pendingRequests === 0) {
           allEvents.sort(function(first, second) {
-            return first.start.getTime() - second.start.getTime();
+            return first.start - second.start;
           });
           feeds.events = allEvents;
           feeds.onFetched();
@@ -209,9 +209,8 @@ feeds.removePastEvents_ = function() {
   // empty calendar. Look at the end time instead of the start time, so that
   // events in progress are retained.
   var futureAndCurrentEvents = [];
-  var now = new Date();
   for (var i = 0; i < feeds.events.length; ++i) {
-    if (feeds.events[i].end > now.getTime()) {
+    if (feeds.events[i].end > moment().valueOf()) {
       futureAndCurrentEvents.push(feeds.events[i]);
     }
   }
@@ -237,9 +236,8 @@ feeds.determineNextEvents_ = function() {
   }
 
   feeds.nextEvents = [];
-  var now = new Date();
   for (var i = 0; i < feeds.events.length; ++i) {
-    if (feeds.events[i].start.getTime() < now.getTime()) {
+    if (feeds.events[i].start < moment().valueOf()) {
       continue;  // All-day events for today, or events from earlier in the day.
     }
 
@@ -253,7 +251,7 @@ feeds.determineNextEvents_ = function() {
     // At this point in the loop, we know there is at least one next event
     // starting at a specific time. Now we need to pick any more events that may
     // exist, that all start at the exact same time as the first event.
-    if (feeds.events[i].start.getTime() == feeds.nextEvents[0].start.getTime()) {
+    if (feeds.events[i].start == feeds.nextEvents[0].start) {
       feeds.nextEvents.push(feeds.events[i]);
     } else {
       break;

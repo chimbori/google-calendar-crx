@@ -46,11 +46,11 @@ utils.processEvent = function(event) {
     var startMoment = moment(event.start);
     if (startMoment.hours() === 0 && startMoment.minutes() === 0) {
       // Assume it's an all-day event if hh=0 & mm=0.
-      event.end = startMoment.add('d', 1).format();
+      event.end = startMoment.add('d', 1).valueOf();
     } else {
       // It's not an all-day event, so default to start + X hours, and the user
       // can tweak it before adding to their calendar.
-      event.end = startMoment.add('h', 2).format();
+      event.end = startMoment.add('h', 2).valueOf();
     }
   }
 
@@ -141,20 +141,24 @@ utils.getGCalUrl_ = function(event) {
  * @param {string|jQuery} s ISO 8601 date as a string.
  * @return {Moment} Parsed JavaScript date object.
  */
-utils.fromIso8601 = function(s) {
-  if (!s) {
+utils.fromIso8601 = function(date) {
+  if (!date) {
     return null;
   }
 
-  s = s.replace('Z', '+00:00');
-  return moment(s, [
-    'YYYY-MM-DDTHH:mm:ssZZ', 'YYYY-MM-DDTHHmmssZZ', 'YYYYMMDDTHHmmssZZ',
-    'YYYY-MM-DDTHH:mm:ss',   'YYYY-MM-DDTHHmmss',   'YYYYMMDDTHHmmss',
-    'YYYY-MM-DDTHH:mmZZ',    'YYYY-MM-DDTHHmmZZ',   'YYYYMMDDTHHmmZZ',
-    'YYYY-MM-DDTHH:mm',      'YYYY-MM-DDTHHmm',     'YYYYMMDDTHHmm',
-    'YYYY-MM-DDTHH',                                'YYYYMMDDTHH',
-    'YYYY-MM-DD',                                   'YYYYMMDD'
-  ]);
+  if (typeof date === 'string') {
+    date = date.replace('Z', '+00:00');
+    return moment(date, [
+      'YYYY-MM-DDTHH:mm:ssZZ', 'YYYY-MM-DDTHHmmssZZ', 'YYYYMMDDTHHmmssZZ',
+      'YYYY-MM-DDTHH:mm:ss',   'YYYY-MM-DDTHHmmss',   'YYYYMMDDTHHmmss',
+      'YYYY-MM-DDTHH:mmZZ',    'YYYY-MM-DDTHHmmZZ',   'YYYYMMDDTHHmmZZ',
+      'YYYY-MM-DDTHH:mm',      'YYYY-MM-DDTHHmm',     'YYYYMMDDTHHmm',
+      'YYYY-MM-DDTHH',                                'YYYYMMDDTHH',
+      'YYYY-MM-DD',                                   'YYYYMMDD'
+    ]);
+  } else {
+    return moment(date);
+  }
 };
 
 
