@@ -179,7 +179,7 @@ feeds.fetchEvents = function() {
 /**
  * Retrieves events from a given calendar from the server.
  * @param {Object} feed A feed object: {title:'', url:'', color:''}.
- * @param {function(Array.<Object>)} callback A callback called when events
+ * @param {function(?Array.<Object>)} callback A callback called when events
  *     are available.
  * @private
  */
@@ -205,14 +205,14 @@ feeds.fetchEventsFromCalendar_ = function(feed, callback) {
         // In case of recurring events, the entry has multiple <gd:when> fields.
         // One of them has only a startTime, and another has both a startTime and an endTime.
         // This is a workaround for this crazy behavior.
-        var startTime, endTime;
+        var startTime = '', endTime = '';
         var when = eventEntry.find('when');
         for (var i = 0; i < when.length; i++) {
           if ($(when[i]).attr('startTime')) {
-            startTime = $(when[i]).attr('startTime');
+            startTime = $(when[i]).attr('startTime').toString();
           }
           if ($(when[i]).attr('endTime')) {
-            endTime = $(when[i]).attr('endTime');
+            endTime = $(when[i]).attr('endTime').toString();
           }
         }
 
@@ -236,7 +236,7 @@ feeds.fetchEventsFromCalendar_ = function(feed, callback) {
   })(feed)).error(function(response) {
     // Must callback here, otherwise the caller keeps waiting for all
     // calendars to load.
-    callback();
+    callback(null);
   });
 };
 
