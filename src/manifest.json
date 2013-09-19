@@ -28,8 +28,7 @@
   "background": {
     "scripts": [
       "lib/jquery.min.js",
-      "lib/moment.min.js",
-      "lib/moment.lang-all.min.js",
+      "lib/moment+langs.min.js",
       "options.js",
       "utils.js",
       "feeds.js",
@@ -55,8 +54,7 @@
       ],
       "js": [
         "lib/jquery.min.js",
-        "lib/moment.min.js",
-        "lib/moment.lang-all.min.js",
+        "lib/moment+langs.min.js",
         "utils.js",
         "events_microformats.js"
       ],

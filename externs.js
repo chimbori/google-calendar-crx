@@ -84,5 +84,3 @@ Moment.prototype.valueOf = function() {};
 
 /** @return {number} */
 Moment.prototype.year = function() {};
-
-function setMomentJsLanguage() {};

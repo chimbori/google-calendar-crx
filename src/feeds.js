@@ -274,8 +274,6 @@ feeds.refreshUI = function() {
     var nextEvent = feeds.nextEvents[0];
     var badgeText = moment(nextEvent.start).fromNow();
 
-    setMomentJsLanguage();
-
     background.updateBadge({
       'color': nextEvent.feed.color,
       'text': badgeText,
