@@ -125,6 +125,10 @@ background.listenForRequests_ = function() {
         feeds.refreshUI();
         break;
 
+      case 'ui.refresh':
+        // Nothing to do here, this one is handled by the browser action.
+        break;
+
       default:
         background.log('Unknown extension message: ', request.method);
         break;
