@@ -57,9 +57,9 @@ background.eventsFromPage = {};
 
 /**
  * @typedef {{
- *   text: string,
- *   color: string,
- *   title: string
+ *   text: (string|undefined),
+ *   color: (string|undefined),
+ *   title: (string|undefined)
  * }}
  */
 background.BadgeProperties;
