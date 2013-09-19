@@ -129,8 +129,8 @@ browseraction.installButtonClickHandlers_ = function() {
 
     var event = /** @type {CalendarEvent} */ ({});
     event.title = event.description = $('#event-title').val().toString();
-    event.start = moment($('#from-date').val() + ' ' + $('#from-time').val(), formats).toDate();
-    event.end = moment($('#to-date').val() + ' ' + $('#to-time').val(), formats).toDate();
+    event.start = moment($('#from-date').val() + ' ' + $('#from-time').val(), formats).valueOf();
+    event.end = moment($('#to-date').val() + ' ' + $('#to-time').val(), formats).valueOf();
     event = utils.processEvent(event);
 
     chrome.tabs.create({'url': event.gcal_url});
@@ -247,7 +247,7 @@ browseraction.showEventsFromFeed_ = function(events) {
 browseraction.createEventDiv_ = function(event) {
   var start = utils.fromIso8601(event.start);
   var end = utils.fromIso8601(event.end);
-  var now = new Date();
+  var now = moment().valueOf();
 
   var eventDiv = /** @type {jQuery} */ ($('<div>')
         .addClass('event')
@@ -257,8 +257,12 @@ browseraction.createEventDiv_ = function(event) {
     chrome.tabs.create({'url': $(this).attr('data-url')});
   });
 
+  if (!start) {  // Some events detected via microformats are malformed.
+    return eventDiv;
+  }
+
   var isNewEvent = !event.feed;
-  var isHappeningNow = start.valueOf() < now.getTime() && end.valueOf() >= now.getTime();
+  var isHappeningNow = start.valueOf() < now && end.valueOf() >= now;
   if (isNewEvent) {  // This event has not yet been added to the user's calendar.
     $('<div>').addClass('feed-color')
         .css({'background-color': '#e6932e'})
