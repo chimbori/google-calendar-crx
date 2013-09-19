@@ -17,6 +17,13 @@
  * @author manas@google.com (Manas Tungare)
  */
 
+
+/** @return {Object} */
+chrome.app.getDetails = function() {
+  return {};
+};
+
+
 /**
  * @param {Date|string=} opt_date
  * @param {Array.<string>|string=} opt_formatString
