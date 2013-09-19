@@ -222,11 +222,6 @@ feeds.fetchEventsFromCalendar_ = function(feed, callback) {
         events.push({
           feed: feed,
           title: eventEntry.find('title').text(),
-<<<<<<< HEAD
-=======
-          start: start ? start.toDate() : null,
-          end: end ? end.toDate() : null,
->>>>>>> 8db7773acadb083da7858713603642220c9d457a
           start: start ? start.valueOf() : null,
           end: end ? end.valueOf() : null,
           description: eventEntry.find('content').text(),
