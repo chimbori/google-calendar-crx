@@ -68,7 +68,11 @@ feeds.isAuthenticated = false;
 feeds.fetchCalendars = function() {
   background.log('feeds.fetchCalendars');
 
-  chrome.storage.sync.get('calendars', function(storage) {
+  chrome.storage.local.get('calendars', function(storage) {
+    if (chrome.runtime.lastError) {
+      background.log('Error retrieving settings:', chrome.runtime.lastError);
+    }
+
     var storedCalendars = storage['calendars'] || {};
 
     $.get(feeds.CALENDAR_LIST_FEED_URL_, function(data) {
@@ -108,8 +112,13 @@ feeds.fetchCalendars = function() {
         calendars[serverCalendarURL] = mergedCalendar;
       });
 
-      chrome.storage.sync.set({'calendars': calendars});
-      feeds.fetchEvents();
+      chrome.storage.local.set({'calendars': calendars}, function() {
+        if (chrome.runtime.lastError) {
+          background.log('Error saving settings:', chrome.runtime.lastError);
+          return;
+        }
+        feeds.fetchEvents();
+      });
 
     }).error(function(response) {
       if (response.status === 401) {
@@ -137,7 +146,11 @@ feeds.fetchEvents = function() {
   feeds.lastFetchedAt = new Date();
   background.updateBadge({'title': chrome.i18n.getMessage('fetching_feed')});
 
-  chrome.storage.sync.get('calendars', function(storage) {
+  chrome.storage.local.get('calendars', function(storage) {
+    if (chrome.runtime.lastError) {
+      background.log('Error retrieving settings:', chrome.runtime.lastError);
+    }
+
     if (!storage['calendars']) {
       // We don't have any calendars yet? Probably the first time.
       feeds.fetchCalendars();

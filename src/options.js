@@ -156,7 +156,11 @@ options.loadOptionsUIFromSavedState = function() {
 options.loadCalendarList = function() {
   chrome.extension.getBackgroundPage().background.log('options.loadCalendarList');
 
-  chrome.storage.sync.get('calendars', function(storage) {
+  chrome.storage.local.get('calendars', function(storage) {
+    if (chrome.runtime.lastError) {
+      background.log('Error retrieving settings:', chrome.runtime.lastError);
+    }
+
     if (storage['calendars']) {
       var calendars = storage['calendars'];
 
@@ -176,8 +180,13 @@ options.loadCalendarList = function() {
           'border': '1px solid ' + calendar.color
         }).on('change', function() {
           calendars[ $(this).attr('name') ].visible = $(this).is(':checked');
-          chrome.storage.sync.set({'calendars': calendars});
-          chrome.extension.sendMessage({method: 'events.feed.fetch'});
+          chrome.storage.local.set({'calendars': calendars}, function() {
+            if (chrome.runtime.lastError) {
+              background.log('Error saving calendar list options.', chrome.runtime.lastError);
+              return;
+            }
+            chrome.extension.sendMessage({method: 'events.feed.fetch'});
+          });
         }).appendTo(calendarListEntry);
 
         $('<span>').text(' ' + calendar.title).appendTo(calendarListEntry);
