@@ -154,24 +154,6 @@ textarea {
   margin-top: 3px;
 }
 
-#manual-add-details {
-  margin: 0 0 24px 0;
-}
-
-#manual-add-details .field-title {
-  font-size: 11px;
-  text-transform: uppercase;
-}
-
-#manual-add-details input[type="date"] {
-  width: 135px;
-}
-
-#manual-add-details #from-time,
-#manual-add-details #to-time {
-  width: 75px;
-}
-
 .kd-button {
   background-color: #4d90fe;
   background-image: -webkit-gradient(linear,left top,left bottom,from(#4d90fe),to(#4787ed));

@@ -75,6 +75,7 @@ browseraction.installTabStripClickHandlers_ = function() {
     $('.tab').hide();
     $('#add-events').addClass('selected');
     $('#events').show();
+    $('#event-title').focus();
   });
 
   $('#view_agenda').click(function() {
@@ -96,46 +97,12 @@ browseraction.installButtonClickHandlers_ = function() {
         browseraction.showEventsFromFeed_);
   });
 
-  $('#manual-add-details').hide();
-  $('#event-title').on('mousedown', function() {
-    $(this).attr('rows', 3);
-    $('#manual-add-details').slideDown(100);
-  });
-
-  // If the user sets the from-date, and the to-date happens to be before the
-  // new from-date, then update the to-date to be the same as the from-date.
-  $('#from-date').on('change', function() {
-    var fromDate = $('#from-date').val().toString();
-    var toDate = $('#to-date').val().toString();
-    if (fromDate !== '' && toDate !== '') {
-      fromDate = moment(fromDate, "YYYY-MM-DD");
-      toDate = moment(toDate, "YYYY-MM-DD");
-      if (toDate.diff(fromDate) < 0) {
-        $('#to-date').val($('#from-date').val().toString());
-      }
-    }
-  });
-
   $('#add_button').on('click', function() {
-    var formats = [
-      'YYYY-MM-DD hh:mma',
-      'YYYY-MM-DD hh:mm',
-      'YYYY-MM-DD hha',
-      'YYYY-MM-DD hh'
-    ];
-
     var event = /** @type {CalendarEvent} */ {};
     event.title = event.description = $('#event-title').val().toString();
-    event.start = moment($('#from-date').val() + ' ' + $('#from-time').val(), formats).valueOf();
-    event.end = moment($('#to-date').val() + ' ' + $('#to-time').val(), formats).valueOf();
     event = utils.processEvent(event);
-
     chrome.tabs.create({'url': event.gcal_url});
   });
-
-  // Initialize both from- and to- dates to today.
-  $('#from-date').val(moment().format('YYYY-MM-DD'));
-  $('#to-date').val(moment().format('YYYY-MM-DD'));
 };
 
 
