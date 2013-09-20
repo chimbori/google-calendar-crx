@@ -265,18 +265,8 @@ feeds.refreshUI = function() {
   }
 
   if (options.get(options.Options.BADGE_TEXT_SHOWN)) {
-    // Use the Moment.js library to get a formatted string, but change the
-    // templates temporarily to the strings that we want. Make sure we reset it
-    // to the original language afterwards.
-    moment.relativeTime = {future : "%s", past : "%s",
-        s: "1s", ss : "%ds",
-        m: "1m", mm : "%dm",
-        h: "1h", hh : "%dh",
-        d: "1d", dd : "%dd",
-        M: "1mo", MM : "%dmo",
-        y: "1yr", yy : "%dy"};
     var nextEvent = feeds.nextEvents[0];
-    var badgeText = moment(nextEvent.start).fromNow();
+    var badgeText = moment(nextEvent.start).lang('relative-formatter').fromNow();
 
     background.updateBadge({
       'color': nextEvent.feed.color,

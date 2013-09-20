@@ -68,6 +68,7 @@ background.BadgeProperties;
  * Initializes the background page by registering listeners.
  */
 background.initialize = function() {
+  background.initMomentJs_();
   background.listenForRequests_();
   background.listenForTabUpdates_();
   scheduler.start();
@@ -86,6 +87,28 @@ background.log = function(message, opt_dump) {
       window.console.log(message);
     }
   }
+};
+
+/**
+ * Initializes Moment.js with a new 'language' for the badge text. It only has
+ * strings for relative dates, such as 1h, 2m, 3d. It is used as the language
+ * for a single local instance (not changed globally) when required to render
+ * the badge text. This method creates the language and installs it for later
+ * use elsewhere.
+ * @private
+ */
+background.initMomentJs_ = function() {
+  moment.lang('relative-formatter', {
+    relativeTime: {
+      future : "%s", past : "%s",
+      s: "1s", ss : "%ds",
+      m: "1m", mm : "%dm",
+      h: "1h", hh : "%dh",
+      d: "1d", dd : "%dd",
+      M: "1mo", MM : "%dmo",
+      y: "1yr", yy : "%dy"
+    }
+  });
 };
 
 /**
