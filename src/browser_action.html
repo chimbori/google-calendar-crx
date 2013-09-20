@@ -32,14 +32,8 @@
       <div class="tab" id="events">
         <div id="manual-add">
           <div class="date-header i18n" id="add_an_event">Add an Event</div>
-          <textarea id="event-title" style="width:100%" rows="1"></textarea>
-          <div id="manual-add-details">
-            <span class="field-title i18n" id="field_header_from">From</span><br>
-            <input type="date" placeholder="From" id="from-date"><input id="from-time" placeholder="9:00am"><br>
-            <span class="field-title i18n" id="field_header_to">to</span><br>
-            <input type="date" placeholder="To" id="to-date"><input id="to-time" placeholder="10:00am">
-            <a id="add_button" style="float:right" class="kd-button i18n">Add</a><br>
-          </div>
+          <textarea id="event-title" style="width:100%" rows="8" tabindex="1"></textarea>
+          <button id="add_button" style="float:right" class="kd-button i18n" tabindex="2">Add</button>
         </div>
         <div id="events-list"></div>
       </div>
