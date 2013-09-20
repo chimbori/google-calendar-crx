@@ -211,17 +211,14 @@ options.fillMessages_ = function() {
     $('#report-issue-steps').toggle(100);
 
     var systemInfo = [];
-    systemInfo.push('What steps will reproduce the problem?\n1.\n2.\n3.\n');
+    systemInfo.push('What steps will reproduce the problem?\n1. \n2. \n3. \n');
     systemInfo.push('What is the expected result?\n\n');
     systemInfo.push('What happens instead?\n\n');
     systemInfo.push('System Information:');
-    systemInfo.push('  Extension version: ' + chrome.app.getDetails().version);
-    systemInfo.push('  window.navigator.language: ' + window.navigator.language);
-    systemInfo.push('  window.navigator.userAgent: ' + window.navigator.userAgent);
+    systemInfo.push('- Extension version: ' + chrome.app.getDetails().version);
+    systemInfo.push('- window.navigator.language: ' + window.navigator.language);
+    systemInfo.push('- window.navigator.userAgent: ' + window.navigator.userAgent);
     systemInfo.push('');
-    systemInfo.push('Report this issue by copy/pasting this text at\n' +
-        'https://github.com/manastungare/google-calendar-crx/issues\n' +
-        'Please attach a screenshot if possible. Thanks!');
 
     $('#system-info').val(systemInfo.join('\n'));
   });
