@@ -92,12 +92,12 @@ function detectHCalendarEvents() {
 
     var startDate = findDate(vevent, '.dtstart');
     if (startDate) {
-      event.start = utils.fromIso8601(startDate).format();
+      event.start = utils.fromIso8601(startDate).valueOf();
     }
 
     var endDate = findDate(vevent, '.dtend');
     if (endDate) {
-      event.end = utils.fromIso8601(endDate).format();
+      event.end = utils.fromIso8601(endDate).valueOf();
     }
 
     var urlElement = $(vevent).find('.url');

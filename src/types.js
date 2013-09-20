@@ -61,9 +61,9 @@ CalendarEvent.prototype.title = '';
 /** @type {string} */
 CalendarEvent.prototype.description = '';
 /** @type {number} */
-CalendarEvent.prototype.start = '';
+CalendarEvent.prototype.start = 0;
 /** @type {number} */
-CalendarEvent.prototype.end = '';
+CalendarEvent.prototype.end = 0;
 /** @type {string} */
 CalendarEvent.prototype.url = '';
 /** @type {string} */

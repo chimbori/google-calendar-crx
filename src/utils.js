@@ -137,10 +137,12 @@ utils.getGCalUrl_ = function(event) {
 
 /**
  * Parse ISO 8601 date/time into a JavaScript date.
- * @param {string} s ISO 8601 date as a string.
+ * @param {string|number} date ISO 8601 date as a string, or milliseconds since the epoch.
  * @return {Moment} Parsed JavaScript date object.
  */
 utils.fromIso8601 = function(date) {
+  // TODO(manas): Audit and fix this so that it's not used for dates expressed as milliseconds since the epoch.
+
   if (!date) {
     return null;
   }

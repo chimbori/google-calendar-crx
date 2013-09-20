@@ -25,7 +25,7 @@ chrome.app.getDetails = function() {
 
 
 /**
- * @param {Date|string=} opt_date
+ * @param {Date|number|string=} opt_date
  * @param {Array.<string>|string=} opt_formatString
  * return {Moment}
  */
@@ -49,7 +49,7 @@ Moment.prototype.calendar = function() {};
 Moment.prototype.clone = function() {};
 
 /**
- * @param {Moment} another
+ * @param {Moment|number} another
  * @param {string=} opt_unit
  * @param {boolean=} opt_float
  * @return {number}
