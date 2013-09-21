@@ -60,7 +60,7 @@
     "description": "The section of the Options page that deals with the toolbar icon."
   },
   "calendar_list_header": {
-    "message": "Calendars",
+    "message": "Calendarios",
     "description": "The header for the Options section under which all calendars are shown."
   },
   "option_show_time_until_next_event": {
