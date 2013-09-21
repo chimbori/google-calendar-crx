@@ -118,7 +118,7 @@ browseraction.showLoginMessageIfNotAuthenticated_ = function() {
   // message, or show the tab strip.
   if (!chrome.extension.getBackgroundPage().feeds.isAuthenticated) {
     $('#error').show();
-    $('.tabstrip, .tab-container').hide();
+    $('#calendar-events').hide();
 
     // If we're not authenticated, then it's fine to re-request the feed
     // upon explicit user interaction (i.e. opening the popup.)
@@ -126,7 +126,7 @@ browseraction.showLoginMessageIfNotAuthenticated_ = function() {
         browseraction.showEventsFromFeed_);
   } else {
     $('#error').hide();
-    $('.tabstrip, .tab-container').show();
+    $('#calendar-events').show();
   }
 };
 
