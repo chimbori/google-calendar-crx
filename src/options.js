@@ -217,8 +217,6 @@ options.fillMessages_ = function() {
   });
 
   $('#report-issue-button').on('click', function() {
-    $('#report-issue-steps').toggle(100);
-
     var systemInfo = [];
     systemInfo.push('What steps will reproduce the problem?\n1. \n2. \n3. \n');
     systemInfo.push('What is the expected result?\n\n');
@@ -228,8 +226,8 @@ options.fillMessages_ = function() {
     systemInfo.push('- window.navigator.language: ' + window.navigator.language);
     systemInfo.push('- window.navigator.userAgent: ' + window.navigator.userAgent);
     systemInfo.push('');
-
     $('#system-info').val(systemInfo.join('\n'));
+    $('#report-issue-steps').slideDown(100);
   });
 };
 
