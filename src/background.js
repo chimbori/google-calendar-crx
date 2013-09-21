@@ -147,14 +147,6 @@ background.listenForRequests_ = function() {
       case 'options.changed':
         feeds.refreshUI();
         break;
-
-      case 'ui.refresh':
-        // Nothing to do here, this one is handled by the browser action.
-        break;
-
-      default:
-        background.log('Unknown extension message: ', request.method);
-        break;
     }
 
     // Indicates to Chrome that a pending async request will eventually issue
