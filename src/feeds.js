@@ -67,6 +67,7 @@ feeds.isAuthenticated = false;
  */
 feeds.fetchCalendars = function() {
   background.log('feeds.fetchCalendars');
+  chrome.extension.sendMessage({method: 'sync-icon.spinning.start'});
 
   chrome.storage.local.get('calendars', function(storage) {
     if (chrome.runtime.lastError) {
@@ -142,6 +143,7 @@ feeds.fetchCalendars = function() {
  */
 feeds.fetchEvents = function() {
   background.log('feeds.fetchEvents');
+  chrome.extension.sendMessage({method: 'sync-icon.spinning.start'});
 
   feeds.lastFetchedAt = new Date();
   background.updateBadge({'title': chrome.i18n.getMessage('fetching_feed')});
@@ -293,7 +295,8 @@ feeds.refreshUI = function() {
     });
   }
 
-  // Send a message to the browser action in case it's open.
+  // Notify the browser action in case it's open.
+  chrome.extension.sendMessage({method: 'sync-icon.spinning.stop'});
   chrome.extension.sendMessage({method: 'ui.refresh'});
 };
 

@@ -1,110 +1,74 @@
 * {
-  font-family: Helvetica, sans-serif;
-  font-size: 11pt;
   box-sizing: border-box;
+  font-family: Roboto, Arial, sans-serif;
 }
 
 body {
+  background: #e5e5e5;
+  font-size: 12px;
   height: 480px;
+  overflow-y: scroll;
   width: 300px;
 }
 
-#logo {
-  color:  #dd4b39;
-  display: inline-block;
-  font-size: 17px;
-  height: 36px;
+textarea {
+  border: 1px solid #ccc;
+  font-size: 15px;
+  outline: none;
+  padding: 4px;
+}
+
+header {
+  margin-bottom: 12px;
+}
+
+.popup-title a {
+  color: #333;
+  font-size: 18px;
+  font-weight: 100;
+  outline: none;
   text-decoration: none;
 }
 
-#logo img {
-  vertical-align: middle;
+.action-bar {
+  float: right;
 }
 
-a[data-href="calendar_ui_url"] {
-  outline: none;
-}
-
-textarea {
-  padding: 4px;
-  border: 1px solid #ccc;
-}
-
-.actionbar {
-  position: absolute;
-  top: 6px;
-  right: 6px;
-}
-
-.actionbar img {
+.action-bar img {
   cursor: pointer;
-}
-
-.tabstrip {
-  cursor: default;
-  border-bottom: 1px solid #939393;
-}
-
-.tabstrip a {
-  font-size: 10pt;
-  font-weight: bold;
-  text-transform: uppercase;
-  padding: 3px 8px;
-  display: inline-block;
-  border: 1px solid #939393;
-  background: -webkit-gradient(linear, 0 40%, 0 70%, from(#eee), to(#fff));
-  margin-bottom: -1px;
-
-  border-top-left-radius: 2px;
-  border-top-right-radius: 2px;
-}
-
-.tabstrip .selected {
-  font-weight: bold;
-  color: #333;
-  border-bottom: 1px solid white;
-}
-
-.tab-container {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
-
-.tab {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: 12px 0;
-  padding: 0;
-  overflow: auto;
-}
-
-.tab#agenda {
-  overflow-x: hidden;
+  height: 24px;
+  width: 24px;
 }
 
 #error {
-  width: 100%;
   padding: 72px 48px;
   text-align: center;
+  width: 100%;
 }
 
-#events img {
-  max-width: 100%;
+#error,
+#quick-add {
+  display: none;
+}
+
+#event-title {
+  width: 100%;
+}
+
+.quick-add-buttons {
+  float: right;
+}
+
+#calendar-events {
+  margin-bottom: 120px;
 }
 
 .date-header {
-  background: rgba(0,0,0,0.5);
-  color: white;
-  padding: 4px 0 4px 24px;
-  text-transform: uppercase;
-  font-size: 0.8em;
-  font-weight: bold;
+  font-size: 18px;
+  font-style: italic;
+  font-weight: 300;
   margin: 12px 0 0 0;
+  padding: 4px 0;
 }
 
 .date-header:first-child,
@@ -113,57 +77,72 @@ textarea {
 }
 
 .event {
-  border-bottom: 1px solid #ccc;
-  position: relative;
-  padding: 6px 0 3px 0;
-  cursor: pointer !important;
+  background: #fff;
+  border-radius: 2px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   color: #333;
+  cursor: pointer !important;
+  font-weight: 300;
+  margin: 0 0 6px 0;
+  padding: 6px 0 3px 0;
+  position: relative;
+  overflow: hidden;
 }
 
 .event .feed-color {
-  width: 16px;
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 2px;
-  margin: 0 12px 0 0;
-  text-align: center;
-  padding: 5px 0 0 0;
+  bottom: 0;
   color: white;
   font-weight: bold;
+  right: 0;
+  position: absolute;
+  text-align: center;
+  top: 0;
+  width: 6px;
 }
 
 .event .event-details {
-  margin-left: 24px;
+  margin-left: 12px;
 }
 
 .event h1 {
-  margin: 0 0 3px 0;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 17px;
   line-height: 1;
+  margin: 0 0 3px 0;
 }
 
 .event .start-and-end-times {
   color: #888;
+  font-size: 12px;
+  line-height: 15px;
 }
 
 .event .location {
   color: #888;
-  font-size: 0.9em;
+  font-size: 12px;
+  line-height: 15px;
   margin-top: 3px;
 }
 
+.card-action {
+  border-top: 1px solid #ccc;
+  color: #3db5e1;
+  margin: 6px 6px 0 6px;
+  padding: 6px;
+}
+
 .kd-button {
-  background-color: #4d90fe;
   background-image: -webkit-gradient(linear,left top,left bottom,from(#4d90fe),to(#4787ed));
   background-image: -webkit-linear-gradient(top,#4d90fe,#4787ed);
-  background-image: linear-gradient(top,#4d90fe,#4787ed);
+  background-image:         linear-gradient(top,#4d90fe,#4787ed);
   border-color: #3079ed;
   border-radius: 2px;
   border: 1px solid rgba(0,0,0,0.1);
   color: #fff;
   cursor: default;
   display: inline-block;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: bold;
   height: 27px;
   line-height: 27px;
@@ -171,18 +150,17 @@ textarea {
   padding: 0 8px;
   text-align: center;
   -webkit-transition: all 0.218s;
-  transition: all 0.218s;
+          transition: all 0.218s;
 }
 
 .kd-button:hover {
-  background-color: #357ae8;
   background-image: -webkit-gradient(linear,left top,left bottom,from(#4d90fe),to(#357ae8));
   background-image: -webkit-linear-gradient(top,#4d90fe,#357ae8);
-  background-image: linear-gradient(top,#4d90fe,#357ae8);
+  background-image:         linear-gradient(top,#4d90fe,#357ae8);
   border-color: #2f5bb7;
   box-shadow: 0 1px 1px rgba(0,0,0,0.1);
   -webkit-transition: all 0.0s;
-  transition: all 0.0s;
+          transition: all 0.0s;
 }
 
 .kd-button:active {
@@ -193,4 +171,26 @@ textarea {
   border: 1px solid #4d90fe;
   box-shadow:inset 0 0 0 1px rgba(255,255,255,0.5);
   outline: none;
+}
+
+@-webkit-keyframes spin {
+  from {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+
+.spinning {
+  -webkit-animation-name: spin;
+          animation-name: spin;
+  -webkit-animation-duration: 1.5s;
+          animation-duration: 1.5s;
+  -webkit-animation-iteration-count: infinite;
+          animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+          animation-timing-function: linear;
 }

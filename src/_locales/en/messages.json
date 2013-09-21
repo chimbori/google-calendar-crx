@@ -10,8 +10,8 @@
   },
 
   "logo_text": {
-    "message": "Calendar",
-    "description": "A single word, appearing after the Google logo, that refers to the Calendar product."
+    "message": "Google Calendar",
+    "description": "The name of the Calendar product, including the word Google."
   },
 
   "read_more_at_original_url": {
@@ -30,21 +30,16 @@
   },
 
   "event_title_placeholder": {
-    "message": "Event title …",
+    "message": "E.g. “Dinner with Michael 7pm tomorrow”",
     "description": "Placeholder in the textarea where the user is instructed to type in the title of the event they want to create."
   },
 
-  "field_header_from": {
-    "message": "From",
-    "description": "Header placed inside the Add New Event form, just before the 'from' date."
+  "events_on_this_page": {
+    "message": "Events on this page",
+    "description": "Title used in the browser action popup for the list of events detected on the current page."
   },
 
-  "field_header_to": {
-    "message": "to",
-    "description": "Header placed inside the Add New Event form, just before the 'to' date."
-  },
-
-  "add_button": {
+  "quick_add_button": {
     "message": "Add",
     "description": "Text on the button that adds a new event to the calendar from user input."
   },
@@ -62,6 +57,16 @@
   "sync_now": {
     "message": "Update the list of events from the server.",
     "description": "Alternate text for the icon that forces syncing the calendar right away."
+  },
+
+  "show_quick_add": {
+    "message": "Add a new event by typing in the event details.",
+    "description": "Alternate text for the icon that shows the text area where users add details of new events."
+  },
+
+  "show_options": {
+    "message": "Change options for this extension",
+    "description": "Alternate text for the icon that opens the Options screen in a new window."
   },
 
   "fetching_feed": {

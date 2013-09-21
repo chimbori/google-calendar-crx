@@ -9,34 +9,31 @@
     <script src="browser_action.js"></script>
   </head>
   <body>
-    <a id="logo" data-href="calendar_ui_url" target="_blank">
-      <img src="icons/google-logo.png" width="70" height="24" alt="Google">
-      <span class="i18n" id="logo_text">Calendar</span>
-    </a>
-    <div class="actionbar">
-      <img src="icons/sync.svg" id="sync_now" class="i18n">
-    </div>
-    <div class="tab" id="error">
+    <header>
+      <div class="action-bar">
+        <img src="icons/5_content_new.png" id="show_quick_add" class="i18n">
+        <img src="icons/1_navigation_refresh.png" id="sync_now" class="i18n">
+        <img src="icons/2_action_settings.png" id="show_options" class="i18n">
+      </div>
+      <div class="popup-title">
+        <a data-href="calendar_ui_url" target="_blank">
+          <span class="i18n" id="logo_text">Google Calendar</span>
+        </a>
+      </div>
+    </header>
+    <div id="error">
       <a data-href="calendar_ui_url" target="_blank">
         <span class="i18n" id="authorization_required"></span>
       </a>
     </div>
-    <div class="tabstrip">
-      &nbsp;
-      <a class="i18n" id="view_agenda">Agenda</a>
-      <a id="add-events"> + </a>
-    </div>
-    <div class="tab-container">
-      <div class="tab" id="agenda">
-      </div>
-      <div class="tab" id="events">
-        <div id="manual-add">
-          <div class="date-header i18n" id="add_an_event">Add an Event</div>
-          <textarea id="event-title" style="width:100%" rows="8" tabindex="1"></textarea>
-          <button id="add_button" style="float:right" class="kd-button i18n" tabindex="2">Add</button>
-        </div>
-        <div id="events-list"></div>
+    <div id="quick-add">
+      <div class="date-header i18n" id="add_an_event">Add an Event</div>
+      <textarea id="event-title" rows="5" tabindex="1"></textarea>
+      <div class="quick-add-buttons">
+        <button id="quick_add_button" class="kd-button i18n" tabindex="2">Quick Add</button>
       </div>
     </div>
+    <div id="detected-events"></div>
+    <div id="calendar-events"></div>
   </body>
 </html>

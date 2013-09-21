@@ -8,8 +8,8 @@
     "description": "Description of what this extension does."
   },
   "logo_text": {
-    "message": "Kalender",
-    "description": "A single word, appearing after the Google logo, that refers to the Calendar product."
+    "message": "Google Kalender",
+    "description": "The name of the Calendar product, including the word Google."
   },
   "read_more_at_original_url": {
     "message": "Lesen Sie mehr auf der Original-Website: ",
@@ -24,18 +24,14 @@
     "description": "Header that appears just above the form that lets users add custom events."
   },
   "event_title_placeholder": {
-    "message": "Termin:",
+    "message": "Z. B. “Dinner mit Michael 7.00 morgen”",
     "description": "Placeholder in the textarea where the user is instructed to type in the title of the event they want to create."
   },
-  "field_header_from": {
-    "message": "Von",
-    "description": "Header placed inside the Add New Event form, just before the 'from' date."
+  "events_on_this_page": {
+    "message": "Events auf dieser Seite",
+    "description": "Title used in the browser action popup for the list of events detected on the current page."
   },
-  "field_header_to": {
-    "message": "Bis",
-    "description": "Header placed inside the Add New Event form, just before the 'to' date."
-  },
-  "add_button": {
+  "quick_add_button": {
     "message": "Hinzufügen",
     "description": "Text on the button that adds a new event to the calendar from user input."
   },
@@ -50,6 +46,14 @@
   "sync_now": {
     "message": "Aktualisieren Sie die Liste der Termine vom Server.",
     "description": "Alternate text for the icon that forces syncing the calendar right away."
+  },
+  "show_quick_add": {
+    "message": "Fügen Sie ein neues Ereignis, indem Sie Details.",
+    "description": "Alternate text for the icon that shows the text area where users add details of new events."
+  },
+  "show_options": {
+    "message": "Ändern der Optionen für diese Erweiterung",
+    "description": "Alternate text for the icon that opens the Options screen in a new window."
   },
   "fetching_feed": {
     "message": "Die Liste der Termine wird aktualisiert.",

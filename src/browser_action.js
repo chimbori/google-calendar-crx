@@ -36,7 +36,6 @@ browseraction.CALENDAR_UI_URL_ = 'https://www.google.com/calendar/';
  */
 browseraction.initialize = function() {
   browseraction.fillMessages_();
-  browseraction.installTabStripClickHandlers_();
   browseraction.installButtonClickHandlers_();
   browseraction.showLoginMessageIfNotAuthenticated_();
   browseraction.listenForRequests_();
@@ -54,6 +53,12 @@ browseraction.fillMessages_ = function() {
   // Load internationalized messages.
   $('.i18n').each(function() {
     var i18nText = chrome.i18n.getMessage($(this).attr('id').toString());
+    if (!i18nText) {
+      chrome.extension.getBackgroundPage().background.log(
+          'Error getting string for: ', $(this).attr('id').toString());
+      return;
+    }
+
     if ($(this).prop('tagName') == 'IMG') {
       $(this).attr({'title': i18nText});
     } else {
@@ -69,38 +74,25 @@ browseraction.fillMessages_ = function() {
 
 
 /**
- * Makes the tab strip clickable, and sets it up to switch tabs on clicking.
- * @private
- */
-browseraction.installTabStripClickHandlers_ = function() {
-  $('#add-events').click(function() {
-    $('.selected').removeClass('selected');
-    $('.tab').hide();
-    $('#add-events').addClass('selected');
-    $('#events').show();
-    $('#event-title').focus();
-  });
-
-  $('#view_agenda').click(function() {
-    $('.selected').removeClass('selected');
-    $('.tab').hide();
-    $('#view_agenda').addClass('selected');
-    $('#agenda').show();
-  }).click();  // Execute the handler that was just assigned.
-};
-
-
-/**
  * Adds click handlers to buttons and clickable objects.
  * @private
  */
 browseraction.installButtonClickHandlers_ = function() {
+  $('#show_quick_add').on('click', function() {
+    $('#quick-add').slideDown(200);
+    $('#event-title').focus();
+  });
+
   $('#sync_now').on('click', function() {
     chrome.extension.sendMessage({method: 'events.feed.fetch'},
         browseraction.showEventsFromFeed_);
   });
 
-  $('#add_button').on('click', function() {
+  $('#show_options').on('click', function() {
+    chrome.tabs.create({'url': 'options.html'});
+  });
+
+  $('#quick_add_button').on('click', function() {
     var event = /** @type {CalendarEvent} */ ({});
     event.title = event.description = $('#event-title').val().toString();
     event = utils.processEvent(event);
@@ -144,6 +136,16 @@ browseraction.listenForRequests_ = function() {
         chrome.extension.sendMessage({method: 'events.feed.get'},
             browseraction.showEventsFromFeed_);
         break;
+
+      case 'sync-icon.spinning.start':
+        $('#sync_now').addClass('spinning');
+        break;
+
+      case 'sync-icon.spinning.stop':
+        $('#sync_now').one('animationiteration webkitAnimationIteration', function() {
+          $(this).removeClass('spinning');
+        });
+        break;
     }
   });
 };
@@ -159,10 +161,10 @@ browseraction.showDetectedEvents_ = function() {
     // Pick a layout based on how many events we have to show: 0, 1, or >1.
     if (eventsFromPage && eventsFromPage.length > 0) {
       $('<div>').addClass('date-header')
-          .text('Events from this page')
-          .appendTo($('#events-list'));
+          .text(chrome.i18n.getMessage('events_on_this_page'))
+          .appendTo($('#detected-events'));
       $.each(eventsFromPage, function(i, event) {
-        browseraction.createEventDiv_(event).appendTo($('#events-list'));
+        browseraction.createEventDiv_(event).appendTo($('#detected-events'));
       });
       $('#add-events').click();
     }
@@ -178,7 +180,7 @@ browseraction.showDetectedEvents_ = function() {
  */
 browseraction.showEventsFromFeed_ = function(events) {
   chrome.extension.getBackgroundPage().background.log('browseraction.showEventsFromFeed_');
-  $('#agenda').empty();
+  $('#calendar-events').empty();
 
   for (var i = 0; i < events.length; i++) {
     var event = events[i];
@@ -196,11 +198,11 @@ browseraction.showEventsFromFeed_ = function(events) {
     if (!lastDateHeader || startDate.diff(lastDateHeader, 'hours') > 23) {
       lastDateHeader = startDate;
       $('<div>').addClass('date-header')
-          .text(lastDateHeader.format('dddd MMMM, D'))
-          .appendTo($('#agenda'));
+          .text(lastDateHeader.format('dddd, MMMM D'))
+          .appendTo($('#calendar-events'));
     }
 
-    browseraction.createEventDiv_(event).appendTo($('#agenda'));
+    browseraction.createEventDiv_(event).appendTo($('#calendar-events'));
   }
 };
 
@@ -228,14 +230,9 @@ browseraction.createEventDiv_ = function(event) {
     return eventDiv;
   }
 
-  var isNewEvent = !event.feed;
+  var isDetectedEvent = !event.feed;
   var isHappeningNow = start.valueOf() < now && end.valueOf() >= now;
-  if (isNewEvent) {  // This event has not yet been added to the user's calendar.
-    $('<div>').addClass('feed-color')
-        .css({'background-color': '#e6932e'})
-        .text('+')
-        .appendTo(eventDiv);
-  } else {  // This event is already on the user's calendar.
+  if (!isDetectedEvent) {  // This event is already on the user's calendar.
     $('<div>').addClass('feed-color')
         .css({'background-color': event.feed.color})
         .attr({'title': event.feed.title})
@@ -254,8 +251,8 @@ browseraction.createEventDiv_ = function(event) {
   // Pick a time format based on whether the event is an all-day event, and/or
   // if it's an event we've detected (versus an event from the feed.)
   var timeFormat = allDay ?
-      (isNewEvent ? 'MMM D, YYYY' : '') :
-      (isNewEvent ? 'MMM D, YYYY h:mma' : 'h:mma');
+      (isDetectedEvent ? 'MMM D, YYYY' : '') :
+      (isDetectedEvent ? 'MMM D, YYYY h:mma' : 'h:mma');
 
   // If it's an all-day event from the feed, we don't need to include any time
   // information, because it will already be rendered under the appropriate
@@ -266,10 +263,21 @@ browseraction.createEventDiv_ = function(event) {
         .append(' – ')
         .append($('<span>').addClass('end').text(end.format(timeFormat)))
         .appendTo(eventDetails);
+  } else {
+    $('<div>').addClass('start-and-end-times')
+        .append(event.feed.title)
+        .appendTo(eventDetails);
   }
 
   if (event.location) {
     $('<div>').addClass('location').text(event.location).appendTo(eventDetails);
+    // $('<img>').attr('src', 'http://maps.googleapis.com/maps/api/staticmap?size=250x150&sensor=false&center=' + encodeURIComponent(event.location)).appendTo(eventDetails);
+  }
+
+  if (isDetectedEvent) {  // This event has not yet been added to the user's calendar.
+    $('<div>').addClass('card-action')
+        .text(chrome.i18n.getMessage('add_to_google_calendar'))
+        .appendTo(eventDiv);
   }
 
   return eventDiv;
