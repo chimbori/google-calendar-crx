@@ -50,6 +50,13 @@ browseraction.initialize = function() {
  * @private
  */
 browseraction.fillMessages_ = function() {
+  // Initialize language for Moment.js.
+  moment.lang('en');
+  moment.lang(window.navigator.language);
+  if (moment.lang() != window.navigator.language) {
+    moment.lang(window.navigator.language.substring(0, 2));
+  }
+
   // Load internationalized messages.
   $('.i18n').each(function() {
     var i18nText = chrome.i18n.getMessage($(this).attr('id').toString());
