@@ -81,7 +81,6 @@ header {
   border-radius: 2px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   color: #333;
-  cursor: pointer !important;
   font-weight: 300;
   margin: 0 0 6px 0;
   padding: 6px 0 3px 0;
@@ -100,8 +99,10 @@ header {
   width: 6px;
 }
 
-.event .event-details {
+.event-details {
+  cursor: pointer;
   margin-left: 12px;
+  margin-bottom: 6px;
 }
 
 .event h1 {
@@ -126,10 +127,15 @@ header {
 }
 
 .card-action {
-  border-top: 1px solid #ccc;
-  color: #3db5e1;
-  margin: 6px 6px 0 6px;
+  border-top: 1px solid #e5e5e5;
+  margin: 0 6px;
   padding: 6px;
+}
+
+.card-action,
+.card-action a {
+  color: #3db5e1;
+  text-decoration: none;
 }
 
 .kd-button {

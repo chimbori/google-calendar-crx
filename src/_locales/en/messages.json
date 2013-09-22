@@ -54,6 +54,11 @@
     "description": "Alt text and/or link text for the link that users click to add event to their calendar."
   },
 
+  "view_on_map": {
+    "message": "View on Map",
+    "description": "A message shown below each event when the event has a location, that opens the location in Google Maps."
+  },
+
   "sync_now": {
     "message": "Update the list of events from the server.",
     "description": "Alternate text for the icon that forces syncing the calendar right away."

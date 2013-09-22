@@ -229,10 +229,6 @@ browseraction.createEventDiv_ = function(event) {
         .addClass('event')
         .attr({'data-url': event.gcal_url}));
 
-  eventDiv.on('click', function() {
-    chrome.tabs.create({'url': $(this).attr('data-url')});
-  });
-
   if (!start) {  // Some events detected via microformats are malformed.
     return eventDiv;
   }
@@ -248,6 +244,9 @@ browseraction.createEventDiv_ = function(event) {
   }
 
   var eventDetails = $('<div>').addClass('event-details').appendTo(eventDiv);
+  eventDetails.on('click', function() {
+    chrome.tabs.create({'url': $(this).attr('data-url')});
+  });
 
   $('<h1>').text(event.title).appendTo(eventDetails);
 
@@ -279,11 +278,24 @@ browseraction.createEventDiv_ = function(event) {
   if (event.location) {
     $('<div>').addClass('location').text(event.location).appendTo(eventDetails);
     // $('<img>').attr('src', 'http://maps.googleapis.com/maps/api/staticmap?size=250x150&sensor=false&center=' + encodeURIComponent(event.location)).appendTo(eventDetails);
+
+    var mapLink = $('<a>')
+        .attr({
+          'href': 'https://maps.google.com?q=' + encodeURIComponent(event.location),
+          'target': '_blank'
+        })
+        .text(chrome.i18n.getMessage('view_on_map'));
+    $('<div>').addClass('card-action')
+        .append(mapLink)
+        .appendTo(eventDiv);
   }
 
   if (isDetectedEvent) {  // This event has not yet been added to the user's calendar.
+    var addToCalendarLink = $('<a>')
+        .attr({'href': event.gcal_url, 'target': '_blank'})
+        .text(chrome.i18n.getMessage('add_to_google_calendar'));
     $('<div>').addClass('card-action')
-        .text(chrome.i18n.getMessage('add_to_google_calendar'))
+        .append(addToCalendarLink)
         .appendTo(eventDiv);
   }
 
