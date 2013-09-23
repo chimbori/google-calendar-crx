@@ -234,9 +234,7 @@ browseraction.createEventDiv_ = function(event) {
   var end = utils.fromIso8601(event.end);
   var now = moment().valueOf();
 
-  var eventDiv = /** @type {jQuery} */ ($('<div>')
-        .addClass('event')
-        .attr({'data-url': event.gcal_url}));
+  var eventDiv = /** @type {jQuery} */ ($('<div>').addClass('event'));
 
   if (!start) {  // Some events detected via microformats are malformed.
     return eventDiv;
@@ -252,7 +250,10 @@ browseraction.createEventDiv_ = function(event) {
         .appendTo(eventDiv);
   }
 
-  var eventDetails = $('<div>').addClass('event-details').appendTo(eventDiv);
+  var eventDetails = $('<div>')
+      .addClass('event-details')
+      .attr({'data-url': event.gcal_url})
+      .appendTo(eventDiv);
   eventDetails.on('click', function() {
     chrome.tabs.create({'url': $(this).attr('data-url')});
   });
