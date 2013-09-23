@@ -59,10 +59,6 @@ header {
   float: right;
 }
 
-#calendar-events {
-  margin-bottom: 120px;
-}
-
 .date-header {
   font-size: 18px;
   font-style: italic;
@@ -101,8 +97,8 @@ header {
 
 .event-details {
   cursor: pointer;
-  margin-left: 12px;
-  margin-bottom: 6px;
+  margin: 0 12px 6px 12px;
+  overflow: hidden;
 }
 
 .event h1 {

@@ -122,11 +122,11 @@ feeds.fetchCalendars = function() {
       });
 
     }).error(function(response) {
+      chrome.extension.sendMessage({method: 'sync-icon.spinning.stop'});
       if (response.status === 401) {
         feeds.isAuthenticated = false;
         feeds.refreshUI();
         background.log('  - Error 401 fetching list of calendars.');
-
       } else {
         window.console.log('An unknown error was encountered in fetching the feed:',
             response);

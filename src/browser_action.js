@@ -109,8 +109,8 @@ browseraction.installButtonClickHandlers_ = function() {
 
 
 /**
- * Checks if we're logged in (by using the badge icon text as a proxy) and
- * either shows or hides a message asking the user to login.
+ * Checks if we're logged in and either shows or hides a message asking
+ * the user to login.
  * @private
  */
 browseraction.showLoginMessageIfNotAuthenticated_ = function() {
@@ -188,6 +188,15 @@ browseraction.showDetectedEvents_ = function() {
 browseraction.showEventsFromFeed_ = function(events) {
   chrome.extension.getBackgroundPage().background.log('browseraction.showEventsFromFeed_');
   $('#calendar-events').empty();
+
+  if (!chrome.extension.getBackgroundPage().feeds.isAuthenticated) {
+    $('#error').show();
+    $('#calendar-events').hide();
+    return;
+  } else {
+    $('#error').hide();
+    $('#calendar-events').show();
+  }
 
   for (var i = 0; i < events.length; i++) {
     var event = events[i];
