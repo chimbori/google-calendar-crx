@@ -198,6 +198,14 @@ browseraction.showEventsFromFeed_ = function(events) {
     $('#calendar-events').show();
   }
 
+  // Insert a date header for Today as the first item in the list. Any ongoing
+  // multi-day events (i.e., started last week, ends next week) will be shown
+  // under today's date header, not under the date it started.
+  var headerDate = moment().hours(0).minutes(0).seconds(0).millisecond(0);
+  $('<div>').addClass('date-header')
+      .text(headerDate.format('dddd, MMMM D'))
+      .appendTo($('#calendar-events'));
+
   for (var i = 0; i < events.length; i++) {
     var event = events[i];
 
@@ -207,14 +215,13 @@ browseraction.showEventsFromFeed_ = function(events) {
         (start.hours() === 0 && start.minutes() === 0 &&
         end.hours() === 0 && end.minutes() === 0);
 
-    // Insert a date header if the date of this event is not the same as that of the
-    // previous event.
-    var lastDateHeader;
+    // Insert a new date header if the date of this event is not the same as
+    // that of the previous event.
     var startDate = start.clone().hours(0).minutes(0).seconds(0);
-    if (!lastDateHeader || startDate.diff(lastDateHeader, 'hours') > 23) {
-      lastDateHeader = startDate;
+    if (startDate.diff(headerDate, 'hours') > 23) {
+      headerDate = startDate;
       $('<div>').addClass('date-header')
-          .text(lastDateHeader.format('dddd, MMMM D'))
+          .text(headerDate.format('dddd, MMMM D'))
           .appendTo($('#calendar-events'));
     }
 
