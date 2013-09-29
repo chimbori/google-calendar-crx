@@ -72,6 +72,12 @@ header {
   margin: 0;
 }
 
+.no-events-today {
+  color: #333;
+  font-size: 14px;
+  font-weight: 300;
+}
+
 .event {
   background: #fff;
   border-radius: 2px;
