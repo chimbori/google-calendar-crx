@@ -213,14 +213,16 @@ feeds.fetchEventsFromCalendar_ = function(feed, callback) {
   var toDate = moment().add('days', feeds.DAYS_IN_AGENDA_);
 
   var feedUrl = feed.url + '?' + [
-      'max-results=100',
-      'orderby=starttime',
-      'start-min=' + encodeURIComponent(fromDate.toISOString()),
-      'start-max=' + encodeURIComponent(toDate.toISOString()),
-      'recurrence-expansion-start=' + encodeURIComponent(fromDate.toISOString()),
-      'recurrence-expansion-end=' + encodeURIComponent(toDate.toISOString()),
-      'singleevents=true',
-      'sortorder=ascending'].join('&');
+    'start-min=' + encodeURIComponent(fromDate.toISOString()),
+    'start-max=' + encodeURIComponent(toDate.toISOString()),
+    'recurrence-expansion-start=' + encodeURIComponent(fromDate.toISOString()),
+    'recurrence-expansion-end=' + encodeURIComponent(toDate.toISOString()),
+    'ctz=' + jstz.determine().name(),
+    'max-results=100',
+    'orderby=starttime',
+    'singleevents=true',
+    'sortorder=ascending'
+  ].join('&');
   background.log(feedUrl);
 
   $.get(feedUrl, (function(feed) {

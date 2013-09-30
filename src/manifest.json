@@ -27,6 +27,7 @@
 
   "background": {
     "scripts": [
+      "lib/jstz-1.0.4.min.js",
       "lib/jquery.min.js",
       "lib/moment+langs.min.js",
       "options.js",
