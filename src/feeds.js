@@ -33,6 +33,14 @@ feeds.CALENDAR_LIST_FEED_URL_ =
     'https://www.google.com/calendar/feeds/default/allcalendars/full';
 
 /**
+ * The number of days of events to show in the list.
+ * @type {number}
+ * @const
+ * @private
+ */
+feeds.DAYS_IN_AGENDA_ = 14;
+
+/**
  * All events from visible calendars obtained during the last fetch.
  * @type {Array.<Object>}
  */
@@ -201,12 +209,19 @@ feeds.fetchEvents = function() {
 feeds.fetchEventsFromCalendar_ = function(feed, callback) {
   background.log('feeds.fetchEventsFromCalendar_', feed);
 
+  var fromDate = moment();
+  var toDate = moment().add('days', feeds.DAYS_IN_AGENDA_);
+
   var feedUrl = feed.url + '?' + [
-      'max-results=10',
-      'futureevents=true',
+      'max-results=100',
       'orderby=starttime',
+      'start-min=' + encodeURIComponent(fromDate.toISOString()),
+      'start-max=' + encodeURIComponent(toDate.toISOString()),
+      'recurrence-expansion-start=' + encodeURIComponent(fromDate.toISOString()),
+      'recurrence-expansion-end=' + encodeURIComponent(toDate.toISOString()),
       'singleevents=true',
       'sortorder=ascending'].join('&');
+  background.log(feedUrl);
 
   $.get(feedUrl, (function(feed) {
     return function(data) {
