@@ -53,7 +53,7 @@ label {
   border-radius: 2px;
   height: 14px;
   width: 14px;
-  opacity: 0.2;
+  opacity: 0;
 }
 
 .calendar-checkbox:checked {
