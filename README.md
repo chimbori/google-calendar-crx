@@ -1,6 +1,8 @@
 Google Calendar Chrome Extension
 ================================
 
+[Install it now from the Chrome Web Store](https://chrome.google.com/webstore/detail/google-calendar-by-google/gmbgaklkmjakoegficnlkhebmhkjfich).
+
 Easily check Google Calendar and add new events from websites you visit.
 ------------------------------------------------------------------------
 Get a button on your browser toolbar that you can easily click to see upcoming events from Google Calendar,
@@ -20,16 +22,16 @@ Features
 
 How to install a pre-release version
 ------------------------------------
-The released version will always be available from the Google Chrome Web Store.
-If you’d like to check out new features before they are released to the public, you can install a pre-release version.
-Note that there may be bugs and stability issues with pre-release versions.
+The released version will always be available from the [Google Chrome Web Store](https://chrome.google.com/webstore/detail/google-calendar-by-google/gmbgaklkmjakoegficnlkhebmhkjfich).
 
-1. Click on the “[ZIP](https://github.com/manastungare/google-calendar-crx/zipball/master)” button above to download the zip file, then unzip it.
+If you’d like to check out new features before they are released to the public, you can install a pre-release version.
+
+1. Download the [zip file](https://github.com/manastungare/google-calendar-crx/zipball/master) and unzip it.
 2. In Chrome, type “chrome://extensions” in the omnibox.
-3. Turn on the “Developer mode” feature in the top right corner.
+3. Turn on “Developer mode” in the top right corner.
 4. Click on “Load unpacked extension…” and pick the directory in which you unzipped the extension.
-5. The extension should now appear in the list.
-6. If a button labeled “Show button” also appears in the list, then click it.
+
+The extension should now appear in the list. If a button labeled “Show button” also appears in the list, then click it.
 
 
 For Webmasters
