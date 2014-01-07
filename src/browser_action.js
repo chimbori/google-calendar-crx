@@ -282,7 +282,7 @@ browseraction.createEventDiv_ = function(event) {
 
   // Pick a time format based on whether the event is an all-day event, and/or
   // if it's an event we've detected (versus an event from the feed.)
-  var timeFormat = options.get(options.Options.TIME_FORMAT_24H) ? 'h:mma' : 'HH:mm';
+  var timeFormat = options.get(options.Options.TIME_FORMAT_24H) ? 'HH:mm' : 'h:mma';
   var dateTimeFormat = allDay ?
       (isDetectedEvent ? 'MMM D, YYYY' : '') :
       (isDetectedEvent ? 'MMM D, YYYY ' + timeFormat : timeFormat);
