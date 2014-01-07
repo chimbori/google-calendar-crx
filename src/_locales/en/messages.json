@@ -104,6 +104,11 @@
     "description": "The name of the option that specifies if 24-hour time is in effect. If off, this means am/pm time."
   },
 
+  "announcement_24h_time": {
+    "message": "24-hr time is now available! Set now.",
+    "description": "An announcement message shown when the user first upgrades to a version that allows choosing 24-hour time."
+  },
+
   "option_show_time_until_next_event": {
     "message": "Show time remaining until the next event.",
     "description": "The name of the option that tells the user that the extension will display the time on the badge."
