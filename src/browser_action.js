@@ -282,18 +282,19 @@ browseraction.createEventDiv_ = function(event) {
 
   // Pick a time format based on whether the event is an all-day event, and/or
   // if it's an event we've detected (versus an event from the feed.)
-  var timeFormat = allDay ?
+  var timeFormat = options.get(options.Options.TIME_FORMAT_24H) ? 'h:mma' : 'HH:mm';
+  var dateTimeFormat = allDay ?
       (isDetectedEvent ? 'MMM D, YYYY' : '') :
-      (isDetectedEvent ? 'MMM D, YYYY h:mma' : 'h:mma');
+      (isDetectedEvent ? 'MMM D, YYYY ' + timeFormat : timeFormat);
 
   // If it's an all-day event from the feed, we don't need to include any time
   // information, because it will already be rendered under the appropriate
-  // date header. So, skip this section entirely if timeFormat is ''.
-  if (timeFormat !== '') {
+  // date header. So, skip this section entirely if dateTimeFormat is ''.
+  if (dateTimeFormat !== '') {
     $('<div>').addClass('start-and-end-times')
-        .append($('<span>').addClass('start').text(start.format(timeFormat)))
+        .append($('<span>').addClass('start').text(start.format(dateTimeFormat)))
         .append(' – ')
-        .append($('<span>').addClass('end').text(end.format(timeFormat)))
+        .append($('<span>').addClass('end').text(end.format(dateTimeFormat)))
         .appendTo(eventDetails);
   } else {
     $('<div>').addClass('start-and-end-times')
