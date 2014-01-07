@@ -39,6 +39,7 @@ browseraction.initialize = function() {
   browseraction.installButtonClickHandlers_();
   browseraction.showLoginMessageIfNotAuthenticated_();
   browseraction.listenForRequests_();
+  versioning.checkVersion();
   browseraction.showDetectedEvents_();
   chrome.extension.sendMessage({method: 'events.feed.get'},
       browseraction.showEventsFromFeed_);
