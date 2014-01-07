@@ -40,6 +40,15 @@ header {
   width: 24px;
 }
 
+#announcements {
+  background: #efefef;
+  color: #333;
+  display: none;
+  padding: 4px;
+  text-decoration: none;
+  width: 100%;
+}
+
 #error {
   padding: 72px 48px;
   text-align: center;

@@ -31,7 +31,8 @@ var options = {};
  * @const
  */
 options.Options = {
-  BADGE_TEXT_SHOWN: 'badge-text-shown'
+  BADGE_TEXT_SHOWN: 'badge-text-shown',
+  TIME_FORMAT_24H: 'time-format-24h'
 };
 
 /**

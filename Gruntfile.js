@@ -52,6 +52,7 @@ module.exports = function(grunt) {
   var browser_action_files = [
     'src/types.js',
     'src/utils.js',
+    'src/versioning.js',
     'src/browser_action.js'
   ];
 
