@@ -112,7 +112,7 @@ header {
 
 .event-details {
   cursor: pointer;
-  margin: 0 12px 6px 12px;
+  margin: 0 12px 4px 12px;
   overflow: hidden;
 }
 
@@ -140,7 +140,10 @@ header {
 .card-action {
   border-top: 1px solid #e5e5e5;
   margin: 0 6px;
+  overflow: hidden;
   padding: 6px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .card-action,

@@ -296,22 +296,15 @@ browseraction.createEventDiv_ = function(event) {
         .append(' – ')
         .append($('<span>').addClass('end').text(end.format(dateTimeFormat)))
         .appendTo(eventDetails);
-  } else {
-    $('<div>').addClass('start-and-end-times')
-        .append(event.feed.title)
-        .appendTo(eventDetails);
   }
 
   if (event.location) {
-    $('<div>').addClass('location').text(event.location).appendTo(eventDetails);
-    // $('<img>').attr('src', 'http://maps.googleapis.com/maps/api/staticmap?size=250x150&sensor=false&center=' + encodeURIComponent(event.location)).appendTo(eventDetails);
-
     var mapLink = $('<a>')
         .attr({
           'href': 'https://maps.google.com?q=' + encodeURIComponent(event.location),
           'target': '_blank'
         })
-        .text(chrome.i18n.getMessage('view_on_map'));
+        .text(event.location);
     $('<div>').addClass('card-action')
         .append(mapLink)
         .appendTo(eventDiv);
