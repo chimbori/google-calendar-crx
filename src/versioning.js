@@ -45,7 +45,7 @@ versioning.checkVersion = function() {
  * @private
  */
 versioning.onVersionUpdated_ = function(fromVersion, toVersion) {
-  if (toVersion == '1.4.2.0') {
+  if (toVersion >= '1.4.2.0') {
     versioning.showAnnouncement_(chrome.i18n.getMessage('announcement_24h_time'));
   }
 };
