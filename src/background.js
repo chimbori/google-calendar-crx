@@ -71,6 +71,7 @@ background.initialize = function() {
   background.initMomentJs_();
   background.listenForRequests_();
   background.listenForTabUpdates_();
+  background.logSystemInfo_();
   scheduler.start();
 };
 
@@ -175,6 +176,18 @@ background.listenForTabUpdates_ = function() {
       delete background.eventsFromPage['tab' + tabId];
     }
   });
+};
+
+
+/**
+ * Logs system information to the console.
+ * @private
+ */
+background.logSystemInfo_ = function() {
+  background.log('Version:', chrome.app.getDetails().version);
+  background.log('Language:', window.navigator.language);
+  background.log('Timezone Offset:', moment().format('Z'));
+  background.log('User Agent:', window.navigator.userAgent);
 };
 
 
