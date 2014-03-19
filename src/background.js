@@ -29,7 +29,7 @@ var background = {};
  * @private
  * @const
  */
-background.DEBUG_ = true;
+background.DEBUG_ = false;
 
 /**
  * Colors used for the badge, other than calendar colors.
@@ -81,10 +81,11 @@ background.initialize = function() {
  */
 background.log = function(message, opt_dump) {
   if (background.DEBUG_) {
+    var timestampedMessage = '[' + moment().toISOString() + '] ' + message;
     if (opt_dump) {
-      window.console.log(message, opt_dump);
+      window.console.log(timestampedMessage, JSON.stringify(opt_dump, null /* replacer */, '  '));
     } else {
-      window.console.log(message);
+      window.console.log(timestampedMessage);
     }
   }
 };
