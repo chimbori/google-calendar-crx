@@ -229,8 +229,6 @@ feeds.fetchEventsFromCalendar_ = function(feed, callback) {
   $.get(feedUrl, (function(feed) {
     return function(data) {
       feeds.isAuthenticated = true;
-      background.log('Received events, now parsing.', feed.title);
-
       var events = [];
       $(data).find('entry').each(function() {
         var eventEntry = $(this);
@@ -263,6 +261,7 @@ feeds.fetchEventsFromCalendar_ = function(feed, callback) {
         });
       });
 
+      background.log('Parsed ' + events.length + ' events from "' + feed.title + '"');
       callback(events);
     };
   })(feed)).error(function(response) {
