@@ -62,13 +62,16 @@ scheduler.start = function() {
     feeds.refreshUI();
 
     var now = (new Date()).getTime();
-    var feedsFetchedAtMs = feeds.lastFetchedAt.getTime();
-
-    if (now - feedsFetchedAtMs > scheduler.CALENDARS_POLL_INTERVAL_MS_) {
-      feeds.fetchCalendars();  // Will trigger fetchEvents automatically.
-    } else if (now - feedsFetchedAtMs > scheduler.EVENTS_POLL_INTERVAL_MS_) {
-      feeds.fetchEvents();
+    if (!feeds.lastFetchedAt) {
+      // If never successfully fetched before, fetch the list of calendars now.
+      feeds.fetchCalendars();
+    } else {
+      var feedsFetchedAtMs = feeds.lastFetchedAt.getTime();
+      if (now - feedsFetchedAtMs > scheduler.CALENDARS_POLL_INTERVAL_MS_) {
+        feeds.fetchCalendars();  // Will trigger fetchEvents automatically.
+      } else if (now - feedsFetchedAtMs > scheduler.EVENTS_POLL_INTERVAL_MS_) {
+        feeds.fetchEvents();
+      }
     }
-
   }, scheduler.BADGE_UPDATE_INTERVAL_MS_);
 };
