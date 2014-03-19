@@ -40,41 +40,18 @@
         <p>If you run into issues with this extension, please report them so they can be fixed.</p>
         <p><button id="report-issue-button">Report an issue</button></p>
         <div id="report-issue-steps">
-          <ol>
-            <li>
-              Ensure you’re running the latest version of the extension.
-              <ul>
-                <li>Copy and paste this into the omnibox: <code>chrome://extensions</code></li>
-                <li>Click on the <code>☑ Developer Mode</code> check box</li>
-                <li>Click on the <code>Update Extensions Now</code> button.</li>
-              </ul>
-              If there is a new version available, the extension will now be updated.
-              Has the issue been fixed in this version? If so, yay!
-            </li>
-            <li>See if the problem has already been reported by another person.
-              A complete list and status of all pending issues is available at
-              <a href="https://github.com/manastungare/google-calendar-crx/issues">github.com/manastungare/google-calendar-crx/issues</a>.
-            </li>
-            <li>
-              If you have the same problem as one reported there, please copy all the text
-              in the box below, and paste it as a comment under that specific issue.</li>
-            <li>
-              If nobody has reported a similar problem yet, then create a new issue,
-              include all the information from the box below, and provide detailed
-              steps on how to reproduce the problem.
-            </li>
-          </ol>
-
-          <p>Thank you for helping make this extension better!</p>
-          <p><textarea id="system-info" rows="18"></textarea></p>
-          <p>Report this issue by copy/pasting this text at
+          Copy this debug information, add detailed steps on how to reproduce the problem, and attach a screenshot.
+          <p><textarea id="system-info" rows="20"></textarea></p>
+          <p>Then create a new issue and paste it at
             <a href="https://github.com/manastungare/google-calendar-crx/issues">https://github.com/manastungare/google-calendar-crx/issues</a>.
-            Please attach a screenshot if possible. Thanks!</p>
+          </p>
+        </div>
         </div>
       </section>
     </article>
 
     <script src="lib/jquery.min.js"></script>
+    <script src="lib/moment+langs.min.js"></script>
     <script src="utils.js"></script>
     <script src="options.js"></script>
   </body>

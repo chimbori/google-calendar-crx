@@ -219,13 +219,16 @@ options.fillMessages_ = function() {
 
   $('#report-issue-button').on('click', function() {
     var systemInfo = [];
+    systemInfo.push('System Information:');
+    systemInfo.push('- Version: ' + chrome.app.getDetails().version);
+    systemInfo.push('- Language: ' + window.navigator.language);
+    systemInfo.push('- Timezone Offset: ' + moment().format('Z'));
+    systemInfo.push('- User Agent: ' + window.navigator.userAgent);
+    systemInfo.push('');
     systemInfo.push('What steps will reproduce the problem?\n1. \n2. \n3. \n');
     systemInfo.push('What is the expected result?\n\n');
     systemInfo.push('What happens instead?\n\n');
-    systemInfo.push('System Information:');
-    systemInfo.push('- Extension version: ' + chrome.app.getDetails().version);
-    systemInfo.push('- window.navigator.language: ' + window.navigator.language);
-    systemInfo.push('- window.navigator.userAgent: ' + window.navigator.userAgent);
+    systemInfo.push('Screenshot URL:');
     systemInfo.push('');
     $('#system-info').val(systemInfo.join('\n'));
     $('#report-issue-steps').slideDown(100);
