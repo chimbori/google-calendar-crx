@@ -187,7 +187,7 @@ browseraction.showDetectedEvents_ = function() {
  * @private
  */
 browseraction.showEventsFromFeed_ = function(events) {
-  chrome.extension.getBackgroundPage().background.log('browseraction.showEventsFromFeed_');
+  chrome.extension.getBackgroundPage().background.log('browseraction.showEventsFromFeed_()');
   $('#calendar-events').empty();
 
   if (!chrome.extension.getBackgroundPage().feeds.isAuthenticated) {

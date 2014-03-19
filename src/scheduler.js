@@ -53,7 +53,7 @@ scheduler.BADGE_UPDATE_INTERVAL_MS_ = 60 * 1000;
  * the calendar (less often).
  */
 scheduler.start = function() {
-  background.log('scheduler.start');
+  background.log('scheduler.start()');
 
   // Do a one-time initial fetch on load.
   feeds.fetchCalendars();

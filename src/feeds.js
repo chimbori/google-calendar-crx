@@ -74,7 +74,7 @@ feeds.isAuthenticated = false;
  * for events from those calendars.
  */
 feeds.fetchCalendars = function() {
-  background.log('feeds.fetchCalendars');
+  background.log('feeds.fetchCalendars()');
   chrome.extension.sendMessage({method: 'sync-icon.spinning.start'});
 
   chrome.storage.local.get('calendars', function(storage) {
@@ -134,7 +134,7 @@ feeds.fetchCalendars = function() {
       if (response.status === 401) {
         feeds.isAuthenticated = false;
         feeds.refreshUI();
-        background.log('  - Error 401 fetching list of calendars.');
+        background.log('Error 401 fetching list of calendars.');
       } else {
         window.console.log('An unknown error was encountered in fetching the feed:',
             response);
@@ -150,7 +150,7 @@ feeds.fetchCalendars = function() {
  * fetched, it initiates a request to update the UI.
  */
 feeds.fetchEvents = function() {
-  background.log('feeds.fetchEvents');
+  background.log('feeds.fetchEvents()');
   chrome.extension.sendMessage({method: 'sync-icon.spinning.start'});
 
   feeds.lastFetchedAt = new Date();
@@ -168,9 +168,8 @@ feeds.fetchEvents = function() {
     }
 
     var calendars = storage['calendars'] || {};
-    background.log('  - calendars:', calendars);
-
     var allEvents = [];
+    var hiddenCalendarNames = [];
     var pendingRequests = 0;
     for (var calendarURL in calendars) {
       var calendar = calendars[calendarURL] || {};
@@ -192,8 +191,11 @@ feeds.fetchEvents = function() {
           }
         });
       } else {
-        background.log('Not showing calendar ' + calendar.title + ' because it\'s turned off.');
+        hiddenCalendarNames.push(calendar.title);
       }
+    }
+    if (hiddenCalendarNames.length > 0) {
+      background.log('Not showing calendars that are turned off.', hiddenCalendarNames);
     }
   });
 };
@@ -207,7 +209,7 @@ feeds.fetchEvents = function() {
  * @private
  */
 feeds.fetchEventsFromCalendar_ = function(feed, callback) {
-  background.log('feeds.fetchEventsFromCalendar_', feed);
+  background.log('feeds.fetchEventsFromCalendar_()', feed.title);
 
   var fromDate = moment();
   var toDate = moment().add('days', feeds.DAYS_IN_AGENDA_);
@@ -223,17 +225,15 @@ feeds.fetchEventsFromCalendar_ = function(feed, callback) {
     'singleevents=true',
     'sortorder=ascending'
   ].join('&');
-  background.log(feedUrl);
 
   $.get(feedUrl, (function(feed) {
     return function(data) {
       feeds.isAuthenticated = true;
-      background.log('  - Received events, now parsing.');
+      background.log('Received events, now parsing.', feed.title);
 
       var events = [];
       $(data).find('entry').each(function() {
         var eventEntry = $(this);
-
         // In case of recurring events, the entry has multiple <gd:when> fields.
         // One of them has only a startTime, and another has both a startTime and an endTime.
         // This is a workaround for this crazy behavior.
@@ -278,6 +278,7 @@ feeds.fetchEventsFromCalendar_ = function(feed, callback) {
  * obtained during the last fetch. Does not fetch new data.
  */
 feeds.refreshUI = function() {
+  background.log('refreshUI()');
   feeds.removePastEvents_();
   feeds.determineNextEvents_();
 
