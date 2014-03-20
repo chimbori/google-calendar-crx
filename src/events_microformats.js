@@ -33,7 +33,9 @@ function getInlineIconSmall_(event) {
         'target': '_blank'
       }).append(
         $('<img>').attr({
-          'src': chrome.extension.getURL('icons/calendar_add_19.png'),
+          'width': 19,
+          'height': 19,
+          'src': chrome.extension.getURL('icons/calendar_add_38.png'),
           'alt': chrome.i18n.getMessage('add_to_google_calendar')
         })
       );

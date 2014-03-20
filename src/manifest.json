@@ -9,8 +9,12 @@
     "16": "icons/event_calendar-lb16.png",
     "19": "icons/event_calendar-lb19.png",
     "32": "icons/event_calendar-lb32.png",
+    "38": "icons/event_calendar-lb38.png",
     "48": "icons/event_calendar-lb48.png",
-    "128": "icons/event_calendar-lb128.png"
+    "64": "icons/event_calendar-lb64.png",
+    "96": "icons/event_calendar-lb96.png",
+    "128": "icons/event_calendar-lb128.png",
+    "256": "icons/event_calendar-lb256.png"
   },
 
   "permissions": [
@@ -44,7 +48,7 @@
   "browser_action": {
      "default_icon": {
         "19": "icons/event_calendar-lb19.png",
-        "38": "icons/event_calendar-lb19.png"
+        "38": "icons/event_calendar-lb38.png"
       },
      "default_title": "__MSG_google_calendar_extension_name__",
      "default_popup": "browser_action.html"
@@ -67,6 +71,7 @@
   ],
 
   "web_accessible_resources": [
-    "icons/calendar_add_19.png"
+    "icons/calendar_add_19.png",
+    "icons/calendar_add_38.png"
   ]
 }

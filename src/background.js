@@ -127,7 +127,7 @@ background.listenForRequests_ = function() {
         chrome.browserAction.setIcon({
           path: {
             "19": 'icons/calendar_add_19.png',
-            "38": 'icons/calendar_add_19.png'
+            "38": 'icons/calendar_add_38.png'
           },
           tabId: sender.tab.id
         });
