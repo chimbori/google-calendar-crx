@@ -125,7 +125,10 @@ background.listenForRequests_ = function() {
         background.selectedTabId = sender.tab.id;
         background.eventsFromPage['tab' + background.selectedTabId] = request.parameters.events;
         chrome.browserAction.setIcon({
-          path: 'icons/calendar_add_19.png',
+          path: {
+            "19": 'icons/calendar_add_19.png',
+            "38": 'icons/calendar_add_19.png'
+          },
           tabId: sender.tab.id
         });
         break;
