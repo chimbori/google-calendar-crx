@@ -277,7 +277,6 @@ feeds.fetchEventsFromCalendar_ = function(feed, callback) {
  * obtained during the last fetch. Does not fetch new data.
  */
 feeds.refreshUI = function() {
-  background.log('refreshUI()');
   feeds.removePastEvents_();
   feeds.determineNextEvents_();
 
