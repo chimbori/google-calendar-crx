@@ -114,6 +114,7 @@ feeds.fetchCalendars = function() {
           title: entry.find('title').text(),
           summary: entry.find('summary').text(),
           author: entry.find('author').find('name').text(),
+          email: entry.find('author').find('email').text(),
           color: entry.find('color').attr('value'),
           visible: visible
         };
@@ -232,6 +233,15 @@ feeds.fetchEventsFromCalendar_ = function(feed, callback) {
       var events = [];
       $(data).find('entry').each(function() {
         var eventEntry = $(this);
+
+        // Check if this event was declined by the current calendar’s author.
+        // Each event also has an author, so check the calendar’s author, not event’s author.
+        var attendeeStatus = eventEntry.find('who[email="' + feed.email + '"]').find('attendeeStatus').attr('value');
+        if (attendeeStatus && attendeeStatus.indexOf('declined') > -1) {
+          background.log('Skipped declined event: ' + eventEntry.find('title').text());
+          return;
+        }
+
         // In case of recurring events, the entry has multiple <gd:when> fields.
         // One of them has only a startTime, and another has both a startTime and an endTime.
         // This is a workaround for this crazy behavior.
