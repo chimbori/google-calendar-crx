@@ -75,7 +75,7 @@ browseraction.fillMessages_ = function() {
   });
 
   $('[data-href="calendar_ui_url"]').attr('href', browseraction.CALENDAR_UI_URL_);
-  $('#event-title').attr({
+  $('#quick-add-event-title').attr({
     'placeholder': chrome.i18n.getMessage('event_title_placeholder'
   )});
 };
@@ -88,7 +88,7 @@ browseraction.fillMessages_ = function() {
 browseraction.installButtonClickHandlers_ = function() {
   $('#show_quick_add').on('click', function() {
     $('#quick-add').slideDown(200);
-    $('#event-title').focus();
+    $('#quick-add-event-title').focus();
   });
 
   $('#sync_now').on('click', function() {
@@ -102,7 +102,7 @@ browseraction.installButtonClickHandlers_ = function() {
 
   $('#quick_add_button').on('click', function() {
     var event = /** @type {CalendarEvent} */ ({});
-    event.title = event.description = $('#event-title').val().toString();
+    event.title = event.description = $('#quick-add-event-title').val().toString();
     event = utils.processEvent(event);
     chrome.tabs.create({'url': event.gcal_url});
   });
@@ -217,12 +217,8 @@ browseraction.showEventsFromFeed_ = function(events) {
 
   for (var i = 0; i < events.length; i++) {
     var event = events[i];
-
     var start = utils.fromIso8601(event.start);
     var end = utils.fromIso8601(event.end);
-    var allDay = !end ||
-        (start.hours() === 0 && start.minutes() === 0 &&
-        end.hours() === 0 && end.minutes() === 0);
 
     // Insert a new date header if the date of this event is not the same as
     // that of the previous event.
@@ -250,7 +246,9 @@ browseraction.createEventDiv_ = function(event) {
   var end = utils.fromIso8601(event.end);
   var now = moment().valueOf();
 
-  var eventDiv = /** @type {jQuery} */ ($('<div>').addClass('event'));
+  var eventDiv = /** @type {jQuery} */ ($('<div>')
+      .addClass('event')
+      .attr({'data-url': event.gcal_url}));
 
   if (!start) {  // Some events detected via microformats are malformed.
     return eventDiv;
@@ -258,67 +256,63 @@ browseraction.createEventDiv_ = function(event) {
 
   var isDetectedEvent = !event.feed;
   var isHappeningNow = start.valueOf() < now && end.valueOf() >= now;
-  if (!isDetectedEvent) {  // This event is already on the user's calendar.
-    $('<div>').addClass('feed-color')
-        .css({'background-color': event.feed.color})
-        .attr({'title': event.feed.title})
-        .text(isHappeningNow ? '!' : '')
-        .appendTo(eventDiv);
+  var spansMultipleDays = (end.diff(start, 'seconds') > 86400);
+  var isAllDay = !end ||
+      (start.hours() === 0 && start.minutes() === 0 &&
+      end.hours() === 0 && end.minutes() === 0);
+  if (isAllDay) {
+    eventDiv.addClass('all-day');
   }
-
-  var eventDetails = $('<div>')
-      .addClass('event-details')
-      .attr({'data-url': event.gcal_url})
-      .appendTo(eventDiv);
-  eventDetails.on('click', function() {
+  if (isDetectedEvent) {
+    eventDiv.addClass('detected-event');
+  }
+  eventDiv.on('click', function() {
     chrome.tabs.create({'url': $(this).attr('data-url')});
   });
 
-  $('<h1>').text(event.title).appendTo(eventDetails);
-
-  var allDay = !end ||
-      (start.hours() === 0 && start.minutes() === 0 &&
-      end.hours() === 0 && end.minutes() === 0);
-
-  // Pick a time format based on whether the event is an all-day event, and/or
-  // if it's an event we've detected (versus an event from the feed.)
   var timeFormat = options.get(options.Options.TIME_FORMAT_24H) ? 'HH:mm' : 'h:mma';
-  var dateTimeFormat = allDay ?
-      (isDetectedEvent ? 'MMM D, YYYY' : '') :
+  var dateTimeFormat = isAllDay ? 'MMM D, YYYY' :
       (isDetectedEvent ? 'MMM D, YYYY ' + timeFormat : timeFormat);
-
-  // If it's an all-day event from the feed, we don't need to include any time
-  // information, because it will already be rendered under the appropriate
-  // date header. So, skip this section entirely if dateTimeFormat is ''.
-  if (dateTimeFormat !== '') {
-    $('<div>').addClass('start-and-end-times')
-        .append($('<span>').addClass('start').text(start.format(dateTimeFormat)))
-        .append(' – ')
-        .append($('<span>').addClass('end').text(end.format(dateTimeFormat)))
-        .appendTo(eventDetails);
+  var startTimeDiv = $('<div>').addClass('start-time');
+  if (isDetectedEvent) {
+    startTimeDiv.append(
+      $('<img>').attr({
+          'width': 19,
+          'height': 19,
+          'src': chrome.extension.getURL('icons/calendar_add_38.png'),
+          'alt': chrome.i18n.getMessage('add_to_google_calendar')
+        })
+      );
+  } else {
+    startTimeDiv.css({'background-color': event.feed.color});
   }
+  if (!isAllDay && !isDetectedEvent) {
+    startTimeDiv.text(start.format(dateTimeFormat));
+  }
+  startTimeDiv.appendTo(eventDiv);
+
+  var eventDetails = $('<div>')
+      .addClass('event-details')
+      .appendTo(eventDiv);
 
   if (event.location) {
-    var mapLink = $('<a>')
-        .attr({
-          'href': 'https://maps.google.com?q=' + encodeURIComponent(event.location),
-          'target': '_blank'
-        })
-        .text(event.location);
-    $('<div>').addClass('card-action')
-        .append(mapLink)
-        .appendTo(eventDiv);
+    $('<a>').attr({
+      'href': 'https://maps.google.com?q=' + encodeURIComponent(event.location),
+      'target': '_blank'
+    }).append($('<img>').addClass('location-icon').attr({
+      'src': chrome.extension.getURL('icons/ic_action_place.png')
+    })).appendTo(eventDetails);
   }
 
-  if (isDetectedEvent) {  // This event has not yet been added to the user's calendar.
-    var addToCalendarLink = $('<a>')
-        .attr({'href': event.gcal_url, 'target': '_blank'})
-        .text(chrome.i18n.getMessage('add_to_google_calendar'));
-    $('<div>').addClass('card-action')
-        .append(addToCalendarLink)
-        .appendTo(eventDiv);
-  }
+  // The location icon goes before the title because it floats right.
+  $('<div>').addClass('event-title').text(event.title).appendTo(eventDetails);
 
+  if (isAllDay && spansMultipleDays || isDetectedEvent) {
+    $('<div>')
+        .addClass('start-and-end-times')
+        .append(start.format(dateTimeFormat) + ' — ' + end.format(dateTimeFormat))
+        .appendTo(eventDetails);
+  }
   return eventDiv;
 };
 
