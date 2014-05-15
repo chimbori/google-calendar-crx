@@ -164,17 +164,12 @@ header {
   font-size: 13px;
 }
 
-.location-icon {
+.location-icon,
+.video-call-icon {
   float: right;
   height: 15px;
   padding: 0 3px;
   width: 21px;
-}
-
-.location {
-  color: #888;
-  font-size: 12px;
-  margin-top: 3px;
 }
 
 .kd-button {

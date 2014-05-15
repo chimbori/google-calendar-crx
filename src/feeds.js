@@ -90,7 +90,7 @@ feeds.fetchCalendars = function() {
       var calendars = {};
       // See the raw feed to understand this parsing.
       $(data).find('entry').each(function() {
-        var entry = $(this);
+        var calendarEntry = $(this);
 
         // The list of calendars from the server must be merged with the list of
         // stored calendars. The URL is the key for each calendar feed. The title
@@ -101,21 +101,21 @@ feeds.fetchCalendars = function() {
         // defaults provided by the server. If no such preference exists, then
         // a calendar is shown if it's selected and not hidden.
 
-        var serverCalendarURL = entry.find('content').attr('src');
+        var serverCalendarURL = calendarEntry.find('content').attr('src');
         var storedCalendar = storedCalendars[serverCalendarURL] || {};
 
         var visible = (typeof storedCalendar.visible !== 'undefined') ?
             storedCalendar.visible :
-                (entry.find('hidden').attr('value') == 'false' &&
-                 entry.find('selected').attr('value') == 'true');
+                (calendarEntry.find('hidden').attr('value') == 'false' &&
+                 calendarEntry.find('selected').attr('value') == 'true');
 
         var mergedCalendar = {
           url: serverCalendarURL,
-          title: entry.find('title').text(),
-          summary: entry.find('summary').text(),
-          author: entry.find('author').find('name').text(),
-          email: entry.find('author').find('email').text(),
-          color: entry.find('color').attr('value'),
+          title: calendarEntry.find('title').text(),
+          summary: calendarEntry.find('summary').text(),
+          author: calendarEntry.find('author').find('name').text(),
+          email: calendarEntry.find('author').find('email').text(),
+          color: calendarEntry.find('color').attr('value'),
           visible: visible
         };
 
@@ -233,7 +233,6 @@ feeds.fetchEventsFromCalendar_ = function(feed, callback) {
       var events = [];
       $(data).find('entry').each(function() {
         var eventEntry = $(this);
-
         // Check if this event was declined by the current calendar’s author.
         // Each event also has an author, so check the calendar’s author, not event’s author.
         var attendeeStatus = eventEntry.find('who[email="' + feed.email + '"]').find('attendeeStatus').attr('value');
@@ -259,7 +258,7 @@ feeds.fetchEventsFromCalendar_ = function(feed, callback) {
         var start = utils.fromIso8601(startTime);
         var end = utils.fromIso8601(endTime);
 
-        events.push({
+        var eventObj = {
           feed: feed,
           title: eventEntry.find('title').text(),
           start: start ? start.valueOf() : null,
@@ -268,7 +267,19 @@ feeds.fetchEventsFromCalendar_ = function(feed, callback) {
           location: eventEntry.find('where').attr('valueString'),
           reminder: eventEntry.find('when').find('reminder').attr('minutes'),
           gcal_url: eventEntry.find('link[rel=alternate]').attr('href')
-        });
+        };
+
+        // The Location field will always contain whatever text was in the gd:where field.
+        // If the location happens to also contain a video chat URL, then we extract that
+        // into a new field, and ignore the Location field when rendering.
+        if (eventObj.location.indexOf('https://') > -1) {
+          var maybeUrl = eventObj.location.match(/(https\:\/\/[^ ,]*)/);
+          if (maybeUrl.length > 1) {
+            eventObj.video_call_url = maybeUrl[1];
+          }
+        }
+
+        events.push(eventObj);
       });
 
       background.log('Parsed ' + events.length + ' events from "' + feed.title + '"');

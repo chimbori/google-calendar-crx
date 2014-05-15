@@ -295,7 +295,15 @@ browseraction.createEventDiv_ = function(event) {
       .addClass('event-details')
       .appendTo(eventDiv);
 
-  if (event.location) {
+  if (event.video_call_url) {
+    $('<a>').attr({
+      'href': event.video_call_url,
+      'target': '_blank'
+    }).append($('<img>').addClass('video-call-icon').attr({
+      'src': chrome.extension.getURL('icons/ic_action_video.png')
+    })).appendTo(eventDetails);
+
+  } else if (event.location) {
     $('<a>').attr({
       'href': 'https://maps.google.com?q=' + encodeURIComponent(event.location),
       'target': '_blank'
