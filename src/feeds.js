@@ -272,7 +272,7 @@ feeds.fetchEventsFromCalendar_ = function(feed, callback) {
         // The Location field will always contain whatever text was in the gd:where field.
         // If the location happens to also contain a video chat URL, then we extract that
         // into a new field, and ignore the Location field when rendering.
-        if (eventObj.location.indexOf('https://') > -1) {
+        if (eventObj.location && eventObj.location.indexOf('https://') > -1) {
           var maybeUrl = eventObj.location.match(/(https\:\/\/[^ ,]*)/);
           if (maybeUrl.length > 1) {
             eventObj.video_call_url = maybeUrl[1];
