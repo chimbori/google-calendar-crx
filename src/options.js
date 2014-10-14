@@ -165,22 +165,23 @@ options.loadCalendarList = function() {
     if (storage['calendars']) {
       var calendars = storage['calendars'];
 
-      for (var calendarURL in calendars) {
-        var calendar = calendars[calendarURL];
+      for (var calendarId in calendars) {
+        var calendar = calendars[calendarId];
         var calendarListEntry = $('<label>');
-
-        var darkColor = utils.darkenColor(calendar.color, 75);
-        var gradient = '-webkit-linear-gradient(top, ' + darkColor + ' 0%,' + calendar.color + ' 100%)';
 
         $('<input>').attr({
           'type': 'checkbox',
-          'name': calendar.url,
-          'checked': calendar.visible
+          'name': calendar.id,
+          'checked': calendar.visible,
+          'data-color': calendar.backgroundColor
         }).addClass('calendar-checkbox').css({
-          'background': gradient,
-          'border': '1px solid ' + calendar.color
+          'outline': 'none',
+          'background': calendar.visible ? calendar.backgroundColor : '',
+          'border': '1px solid ' + calendar.backgroundColor
         }).on('change', function() {
-          calendars[ $(this).attr('name') ].visible = $(this).is(':checked');
+          var checkBox = $(this);
+          checkBox.css({'background': checkBox.is(':checked') ? checkBox.attr('data-color') : ''});
+          calendars[ checkBox.attr('name') ].visible = checkBox.is(':checked');
           chrome.storage.local.set({'calendars': calendars}, function() {
             if (chrome.runtime.lastError) {
               background.log('Error saving calendar list options.', chrome.runtime.lastError);
@@ -191,10 +192,7 @@ options.loadCalendarList = function() {
         }).appendTo(calendarListEntry);
 
         $('<span>').text(' ' + calendar.title).appendTo(calendarListEntry);
-        if (calendar.author != calendar.title) {
-          $('<span>').addClass('secondary').text(' • ' + calendar.author)
-              .appendTo(calendarListEntry);
-        }
+        calendarListEntry.attr('title', calendar.description);
 
         calendarListEntry.appendTo($('#calendar-list'));
       }

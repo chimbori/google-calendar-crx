@@ -152,6 +152,10 @@ background.listenForRequests_ = function() {
       case 'options.changed':
         feeds.refreshUI();
         break;
+
+      case 'authtoken.update':
+        feeds.requestInteractiveAuthToken();
+        break;
     }
 
     // Indicates to Chrome that a pending async request will eventually issue
