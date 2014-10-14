@@ -29,8 +29,11 @@ var feeds = {};
  * @const
  * @private
  */
-feeds.CALENDAR_LIST_FEED_URL_ =
-    'https://www.google.com/calendar/feeds/default/allcalendars/full';
+feeds.CALENDAR_LIST_API_URL_ =
+    'https://www.googleapis.com/calendar/v3/users/me/calendarList';
+
+feeds.CALENDAR_EVENTS_API_URL_ =
+    'https://www.googleapis.com/calendar/v3/calendars/{calendarId}/events?';
 
 /**
  * The number of days of events to show in the list.
@@ -69,6 +72,27 @@ feeds.lastFetchedAt = null;
 feeds.isAuthenticated = false;
 
 /**
+ * Shows a UI to request an OAuth token. This should only be called in response
+ * to user interaction to avoid confusing the user. Since the resulting window
+ * is shown with no standard window decorations, it can end up below all other
+ * windows, with no way to detect that it was shown, and no way to reposition
+ * it either.
+ */
+feeds.requestInteractiveAuthToken = function() {
+  background.log('requestInteractiveAuthToken');
+  chrome.identity.getAuthToken({'interactive': true}, function (accessToken) {
+    if (chrome.runtime.lastError) {
+      background.log('Error requesting new auth token: ' + chrome.runtime.lastError);
+      return;
+    }
+    feeds.isAuthenticated = true;
+    feeds.refreshUI();  // Causes the badge text to be updated.
+    feeds.fetchCalendars();
+  });
+};
+
+
+/**
  * Sends a request to fetch the list of calendars for the currently-logged in
  * user. When calendars are received, it automatically initiates a request
  * for events from those calendars.
@@ -79,66 +103,78 @@ feeds.fetchCalendars = function() {
 
   chrome.storage.local.get('calendars', function(storage) {
     if (chrome.runtime.lastError) {
-      background.log('Error retrieving settings:', chrome.runtime.lastError);
+      background.log('Error retrieving settings: ', chrome.runtime.lastError);
     }
 
     var storedCalendars = storage['calendars'] || {};
 
-    $.get(feeds.CALENDAR_LIST_FEED_URL_, function(data) {
+    chrome.identity.getAuthToken({'interactive': false}, function (authToken) {
+      if (chrome.runtime.lastError) {
+        feeds.isAuthenticated = false;
+        chrome.extension.sendMessage({method: 'sync-icon.spinning.stop'});
+        feeds.refreshUI();
+        return;
+      }
+
       feeds.isAuthenticated = true;
 
-      var calendars = {};
-      // See the raw feed to understand this parsing.
-      $(data).find('entry').each(function() {
-        var entry = $(this);
+      $.ajax(feeds.CALENDAR_LIST_API_URL_, {
+        headers: {
+          'Authorization': 'Bearer ' + authToken
+        },
+        success: function(data) {
+          var calendars = {};
+          for (var i = 0; i < data.items.length; i++) {
+            var calendar = data.items[i];
+            // The list of calendars from the server must be merged with the list of
+            // stored calendars. The ID is the key for each calendar feed. The title
+            // and color provided by the server override whatever is stored locally
+            // (in case there were changes made through the Web UI). Whether the
+            // calendar is shown in the browser action popup is determined by a
+            // user preference set set locally (via Options) and overrides the
+            // defaults provided by the server. If no such preference exists, then
+            // a calendar is shown if it's selected and not hidden.
 
-        // The list of calendars from the server must be merged with the list of
-        // stored calendars. The URL is the key for each calendar feed. The title
-        // and color provided by the server override whatever is stored locally
-        // (in case there were changes made through the Web UI). Whether the
-        // calendar is shown in the browser action popup is determined by a
-        // user preference set set locally (via Options) and overrides the
-        // defaults provided by the server. If no such preference exists, then
-        // a calendar is shown if it's selected and not hidden.
+            var serverCalendarID = calendar.id;
+            var storedCalendar = storedCalendars[serverCalendarID] || {};
 
-        var serverCalendarURL = entry.find('content').attr('src');
-        var storedCalendar = storedCalendars[serverCalendarURL] || {};
+            var visible = (typeof storedCalendar.visible !== 'undefined') ?
+                storedCalendar.visible : calendar.selected;
 
-        var visible = (typeof storedCalendar.visible !== 'undefined') ?
-            storedCalendar.visible :
-                (entry.find('hidden').attr('value') == 'false' &&
-                 entry.find('selected').attr('value') == 'true');
+            var mergedCalendar = {
+              id: serverCalendarID,
+              title: calendar.summary,
+              description: calendar.description || '',
+              foregroundColor: calendar.foregroundColor,
+              backgroundColor: calendar.backgroundColor,
+              visible: visible
+            };
 
-        var mergedCalendar = {
-          url: serverCalendarURL,
-          title: entry.find('title').text(),
-          summary: entry.find('summary').text(),
-          author: entry.find('author').find('name').text(),
-          color: entry.find('color').attr('value'),
-          visible: visible
-        };
+            calendars[serverCalendarID] = mergedCalendar;
+          }
 
-        calendars[serverCalendarURL] = mergedCalendar;
-      });
+          chrome.storage.local.set({'calendars': calendars}, function() {
+            if (chrome.runtime.lastError) {
+              background.log('Error saving settings: ', chrome.runtime.lastError);
+              return;
+            }
+            feeds.fetchEvents();
+          });
+        },
+        error: function(response) {
+          chrome.extension.sendMessage({method: 'sync-icon.spinning.stop'});
+          if (response.status === 401) {
+            feeds.isAuthenticated = false;
+            feeds.refreshUI();
+            background.log('  - Error 401 fetching list of calendars.');
+            chrome.identity.removeCachedAuthToken({ 'token': authToken }, function() {});
 
-      chrome.storage.local.set({'calendars': calendars}, function() {
-        if (chrome.runtime.lastError) {
-          background.log('Error saving settings:', chrome.runtime.lastError);
-          return;
+          } else {
+            window.console.log('An unknown error was encountered in fetching the feed:',
+                response);
+          }
         }
-        feeds.fetchEvents();
       });
-
-    }).error(function(response) {
-      chrome.extension.sendMessage({method: 'sync-icon.spinning.stop'});
-      if (response.status === 401) {
-        feeds.isAuthenticated = false;
-        feeds.refreshUI();
-        background.log('  - Error 401 fetching list of calendars.');
-      } else {
-        window.console.log('An unknown error was encountered in fetching the feed:',
-            response);
-      }
     });
   });
 };
@@ -170,6 +206,7 @@ feeds.fetchEvents = function() {
     var calendars = storage['calendars'] || {};
     background.log('  - calendars:', calendars);
 
+    var hiddenCalendars = [];
     var allEvents = [];
     var pendingRequests = 0;
     for (var calendarURL in calendars) {
@@ -192,8 +229,11 @@ feeds.fetchEvents = function() {
           }
         });
       } else {
-        background.log('Not showing calendar ' + calendar.title + ' because it\'s turned off.');
+        hiddenCalendars.push(calendar.title);
       }
+    }
+    if (hiddenCalendars.length > 0) {
+      background.log('Not showing hidden calendars: ', hiddenCalendars);
     }
   });
 };
@@ -207,68 +247,61 @@ feeds.fetchEvents = function() {
  * @private
  */
 feeds.fetchEventsFromCalendar_ = function(feed, callback) {
-  background.log('feeds.fetchEventsFromCalendar_', feed);
+  background.log('feeds.fetchEventsFromCalendar_');
 
   var fromDate = moment();
   var toDate = moment().add('days', feeds.DAYS_IN_AGENDA_);
 
-  var feedUrl = feed.url + '?' + [
-    'start-min=' + encodeURIComponent(fromDate.toISOString()),
-    'start-max=' + encodeURIComponent(toDate.toISOString()),
-    'recurrence-expansion-start=' + encodeURIComponent(fromDate.toISOString()),
-    'recurrence-expansion-end=' + encodeURIComponent(toDate.toISOString()),
-    'ctz=' + jstz.determine().name(),
-    'max-results=100',
-    'orderby=starttime',
-    'singleevents=true',
-    'sortorder=ascending'
-  ].join('&');
-  background.log(feedUrl);
+  var feedUrl = feeds.CALENDAR_EVENTS_API_URL_.replace('{calendarId}', encodeURIComponent(feed.id)) + ([
+    'timeMin=' + encodeURIComponent(fromDate.toISOString()),
+    'timeMax=' + encodeURIComponent(toDate.toISOString()),
+    'maxResults=500',
+    'orderBy=startTime',
+    'singleEvents=true'
+  ].join('&'));
 
-  $.get(feedUrl, (function(feed) {
-    return function(data) {
-      feeds.isAuthenticated = true;
-      background.log('  - Received events, now parsing.');
+  chrome.identity.getAuthToken({'interactive': false}, function (authToken) {
+    if (chrome.runtime.lastError) {
+      feeds.isAuthenticated = false;
+      chrome.extension.sendMessage({method: 'sync-icon.spinning.stop'});
+      feeds.refreshUI();
+      return;
+    }
 
-      var events = [];
-      $(data).find('entry').each(function() {
-        var eventEntry = $(this);
+    feeds.isAuthenticated = true;
 
-        // In case of recurring events, the entry has multiple <gd:when> fields.
-        // One of them has only a startTime, and another has both a startTime and an endTime.
-        // This is a workaround for this crazy behavior.
-        var startTime = '', endTime = '';
-        var when = eventEntry.find('when');
-        for (var i = 0; i < when.length; i++) {
-          if ($(when[i]).attr('startTime')) {
-            startTime = $(when[i]).attr('startTime').toString();
+    $.ajax(feedUrl, {
+      headers: {
+        'Authorization': 'Bearer ' + authToken
+      },
+      success: (function(feed) {
+        return function(data) {
+          background.log('  - Received events, now parsing.');
+          var events = [];
+          for (var i = 0; i < data.items.length; i++) {
+            var eventEntry = data.items[i];
+            var start = utils.fromIso8601(eventEntry.start.dateTime || eventEntry.start.date);
+            var end = utils.fromIso8601(eventEntry.end.dateTime || eventEntry.end.date);
+            events.push({
+              feed: feed,
+              title: eventEntry.summary,
+              description: eventEntry.description || '',
+              start: start ? start.valueOf() : null,
+              end: end ? end.valueOf() : null,
+              location: eventEntry.location,
+              hangout_url: eventEntry.hangoutLink,
+              gcal_url: eventEntry.htmlLink
+            });
           }
-          if ($(when[i]).attr('endTime')) {
-            endTime = $(when[i]).attr('endTime').toString();
-          }
-        }
-
-        var start = utils.fromIso8601(startTime);
-        var end = utils.fromIso8601(endTime);
-
-        events.push({
-          feed: feed,
-          title: eventEntry.find('title').text(),
-          start: start ? start.valueOf() : null,
-          end: end ? end.valueOf() : null,
-          description: eventEntry.find('content').text(),
-          location: eventEntry.find('where').attr('valueString'),
-          reminder: eventEntry.find('when').find('reminder').attr('minutes'),
-          gcal_url: eventEntry.find('link[rel=alternate]').attr('href')
-        });
-      });
-
-      callback(events);
-    };
-  })(feed)).error(function(response) {
-    // Must callback here, otherwise the caller keeps waiting for all
-    // calendars to load.
-    callback(null);
+          callback(events);
+        };
+      })(feed),
+      error: function(response) {
+        // Must callback here, otherwise the caller keeps waiting for all
+        // calendars to load.
+        callback(null);
+      }
+    });
   });
 };
 
@@ -278,10 +311,8 @@ feeds.fetchEventsFromCalendar_ = function(feed, callback) {
  * obtained during the last fetch. Does not fetch new data.
  */
 feeds.refreshUI = function() {
-  feeds.removePastEvents_();
-  feeds.determineNextEvents_();
-
-  // If the user hasn't authenticated yet, bail out.
+  // If the user hasn't authenticated yet, bail out. Reauthentication will
+  // happen when the user clicks on the notice in the browser action popup.
   if (!feeds.isAuthenticated) {
     background.updateBadge({
       'color': background.BADGE_COLORS.ERROR,
@@ -290,6 +321,9 @@ feeds.refreshUI = function() {
     });
     return;
   }
+
+  feeds.removePastEvents_();
+  feeds.determineNextEvents_();
 
   // If there are no more next events to show, bail out.
   if (feeds.nextEvents.length === 0) {
@@ -301,7 +335,7 @@ feeds.refreshUI = function() {
     var badgeText = moment(nextEvent.start).lang('relative-formatter').fromNow();
 
     background.updateBadge({
-      'color': nextEvent.feed.color,
+      'color': nextEvent.feed.backgroundColor,
       'text': badgeText,
       'title': feeds.getTooltipForEvents_(feeds.nextEvents)
     });

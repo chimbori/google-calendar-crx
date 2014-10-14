@@ -86,6 +86,10 @@ browseraction.fillMessages_ = function() {
  * @private
  */
 browseraction.installButtonClickHandlers_ = function() {
+  $('#authorization_required').on('click', function() {
+    chrome.extension.sendMessage({method: 'authtoken.update'});
+  });
+
   $('#show_quick_add').on('click', function() {
     $('#quick-add').slideDown(200);
     $('#event-title').focus();
@@ -118,6 +122,7 @@ browseraction.showLoginMessageIfNotAuthenticated_ = function() {
   // Check if we're authenticated or not, and display either the "Login Now"
   // message, or show the tab strip.
   if (!chrome.extension.getBackgroundPage().feeds.isAuthenticated) {
+    browseraction.stopSpinnerRightNow();
     $('#error').show();
     $('#calendar-events').hide();
 
@@ -125,6 +130,7 @@ browseraction.showLoginMessageIfNotAuthenticated_ = function() {
     // upon explicit user interaction (i.e. opening the popup.)
     chrome.extension.sendMessage({method: 'events.feed.fetch'},
         browseraction.showEventsFromFeed_);
+
   } else {
     $('#error').hide();
     $('#calendar-events').show();
@@ -146,18 +152,30 @@ browseraction.listenForRequests_ = function() {
         break;
 
       case 'sync-icon.spinning.start':
-        $('#sync_now').addClass('spinning');
+        browseraction.startSpinner();
         break;
 
       case 'sync-icon.spinning.stop':
-        $('#sync_now').one('animationiteration webkitAnimationIteration', function() {
-          $(this).removeClass('spinning');
-        });
+        browseraction.stopSpinner();
         break;
     }
   });
 };
 
+
+browseraction.startSpinner = function() {
+  $('#sync_now').addClass('spinning');
+};
+
+browseraction.stopSpinner = function() {
+  $('#sync_now').one('animationiteration webkitAnimationIteration', function() {
+    $(this).removeClass('spinning');
+  });
+};
+
+browseraction.stopSpinnerRightNow = function() {
+  $('#sync_now').removeClass('spinning');
+};
 
 /**
  * Shows events detected on the current page (by one of the parsers) in a list
@@ -260,7 +278,7 @@ browseraction.createEventDiv_ = function(event) {
   var isHappeningNow = start.valueOf() < now && end.valueOf() >= now;
   if (!isDetectedEvent) {  // This event is already on the user's calendar.
     $('<div>').addClass('feed-color')
-        .css({'background-color': event.feed.color})
+        .css({'background-color': event.feed.backgroundColor})
         .attr({'title': event.feed.title})
         .text(isHappeningNow ? '!' : '')
         .appendTo(eventDiv);

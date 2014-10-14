@@ -62,7 +62,7 @@ scheduler.start = function() {
     feeds.refreshUI();
 
     var now = (new Date()).getTime();
-    var feedsFetchedAtMs = feeds.lastFetchedAt.getTime();
+    var feedsFetchedAtMs = feeds.lastFetchedAt && feeds.lastFetchedAt.getTime() || 0;
 
     if (now - feedsFetchedAtMs > scheduler.CALENDARS_POLL_INTERVAL_MS_) {
       feeds.fetchCalendars();  // Will trigger fetchEvents automatically.

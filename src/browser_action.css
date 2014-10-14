@@ -5,10 +5,11 @@
 
 body {
   background: #e5e5e5;
-  font-size: 12px;
+  font-size: 14px;
   height: 480px;
   overflow-y: scroll;
   width: 300px;
+  line-height: 18px;
 }
 
 textarea {
@@ -50,7 +51,7 @@ header {
 }
 
 #error {
-  padding: 72px 48px;
+  padding: 72px 12px;
   text-align: center;
   width: 100%;
 }
@@ -58,6 +59,10 @@ header {
 #error,
 #quick-add {
   display: none;
+}
+
+#authorization_required {
+  cursor: pointer;
 }
 
 #event-title {
@@ -161,10 +166,9 @@ header {
   display: inline-block;
   font-size: 12px;
   font-weight: bold;
-  height: 27px;
-  line-height: 27px;
+  line-height: 18px;
   min-width: 54px;
-  padding: 0 8px;
+  padding: 4px 8px;
   text-align: center;
   -webkit-transition: all 0.218s;
           transition: all 0.218s;
