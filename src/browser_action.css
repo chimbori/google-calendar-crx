@@ -69,8 +69,12 @@ header {
   width: 100%;
 }
 
+#quick-add-event-title {
+  width: 100%;
+}
+
 .quick-add-buttons {
-  float: right;
+  text-align: right;
 }
 
 .date-header {
