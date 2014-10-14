@@ -90,5 +90,9 @@
   "option_show_time_until_next_event": {
     "message": "Mostrar el tiempo restante hasta el próximo evento.",
     "description": "The name of the option that tells the user that the extension will display the time on the badge."
+  },
+  "event_title_unknown": {
+    "message": "Ocupado",
+    "description": "When a user does not have access to a particular calendar, the event title is not available; this placeholder text is used instead."
   }
 }

@@ -284,7 +284,7 @@ feeds.fetchEventsFromCalendar_ = function(feed, callback) {
             var end = utils.fromIso8601(eventEntry.end.dateTime || eventEntry.end.date);
             events.push({
               feed: feed,
-              title: eventEntry.summary,
+              title: eventEntry.summary || chrome.i18n.getMessage('event_title_unknown'),
               description: eventEntry.description || '',
               start: start ? start.valueOf() : null,
               end: end ? end.valueOf() : null,
