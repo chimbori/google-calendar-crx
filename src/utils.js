@@ -179,6 +179,9 @@ utils.getFirstFieldText = function(element, selector) {
 };
 
 
+/**
+ * Loads Google Analytics.
+ */
 utils.startAnalytics_ = function() {
   window._gaq = window._gaq || [];
   _gaq.push(['_setAccount', 'UA-21917188-3']);

@@ -50,8 +50,13 @@
   },
 
   "authorization_required": {
-    "message": "Login to Google Calendar to see event updates.",
-    "description": "A message shown when the user has not logged in to Google Calendar in the current window."
+    "message": "Authorize Google Calendar for Chrome",
+    "description": "A message shown when the user needs to grant permission for this extension to read events from their calendar."
+  },
+
+  "authorization_explanation": {
+    "message": "Google Calendar for Chrome lets you check your calendar while you visit other websites. For this, you need to grant it access to your calendar. This is a one-time setup step required before you can use this app.",
+    "description": "A detailed message explaining the OAuth flow."
   },
 
   "add_to_google_calendar": {
@@ -107,5 +112,10 @@
   "option_show_time_until_next_event": {
     "message": "Show time remaining until the next event.",
     "description": "The name of the option that tells the user that the extension will display the time on the badge."
+  },
+
+  "event_title_unknown": {
+    "message": "Busy",
+    "description": "When a user does not have access to a particular calendar, the event title is not available; this placeholder text is used instead."
   }
 }

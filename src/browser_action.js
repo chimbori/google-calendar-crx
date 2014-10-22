@@ -88,6 +88,10 @@ browseraction.fillMessages_ = function() {
  * @private
  */
 browseraction.installButtonClickHandlers_ = function() {
+  $('#authorization_required').on('click', function() {
+    chrome.extension.sendMessage({method: 'authtoken.update'});
+  });
+
   $('#show_quick_add').on('click', function() {
     _gaq.push(['_trackEvent', 'Quick Add', 'UI Shown']);
     $('#quick-add').slideDown(200);
@@ -125,6 +129,7 @@ browseraction.showLoginMessageIfNotAuthenticated_ = function() {
   // message, or show the tab strip.
   if (!chrome.extension.getBackgroundPage().feeds.isAuthenticated) {
     _gaq.push(['_trackEvent', 'Popup', 'Not Authenticated']);
+    browseraction.stopSpinnerRightNow();
     $('#error').show();
     $('#calendar-events').hide();
 
@@ -132,6 +137,7 @@ browseraction.showLoginMessageIfNotAuthenticated_ = function() {
     // upon explicit user interaction (i.e. opening the popup.)
     chrome.extension.sendMessage({method: 'events.feed.fetch'},
         browseraction.showEventsFromFeed_);
+
   } else {
     $('#error').hide();
     $('#calendar-events').show();
@@ -153,18 +159,30 @@ browseraction.listenForRequests_ = function() {
         break;
 
       case 'sync-icon.spinning.start':
-        $('#sync_now').addClass('spinning');
+        browseraction.startSpinner();
         break;
 
       case 'sync-icon.spinning.stop':
-        $('#sync_now').one('animationiteration webkitAnimationIteration', function() {
-          $(this).removeClass('spinning');
-        });
+        browseraction.stopSpinner();
         break;
     }
   });
 };
 
+
+browseraction.startSpinner = function() {
+  $('#sync_now').addClass('spinning');
+};
+
+browseraction.stopSpinner = function() {
+  $('#sync_now').one('animationiteration webkitAnimationIteration', function() {
+    $(this).removeClass('spinning');
+  });
+};
+
+browseraction.stopSpinnerRightNow = function() {
+  $('#sync_now').removeClass('spinning');
+};
 
 /**
  * Shows events detected on the current page (by one of the parsers) in a list
@@ -291,7 +309,7 @@ browseraction.createEventDiv_ = function(event) {
         })
       );
   } else {
-    startTimeDiv.css({'background-color': event.feed.color});
+    startTimeDiv.css({'background-color': event.feed.backgroundColor});
   }
   if (!isAllDay && !isDetectedEvent) {
     startTimeDiv.text(start.format(dateTimeFormat));

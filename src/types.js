@@ -46,7 +46,9 @@ CalendarFeed.prototype.author = '';
 /** @type {string} */
 CalendarFeed.prototype.url = '';
 /** @type {string} */
-CalendarFeed.prototype.color = '';
+CalendarFeed.prototype.backgroundColor = '';
+/** @type {string} */
+CalendarFeed.prototype.foregroundColor = '';
 /** @type {boolean} */
 CalendarFeed.prototype.visible = false;
 
