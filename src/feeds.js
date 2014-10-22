@@ -85,6 +85,7 @@ feeds.fetchCalendars = function() {
     var storedCalendars = storage['calendars'] || {};
 
     $.get(feeds.CALENDAR_LIST_FEED_URL_, function(data) {
+      _gaq.push(['_trackEvent', 'Fetch', 'CalendarList']);
       feeds.isAuthenticated = true;
 
       var calendars = {};
@@ -131,6 +132,7 @@ feeds.fetchCalendars = function() {
       });
 
     }).error(function(response) {
+      _gaq.push(['_trackEvent', 'Fetch', 'Error', response.statusText]);
       chrome.extension.sendMessage({method: 'sync-icon.spinning.stop'});
       if (response.status === 401) {
         feeds.isAuthenticated = false;
@@ -229,6 +231,7 @@ feeds.fetchEventsFromCalendar_ = function(feed, callback) {
 
   $.get(feedUrl, (function(feed) {
     return function(data) {
+      _gaq.push(['_trackEvent', 'Fetch', 'Events']);
       feeds.isAuthenticated = true;
       var events = [];
       $(data).find('entry').each(function() {

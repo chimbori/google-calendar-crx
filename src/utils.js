@@ -179,28 +179,14 @@ utils.getFirstFieldText = function(element, selector) {
 };
 
 
-/**
- * Adapted from:
- * http://stackoverflow.com/questions/5560248/programmatically-lighten-or-darken-a-hex-color
- * @param {string} color A hex color (e.g. '#ff0000').
- * @param {number} amount How much to lighten or darken the color by.
- * @return {string} The lightened or darkened color.
- */
-utils.darkenColor = function(color, amount) {
-  color = color.substring(1);  // Remove the '#'.
-  var num = parseInt(color, 16);
-  var r = (num >> 16) + amount;
-  var b = ((num >> 8) & 0x00FF) + amount;
-  var g = (num & 0x0000FF) + amount;
+utils.startAnalytics_ = function() {
+  window._gaq = window._gaq || [];
+  _gaq.push(['_setAccount', 'UA-21917188-3']);
 
-  var rStr = (r.toString(16).length < 2) ? '0' + r.toString(16) : r.toString(16);
-  var gStr = (g.toString(16).length < 2) ? '0' + g.toString(16) : g.toString(16);
-  var bStr = (b.toString(16).length < 2) ? '0' + b.toString(16) : b.toString(16);
-
-  var newColor = g | (b << 8) | (r << 16);
-  newColor = newColor.toString(16);
-  if (newColor.length == 5) {
-    newColor = '0' + newColor;
-  }
-  return '#' + newColor;
+  var ga = document.createElement('script');
+  ga.type = 'text/javascript';
+  ga.async = true;
+  ga.src = 'https://ssl.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(ga, s);
 };

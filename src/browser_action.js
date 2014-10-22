@@ -35,6 +35,8 @@ browseraction.CALENDAR_UI_URL_ = 'https://www.google.com/calendar/';
  * Initializes UI elements in the browser action popup.
  */
 browseraction.initialize = function() {
+  utils.startAnalytics_();
+  _gaq.push(['_trackEvent', 'Popup', 'Shown']);
   browseraction.fillMessages_();
   browseraction.installButtonClickHandlers_();
   browseraction.showLoginMessageIfNotAuthenticated_();
@@ -87,20 +89,24 @@ browseraction.fillMessages_ = function() {
  */
 browseraction.installButtonClickHandlers_ = function() {
   $('#show_quick_add').on('click', function() {
+    _gaq.push(['_trackEvent', 'Quick Add', 'UI Shown']);
     $('#quick-add').slideDown(200);
     $('#quick-add-event-title').focus();
   });
 
   $('#sync_now').on('click', function() {
+    _gaq.push(['_trackEvent', 'Fetch', 'Manual Refresh']);
     chrome.extension.sendMessage({method: 'events.feed.fetch'},
         browseraction.showEventsFromFeed_);
   });
 
   $('#show_options').on('click', function() {
+    _gaq.push(['_trackEvent', 'Options', 'View']);
     chrome.tabs.create({'url': 'options.html'});
   });
 
   $('#quick_add_button').on('click', function() {
+    _gaq.push(['_trackEvent', 'Quick Add', 'Event Created']);
     var event = /** @type {CalendarEvent} */ ({});
     event.title = event.description = $('#quick-add-event-title').val().toString();
     event = utils.processEvent(event);
@@ -118,6 +124,7 @@ browseraction.showLoginMessageIfNotAuthenticated_ = function() {
   // Check if we're authenticated or not, and display either the "Login Now"
   // message, or show the tab strip.
   if (!chrome.extension.getBackgroundPage().feeds.isAuthenticated) {
+    _gaq.push(['_trackEvent', 'Popup', 'Not Authenticated']);
     $('#error').show();
     $('#calendar-events').hide();
 

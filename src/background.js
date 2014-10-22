@@ -68,6 +68,7 @@ background.BadgeProperties;
  * Initializes the background page by registering listeners.
  */
 background.initialize = function() {
+  utils.startAnalytics_();
   background.initMomentJs_();
   background.listenForRequests_();
   background.listenForTabUpdates_();
@@ -209,6 +210,5 @@ background.updateBadge = function(props) {
     chrome.browserAction.setTitle({'title': props.title});
   }
 };
-
 
 background.initialize();

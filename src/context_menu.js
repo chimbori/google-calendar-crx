@@ -46,6 +46,7 @@ menu.installContextMenu_ = function() {
  * @private
  */
 menu.onClicked_ = function(info, tab) {
+  _gaq.push(['_trackEvent', 'Context Menu', 'Shown']);
   var event = /** @type {CalendarEvent} */ ({});
   event.title = info.selectionText;
   event.url = tab.url;
