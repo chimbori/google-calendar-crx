@@ -31,11 +31,11 @@ header {
   text-decoration: none;
 }
 
-.action-bar {
+#action-bar {
   float: right;
 }
 
-.action-bar img {
+#action-bar img {
   cursor: pointer;
   height: 24px;
   width: 24px;
@@ -54,6 +54,10 @@ header {
   padding: 72px 12px;
   text-align: center;
   width: 100%;
+}
+
+#error p {
+  margin-bottom: 36px;
 }
 
 #error,

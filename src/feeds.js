@@ -65,13 +65,6 @@ feeds.nextEvents = [];
 feeds.lastFetchedAt = null;
 
 /**
- * Indicates whether the user has logged in to Calendar or not. This is set
- * whenever a fetch returns valid results or a 401 error.
- * @type {boolean}
- */
-feeds.isAuthenticated = false;
-
-/**
  * Shows a UI to request an OAuth token. This should only be called in response
  * to user interaction to avoid confusing the user. Since the resulting window
  * is shown with no standard window decorations, it can end up below all other
@@ -79,13 +72,13 @@ feeds.isAuthenticated = false;
  * it either.
  */
 feeds.requestInteractiveAuthToken = function() {
-  background.log('requestInteractiveAuthToken');
+  background.log('feeds.requestInteractiveAuthToken()');
   chrome.identity.getAuthToken({'interactive': true}, function (accessToken) {
-    if (chrome.runtime.lastError) {
-      background.log('Error requesting new auth token: ' + chrome.runtime.lastError);
+    if (chrome.runtime.lastError || !authToken) {
+      _gaq.push(['_trackEvent', 'OAuth Interactive', 'Not Authorized', chrome.runtime.lastError.message]);
+      background.log('OAuth not authorized: ' + chrome.runtime.lastError.message);
       return;
     }
-    feeds.isAuthenticated = true;
     feeds.refreshUI();  // Causes the badge text to be updated.
     feeds.fetchCalendars();
   });
@@ -103,21 +96,19 @@ feeds.fetchCalendars = function() {
 
   chrome.storage.local.get('calendars', function(storage) {
     if (chrome.runtime.lastError) {
-      background.log('Error retrieving settings: ', chrome.runtime.lastError);
+      background.log('Error retrieving settings: ', chrome.runtime.lastError.message);
     }
 
     var storedCalendars = storage['calendars'] || {};
     chrome.identity.getAuthToken({'interactive': false}, function (authToken) {
       if (chrome.runtime.lastError) {
-        _gaq.push(['_trackEvent', 'Fetch', 'Error', chrome.runtime.lastError]);
-        feeds.isAuthenticated = false;
+        _gaq.push(['_trackEvent', 'Fetch', 'Error', chrome.runtime.lastError.message]);
         chrome.extension.sendMessage({method: 'sync-icon.spinning.stop'});
         feeds.refreshUI();
         return;
       }
 
       _gaq.push(['_trackEvent', 'Fetch', 'CalendarList']);
-      feeds.isAuthenticated = true;
 
       $.ajax(feeds.CALENDAR_LIST_API_URL_, {
         headers: {
@@ -156,7 +147,7 @@ feeds.fetchCalendars = function() {
 
           chrome.storage.local.set({'calendars': calendars}, function() {
             if (chrome.runtime.lastError) {
-              background.log('Error saving settings: ', chrome.runtime.lastError);
+              background.log('Error saving settings: ', chrome.runtime.lastError.message);
               return;
             }
             feeds.fetchEvents();
@@ -164,8 +155,8 @@ feeds.fetchCalendars = function() {
         },
         error: function(response) {
           chrome.extension.sendMessage({method: 'sync-icon.spinning.stop'});
+          _gaq.push(['_trackEvent', 'Fetch', 'Error', response.statusText]);
           if (response.status === 401) {
-            feeds.isAuthenticated = false;
             feeds.refreshUI();
             background.log('  - Error 401 fetching list of calendars.');
             chrome.identity.removeCachedAuthToken({ 'token': authToken }, function() {});
@@ -176,17 +167,6 @@ feeds.fetchCalendars = function() {
           }
         }
       });
-    }).error(function(response) {
-      _gaq.push(['_trackEvent', 'Fetch', 'Error', response.statusText]);
-      chrome.extension.sendMessage({method: 'sync-icon.spinning.stop'});
-      if (response.status === 401) {
-        feeds.isAuthenticated = false;
-        feeds.refreshUI();
-        background.log('Error 401 fetching list of calendars.');
-      } else {
-        window.console.log('An unknown error was encountered in fetching the feed:',
-            response);
-      }
     });
   });
 };
@@ -206,7 +186,8 @@ feeds.fetchEvents = function() {
 
   chrome.storage.local.get('calendars', function(storage) {
     if (chrome.runtime.lastError) {
-      background.log('Error retrieving settings:', chrome.runtime.lastError);
+      background.log('Error retrieving settings:', chrome.runtime.lastError.message);
+      return;
     }
 
     if (!storage['calendars']) {
@@ -273,14 +254,13 @@ feeds.fetchEventsFromCalendar_ = function(feed, callback) {
   ].join('&'));
 
   chrome.identity.getAuthToken({'interactive': false}, function (authToken) {
-    if (chrome.runtime.lastError) {
-      feeds.isAuthenticated = false;
+    if (chrome.runtime.lastError || !authToken) {
+      chrome.extension.getBackgroundPage().background.log('OAuth not authorized: ' +
+          chrome.runtime.lastError.message);
       chrome.extension.sendMessage({method: 'sync-icon.spinning.stop'});
       feeds.refreshUI();
       return;
     }
-
-    feeds.isAuthenticated = true;
 
     $.ajax(feedUrl, {
       headers: {
@@ -323,16 +303,16 @@ feeds.fetchEventsFromCalendar_ = function(feed, callback) {
  * obtained during the last fetch. Does not fetch new data.
  */
 feeds.refreshUI = function() {
-  // If the user hasn't authenticated yet, bail out. Reauthentication will
-  // happen when the user clicks on the notice in the browser action popup.
-  if (!feeds.isAuthenticated) {
-    background.updateBadge({
-      'color': background.BADGE_COLORS.ERROR,
-      'text': '×',
-      'title': chrome.i18n.getMessage('authorization_required')
-    });
-    return;
-  }
+  chrome.identity.getAuthToken({'interactive': false}, function (authToken) {
+    if (chrome.runtime.lastError || !authToken) {
+      background.updateBadge({
+        'color': background.BADGE_COLORS.ERROR,
+        'text': '×',
+        'title': chrome.i18n.getMessage('authorization_required')
+      });
+      return;
+    }
+  });
 
   feeds.removePastEvents_();
   feeds.determineNextEvents_();

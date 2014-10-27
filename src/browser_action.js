@@ -89,11 +89,12 @@ browseraction.fillMessages_ = function() {
  */
 browseraction.installButtonClickHandlers_ = function() {
   $('#authorization_required').on('click', function() {
+    $('#authorization_required').text(chrome.i18n.getMessage('authorization_in_progress'));
     chrome.extension.sendMessage({method: 'authtoken.update'});
   });
 
   $('#show_quick_add').on('click', function() {
-    _gaq.push(['_trackEvent', 'Quick Add', 'UI Shown']);
+    _gaq.push(['_trackEvent', 'Quick Add', 'Shown']);
     $('#quick-add').slideDown(200);
     $('#quick-add-event-title').focus();
   });
@@ -105,7 +106,7 @@ browseraction.installButtonClickHandlers_ = function() {
   });
 
   $('#show_options').on('click', function() {
-    _gaq.push(['_trackEvent', 'Options', 'View']);
+    _gaq.push(['_trackEvent', 'Options', 'Shown']);
     chrome.tabs.create({'url': 'options.html'});
   });
 
@@ -125,23 +126,21 @@ browseraction.installButtonClickHandlers_ = function() {
  * @private
  */
 browseraction.showLoginMessageIfNotAuthenticated_ = function() {
-  // Check if we're authenticated or not, and display either the "Login Now"
-  // message, or show the tab strip.
-  if (!chrome.extension.getBackgroundPage().feeds.isAuthenticated) {
-    _gaq.push(['_trackEvent', 'Popup', 'Not Authenticated']);
-    browseraction.stopSpinnerRightNow();
-    $('#error').show();
-    $('#calendar-events').hide();
-
-    // If we're not authenticated, then it's fine to re-request the feed
-    // upon explicit user interaction (i.e. opening the popup.)
-    chrome.extension.sendMessage({method: 'events.feed.fetch'},
-        browseraction.showEventsFromFeed_);
-
-  } else {
-    $('#error').hide();
-    $('#calendar-events').show();
-  }
+  chrome.identity.getAuthToken({'interactive': false}, function (authToken) {
+    if (chrome.runtime.lastError || !authToken) {
+      _gaq.push(['_trackEvent', 'Popup', 'Not Authenticated']);
+      chrome.extension.getBackgroundPage().background.log('OAuth not authorized: ' +
+          chrome.runtime.lastError.message);
+      browseraction.stopSpinnerRightNow();
+      $('#error').show();
+      $('#action-bar').hide();
+      $('#calendar-events').hide();
+    } else {
+      $('#error').hide();
+      $('#action-bar').show();
+      $('#calendar-events').show();
+    }
+  });
 };
 
 
@@ -215,14 +214,21 @@ browseraction.showEventsFromFeed_ = function(events) {
   chrome.extension.getBackgroundPage().background.log('browseraction.showEventsFromFeed_()');
   $('#calendar-events').empty();
 
-  if (!chrome.extension.getBackgroundPage().feeds.isAuthenticated) {
-    $('#error').show();
-    $('#calendar-events').hide();
-    return;
-  } else {
-    $('#error').hide();
-    $('#calendar-events').show();
-  }
+  chrome.identity.getAuthToken({'interactive': false}, function (authToken) {
+    if (chrome.runtime.lastError || !authToken) {
+      chrome.extension.getBackgroundPage().background.log('OAuth not authorized: ' +
+          chrome.runtime.lastError.message);
+      $('#error').show();
+      $('#action-bar').hide();
+      $('#calendar-events').hide();
+      return;
+
+    } else {
+      $('#error').hide();
+      $('#action-bar').show();
+      $('#calendar-events').show();
+    }
+  });
 
   // Insert a date header for Today as the first item in the list. Any ongoing
   // multi-day events (i.e., started last week, ends next week) will be shown

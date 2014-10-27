@@ -43,9 +43,17 @@
     "message": "Autorizar a Google Calendar para Chrome",
     "description": "A message shown when the user needs to grant permission for this extension to read events from their calendar."
   },
+  "authorization_in_progress": {
+    "message": "Autorizando…",
+    "description": "A message shown after the user clicks on the Authorize button."
+  },
   "authorization_explanation": {
     "message": "Google Calendar para Chrome te permite comprobar el calendario mientras usted visita otros sitios web. Para ello, es necesario darle acceso a su calendario. Este es un paso de configuración de una sola vez falta antes de poder utilizar esta aplicación.",
     "description": "A detailed message explaining the OAuth flow."
+  },
+  "more_info": {
+    "message": "Más información…",
+    "description": "A link that provides more information about the authorization required."
   },
   "add_to_google_calendar": {
     "message": "Añadir a Google Calendar",
