@@ -156,7 +156,7 @@ options.loadOptionsUIFromSavedState = function() {
  * select individual calendars to show or hide.
  */
 options.loadCalendarList = function() {
-  chrome.extension.getBackgroundPage().background.log('options.loadCalendarList');
+  chrome.extension.getBackgroundPage().background.log('options.loadCalendarList()');
 
   chrome.storage.local.get('calendars', function(storage) {
     if (chrome.runtime.lastError) {
@@ -216,7 +216,8 @@ options.fillMessages_ = function() {
     }
   });
 
-  $('#report-issue-button').on('click', function() {
+  $('#report-issue-button').on('click', function reportIssue_() {
+    chrome.extension.getBackgroundPage().background.log('Creating bug report.');
     var systemInfo = [];
     systemInfo.push('System Information:');
     systemInfo.push('- Version: ' + chrome.app.getDetails().version);
@@ -227,9 +228,8 @@ options.fillMessages_ = function() {
     systemInfo.push('What steps will reproduce the problem?\n1. \n2. \n3. \n');
     systemInfo.push('What is the expected result?\n\n');
     systemInfo.push('What happens instead?\n\n');
-    systemInfo.push('Screenshot URL:');
-    systemInfo.push('');
-    systemInfo.push('Logs:');
+    systemInfo.push('Screenshot URL:\n\n');
+    systemInfo.push('Logs:\n');
     systemInfo = systemInfo.concat(chrome.extension.getBackgroundPage().background.logs_);
     $('#system-info').val(systemInfo.join('\n'));
     $('#report-issue-steps').slideDown(100);

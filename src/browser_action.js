@@ -35,6 +35,7 @@ browseraction.CALENDAR_UI_URL_ = 'https://www.google.com/calendar/';
  * Initializes UI elements in the browser action popup.
  */
 browseraction.initialize = function() {
+  chrome.extension.getBackgroundPage().background.log('browseraction.initialize()');
   utils.startAnalytics_();
   _gaq.push(['_trackEvent', 'Popup', 'Shown']);
   browseraction.fillMessages_();
@@ -129,7 +130,7 @@ browseraction.showLoginMessageIfNotAuthenticated_ = function() {
   chrome.identity.getAuthToken({'interactive': false}, function (authToken) {
     if (chrome.runtime.lastError || !authToken) {
       _gaq.push(['_trackEvent', 'Popup', 'Not Authenticated']);
-      chrome.extension.getBackgroundPage().background.log('OAuth not authorized: ' +
+      chrome.extension.getBackgroundPage().background.log('OAuth not authorized.',
           chrome.runtime.lastError.message);
       browseraction.stopSpinnerRightNow();
       $('#error').show();
@@ -216,7 +217,7 @@ browseraction.showEventsFromFeed_ = function(events) {
 
   chrome.identity.getAuthToken({'interactive': false}, function (authToken) {
     if (chrome.runtime.lastError || !authToken) {
-      chrome.extension.getBackgroundPage().background.log('OAuth not authorized: ' +
+      chrome.extension.getBackgroundPage().background.log('OAuth not authorized.',
           chrome.runtime.lastError.message);
       _gaq.push(['_trackEvent', 'OAuth', 'Not Authorized', chrome.runtime.lastError.message]);
       $('#error').show();

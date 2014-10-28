@@ -104,7 +104,7 @@
     "description": "When a user does not have access to a particular calendar, the event title is not available; this placeholder text is used instead."
   },
   "debug_enable_logs": {
-    "message": "Habilitar el registro de depuración",
+    "message": "Habilitar el registro. Los registros se almacenan localmente. Usted puede enviar con un informe de error si lo desea.",
     "description": "Text for a checkbox that enables logging."
   }
 }

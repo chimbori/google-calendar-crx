@@ -130,7 +130,7 @@
   },
 
   "debug_enable_logs": {
-    "message": "Enable logging for debugging",
+    "message": "Enable logging. Logs are stored locally. You may send them with a bug report if you choose.",
     "description": "Text for a checkbox that enables logging."
   }
 }
