@@ -32,7 +32,8 @@ var options = {};
  */
 options.Options = {
   BADGE_TEXT_SHOWN: 'badge-text-shown',
-  TIME_FORMAT_24H: 'time-format-24h'
+  TIME_FORMAT_24H: 'time-format-24h',
+  DEBUG_ENABLE_LOGS: 'debug-enable-logs'
 };
 
 /**
@@ -228,6 +229,8 @@ options.fillMessages_ = function() {
     systemInfo.push('What happens instead?\n\n');
     systemInfo.push('Screenshot URL:');
     systemInfo.push('');
+    systemInfo.push('Logs:');
+    systemInfo = systemInfo.concat(chrome.extension.getBackgroundPage().background.logs_);
     $('#system-info').val(systemInfo.join('\n'));
     $('#report-issue-steps').slideDown(100);
   });

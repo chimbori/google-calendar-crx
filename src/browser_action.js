@@ -218,6 +218,7 @@ browseraction.showEventsFromFeed_ = function(events) {
     if (chrome.runtime.lastError || !authToken) {
       chrome.extension.getBackgroundPage().background.log('OAuth not authorized: ' +
           chrome.runtime.lastError.message);
+      _gaq.push(['_trackEvent', 'OAuth', 'Not Authorized', chrome.runtime.lastError.message]);
       $('#error').show();
       $('#action-bar').hide();
       $('#calendar-events').hide();

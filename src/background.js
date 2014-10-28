@@ -24,12 +24,11 @@
 var background = {};
 
 /**
- * A static constant that decides whether debug messages get shown or not.
- * @type {boolean}
+ * An in-memory log that stores the last N records.
+ * @type {Array.<string>}
  * @private
- * @const
  */
-background.DEBUG_ = false;
+background.logs_ = [];
 
 /**
  * Colors used for the badge, other than calendar colors.
@@ -65,6 +64,22 @@ background.eventsFromPage = {};
 background.BadgeProperties;
 
 /**
+ * A function that logs all its arguments to memory and to the console if the
+ * user has enabled logging.
+ * @param {string} message The message to log.
+ * @param {*=} opt_dump An optional set of parameters to show in the console.
+ */
+background.log = function(message, opt_dump) {
+  if (options.get(options.Options.DEBUG_ENABLE_LOGS)) {
+    var timestampedMessage = '[' + moment().toISOString() + '] ' + message;
+    if (opt_dump) {
+      timestampedMessage += JSON.stringify(opt_dump, null /* replacer */, '  ');
+    }
+    background.logs_.push(timestampedMessage);
+    window.console.log(timestampedMessage, opt_dump);
+  }
+};
+/**
  * Initializes the background page by registering listeners.
  */
 background.initialize = function() {
@@ -74,22 +89,6 @@ background.initialize = function() {
   background.listenForTabUpdates_();
   background.logSystemInfo_();
   scheduler.start();
-};
-
-/**
- * A function that logs all its arguments if background.DEBUG_ is true.
- * @param {string} message The message to log.
- * @param {*=} opt_dump An optional set of parameters to show in the console.
- */
-background.log = function(message, opt_dump) {
-  if (background.DEBUG_) {
-    var timestampedMessage = '[' + moment().toISOString() + '] ' + message;
-    if (opt_dump) {
-      window.console.log(timestampedMessage, JSON.stringify(opt_dump, null /* replacer */, '  '));
-    } else {
-      window.console.log(timestampedMessage);
-    }
-  }
 };
 
 /**

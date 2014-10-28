@@ -258,6 +258,7 @@ feeds.fetchEventsFromCalendar_ = function(feed, callback) {
     if (chrome.runtime.lastError || !authToken) {
       chrome.extension.getBackgroundPage().background.log('OAuth not authorized: ' +
           chrome.runtime.lastError.message);
+      _gaq.push(['_trackEvent', 'OAuth', 'Not Authorized', chrome.runtime.lastError.message]);
       chrome.extension.sendMessage({method: 'sync-icon.spinning.stop'});
       feeds.refreshUI();
       return;
