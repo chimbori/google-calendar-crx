@@ -79,6 +79,7 @@ feeds.requestInteractiveAuthToken = function() {
       background.log('OAuth not authorized: ' + chrome.runtime.lastError.message);
       return;
     }
+    _gaq.push(['_trackEvent', 'OAuth Interactive', 'Authorized']);
     feeds.refreshUI();  // Causes the badge text to be updated.
     feeds.fetchCalendars();
   });
