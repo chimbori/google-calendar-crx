@@ -1,7 +1,8 @@
-Google Calendar Chrome Extension
-================================
+Google Calendar for Chrome
+==========================
 
-[Install it now from the Chrome Web Store](https://chrome.google.com/webstore/detail/google-calendar-by-google/gmbgaklkmjakoegficnlkhebmhkjfich).
+[Install](https://chrome.google.com/webstore/detail/google-calendar-by-google/gmbgaklkmjakoegficnlkhebmhkjfich){: class=button }.
+
 
 Easily check Google Calendar and add new events from websites you visit.
 ------------------------------------------------------------------------
