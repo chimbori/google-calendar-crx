@@ -73,10 +73,12 @@ background.log = function(message, opt_dump) {
   if (options.get(options.Options.DEBUG_ENABLE_LOGS)) {
     var timestampedMessage = '[' + moment().toISOString() + '] ' + message;
     if (opt_dump) {
-      timestampedMessage += JSON.stringify(opt_dump, null /* replacer */, '  ');
+      background.logs_.push(timestampedMessage + ' ' + JSON.stringify(opt_dump, null /* replacer */, '  '));
+      window.console.log(timestampedMessage, opt_dump);
+    } else {  // Otherwise the log shows a spurious string "undefined" for every opt_dump.
+      background.logs_.push(timestampedMessage);
+      window.console.log(timestampedMessage);
     }
-    background.logs_.push(timestampedMessage);
-    window.console.log(timestampedMessage, opt_dump);
   }
 };
 /**

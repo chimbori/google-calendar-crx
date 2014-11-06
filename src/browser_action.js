@@ -101,7 +101,7 @@ browseraction.installButtonClickHandlers_ = function() {
   });
 
   $('#sync_now').on('click', function() {
-    _gaq.push(['_trackEvent', 'Fetch', 'Manual Refresh']);
+    _gaq.push(['_trackEvent', 'Popup', 'Manual Refresh']);
     chrome.extension.sendMessage({method: 'events.feed.fetch'},
         browseraction.showEventsFromFeed_);
   });
@@ -129,14 +129,15 @@ browseraction.installButtonClickHandlers_ = function() {
 browseraction.showLoginMessageIfNotAuthenticated_ = function() {
   chrome.identity.getAuthToken({'interactive': false}, function (authToken) {
     if (chrome.runtime.lastError || !authToken) {
-      _gaq.push(['_trackEvent', 'Popup', 'Not Authenticated']);
-      chrome.extension.getBackgroundPage().background.log('OAuth not authorized.',
+      _gaq.push(['_trackEvent', 'getAuthToken', 'Failed', chrome.runtime.lastError.message]);
+      chrome.extension.getBackgroundPage().background.log('getAuthToken',
           chrome.runtime.lastError.message);
       browseraction.stopSpinnerRightNow();
       $('#error').show();
       $('#action-bar').hide();
       $('#calendar-events').hide();
     } else {
+      _gaq.push(['_trackEvent', 'getAuthToken', 'OK']);
       $('#error').hide();
       $('#action-bar').show();
       $('#calendar-events').show();
@@ -217,15 +218,14 @@ browseraction.showEventsFromFeed_ = function(events) {
 
   chrome.identity.getAuthToken({'interactive': false}, function (authToken) {
     if (chrome.runtime.lastError || !authToken) {
-      chrome.extension.getBackgroundPage().background.log('OAuth not authorized.',
+      _gaq.push(['_trackEvent', 'getAuthToken', 'Failed', chrome.runtime.lastError.message]);
+      chrome.extension.getBackgroundPage().background.log('getAuthToken',
           chrome.runtime.lastError.message);
-      _gaq.push(['_trackEvent', 'OAuth', 'Not Authorized', chrome.runtime.lastError.message]);
       $('#error').show();
       $('#action-bar').hide();
       $('#calendar-events').hide();
-      return;
-
     } else {
+      _gaq.push(['_trackEvent', 'getAuthToken', 'OK']);
       $('#error').hide();
       $('#action-bar').show();
       $('#calendar-events').show();
