@@ -328,9 +328,9 @@ browseraction.createEventDiv_ = function(event) {
       .addClass('event-details')
       .appendTo(eventDiv);
 
-  if (event.video_call_url) {
+  if (event.hangout_url) {
     $('<a>').attr({
-      'href': event.video_call_url,
+      'href': event.hangout_url,
       'target': '_blank'
     }).append($('<img>').addClass('video-call-icon').attr({
       'src': chrome.extension.getURL('icons/ic_action_video.png')
