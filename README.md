@@ -1,7 +1,7 @@
 Google Calendar for Chrome
 ==========================
 
-[Install](https://chrome.google.com/webstore/detail/google-calendar-by-google/gmbgaklkmjakoegficnlkhebmhkjfich).
+[Install now](https://chrome.google.com/webstore/detail/google-calendar-by-google/gmbgaklkmjakoegficnlkhebmhkjfich).
 
 
 Easily check Google Calendar and add new events from websites you visit.
@@ -19,27 +19,3 @@ Features
 * Any site that uses the hCalendar microformat or derivative microformats such as hResume are supported.
 * This extension shows events from whatever calendars you are logged in within Chrome.
 * If you want to use a Google Apps calendar, you should login to that account first, then open the extension.
-
-
-How to install a pre-release version
-------------------------------------
-The released version will always be available from the [Google Chrome Web Store](https://chrome.google.com/webstore/detail/google-calendar-by-google/gmbgaklkmjakoegficnlkhebmhkjfich).
-
-If you’d like to check out new features before they are released to the public, you can install a pre-release version.
-
-1. Download the [zip file](https://github.com/manastungare/google-calendar-crx/zipball/master) and unzip it.
-2. In Chrome, type “chrome://extensions” in the omnibox.
-3. Turn on “Developer mode” in the top right corner.
-4. Click on “Load unpacked extension…” and pick the directory in which you unzipped the extension.
-
-The extension should now appear in the list. If a button labeled “Show button” also appears in the list, then click it.
-
-
-For Webmasters
---------------
-* The extension detects events on any site that uses the hCalendar microformat or derivative microformats like hResume.
-If you’d like events on your page to be automatically accessible, make sure you are using these microformats for your event data.
-
-
-Featured on the Chrome Blog as a “By Google” extension:
-<http://chrome.blogspot.com/2010/11/new-chrome-extensions-by-google.html>
