@@ -64,9 +64,9 @@
     "description": "A detailed message explaining the OAuth flow."
   },
 
-  "more_info": {
-    "message": "More information…",
-    "description": "A link that provides more information about the authorization required."
+  "problems": {
+    "message": "Problems?",
+    "description": "A link that provides troubleshooting information related to authorization."
   },
 
   "add_to_google_calendar": {

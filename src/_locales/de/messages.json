@@ -51,9 +51,9 @@
     "message": "Mit Google Kalender für Chrome können Sie Ihren Kalender überprüfen, während Sie andere Websites besuchen. Dazu müssen Sie der Erweiterung den Zugriff auf Ihren Kalender gewähren. Dieser einmalige Einrichtungsschritt ist erforderlich, bevor Sie diese Erweiterung benutzen können.",
     "description": "A detailed message explaining the OAuth flow."
   },
-  "more_info": {
-    "message": "Weitere Informationen…",
-    "description": "A link that provides more information about the authorization required."
+  "problems": {
+    "message": "Probleme?",
+    "description": "A link that provides troubleshooting information related to authorization."
   },
   "add_to_google_calendar": {
     "message": "Zu Google Kalender hinzufügen",
