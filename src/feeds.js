@@ -23,6 +23,14 @@
  */
 var feeds = {};
 
+
+/**
+ * @type {string}
+ * @const
+ * @private
+ */
+feeds.SETTINGS_API_URL_ = 'https://www.googleapis.com/calendar/v3/users/me/settings';
+
 /**
  * URL of the feed that lists all calendars for the current user.
  * @type {string}
@@ -32,6 +40,12 @@ var feeds = {};
 feeds.CALENDAR_LIST_API_URL_ =
     'https://www.googleapis.com/calendar/v3/users/me/calendarList';
 
+/**
+ * URL of the feed that lists all calendars for the current user.
+ * @type {string}
+ * @const
+ * @private
+ */
 feeds.CALENDAR_EVENTS_API_URL_ =
     'https://www.googleapis.com/calendar/v3/calendars/{calendarId}/events?';
 
@@ -82,6 +96,46 @@ feeds.requestInteractiveAuthToken = function() {
     _gaq.push(['_trackEvent', 'getAuthToken (interactive)', 'OK']);
     feeds.refreshUI();  // Causes the badge text to be updated.
     feeds.fetchCalendars();
+  });
+};
+
+
+/**
+ * Fetches user's server-side settings and writes them to local {@code Options}.
+ */
+feeds.fetchSettings = function() {
+  background.log('feeds.fetchSettings()');
+
+  chrome.identity.getAuthToken({'interactive': false}, function (authToken) {
+    if (chrome.runtime.lastError) {
+      _gaq.push(['_trackEvent', 'getAuthToken', 'Failed', chrome.runtime.lastError.message]);
+      return;
+    }
+    _gaq.push(['_trackEvent', 'getAuthToken', 'OK']);
+    _gaq.push(['_trackEvent', 'Fetch', 'Settings']);
+
+    $.ajax(feeds.SETTINGS_API_URL_, {
+      headers: {
+        'Authorization': 'Bearer ' + authToken
+      },
+      success: function(settings) {
+        for (var settingId in settings.items) {
+          var setting = settings.items[settingId];
+          try {
+            // The API is silly, it returns booleans and ints as strings ("false", "6").
+            setting.value = JSON.parse(setting.value);
+          } catch (e) {
+            // Just use it as a string if unable to parse as JSON.
+          }
+          options.set(setting.id, setting.value);
+        }
+        background.log('Remote settings saved to local storage.', settings.items);
+      },
+      error: function(response) {
+        _gaq.push(['_trackEvent', 'Fetch', 'Error (Settings)', response.statusText]);
+        background.log('Fetch Error (Settings)', response.statusText);
+      }
+    });
   });
 };
 

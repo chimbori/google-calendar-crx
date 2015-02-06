@@ -55,7 +55,8 @@ scheduler.BADGE_UPDATE_INTERVAL_MS_ = 60 * 1000;
 scheduler.start = function() {
   background.log('scheduler.start()');
 
-  // Do a one-time initial fetch on load.
+  // Do a one-time initial fetch on load. Settings are only refreshed when restarting Chrome.
+  feeds.fetchSettings();
   feeds.fetchCalendars();
 
   window.setInterval(function() {
@@ -64,6 +65,7 @@ scheduler.start = function() {
     var now = (new Date()).getTime();
     if (!feeds.lastFetchedAt) {
       // If never successfully fetched before, fetch the list of calendars now.
+      feeds.fetchSettings();
       feeds.fetchCalendars();
     } else {
       var feedsFetchedAtMs = feeds.lastFetchedAt.getTime();

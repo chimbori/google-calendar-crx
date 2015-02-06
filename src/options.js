@@ -32,7 +32,6 @@ var options = {};
  */
 options.Options = {
   BADGE_TEXT_SHOWN: 'badge-text-shown',
-  TIME_FORMAT_24H: 'time-format-24h',
   DEBUG_ENABLE_LOGS: 'debug-enable-logs'
 };
 

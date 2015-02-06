@@ -114,11 +114,6 @@
     "description": "The header for the Options section under which the 12 hr/24 hr option is shown."
   },
 
-  "option_24h_time": {
-    "message": "24-hour time",
-    "description": "The name of the option that specifies if 24-hour time is in effect. If off, this means am/pm time."
-  },
-
   "announcement_24h_time": {
     "message": "24-hr time is now available! Set now.",
     "description": "An announcement message shown when the user first upgrades to a version that allows choosing 24-hour time."

@@ -295,7 +295,7 @@ browseraction.createEventDiv_ = function(event) {
     chrome.tabs.create({'url': $(this).attr('data-url')});
   });
 
-  var timeFormat = options.get(options.Options.TIME_FORMAT_24H) ? 'HH:mm' : 'h:mma';
+  var timeFormat = options.get('format24HourTime') ? 'HH:mm' : 'h:mma';
   var dateTimeFormat = isAllDay ? 'MMM D, YYYY' :
       (isDetectedEvent ? 'MMM D, YYYY ' + timeFormat : timeFormat);
   var startTimeDiv = $('<div>').addClass('start-time');

@@ -91,10 +91,6 @@
     "message": "Formato de hora",
     "description": "The header for the Options section under which the 12 hr/24 hr option is shown."
   },
-  "option_24h_time": {
-    "message": "Tiempo de 24 horas",
-    "description": "The name of the option that specifies if 24-hour time is in effect. If off, this means am/pm time."
-  },
   "announcement_24h_time": {
     "message": "Tiempo de 24 horas ya está disponible! Establezca ahora.",
     "description": "An announcement message shown when the user first upgrades to a version that allows choosing 24-hour time."
