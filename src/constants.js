@@ -16,3 +16,10 @@ constants.CALENDAR_UI_URL = 'https://www.google.com/calendar/';
  * @const
  */
 constants.MENU_ITEM_VIEW_CALENDAR_WEB = 'view_web_calendar';
+
+/**
+ * A string used by the Calendar API to indicate when a user has declined attending an event.
+ * @type {string}
+ * @const
+ */
+constants.EVENT_STATUS_DECLINED = 'declined';

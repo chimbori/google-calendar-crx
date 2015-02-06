@@ -339,7 +339,7 @@ browseraction.createEventDiv_ = function(event) {
 
   // The location icon goes before the title because it floats right.
   var eventTitle = $('<div>').addClass('event-title').text(event.title);
-  if (event.responseStatus == 'declined') {
+  if (event.responseStatus == constants.EVENT_STATUS_DECLINED) {
     eventTitle.addClass('declined');
   }
   eventTitle.appendTo(eventDetails);
