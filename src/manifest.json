@@ -43,6 +43,7 @@
       "lib/jstz-1.0.4.min.js",
       "lib/jquery.min.js",
       "lib/moment+langs.min.js",
+      "constants.js",
       "options.js",
       "utils.js",
       "feeds.js",

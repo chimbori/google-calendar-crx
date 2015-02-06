@@ -87,6 +87,7 @@ background.log = function(message, opt_dump) {
 background.initialize = function() {
   utils.startAnalytics_();
   background.initMomentJs_();
+  background.setupMenus_();
   background.listenForRequests_();
   background.listenForTabUpdates_();
   scheduler.start();
@@ -110,6 +111,20 @@ background.initMomentJs_ = function() {
       d: "1d", dd : "%dd",
       M: "1mo", MM : "%dmo",
       y: "1yr", yy : "%dy"
+    }
+  });
+};
+
+background.setupMenus_ = function() {
+  chrome.contextMenus.create({
+    id: constants.MENU_ITEM_VIEW_CALENDAR_WEB,
+    title: chrome.i18n.getMessage('view_web_calendar'),
+    contexts: ['browser_action']
+  });
+
+  chrome.contextMenus.onClicked.addListener(function(menu) {
+    if (menu.menuItemId == constants.MENU_ITEM_VIEW_CALENDAR_WEB) {
+      chrome.tabs.create({'url': constants.CALENDAR_UI_URL});
     }
   });
 };

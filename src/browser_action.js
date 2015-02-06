@@ -24,14 +24,6 @@
 var browseraction = {};
 
 /**
- * The URL of the browser UI for Google Calendar.
- * @type {string}
- * @const
- */
-browseraction.CALENDAR_UI_URL_ = 'https://www.google.com/calendar/';
-
-
-/**
  * Initializes UI elements in the browser action popup.
  */
 browseraction.initialize = function() {
@@ -77,7 +69,7 @@ browseraction.fillMessages_ = function() {
     }
   });
 
-  $('[data-href="calendar_ui_url"]').attr('href', browseraction.CALENDAR_UI_URL_);
+  $('[data-href="calendar_ui_url"]').attr('href', constants.CALENDAR_UI_URL);
   $('#quick-add-event-title').attr({
     'placeholder': chrome.i18n.getMessage('event_title_placeholder'
   )});
