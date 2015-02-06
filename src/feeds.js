@@ -273,6 +273,18 @@ feeds.fetchEventsFromCalendar_ = function(feed, callback) {
             var eventEntry = data.items[i];
             var start = utils.fromIso8601(eventEntry.start.dateTime || eventEntry.start.date);
             var end = utils.fromIso8601(eventEntry.end.dateTime || eventEntry.end.date);
+
+            var responseStatus = '';
+            if (eventEntry.attendees) {
+              for (var attendeeId in eventEntry.attendees) {
+                var attendee = eventEntry.attendees[attendeeId];
+                if (attendee.self) {  // Of all attendees, only look at the entry for this user (self).
+                  responseStatus = attendee.responseStatus;
+                  break;
+                }
+              }
+            }
+
             events.push({
               feed: feed,
               title: eventEntry.summary || chrome.i18n.getMessage('event_title_unknown'),
@@ -281,7 +293,8 @@ feeds.fetchEventsFromCalendar_ = function(feed, callback) {
               end: end ? end.valueOf() : null,
               location: eventEntry.location,
               hangout_url: eventEntry.hangoutLink,
-              gcal_url: eventEntry.htmlLink
+              gcal_url: eventEntry.htmlLink,
+              responseStatus: responseStatus
             });
           }
           callback(events);

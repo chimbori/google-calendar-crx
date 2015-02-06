@@ -69,10 +69,6 @@ header {
   cursor: pointer;
 }
 
-#event-title {
-  width: 100%;
-}
-
 #quick-add-event-title {
   width: 100%;
 }
@@ -154,6 +150,11 @@ header {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.event-title.declined {
+  text-decoration: line-through;
+  color: #999;
 }
 
 .start-time,
