@@ -24,6 +24,13 @@
 var browseraction = {};
 
 /**
+ * @type {string}
+ * @const
+ * @private
+ */
+browseraction.QUICK_ADD_API_URL_ = 'https://www.googleapis.com/calendar/v3/calendars/{calendarId}/events/quickAdd';
+
+/**
  * Initializes UI elements in the browser action popup.
  */
 browseraction.initialize = function() {
@@ -33,6 +40,7 @@ browseraction.initialize = function() {
   browseraction.fillMessages_();
   browseraction.installButtonClickHandlers_();
   browseraction.showLoginMessageIfNotAuthenticated_();
+  browseraction.loadCalendarsIntoQuickAdd_();
   browseraction.listenForRequests_();
   versioning.checkVersion();
   browseraction.showDetectedEvents_();
@@ -76,10 +84,32 @@ browseraction.fillMessages_ = function() {
 };
 
 
-/**
- * Adds click handlers to buttons and clickable objects.
- * @private
- */
+/** @private */
+browseraction.loadCalendarsIntoQuickAdd_ = function() {
+  chrome.extension.getBackgroundPage().background.log('browseraction.loadCalendarsIntoQuickAdd_()');
+  chrome.storage.local.get('calendars', function(storage) {
+    if (chrome.runtime.lastError) {
+      background.log('Error retrieving calendars:', chrome.runtime.lastError);
+    }
+
+    if (storage['calendars']) {
+      var calendars = storage['calendars'];
+      var dropDown = $('#quick-add-calendar-list');
+      for (var calendarId in calendars) {
+        var calendar = calendars[calendarId];
+        if (calendar.editable) {
+          dropDown.append($('<option>', {
+            value: calendar.id,
+            text: calendar.title
+          }));
+        }
+      }
+    }
+  });
+};
+
+
+/** @private */
 browseraction.installButtonClickHandlers_ = function() {
   $('#authorization_required').on('click', function() {
     $('#authorization_required').text(chrome.i18n.getMessage('authorization_in_progress'));
@@ -105,10 +135,8 @@ browseraction.installButtonClickHandlers_ = function() {
 
   $('#quick_add_button').on('click', function() {
     _gaq.push(['_trackEvent', 'Quick Add', 'Event Created']);
-    var event = /** @type {CalendarEvent} */ ({});
-    event.title = event.description = $('#quick-add-event-title').val().toString();
-    event = utils.processEvent(event);
-    chrome.tabs.create({'url': event.gcal_url});
+    browseraction.createQuickAddEvent_($('#quick-add-event-title').val().toString(),
+        $('#quick-add-calendar-list').val());
   });
 };
 
@@ -176,6 +204,40 @@ browseraction.stopSpinner = function() {
 browseraction.stopSpinnerRightNow = function() {
   $('#sync_now').removeClass('spinning');
 };
+
+/** @private */
+browseraction.createQuickAddEvent_ = function(text, calendarId) {
+  var quickAddUrl = browseraction.QUICK_ADD_API_URL_.replace('{calendarId}', encodeURIComponent(calendarId))
+      + '?text=' + encodeURIComponent(text);
+  chrome.identity.getAuthToken({'interactive': false}, function (authToken) {
+    if (chrome.runtime.lastError || !authToken) {
+      chrome.extension.getBackgroundPage().background.log('getAuthToken', chrome.runtime.lastError.message);
+      _gaq.push(['_trackEvent', 'getAuthToken', 'Failed', chrome.runtime.lastError.message]);
+      return;
+    }
+    _gaq.push(['_trackEvent', 'getAuthToken', 'OK']);
+    _gaq.push(['_trackEvent', 'QuickAdd', 'Add']);
+
+    $.ajax(quickAddUrl, {
+      type: 'POST',
+      headers: {
+        'Authorization': 'Bearer ' + authToken
+      },
+      success: function(response) {
+        chrome.extension.sendMessage({method: 'events.feed.fetch'});
+        $('#quick-add').slideUp(200);
+      },
+      error: function(response) {
+        _gaq.push(['_trackEvent', 'QuickAdd', 'Error', response.statusText]);
+        chrome.extension.getBackgroundPage().background.log('Error adding Quick Add event', response.statusText);
+        if (response.status === 401) {
+          chrome.identity.removeCachedAuthToken({ 'token': authToken }, function() {});
+        }
+      }
+    });
+  });
+};
+
 
 /**
  * Shows events detected on the current page (by one of the parsers) in a list

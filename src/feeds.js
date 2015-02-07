@@ -191,6 +191,7 @@ feeds.fetchCalendars = function() {
             var mergedCalendar = {
               id: serverCalendarID,
               title: calendar.summary,
+              editable: calendar.accessRole == 'writer' || calendar.accessRole == 'owner',
               description: calendar.description || '',
               foregroundColor: calendar.foregroundColor,
               backgroundColor: calendar.backgroundColor,

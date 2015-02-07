@@ -22,7 +22,6 @@ textarea {
 }
 
 header {
-  margin-bottom: 12px;
   height: 48px;
   background: #0086f4;
   padding: 12px;
@@ -86,6 +85,12 @@ section {
 
 .quick-add-buttons {
   text-align: right;
+}
+
+#quick-add-calendar-list {
+  width: 100%;
+  font-size: 16px;
+  margin: 4px 0;
 }
 
 .date-header {
