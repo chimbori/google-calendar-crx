@@ -282,10 +282,7 @@ browseraction.createEventDiv_ = function(event) {
   var isDetectedEvent = !event.feed;
   var isHappeningNow = start.valueOf() < now && end.valueOf() >= now;
   var spansMultipleDays = (end.diff(start, 'seconds') > 86400);
-  var isAllDay = !end ||
-      (start.hours() === 0 && start.minutes() === 0 &&
-      end.hours() === 0 && end.minutes() === 0);
-  if (isAllDay) {
+  if (event.allday) {
     eventDiv.addClass('all-day');
   }
   if (isDetectedEvent) {
@@ -296,7 +293,7 @@ browseraction.createEventDiv_ = function(event) {
   });
 
   var timeFormat = options.get('format24HourTime') ? 'HH:mm' : 'h:mma';
-  var dateTimeFormat = isAllDay ? 'MMM D, YYYY' :
+  var dateTimeFormat = event.allday ? 'MMM D, YYYY' :
       (isDetectedEvent ? 'MMM D, YYYY ' + timeFormat : timeFormat);
   var startTimeDiv = $('<div>').addClass('start-time');
   if (isDetectedEvent) {
@@ -311,7 +308,7 @@ browseraction.createEventDiv_ = function(event) {
   } else {
     startTimeDiv.css({'background-color': event.feed.backgroundColor});
   }
-  if (!isAllDay && !isDetectedEvent) {
+  if (!event.allday && !isDetectedEvent) {
     startTimeDiv.text(start.format(dateTimeFormat));
   }
   startTimeDiv.appendTo(eventDiv);
@@ -344,7 +341,7 @@ browseraction.createEventDiv_ = function(event) {
   }
   eventTitle.appendTo(eventDetails);
 
-  if (isAllDay && spansMultipleDays || isDetectedEvent) {
+  if (event.allday && spansMultipleDays || isDetectedEvent) {
     $('<div>')
         .addClass('start-and-end-times')
         .append(start.format(dateTimeFormat) + ' — ' + end.format(dateTimeFormat))

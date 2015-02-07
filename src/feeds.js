@@ -345,6 +345,7 @@ feeds.fetchEventsFromCalendar_ = function(feed, callback) {
               description: eventEntry.description || '',
               start: start ? start.valueOf() : null,
               end: end ? end.valueOf() : null,
+              allday: !end || (start.hours() === 0 && start.minutes() === 0 && end.hours() === 0 && end.minutes() === 0),
               location: eventEntry.location,
               hangout_url: eventEntry.hangoutLink,
               gcal_url: eventEntry.htmlLink,
@@ -461,26 +462,29 @@ feeds.determineNextEvents_ = function() {
 
   feeds.nextEvents = [];
   for (var i = 0; i < feeds.events.length; ++i) {
-    if (feeds.events[i].start < moment().valueOf()) {
+    var event = feeds.events[i];
+    if (event.start < moment().valueOf()) {
       continue;  // All-day events for today, or events from earlier in the day.
     }
-
-    if (feeds.events[i].responseStatus == constants.EVENT_STATUS_DECLINED) {
+    if (event.responseStatus == constants.EVENT_STATUS_DECLINED) {
+      continue;
+    }
+    if (event.allday) {
       continue;
     }
 
     if (feeds.nextEvents.length === 0) {
       // If we have not yet found any next events, then pick the first one that
       // is not skipped by the above if-condition.
-      feeds.nextEvents.push(feeds.events[i]);
+      feeds.nextEvents.push(event);
       continue;
     }
 
     // At this point in the loop, we know there is at least one next event
     // starting at a specific time. Now we need to pick any more events that may
     // exist, that all start at the exact same time as the first event.
-    if (feeds.events[i].start == feeds.nextEvents[0].start) {
-      feeds.nextEvents.push(feeds.events[i]);
+    if (event.start == feeds.nextEvents[0].start) {
+      feeds.nextEvents.push(event);
     } else {
       break;
     }
