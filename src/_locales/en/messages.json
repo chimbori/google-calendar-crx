@@ -30,7 +30,7 @@
   },
 
   "event_title_placeholder": {
-    "message": "E.g. “Dinner with Michael 7pm tomorrow”",
+    "message": "E.g. “Dinner with friends 7pm tomorrow”",
     "description": "Placeholder in the textarea where the user is instructed to type in the title of the event they want to create."
   },
 

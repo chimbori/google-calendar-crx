@@ -24,7 +24,7 @@
     "description": "Header that appears just above the form that lets users add custom events."
   },
   "event_title_placeholder": {
-    "message": "Por ejemplo “Cena con Michael 19:00 mañana”",
+    "message": "Por ejemplo “Cena con amigos 19:00 mañana”",
     "description": "Placeholder in the textarea where the user is instructed to type in the title of the event they want to create."
   },
   "events_on_this_page": {
