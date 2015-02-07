@@ -9,7 +9,9 @@ body {
   height: 480px;
   overflow-y: scroll;
   width: 300px;
-  line-height: 18px;
+  line-height: 20px;
+  padding: 0;
+  margin: 0;
 }
 
 textarea {
@@ -21,13 +23,16 @@ textarea {
 
 header {
   margin-bottom: 12px;
+  height: 48px;
+  background: #0086f4;
+  padding: 12px;
 }
 
 .popup-title a {
-  color: #333;
-  font-size: 18px;
-  font-weight: 100;
+  font-size: 16px;
+  color: #fff;
   outline: none;
+  line-height: 24px;
   text-decoration: none;
 }
 
@@ -39,6 +44,7 @@ header {
   cursor: pointer;
   height: 24px;
   width: 24px;
+  margin: 0 2px;
 }
 
 #announcement_new_features {
@@ -49,6 +55,10 @@ header {
   text-decoration: none;
   width: 100%;
   margin-bottom: 8px;
+}
+
+section {
+  padding: 0 8px;
 }
 
 #error {
@@ -79,22 +89,15 @@ header {
 }
 
 .date-header {
-  font-size: 18px;
-  font-style: italic;
-  font-weight: 300;
-  margin: 12px 0 0 0;
+  color: #666;
+  font-size: 16px;
+  margin: 16px 0 4px 0;
   padding: 4px 0;
-}
-
-.date-header:first-child,
-.date-header:nth-child(2) {
-  margin: 0;
 }
 
 .no-events-today {
   color: #333;
   font-size: 14px;
-  font-weight: 300;
 }
 
 .event {
@@ -104,7 +107,6 @@ header {
   color: #333;
   cursor: pointer;
   display: flex;
-  font-weight: 300;
   margin: 0 0 4px 0;
   overflow: hidden;
   position: relative;
@@ -160,7 +162,6 @@ header {
 
 .start-time,
 .event-title {
-  font-weight: 300;
   line-height: 16px;
   vertical-align: text-bottom;
 }
