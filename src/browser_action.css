@@ -41,13 +41,14 @@ header {
   width: 24px;
 }
 
-#announcements {
-  background: #efefef;
+#announcement_new_features {
+  background: #fff;
   color: #333;
   display: none;
-  padding: 4px;
+  padding: 8px;
   text-decoration: none;
   width: 100%;
+  margin-bottom: 8px;
 }
 
 #error {

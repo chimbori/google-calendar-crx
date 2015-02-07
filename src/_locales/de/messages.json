@@ -91,9 +91,9 @@
     "message": "Zeitformat",
     "description": "The header for the Options section under which the 12 hr/24 hr option is shown."
   },
-  "announcement_24h_time": {
-    "message": "24-Stunden-Format ist jetzt verfügbar! Stellen Sie Ihren Kalender jetzt um!",
-    "description": "An announcement message shown when the user first upgrades to a version that allows choosing 24-hour time."
+  "announcement_new_features": {
+    "message": "Neue Funktionen! Überprüfen Sie sie heraus »",
+    "description": "An announcement message shown after an upgrade that adds significant new features."
   },
   "option_show_time_until_next_event": {
     "message": "Zeigen Sie die verbleibende Zeit bis zum nächsten Termin.",
