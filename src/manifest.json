@@ -7,15 +7,9 @@
   "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCzO8gAn6n4s5Ohs50F2lmLGsO0FVKIwYyro8qZHlU+9pF85wGBEqoNwSeawr+AZdLgtnQRkIgatLM68EX8sB0DErp3Ds4qCvY8VufvvDIoqxdKtC3QlFxR9PoUZMY7/4lb/OadWnr0UjekxcSNVyk6nqZkTFCcE7RWDMDZ8qwqsQIDAQAB",
 
   "icons": {
-    "16": "icons/event_calendar-lb16.png",
-    "19": "icons/event_calendar-lb19.png",
-    "32": "icons/event_calendar-lb32.png",
-    "38": "icons/event_calendar-lb38.png",
-    "48": "icons/event_calendar-lb48.png",
-    "64": "icons/event_calendar-lb64.png",
-    "96": "icons/event_calendar-lb96.png",
-    "128": "icons/event_calendar-lb128.png",
-    "256": "icons/event_calendar-lb256.png"
+    "16": "icons/logo_calendar_32.png",
+    "48": "icons/logo_calendar_96.png",
+    "128": "icons/logo_calendar_256.png"
   },
 
   "permissions": [
@@ -57,8 +51,8 @@
 
   "browser_action": {
      "default_icon": {
-        "19": "icons/event_calendar-lb19.png",
-        "38": "icons/event_calendar-lb38.png"
+        "19": "icons/logo_calendar_19.png",
+        "38": "icons/logo_calendar_38.png"
       },
      "default_title": "__MSG_google_calendar_extension_name__",
      "default_popup": "browser_action.html"
