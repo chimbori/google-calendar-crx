@@ -25,6 +25,33 @@ header {
   height: 48px;
   background: #0086f4;
   padding: 12px;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+}
+
+.header-placeholder {
+  height: 48px;
+}
+
+.fab {
+  height: 42px;
+  width: 42px;
+  cursor: pointer;
+  border-radius: 50%;
+  box-shadow: 0 0 4px rgba(0,0,0,.14), 0 4px 8px rgba(0,0,0,.28);
+  transform: scale(1) rotate(360deg);
+  transition: transform 150ms cubic-bezier(.4,0,1,1);
+  background: #db4437;
+  color: #fff;
+  position: fixed;
+  right: 16px;
+  top: 64px;
+  padding: 9px;
+  z-index: 10;
 }
 
 .popup-title a {
@@ -81,7 +108,7 @@ section {
 
 #quick-add {
   background: #fff;
-  margin: 16px 0;
+  margin: 8px 0;
   padding: 16px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.4);
 }
