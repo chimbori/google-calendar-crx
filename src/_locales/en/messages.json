@@ -50,7 +50,7 @@
   },
 
   "authorization_required": {
-    "message": "Authorize Google Calendar for Chrome",
+    "message": "Authorize Google Calendar",
     "description": "A message shown when the user needs to grant permission for this extension to read events from their calendar."
   },
 
