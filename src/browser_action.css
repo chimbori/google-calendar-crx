@@ -79,6 +79,19 @@ section {
   cursor: pointer;
 }
 
+#quick-add {
+  background: #fff;
+  margin: 16px 0;
+  padding: 16px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+}
+
+h2 {
+  margin: 8px 0;
+  font-size: 14pt;
+  font-weight: normal;
+}
+
 #quick-add-event-title {
   width: 100%;
 }
@@ -107,7 +120,6 @@ section {
 
 .event {
   background: #fff;
-  border-radius: 2px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   color: #333;
   cursor: pointer;
@@ -193,42 +205,34 @@ section {
   width: 21px;
 }
 
-.kd-button {
-  background-image: -webkit-gradient(linear,left top,left bottom,from(#4d90fe),to(#4787ed));
-  background-image: -webkit-linear-gradient(top,#4d90fe,#4787ed);
-  background-image:         linear-gradient(top,#4d90fe,#4787ed);
-  border-color: #3079ed;
+.button {
+  background: #0086f4;
+  border: 0;
   border-radius: 2px;
-  border: 1px solid rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
   color: #fff;
-  cursor: default;
+  cursor: pointer;
   display: inline-block;
-  font-size: 12px;
-  font-weight: bold;
+  font-size: 13px;
+  text-transform: uppercase;
   line-height: 18px;
-  min-width: 54px;
-  padding: 4px 8px;
+  min-width: 64px;
+  margin: 4px 0 0 0;
+  padding: 6px 32px;
   text-align: center;
   -webkit-transition: all 0.218s;
           transition: all 0.218s;
 }
 
-.kd-button:hover {
-  background-image: -webkit-gradient(linear,left top,left bottom,from(#4d90fe),to(#357ae8));
-  background-image: -webkit-linear-gradient(top,#4d90fe,#357ae8);
-  background-image:         linear-gradient(top,#4d90fe,#357ae8);
-  border-color: #2f5bb7;
-  box-shadow: 0 1px 1px rgba(0,0,0,0.1);
-  -webkit-transition: all 0.0s;
-          transition: all 0.0s;
+.button:hover {
+  box-shadow: 0 1px 1px rgba(0,0,0,0.3);
 }
 
-.kd-button:active {
+.button:active {
   box-shadow: inset 0 1px 2px rgba(0,0,0,0.3);
 }
 
-.kd-button:focus {
-  border: 1px solid #4d90fe;
+.button:focus {
   box-shadow:inset 0 0 0 1px rgba(255,255,255,0.5);
   outline: none;
 }

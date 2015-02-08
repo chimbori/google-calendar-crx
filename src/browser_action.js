@@ -117,8 +117,8 @@ browseraction.installButtonClickHandlers_ = function() {
   });
 
   $('#show_quick_add').on('click', function() {
-    _gaq.push(['_trackEvent', 'Quick Add', 'Shown']);
-    $('#quick-add').slideDown(200);
+    _gaq.push(['_trackEvent', 'Quick Add', 'Toggled']);
+    $('#quick-add').slideToggle(200);
     $('#quick-add-event-title').focus();
   });
 
