@@ -137,6 +137,7 @@ browseraction.installButtonClickHandlers_ = function() {
     _gaq.push(['_trackEvent', 'Quick Add', 'Event Created']);
     browseraction.createQuickAddEvent_($('#quick-add-event-title').val().toString(),
         $('#quick-add-calendar-list').val());
+    $('#quick-add-event-title').val('');  // Remove the existing text from the field.
   });
 };
 
@@ -218,16 +219,22 @@ browseraction.createQuickAddEvent_ = function(text, calendarId) {
     _gaq.push(['_trackEvent', 'getAuthToken', 'OK']);
     _gaq.push(['_trackEvent', 'QuickAdd', 'Add']);
 
+    browseraction.startSpinner();
     $.ajax(quickAddUrl, {
       type: 'POST',
       headers: {
         'Authorization': 'Bearer ' + authToken
       },
       success: function(response) {
+        browseraction.stopSpinner();
         chrome.extension.sendMessage({method: 'events.feed.fetch'});
-        $('#quick-add').slideUp(200);
       },
       error: function(response) {
+        browseraction.stopSpinner();
+        $('#info_bar').text(chrome.i18n.getMessage('error_saving_new_event')).slideDown();
+        window.setTimeout(function() {
+          $('#info_bar').slideUp();
+        }, constants.INFO_BAR_DISMISS_TIMEOUT_MS);
         _gaq.push(['_trackEvent', 'QuickAdd', 'Error', response.statusText]);
         chrome.extension.getBackgroundPage().background.log('Error adding Quick Add event', response.statusText);
         if (response.status === 401) {
@@ -235,6 +242,7 @@ browseraction.createQuickAddEvent_ = function(text, calendarId) {
         }
       }
     });
+    $('#quick-add').slideUp(200);
   });
 };
 

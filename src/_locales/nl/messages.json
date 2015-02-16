@@ -69,6 +69,11 @@
     "description": "A link that provides troubleshooting information related to authorization."
   },
 
+  "error_saving_new_event": {
+    "message": "Fout bij het opslaan van nieuwe gebeurtenis; Probeer het opnieuw.",
+    "description": "An error message shown when a user-added quick-add event could not be saved."
+  },
+
   "add_to_google_calendar": {
     "message": "Toevoegen aan Google Agenda",
     "description": "Alt text and/or link text for the link that users click to add event to their calendar."

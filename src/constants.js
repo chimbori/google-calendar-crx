@@ -23,3 +23,9 @@ constants.MENU_ITEM_VIEW_CALENDAR_WEB = 'view_web_calendar';
  * @const
  */
 constants.EVENT_STATUS_DECLINED = 'declined';
+
+/**
+ * @type {number}
+ * @const
+ */
+constants.INFO_BAR_DISMISS_TIMEOUT_MS = 5000;

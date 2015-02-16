@@ -55,6 +55,10 @@
     "message": "Probleme?",
     "description": "A link that provides troubleshooting information related to authorization."
   },
+  "error_saving_new_event": {
+    "message": "Fehler beim Speichern der neuen Veranstaltung; Bitte versuchen Sie es erneut.",
+    "description": "An error message shown when a user-added quick-add event could not be saved."
+  },
   "add_to_google_calendar": {
     "message": "Zu Google Kalender hinzufügen",
     "description": "Alt text and/or link text for the link that users click to add event to their calendar."

@@ -83,6 +83,15 @@ header {
   margin-bottom: 8px;
 }
 
+#info_bar {
+  background: #ffdbdd;
+  color: #000;
+  display: none;
+  padding: 8px;
+  width: 100%;
+  margin-bottom: 8px;
+}
+
 section {
   padding: 0 8px;
 }

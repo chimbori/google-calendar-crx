@@ -69,6 +69,11 @@
     "description": "A link that provides troubleshooting information related to authorization."
   },
 
+  "error_saving_new_event": {
+    "message": "Error saving new event; please retry.",
+    "description": "An error message shown when a user-added quick-add event could not be saved."
+  },
+
   "add_to_google_calendar": {
     "message": "Add to Google Calendar",
     "description": "Alt text and/or link text for the link that users click to add event to their calendar."
