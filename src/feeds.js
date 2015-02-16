@@ -470,7 +470,7 @@ feeds.determineNextEvents_ = function() {
     if (event.responseStatus == constants.EVENT_STATUS_DECLINED) {
       continue;
     }
-    if (event.allday) {
+    if (!options.get(options.Options.TIME_UNTIL_NEXT_INCLUDES_ALL_DAY_EVENTS) && event.allday) {
       continue;
     }
 

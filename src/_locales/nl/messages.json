@@ -124,6 +124,11 @@
     "description": "The name of the option that tells the user that the extension will display the time on the badge."
   },
 
+  "option_time_until_next_includes_all_day_events": {
+    "message": "Omvatten de hele dag duren bij de berekening van de tijd tot de volgende gebeurtenis.",
+    "description": "The name of the option that ensures all-day events are included when computing the time to next event."
+  },
+
   "event_title_unknown": {
     "message": "Bezig",
     "description": "When a user does not have access to a particular calendar, the event title is not available; this placeholder text is used instead."
