@@ -54,6 +54,14 @@ header {
   z-index: 10;
 }
 
+#show_quick_add {
+  transition: transform 0.2s ease-in;
+}
+
+#show_quick_add.rotated {
+  transform: rotate(45deg);
+}
+
 .popup-title a {
   font-size: 16px;
   color: #fff;
