@@ -140,7 +140,7 @@
   },
 
   "debug_enable_logs": {
-    "message": "Authoriser l'enregistrement des logs. Les logs sont enregistrés localement. Vous pouvez, si vous le voulez, les envoyer avec un rapport d'erreur.",
+    "message": "Autoriser l'enregistrement des logs. Les logs sont enregistrés localement. Vous pouvez, si vous le voulez, les envoyer avec un rapport d'erreur.",
     "description": "Text for a checkbox that enables logging."
   }
 }
