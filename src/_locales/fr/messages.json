@@ -1,0 +1,146 @@
+{
+  "google_calendar_extension_name": {
+    "message": "Google Calendar (by Google)",
+    "description": "The name of this extension."
+  },
+
+  "google_calendar_extension_desc": {
+    "message": "Vérifiez Google Calendar et ajoutez rapidement de nouveaux évènements à partir des sites web que vous visitez",
+    "description": "Description of what this extension does."
+  },
+
+  "logo_text": {
+    "message": "Google Calendar",
+    "description": "The name of the Calendar product, including the word Google."
+  },
+
+  "read_more_at_original_url": {
+    "message": "En savoir plus sur le site d'origine: ",
+    "description": "Descriptive text for a link at the bottom of each event description that asks the user to click on the link for more information."
+  },
+
+  "view_agenda": {
+    "message": "Agenda",
+    "description": "Used in the popup view just before the actual calendar agenda."
+  },
+
+  "add_an_event": {
+    "message": "Ajouter un évènement",
+    "description": "Header that appears just above the form that lets users add custom events."
+  },
+
+  "event_title_placeholder": {
+    "message": "Ex. “Repas entre amis demain”",
+    "description": "Placeholder in the textarea where the user is instructed to type in the title of the event they want to create."
+  },
+
+  "events_on_this_page": {
+    "message": "Évènements sur cette page",
+    "description": "Title used in the browser action popup for the list of events detected on the current page."
+  },
+
+  "quick_add_button": {
+    "message": "Ajouter",
+    "description": "Text on the button that adds a new event to the calendar from user input."
+  },
+
+  "no_events_today": {
+    "message": "Pas d'évènement aujourd'hui.",
+    "description": "Message shown as a placeholder when there are no events today. It only applies to when there are no events today, not for other dates."
+  },
+
+  "authorization_required": {
+    "message": "Autoriser Google Calendar",
+    "description": "A message shown when the user needs to grant permission for this extension to read events from their calendar."
+  },
+
+  "authorization_in_progress": {
+    "message": "Demande d'autorisation…",
+    "description": "A message shown after the user clicks on the Authorize button."
+  },
+
+  "authorization_explanation": {
+    "message": "Google Calendar pour Chrome vous permet de vérifier voter agenda pendant que vous visitez d'autres sites. Pour celà, vous devez autoriser l'accès à votre agenda. Cette demande, nécessaire pour utiliser cette extension, ne sera faite qu'une fois .",
+    "description": "A detailed message explaining the OAuth flow."
+  },
+
+  "problems": {
+    "message": "Un probleme ?",
+    "description": "A link that provides troubleshooting information related to authorization."
+  },
+
+  "error_saving_new_event": {
+    "message": "Erreur pendant l'enregistrement du nouvel évènement; Réessayez s'il vous plait.",
+    "description": "An error message shown when a user-added quick-add event could not be saved."
+  },
+
+  "add_to_google_calendar": {
+    "message": "Ajouter à Google Calendar",
+    "description": "Alt text and/or link text for the link that users click to add event to their calendar."
+  },
+
+  "sync_now": {
+    "message": "Mettre à jour la liste des évènements depuis le serveur.",
+    "description": "Alternate text for the icon that forces syncing the calendar right away."
+  },
+
+  "show_quick_add": {
+    "message": "Ajouter un nouvel évènement en rentrant les détails de cet évènement.",
+    "description": "Alternate text for the icon that shows the text area where users add details of new events."
+  },
+
+  "show_options": {
+    "message": "Changer les options de cette extension",
+    "description": "Alternate text for the icon that opens the Options screen in a new window."
+  },
+
+  "fetching_feed": {
+    "message": "La liste des évènements se met à jour.",
+    "description": "Tooltip text for when the extension is fetching the feed from the server."
+  },
+
+  "toolbar_icon": {
+    "message": "Barre  d'icones",
+    "description": "The section of the Options page that deals with the toolbar icon."
+  },
+
+  "view_web_calendar": {
+    "message": "Voir le calendrier complet",
+    "description": "A menu item that allows the user to view the full calendar on the Web."
+  },
+
+  "calendar_list_header": {
+    "message": "Calendriers",
+    "description": "The header for the Options section under which all calendars are shown."
+  },
+
+  "time_format": {
+    "message": "Format des heures",
+    "description": "The header for the Options section under which the 12 hr/24 hr option is shown."
+  },
+
+  "announcement_new_features": {
+    "message": "Nouvelles fonctionnalités à voir ! »",
+    "description": "An announcement message shown after an upgrade that adds significant new features."
+  },
+
+  "option_show_time_until_next_event": {
+    "message": "Montrer le temps restant avant le prochain évènement",
+    "description": "The name of the option that tells the user that the extension will display the time on the badge."
+  },
+
+  "option_time_until_next_includes_all_day_events": {
+    "message": "Inclure les évènements d'une journée pour le calcul du temps avant le prochain évènement.",  
+    "description": "The name of the option that ensures all-day events are included when computing the time to next event."
+  },
+
+  "event_title_unknown": {
+    "message": "Occupé",
+    "description": "When a user does not have access to a particular calendar, the event title is not available; this placeholder text is used instead."
+  },
+
+  "debug_enable_logs": {
+    "message": "Autoriser l'enregistrement des logs. Les logs sont enregistrés localement. Vous pouvez, si vous le voulez, les envoyer avec un rapport d'erreur.",
+    "description": "Text for a checkbox that enables logging."
+  }
+}
