@@ -118,6 +118,7 @@ browseraction.installButtonClickHandlers_ = function() {
 
   $('#show_quick_add').on('click', function() {
     _gaq.push(['_trackEvent', 'Quick Add', 'Toggled']);
+    $(this).toggleClass('rotated');
     $('#quick-add').slideToggle(200);
     $('#quick-add-event-title').focus();
   });
