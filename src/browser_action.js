@@ -97,7 +97,7 @@ browseraction.loadCalendarsIntoQuickAdd_ = function() {
       var dropDown = $('#quick-add-calendar-list');
       for (var calendarId in calendars) {
         var calendar = calendars[calendarId];
-        if (calendar.editable) {
+        if (calendar.editable && calendar.visible) {
           dropDown.append($('<option>', {
             value: calendar.id,
             text: calendar.title
