@@ -4,7 +4,7 @@
     "description": "The name of this extension."
   },
   "google_calendar_extension_desc": {
-    "message": "Bearbeiten Sie Ihren Google Kalender ganz einfach. Fügen Sie neue Termine von Webseiten hinzu, die Sie  gerade besuchen.",
+    "message": "Bearbeiten Sie Ihren Google Kalender ganz einfach. Fügen Sie neue Termine von Webseiten hinzu, die Sie gerade besuchen.",
     "description": "Description of what this extension does."
   },
   "logo_text": {
@@ -24,7 +24,7 @@
     "description": "Header that appears just above the form that lets users add custom events."
   },
   "event_title_placeholder": {
-    "message": "z.B. “Abendessen mit Freunden 7.00 morgen”",
+    "message": "z.B. “Abendessen mit Freunden morgen um 19:00 Uhr”",
     "description": "Placeholder in the textarea where the user is instructed to type in the title of the event they want to create."
   },
   "events_on_this_page": {
@@ -80,7 +80,7 @@
     "description": "Tooltip text for when the extension is fetching the feed from the server."
   },
   "toolbar_icon": {
-    "message": "Das Symbol in der Symbolleiste",
+    "message": "Einstellungen für das Taskleistensymbol",
     "description": "The section of the Options page that deals with the toolbar icon."
   },
   "view_web_calendar": {
@@ -96,15 +96,15 @@
     "description": "The header for the Options section under which the 12 hr/24 hr option is shown."
   },
   "announcement_new_features": {
-    "message": "Neue Funktionen! Überprüfen Sie sie heraus »",
+    "message": "Neue Funktionen! Probieren Sie diese aus!",
     "description": "An announcement message shown after an upgrade that adds significant new features."
   },
   "option_show_time_until_next_event": {
-    "message": "Zeigen Sie die verbleibende Zeit bis zum nächsten Termin.",
+    "message": "Verbleibende Zeit bis zum nächsten Termin anzeigen.",
     "description": "The name of the option that tells the user that the extension will display the time on the badge."
   },
   "option_time_until_next_includes_all_day_events": {
-    "message": "Beziehen Sie alle tägigen Veranstaltungen bei der Berechnung der Zeit bis zur nächsten Veranstaltung.",
+    "message": "Ganztägigen Veranstaltungen bei der Berechnung der Zeit bis zur nächsten Veranstaltung miteinbeziehen.",
     "description": "The name of the option that ensures all-day events are included when computing the time to next event."
   },
   "event_title_unknown": {
