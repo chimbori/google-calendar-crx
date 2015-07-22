@@ -1,0 +1,147 @@
+{
+  "google_calendar_extension_name": {
+    "message": "ဂူဂဲလ် ပြက္ခဒိန် (ဂူဂဲလ်မှ)",
+    "description": "The name of this extension."
+  },
+
+  "google_calendar_extension_desc": {
+    "message": "ဂူဂဲလ် ပြက္ခဒိန်ကို အလွယ်တကူ စစ်ပါ၊ သင်ကြည့်နေတဲ့ဝဘ်ဆိုဒ်တွေကနေ အစီအစဉ်များ ထည့်ပါ။",
+    "description": "Description of what this extension does."
+  },
+
+  "logo_text": {
+    "message": "ဂူဂဲလ် ပြက္ခဒိန်",
+    "description": "The name of the Calendar product, including the word Google."
+  },
+
+  "read_more_at_original_url": {
+    "message": "Read more at the original site: ",
+    "message": "မူရင်းဆိုဒ်မှာ ပိုမိုဖတ်ရှုပါ",
+    "description": "Descriptive text for a link at the bottom of each event description that asks the user to click on the link for more information."
+  },
+
+  "view_agenda": {
+    "message": "လုပ်ငန်းစဉ်",
+    "description": "Used in the popup view just before the actual calendar agenda."
+  },
+
+  "add_an_event": {
+    "message": "အစီအစဉ်သစ်တစ်ခု ထည့်ရန်",
+    "description": "Header that appears just above the form that lets users add custom events."
+  },
+
+  "event_title_placeholder": {
+    "message": "ဥပမာ၊ “ မနက်ဖြန် ည၇နာရီမှာ သူငယ်ချင်းတွေနဲ့ ညစာသွားစားမယ်”",
+    "description": "Placeholder in the textarea where the user is instructed to type in the title of the event they want to create."
+  },
+
+  "events_on_this_page": {
+    "message": "ဒီစာမျက်နှာရှိ အစီအစဉ်များ",
+    "description": "Title used in the browser action popup for the list of events detected on the current page."
+  },
+
+  "quick_add_button": {
+    "message": "ထည့်ရန်",
+    "description": "Text on the button that adds a new event to the calendar from user input."
+  },
+
+  "no_events_today": {
+    "message": "ယနေ့ မည်သည့်အစီအစဉ်မှ မရှိပါ။",
+    "description": "Message shown as a placeholder when there are no events today. It only applies to when there are no events today, not for other dates."
+  },
+
+  "authorization_required": {
+    "message": "ဂူဂဲလ်ပြက္ခဒိန်နှင့် အတည်ပြုချိတ်ဆက်ပါ။",
+    "description": "A message shown when the user needs to grant permission for this extension to read events from their calendar."
+  },
+
+  "authorization_in_progress": {
+    "message": "အတည်ပြုချိတ်ဆက်နေသည်။",
+    "description": "A message shown after the user clicks on the Authorize button."
+  },
+
+  "authorization_explanation": {
+    "message": "ခရုမ်းအတွက် ဂူဂဲလ်ပြက္ခဒိန်သည် အခြားဝဘ်ဆိုဒ်များကို လည်ပတ်ကြည့်ရှုနေစဉ် သင့်ပြက္ခဒိန်ကို စစ်ဆေးနိုင်စေပါသည်။ ဒီအတွက် သင်သည် သင့်ပြက္ခဒိန်ကို အသုံးပြုနိုင်ရန် ခွင့်ပြုပေးဖို့ လိုအပ်သည်။ ဒီအက်ပ်ကို အသုံးမပြုခင် စတင်အသုံးပြုစဉ်ချိန်ညှိမှု တစ်ကြိမ်သာ လိုအပ်သည်။",
+    "description": "A detailed message explaining the OAuth flow."
+  },
+
+  "problems": {
+    "message": "ပြဿနာရှိပါသလား။",
+    "description": "A link that provides troubleshooting information related to authorization."
+  },
+
+  "error_saving_new_event": {
+    "message": "အစီအစဉ်သစ်ကို ဖန်တီးသိမ်းဆည်းရာတွင် အမှားဖြစ်ပေါ်ခဲ့သည်။ ကျေးဇူးပြု၍ ထပ်မံ ဆောင်ရွက်ပါ။",
+    "description": "An error message shown when a user-added quick-add event could not be saved."
+  },
+
+  "add_to_google_calendar": {
+    "message": "ဂူဂဲလ်ပြက္ခဒိန်သို့ ထည့်ရန်",
+    "description": "Alt text and/or link text for the link that users click to add event to their calendar."
+  },
+
+  "sync_now": {
+    "message": "ဆာဗာမှ အစီအစဉ်များစာရင်းကို ရယူပါ။",
+    "description": "Alternate text for the icon that forces syncing the calendar right away."
+  },
+
+  "show_quick_add": {
+    "message": "အစီအစဉ်သစ်တစ်ခု ထည့်ရန် အသေးစိပ်နေရာတွင် ရေးပါ။",
+    "description": "Alternate text for the icon that shows the text area where users add details of new events."
+  },
+
+  "show_options": {
+    "message": "ဒီနောက်ဆက်တွဲအက်ပ်အတွက် အပြင်အဆင်များ ပြောင်းလဲရန်",
+    "description": "Alternate text for the icon that opens the Options screen in a new window."
+  },
+
+  "fetching_feed": {
+    "message": "အစီအစဉ်များစာရင်းကို ရယူနေပါသည်။",
+    "description": "Tooltip text for when the extension is fetching the feed from the server."
+  },
+
+  "toolbar_icon": {
+    "message": "တူးလ်ဘားရှိ ရုပ်ပုံငယ်",
+    "description": "The section of the Options page that deals with the toolbar icon."
+  },
+
+  "view_web_calendar": {
+    "message": "ပြက္ခဒိန်ကို အပြည့်အစုံ ကြည့်ရန်",
+    "description": "A menu item that allows the user to view the full calendar on the Web."
+  },
+
+  "calendar_list_header": {
+    "message": "ပြက္ခဒိန်များ",
+    "description": "The header for the Options section under which all calendars are shown."
+  },
+
+  "time_format": {
+    "message": "အချိန်ပြရန် ပုံစံ",
+    "description": "The header for the Options section under which the 12 hr/24 hr option is shown."
+  },
+
+  "announcement_new_features": {
+    "message": "စွမ်းဆောင်ရည်အသစ်များကို သွားကြည့်ပါ »",
+    "description": "An announcement message shown after an upgrade that adds significant new features."
+  },
+
+  "option_show_time_until_next_event": {
+    "message": "နောက်ထပ်အစီအစဉ်မစမီ လိုအပ်သောအချိန်ကို ပြရန်။",
+    "description": "The name of the option that tells the user that the extension will display the time on the badge."
+  },
+
+  "option_time_until_next_includes_all_day_events": {
+    "message": "နောက်ထပ်အစီအစဉ်အတွက် အချိန်တွက်ချက်လျှင် တစ်နေကုန် အစီအစဉ်များကိုပါ ထည့်တွက်ရန်။",
+    "description": "The name of the option that ensures all-day events are included when computing the time to next event."
+  },
+
+  "event_title_unknown": {
+    "message": "မအားလပ်ပါ",
+    "description": "When a user does not have access to a particular calendar, the event title is not available; this placeholder text is used instead."
+  },
+
+  "debug_enable_logs": {
+    "message": "အသုံးပြုမှု မှတ်တမ်းကို ဖွင့်ပါ။ ထိုမှတ်တမ်းကို ဘရောက်ဇာတွင် သိမ်းထားပါမည်။ သင်သည် လိုအပ်ပါက ပြဿနာအစီအရင်ခံစာနှင့်အတူ တွဲပို့နိုင်ပါသည်။",
+    "description": "Text for a checkbox that enables logging."
+  }
+}
