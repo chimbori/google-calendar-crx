@@ -4,11 +4,11 @@
     "description": "The name of this extension."
   },
   "google_calendar_extension_desc": {
-    "message": "Fácil de consultar el calendario de Google y añadir nuevos eventos de los sitios web que visite.",
+    "message": "Permite consultar fácilmente el calendario de Google y añadir nuevos eventos de los sitios web que visite.",
     "description": "Description of what this extension does."
   },
   "logo_text": {
-    "message": "Google Calendario",
+    "message": "Google Calendar",
     "description": "The name of the Calendar product, including the word Google."
   },
   "read_more_at_original_url": {
@@ -16,7 +16,7 @@
     "description": "Descriptive text for a link at the bottom of each event description that asks the user to click on the link for more information."
   },
   "view_agenda": {
-    "message": "Orden del día",
+    "message": "Agenda del día",
     "description": "Used in the popup view just before the actual calendar agenda."
   },
   "add_an_event": {
@@ -24,11 +24,11 @@
     "description": "Header that appears just above the form that lets users add custom events."
   },
   "event_title_placeholder": {
-    "message": "Por ejemplo “Cena con amigos 19:00 mañana”",
+    "message": "Por ejemplo “Cena con amigos mañana a las 19:00”",
     "description": "Placeholder in the textarea where the user is instructed to type in the title of the event they want to create."
   },
   "events_on_this_page": {
-    "message": "Eventos de esta página",
+    "message": "Eventos en esta página",
     "description": "Title used in the browser action popup for the list of events detected on the current page."
   },
   "quick_add_button": {
@@ -36,7 +36,7 @@
     "description": "Text on the button that adds a new event to the calendar from user input."
   },
   "no_events_today": {
-    "message": "Hay eventos hoy.",
+    "message": "No tienes eventos para hoy.",
     "description": "Message shown as a placeholder when there are no events today. It only applies to when there are no events today, not for other dates."
   },
   "authorization_required": {
@@ -48,7 +48,7 @@
     "description": "A message shown after the user clicks on the Authorize button."
   },
   "authorization_explanation": {
-    "message": "Google Calendar para Chrome te permite comprobar el calendario mientras usted visita otros sitios web. Para ello, es necesario darle acceso a su calendario. Este es un paso de configuración de una sola vez falta antes de poder utilizar esta aplicación.",
+    "message": "Google Calendar para Chrome te permite comprobar tu calendario mientras visitas otros sitios web. Para ello, es necesario darle acceso a tu calendario. Este es un paso de configuración que se realiza una sola vez antes de poder utilizar esta aplicación.",
     "description": "A detailed message explaining the OAuth flow."
   },
   "problems": {
@@ -80,7 +80,7 @@
     "description": "Tooltip text for when the extension is fetching the feed from the server."
   },
   "toolbar_icon": {
-    "message": "El icono de la barra de herramientas",
+    "message": "Icono de la barra de herramientas",
     "description": "The section of the Options page that deals with the toolbar icon."
   },
   "view_web_calendar": {
@@ -96,7 +96,7 @@
     "description": "The header for the Options section under which the 12 hr/24 hr option is shown."
   },
   "announcement_new_features": {
-    "message": "Las nuevas características! Échales un vistazo »",
+    "message": "Agregamos nuevas características! Échales un vistazo »",
     "description": "An announcement message shown after an upgrade that adds significant new features."
   },
   "option_show_time_until_next_event": {
