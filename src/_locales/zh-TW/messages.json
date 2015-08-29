@@ -35,7 +35,7 @@
   },
 
   "events_on_this_page": {
-    "message": "此頁面中的時間",
+    "message": "此頁面中的事件",
     "description": "Title used in the browser action popup for the list of events detected on the current page."
   },
 
