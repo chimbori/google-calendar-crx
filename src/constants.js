@@ -8,7 +8,7 @@ var constants = {};
  * @type {string}
  * @const
  */
-constants.CALENDAR_UI_URL = 'https://www.google.com/calendar/';
+constants.CALENDAR_UI_URL = 'https://calendar.google.com/calendar/';
 
 /**
  * Menu item used to open Google Calendar in a new tab.
