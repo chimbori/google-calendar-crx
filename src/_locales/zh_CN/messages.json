@@ -50,7 +50,7 @@
   },
 
   "authorization_required": {
-    "message": "授权给 Google 日历",
+    "message": "授权访问 Google 日历",
     "description": "A message shown when the user needs to grant permission for this extension to read events from their calendar."
   },
 
@@ -60,7 +60,7 @@
   },
 
   "authorization_explanation": {
-    "message": "Chrome 適用的 Google 日曆讓您在瀏覽其他網站時都可以檢查日曆。為此，您需要授權擴充功能以存取您的日曆。此步驟只需在您使用擴充功能前執行一次。",
+    "message": "Chrome 中的 Google 日历允许你在访问其他网站的时候检查日历。为此，您需要授权此扩展访问您的日历。在您使用扩展前仅需要这一个步骤",
     "description": "A detailed message explaining the OAuth flow."
   },
 
