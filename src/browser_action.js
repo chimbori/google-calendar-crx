@@ -151,7 +151,6 @@ browseraction.installButtonClickHandlers_ = function() {
 browseraction.showLoginMessageIfNotAuthenticated_ = function() {
   chrome.identity.getAuthToken({'interactive': false}, function (authToken) {
     if (chrome.runtime.lastError || !authToken) {
-      _gaq.push(['_trackEvent', 'getAuthToken', 'Failed', chrome.runtime.lastError.message]);
       chrome.extension.getBackgroundPage().background.log('getAuthToken',
           chrome.runtime.lastError.message);
       browseraction.stopSpinnerRightNow();
@@ -159,7 +158,6 @@ browseraction.showLoginMessageIfNotAuthenticated_ = function() {
       $('#action-bar').hide();
       $('#calendar-events').hide();
     } else {
-      _gaq.push(['_trackEvent', 'getAuthToken', 'OK']);
       $('#error').hide();
       $('#action-bar').show();
       $('#calendar-events').show();
@@ -214,11 +212,9 @@ browseraction.createQuickAddEvent_ = function(text, calendarId) {
   chrome.identity.getAuthToken({'interactive': false}, function (authToken) {
     if (chrome.runtime.lastError || !authToken) {
       chrome.extension.getBackgroundPage().background.log('getAuthToken', chrome.runtime.lastError.message);
-      _gaq.push(['_trackEvent', 'getAuthToken', 'Failed', chrome.runtime.lastError.message]);
       return;
     }
-    _gaq.push(['_trackEvent', 'getAuthToken', 'OK']);
-    _gaq.push(['_trackEvent', 'QuickAdd', 'Add']);
+    _gaq.push(['_trackEvent', 'Quick Add', 'Add']);
 
     browseraction.startSpinner();
     $.ajax(quickAddUrl, {
@@ -236,7 +232,7 @@ browseraction.createQuickAddEvent_ = function(text, calendarId) {
         window.setTimeout(function() {
           $('#info_bar').slideUp();
         }, constants.INFO_BAR_DISMISS_TIMEOUT_MS);
-        _gaq.push(['_trackEvent', 'QuickAdd', 'Error', response.statusText]);
+        _gaq.push(['_trackEvent', 'Quick Add', 'Error', response.statusText]);
         chrome.extension.getBackgroundPage().background.log('Error adding Quick Add event', response.statusText);
         if (response.status === 401) {
           chrome.identity.removeCachedAuthToken({ 'token': authToken }, function() {});
@@ -281,14 +277,12 @@ browseraction.showEventsFromFeed_ = function(events) {
 
   chrome.identity.getAuthToken({'interactive': false}, function (authToken) {
     if (chrome.runtime.lastError || !authToken) {
-      _gaq.push(['_trackEvent', 'getAuthToken', 'Failed', chrome.runtime.lastError.message]);
       chrome.extension.getBackgroundPage().background.log('getAuthToken',
           chrome.runtime.lastError.message);
       $('#error').show();
       $('#action-bar').hide();
       $('#calendar-events').hide();
     } else {
-      _gaq.push(['_trackEvent', 'getAuthToken', 'OK']);
       $('#error').hide();
       $('#action-bar').show();
       $('#calendar-events').show();
