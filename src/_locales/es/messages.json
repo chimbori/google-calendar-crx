@@ -104,7 +104,7 @@
     "description": "The name of the option that tells the user that the extension will display the time on the badge."
   },
   "option_time_until_next_includes_all_day_events": {
-    "message": "Incluya todos los días de eventos cuando se calcula el tiempo hasta el próximo evento.",
+    "message": "Incluya eventos de día completo cuando se calcula el tiempo hasta el próximo evento.",
     "description": "The name of the option that ensures all-day events are included when computing the time to next event."
   },
   "event_title_unknown": {
