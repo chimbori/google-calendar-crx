@@ -384,8 +384,12 @@ feeds.refreshUI = function() {
   feeds.removePastEvents_();
   feeds.determineNextEvents_();
 
-  // If there are no more next events to show, bail out.
+  // If there are no more next events to show, reset the badge and bail out.
   if (feeds.nextEvents.length === 0) {
+    background.updateBadge({
+      'text': '',
+      'title': chrome.i18n.getMessage('no_upcoming_events')
+    })
     return;
   }
 
