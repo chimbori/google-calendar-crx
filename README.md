@@ -1,7 +1,8 @@
 Google Calendar for Chrome
 ==========================
 
-[Install now](https://chrome.google.com/webstore/detail/google-calendar-by-google/gmbgaklkmjakoegficnlkhebmhkjfich).
+[![Install now.](https://developer.chrome.com/webstore/images/ChromeWebStore_BadgeWBorder_v2_206x58.png)
+](https://chrome.google.com/webstore/detail/google-calendar-by-google/gmbgaklkmjakoegficnlkhebmhkjfich)
 
 
 Easily check Google Calendar and add new events from websites you visit.
