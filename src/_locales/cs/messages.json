@@ -49,6 +49,11 @@
     "description": "Message shown as a placeholder when there are no events today. It only applies to when there are no events today, not for other dates."
   },
 
+  "no_upcoming_events": {
+    "message": "Žádné nadcházející události.",
+    "description": "Message shown as a placeholder when there are no future events at all. It applies both to today and all future dates."
+  },
+ 
   "authorization_required": {
     "message": "Autorizovat Google Kalendář",
     "description": "A message shown when the user needs to grant permission for this extension to read events from their calendar."
@@ -60,7 +65,7 @@
   },
 
   "authorization_explanation": {
-    "message": "Google Kalendář pro Chrome vám umožňuje zkontrolovat váš kalendář zatímco navštěvujete ostatní webové stránky. Proto rozšíření potřebuje povolit přístup k vašemu kalendáři. Je to jednorázový krok vyžadováný předtím, než začnete používat toto rozšíření.",
+    "message": "Google Kalendář pro Chrome vám umožňuje zkontrolovat váš kalendář zatímco navštěvujete ostatní webové stránky. Proto rozšíření potřebuje povolit přístup k vašemu kalendáři. To je jednorázový krok vyžadováný předtím, než začnete používat toto rozšíření.",
     "description": "A detailed message explaining the OAuth flow."
   },
 
