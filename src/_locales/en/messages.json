@@ -169,12 +169,12 @@
     "description": "Text for a checkbox that enables logging."
   },
 
-  "report_button": {
+  "report_issue_button": {
     "message": "Report an issue",
     "description": "Text on the button that shows a debug information."
   },
 
-  "debug_information": {
+  "report_issue_steps": {
     "message": "Copy this debug information, add detailed steps on how to reproduce the problem, and attach a screenshot.",
     "description": "Text that tells the user what to write in debug information."
   },

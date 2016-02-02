@@ -165,22 +165,22 @@
   },
 
   "debug_enable_logs": {
-    "message": "Zapnout logování. Logy jsou uloženy lokálně. Můžete je poslat spolu s hlášením o chybě, pokud chcete.",
+    "message": "Zapnout logování. Logy jsou uloženy lokálně. Můžete je poslat spolu s hlášením o chybě pokud chcete.",
     "description": "Text for a checkbox that enables logging."
   },
 
-  "report_button": {
+  "report_issue_button": {
     "message": "Nahlásit problém",
     "description": "Text on the button that shows a debug information."
   },
 
-  "debug_information": {
-    "message": "Zkopírujte tyto ladící informace, přidejte detailní kroky, jak problém reprodukovat a připojte screenshot.",
+  "report_issue_steps": {
+    "message": "Zkopírujte tyto ladící informace, přidejte detailní kroky jak problém reprodukovat a připojte screenshot.",
     "description": "Text that tells the user what to write in debug information."
   },
 
   "report_create_issue": {
-    "message": "Poté vytvořte nový požadavek a vložte jej na",
+    "message": "Poté vytvořte nový issue na",
     "description": "Text that tells the user where to put a debug information."
   }
 }
