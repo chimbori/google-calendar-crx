@@ -36,8 +36,12 @@
     "description": "Text del botó per a que lu'usuari pugui afegir un nou esdeveniment al calendari."
   },
   "no_events_today": {
-    "message": "No ´hi ha esdeveniments per avui.",
+    "message": "No hi ha esdeveniments per avui.",
     "description": "Misatge que es mostra quan no hi ha esdeveniemtns. Només aplica si no hi ha esdeveniments en el dia actual, no per altres dies."
+  },
+   "no_upcoming_events": {
+    "message": "No hi ha esdeveniments propers.",
+    "description": "Message shown as a placeholder when there are no future events at all. It applies both to today and all future dates."
   },
   "authorization_required": {
     "message": "Autoritzar Google Calendar",
