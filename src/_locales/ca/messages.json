@@ -1,0 +1,122 @@
+{
+  "google_calendar_extension_name": {
+    "message": "Google Calendar (per Google)",
+    "description": "El nom de l'extensió."
+  },
+  "google_calendar_extension_desc": {
+    "message": "Permet consultar fàcilment el calendari de Google i afegir nous esdeveniments als llocs webs que visitis.",
+    "description": "Descripció del que fa l'extensió."
+  },
+  "logo_text": {
+    "message": "Google Calendar",
+    "description": "El nom del producte Calendari, inclós el món de Google."
+  },
+  "read_more_at_original_url": {
+    "message": "Veure més en el lloc original: ",
+    "description": "Text descriptiu de l'enllaç al peu de cada descripció de l'esdeveniment que demana a l''usuari fer clic per obtenir més informació."
+  },
+  "view_agenda": {
+    "message": "Agenda del dia",
+    "description": "Utilitzat en el mode de visualització popop just abans de l'agenda del calendari actual."
+  },
+  "add_an_event": {
+    "message": "Afegir esdeveniment",
+    "description": "Capçalera que apareix just sobre el formulari que permet als usuaris editar esdeveniments."
+  },
+  "event_title_placeholder": {
+    "message": "Per exemple “Sopar amb amics demà a les 19:00”",
+    "description": "Descripció en el textarea on s'explica a l'usuari que ha d'escriure el títol de l'esdeveniment que vol crear."
+  },
+  "events_on_this_page": {
+    "message": "Esdeveniments a la página",
+    "description": "Titol utilitzat a l'acció de popup del navegador per la llista de eseveniments detectats a la página."
+  },
+  "quick_add_button": {
+    "message": "Afegir",
+    "description": "Text del botó per a que lu'usuari pugui afegir un nou esdeveniment al calendari."
+  },
+  "no_events_today": {
+    "message": "No hi ha esdeveniments per avui.",
+    "description": "Misatge que es mostra quan no hi ha esdeveniemtns. Només aplica si no hi ha esdeveniments en el dia actual, no per altres dies."
+  },
+   "no_upcoming_events": {
+    "message": "No hi ha esdeveniments propers.",
+    "description": "Message shown as a placeholder when there are no future events at all. It applies both to today and all future dates."
+  },
+  "authorization_required": {
+    "message": "Autoritzar Google Calendar",
+    "description": "Missatge que es mostra si es necessita persmisos per llegur els edeveniments de Google Calendar."
+  },
+  "authorization_in_progress": {
+    "message": "Autoritzant…",
+    "description": "Missatge que es mostra quan es fa clic al botó Autoritzar."
+  },
+  "authorization_explanation": {
+    "message": "Google Calendar per Chrome permet veure el calendari mentre visites altres llocs web. Per això, és necesari donar accés al teu calendari. Només cal una vegada",
+    "description": "Missatge explicant el funcionament de OAuth."
+  },
+  "problems": {
+    "message": "Problemes?",
+    "description": "Enllaç que proporciona ajuda sobre la autorització."
+  },
+  "error_saving_new_event": {
+    "message": "Error al guardar nou esdeveniment; si us plau, torna-ho a intentar.",
+    "description": "Un missatge que es mostra quan l'usuari intenta afegir un esdeveniment i aquest no es guarda."
+  },
+  "add_to_google_calendar": {
+    "message": "Afegir a Google Calendar",
+    "description": "Text alternatiu per enllaços."
+  },
+  "sync_now": {
+    "message": "Actualitzar la lista d'esdeveniments.",
+    "description": "Text alternatiu per forçar sincronisme."
+  },
+  "show_quick_add": {
+    "message": "Afegir un nou esdeveniment al escriure detalls del esdeveniement.",
+    "description": "Text alternatiu per indicar on els usuaris afexeixen detalls dels nous esdeveniements."
+  },
+  "show_options": {
+    "message": "Canviar les opcions d'aquesta extensió.",
+    "description": "Alternate text for the icon that opens the Options screen in a new window."
+  },
+  "fetching_feed": {
+    "message": "La llista d'esdeveniments s'actualitza.",
+    "description": "Tooltip text for when the extension is fetching the feed from the server."
+  },
+  "toolbar_icon": {
+    "message": "Icona de la barra d'eines",
+    "description": "The section of the Options page that deals with the toolbar icon."
+  },
+  "view_web_calendar": {
+    "message": "Veure el calendari complet",
+    "description": "A menu item that allows the user to view the full calendar on the Web."
+  },
+  "calendar_list_header": {
+    "message": "Calendaris",
+    "description": "The header for the Options section under which all calendars are shown."
+  },
+  "time_format": {
+    "message": "Format horari",
+    "description": "The header for the Options section under which the 12 hr/24 hr option is shown."
+  },
+  "announcement_new_features": {
+    "message": "Afegim noves funcionalitats! Descubreix-les »",
+    "description": "An announcement message shown after an upgrade that adds significant new features."
+  },
+  "option_show_time_until_next_event": {
+    "message": "Mostra el temps restant fins el proper esdeveniment.",
+    "description": "The name of the option that tells the user that the extension will display the time on the badge."
+  },
+  "option_time_until_next_includes_all_day_events": {
+    "message": "Inclou els esdeveniment dia complet quan es calculen els temps fins el proper esdeveniement.",
+    "description": "The name of the option that ensures all-day events are included when computing the time to next event."
+  },
+  "event_title_unknown": {
+    "message": "Ocupat",
+    "description": "When a user does not have access to a particular calendar, the event title is not available; this placeholder text is used instead."
+  },
+  "debug_enable_logs": {
+    "message": "Habilitar el registre. Els registres es guarden localment. Si ho vols, pots enviar informes d'error.",
+    "description": "Text for a checkbox that enables logging."
+  }
+}
