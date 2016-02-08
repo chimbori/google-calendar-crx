@@ -154,11 +154,6 @@
     "description": "Text that tells the user about troubleshooting guide."
   },
 
-  "troubleshooting_guide": {
-    "message": "průvodce řešením problémů",
-    "description": "A link to the troubleshooting guide on GitHub."
-  },
-
   "report_it": {
     "message": "Pokud máte stále problém s rozšířením, nahlašte jej.",
     "description": "Text about reporting the problem."

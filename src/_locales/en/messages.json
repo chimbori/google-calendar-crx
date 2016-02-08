@@ -154,11 +154,6 @@
     "description": "Text that tells the user about the troubleshooting guide."
   },
 
-  "troubleshooting_guide": {
-    "message": "troubleshooting guide",
-    "description": "A link to the troubleshooting guide on GitHub."
-  },
-
   "report_it": {
     "message": "If you continue to run into a problem, please report it.",
     "description": "Text about reporting the problem."
