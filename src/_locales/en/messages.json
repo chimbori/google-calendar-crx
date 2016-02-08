@@ -180,7 +180,7 @@
   },
 
   "report_create_issue": {
-    "message": "Then create a new issue and paste it at",
+    "message": "Then create a new issue and paste it in the issue tracker below.",
     "description": "Text that tells the user where to put a debug information."
   }
 }

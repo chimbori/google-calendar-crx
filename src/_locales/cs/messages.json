@@ -180,7 +180,7 @@
   },
 
   "report_create_issue": {
-    "message": "Poté vytvořte nový issue a vložte jej na",
+    "message": "Poté vytvořte nový issue a vložte jej do issue trackeru níže.",
     "description": "Text that tells the user where to put a debug information."
   }
 }
