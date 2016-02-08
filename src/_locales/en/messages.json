@@ -150,8 +150,8 @@
   },
 
   "troubleshooting_authorizing": {
-    "message": "Having problems authorizing? Consult the",
-    "description": "Text that tells the user about troubleshooting guide."
+    "message": "Are you having problems with authorization? Look into this troubleshooting guide:",
+    "description": "Text that tells the user about the troubleshooting guide."
   },
 
   "troubleshooting_guide": {
@@ -175,12 +175,12 @@
   },
 
   "report_issue_steps": {
-    "message": "Copy this debug information, add detailed steps on how to reproduce the problem, and attach a screenshot.",
+    "message": "Copy this debug information, add detailed steps on how to reproduce the problem and attach a screenshot.",
     "description": "Text that tells the user what to write in debug information."
   },
 
   "report_create_issue": {
-    "message": "Then create a new issue and paste it in the issue tracker below.",
+    "message": "Then create a new issue and paste it in the issue tracker:",
     "description": "Text that tells the user where to put a debug information."
   }
 }

@@ -150,7 +150,7 @@
   },
 
   "troubleshooting_authorizing": {
-    "message": "Máte problém s autorizací? Nahlédněte do",
+    "message": "Máte problém s autorizací? Nahlédněte do průvodce řešením problémů:",
     "description": "Text that tells the user about troubleshooting guide."
   },
 
@@ -180,7 +180,7 @@
   },
 
   "report_create_issue": {
-    "message": "Poté vytvořte nový issue a vložte jej do issue trackeru níže.",
+    "message": "Poté vytvořte nový issue a vložte jej do issue trackeru:",
     "description": "Text that tells the user where to put a debug information."
   }
 }
