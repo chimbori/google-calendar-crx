@@ -160,7 +160,7 @@
   },
 
   "debug_enable_logs": {
-    "message": "Aktivieren Sie die Protokollierung. Logs werden lokal gespeichert, die Sie bei einem Fehler mit einem Fehlerbericht versenden können.",
+    "message": "Aktivieren Sie die Protokollierung. Logs werden lokal gespeichert. Sie können sie bei einem Fehler mit dem Fehlerbericht mitschicken.",
     "description": "Text for a checkbox that enables logging."
   },
 
@@ -175,7 +175,7 @@
   },
 
   "report_create_issue": {
-    "message": "Dann erstellen sie eine neue Fehlerbericht und fügen die obigen Informationen dort ein:",
+    "message": "Dann erstellen Sie einen neuen Fehlerbericht und fügen die obigen Informationen dort ein:",
     "description": "Text that tells the user where to put a debug information."
   }
 }
