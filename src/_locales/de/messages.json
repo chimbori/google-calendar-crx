@@ -150,8 +150,7 @@
   },
 
   "troubleshooting_authorizing": {
-    "message": "Are you having problems with authorization? Look into this troubleshooting guide:",
-    "message": "Bei Problemen mit der Authorisierung, :",
+    "message": "Bei Problemen mit der Authorisierung, verwenden Sie unsere Anleitung zur Fehlerbehebung:",
     "description": "Text that tells the user about the troubleshooting guide."
   },
 
