@@ -1,9 +1,4 @@
-One-line summary:
-
-
-
 What steps will reproduce the problem?
-
 1. 
 2. 
 3. 
@@ -26,7 +21,6 @@ Logs:
 
 System Information:
 (This can be captured automatically if you click on Report Issue from the Chrome extension)
-
 - Version:
 - Language:
 - Timezone Offset:
