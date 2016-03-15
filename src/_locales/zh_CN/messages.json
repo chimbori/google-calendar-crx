@@ -1,146 +1,146 @@
 {
   "google_calendar_extension_name": {
-    "message": "Google Calendar (by Google)",
+    "message": "Google 日历 (来自 Google)",
     "description": "The name of this extension."
   },
+
   "google_calendar_extension_desc": {
-    "message": "Easily check Google Calendar and add new events from websites you visit.",
+    "message": "以便捷的方式查看 Google 日历及在当前网站上直接添加新的日历事件",
     "description": "Description of what this extension does."
   },
+
   "logo_text": {
-    "message": "Google Calendar",
+    "message": "Google 日历",
     "description": "The name of the Calendar product, including the word Google."
   },
+
   "read_more_at_original_url": {
-    "message": "Read more at the original site: ",
+    "message": "在原始网站上查看更多：",
     "description": "Descriptive text for a link at the bottom of each event description that asks the user to click on the link for more information."
   },
+
   "view_agenda": {
-    "message": "Agenda",
+    "message": "事件列表",
     "description": "Used in the popup view just before the actual calendar agenda."
   },
+
   "add_an_event": {
-    "message": "Add an Event",
+    "message": "新增事件",
     "description": "Header that appears just above the form that lets users add custom events."
   },
+
   "event_title_placeholder": {
-    "message": "E.g. “Dinner with friends 7pm tomorrow”",
+    "message": "例如：“和朋友吃晚餐 7pm tomorrow”",
     "description": "Placeholder in the textarea where the user is instructed to type in the title of the event they want to create."
   },
+
   "events_on_this_page": {
-    "message": "Events on this page",
+    "message": "此页面上的事件",
     "description": "Title used in the browser action popup for the list of events detected on the current page."
   },
+
   "quick_add_button": {
-    "message": "Add",
+    "message": "新增",
     "description": "Text on the button that adds a new event to the calendar from user input."
   },
+
   "no_events_today": {
-    "message": "No events today.",
+    "message": "今天没有事件",
     "description": "Message shown as a placeholder when there are no events today. It only applies to when there are no events today, not for other dates."
   },
-  "no_upcoming_events": {
-    "message": "No upcoming events.",
-    "description": "Message shown as a placeholder when there are no future events at all. It applies both to today and all future dates."
-  },
+
   "authorization_required": {
-    "message": "Authorize Google Calendar",
+    "message": "授权访问 Google 日历",
     "description": "A message shown when the user needs to grant permission for this extension to read events from their calendar."
   },
+
   "authorization_in_progress": {
-    "message": "Authorizing…",
+    "message": "正在授权...",
     "description": "A message shown after the user clicks on the Authorize button."
   },
+
   "authorization_explanation": {
-    "message": "Google Calendar for Chrome lets you check your calendar while you visit other websites. For this, you need to grant it access to your calendar. This is a one-time setup step required before you can use this app.",
+    "message": "Chrome 中的 Google 日历允许你在访问其他网站的时候检查日历。为此，您需要授权此扩展访问您的日历。在您使用扩展前仅需要这一个步骤",
     "description": "A detailed message explaining the OAuth flow."
   },
+
   "problems": {
-    "message": "Problems?",
+    "message": "有问题吗",
     "description": "A link that provides troubleshooting information related to authorization."
   },
+
   "error_saving_new_event": {
-    "message": "Error saving new event; please retry.",
+    "message": "保存新事件时出错 请重试",
     "description": "An error message shown when a user-added quick-add event could not be saved."
   },
+
   "add_to_google_calendar": {
-    "message": "Add to Google Calendar",
+    "message": "添加至 Google 日历",
     "description": "Alt text and/or link text for the link that users click to add event to their calendar."
   },
+
   "sync_now": {
-    "message": "Update the list of events from the server.",
+    "message": "从服务器更新事件列表",
     "description": "Alternate text for the icon that forces syncing the calendar right away."
   },
+
   "show_quick_add": {
-    "message": "Add a new event by typing in the event details.",
+    "message": "输入事件详情以添加新事件",
     "description": "Alternate text for the icon that shows the text area where users add details of new events."
   },
+
   "show_options": {
-    "message": "Change options for this extension",
+    "message": "更改此扩展的设置",
     "description": "Alternate text for the icon that opens the Options screen in a new window."
   },
+
   "fetching_feed": {
-    "message": "The list of events is being updated.",
+    "message": "正在更新事件列表",
     "description": "Tooltip text for when the extension is fetching the feed from the server."
   },
+
   "toolbar_icon": {
-    "message": "Toolbar Icon",
+    "message": "工具栏图标",
     "description": "The section of the Options page that deals with the toolbar icon."
   },
+
   "view_web_calendar": {
-    "message": "View Full Calendar",
+    "message": "查看完整日历",
     "description": "A menu item that allows the user to view the full calendar on the Web."
   },
+
   "calendar_list_header": {
-    "message": "Calendars",
+    "message": "所有日历",
     "description": "The header for the Options section under which all calendars are shown."
   },
+
   "time_format": {
-    "message": "Time Format",
+    "message": "时间格式",
     "description": "The header for the Options section under which the 12 hr/24 hr option is shown."
   },
+
   "announcement_new_features": {
-    "message": "New features! Check them out »",
+    "message": "新功能！去看看 »",
     "description": "An announcement message shown after an upgrade that adds significant new features."
   },
+
   "option_show_time_until_next_event": {
-    "message": "Show time remaining until the next event.",
+    "message": "显示下个事件开始前的剩余时间",
     "description": "The name of the option that tells the user that the extension will display the time on the badge."
   },
+
   "option_time_until_next_includes_all_day_events": {
-    "message": "Include all-day events when computing the time until the next event.",
+    "message": "计算下个事件开始前的剩余时间时，包括全天事件",
     "description": "The name of the option that ensures all-day events are included when computing the time to next event."
   },
+
   "event_title_unknown": {
-    "message": "Busy",
+    "message": "请稍后",
     "description": "When a user does not have access to a particular calendar, the event title is not available; this placeholder text is used instead."
   },
-  "troubleshooting_header": {
-    "message": "Troubleshooting",
-    "description": "The header for the Troubleshooting section in Options."
-  },
-  "troubleshooting_authorizing": {
-    "message": "Are you having problems with authorization? Look into this troubleshooting guide:",
-    "description": "Text that tells the user about the troubleshooting guide."
-  },
-  "report_it": {
-    "message": "If you continue to run into a problem, please report it.",
-    "description": "Text about reporting the problem."
-  },
+
   "debug_enable_logs": {
-    "message": "Enable logging. Logs are stored locally. You may send them with a bug report if you choose.",
+    "message": "启用日志。日志保存在本地，您可以在报告 bug 时选择是否上传日志",
     "description": "Text for a checkbox that enables logging."
-  },
-  "report_issue_button": {
-    "message": "Report an issue",
-    "description": "Text on the button that shows a debug information."
-  },
-  "report_issue_steps": {
-    "message": "Copy this debug information, add detailed steps on how to reproduce the problem and attach a screenshot.",
-    "description": "Text that tells the user what to write in debug information."
-  },
-  "report_create_issue": {
-    "message": "Then create a new issue and paste it in the issue tracker:",
-    "description": "Text that tells the user where to put a debug information."
   }
 }

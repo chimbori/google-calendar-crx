@@ -89,11 +89,9 @@ feeds.requestInteractiveAuthToken = function() {
   background.log('feeds.requestInteractiveAuthToken()');
   chrome.identity.getAuthToken({'interactive': true}, function (accessToken) {
     if (chrome.runtime.lastError || !authToken) {
-      _gaq.push(['_trackEvent', 'getAuthToken (interactive)', 'Failed', chrome.runtime.lastError.message]);
       background.log('getAuthToken', chrome.runtime.lastError.message);
       return;
     }
-    _gaq.push(['_trackEvent', 'getAuthToken (interactive)', 'OK']);
     feeds.refreshUI();  // Causes the badge text to be updated.
     feeds.fetchCalendars();
   });
@@ -108,10 +106,9 @@ feeds.fetchSettings = function() {
 
   chrome.identity.getAuthToken({'interactive': false}, function (authToken) {
     if (chrome.runtime.lastError) {
-      _gaq.push(['_trackEvent', 'getAuthToken', 'Failed', chrome.runtime.lastError.message]);
+      background.log('getAuthToken', chrome.runtime.lastError.message);
       return;
     }
-    _gaq.push(['_trackEvent', 'getAuthToken', 'OK']);
     _gaq.push(['_trackEvent', 'Fetch', 'Settings']);
 
     $.ajax(feeds.SETTINGS_API_URL_, {
@@ -157,12 +154,10 @@ feeds.fetchCalendars = function() {
     var storedCalendars = storage['calendars'] || {};
     chrome.identity.getAuthToken({'interactive': false}, function (authToken) {
       if (chrome.runtime.lastError) {
-        _gaq.push(['_trackEvent', 'getAuthToken', 'Failed', chrome.runtime.lastError.message]);
         chrome.extension.sendMessage({method: 'sync-icon.spinning.stop'});
         feeds.refreshUI();
         return;
       }
-      _gaq.push(['_trackEvent', 'getAuthToken', 'OK']);
       _gaq.push(['_trackEvent', 'Fetch', 'CalendarList']);
 
       $.ajax(feeds.CALENDAR_LIST_API_URL_, {
@@ -308,12 +303,10 @@ feeds.fetchEventsFromCalendar_ = function(feed, callback) {
   chrome.identity.getAuthToken({'interactive': false}, function (authToken) {
     if (chrome.runtime.lastError || !authToken) {
       background.log('getAuthToken', chrome.runtime.lastError.message);
-      _gaq.push(['_trackEvent', 'getAuthToken', 'Failed', chrome.runtime.lastError.message]);
       chrome.extension.sendMessage({method: 'sync-icon.spinning.stop'});
       feeds.refreshUI();
       return;
     }
-    _gaq.push(['_trackEvent', 'getAuthToken', 'OK']);
     _gaq.push(['_trackEvent', 'Fetch', 'Events']);
 
     $.ajax(feedUrl, {
@@ -391,8 +384,12 @@ feeds.refreshUI = function() {
   feeds.removePastEvents_();
   feeds.determineNextEvents_();
 
-  // If there are no more next events to show, bail out.
+  // If there are no more next events to show, reset the badge and bail out.
   if (feeds.nextEvents.length === 0) {
+    background.updateBadge({
+      'text': '',
+      'title': chrome.i18n.getMessage('no_upcoming_events')
+    })
     return;
   }
 

@@ -28,21 +28,24 @@
     </article>
 
     <article>
-      <!-- TODO(manas): i18n -->
-      <h2>Troubleshooting</h2>
+      <h2 class="i18n" data-msg="troubleshooting_header">Troubleshooting</h2>
       <section>
-        <p>Having problems authorizing? Consult the <a href="https://github.com/manastungare/google-calendar-crx/wiki/Troubleshooting">troubleshooting guide</a>.</p>
+        <p><span class="i18n" data-msg="troubleshooting_authorizing"></span><br>
+			<a href="https://github.com/manastungare/google-calendar-crx/wiki/Troubleshooting">https://github.com/manastungare/google-calendar-crx/wiki/Troubleshooting</a>
+		</p>
 
-        <p>If you continue to run into a problem, please report it.</p>
+        <p class="i18n" data-msg="report_it"></p>
         <label><input class="option" type="checkbox" name="debug-enable-logs">
           <span class="i18n" data-msg="debug_enable_logs"></span>
         </label>
-        <p><button id="report-issue-button">Report an issue</button></p>
+		<p><button id="report-issue-button">
+          <span class="i18n" data-msg="report_issue_button"></span></button>
+        </p>
         <div id="report-issue-steps">
-          Copy this debug information, add detailed steps on how to reproduce the problem, and attach a screenshot.
+          <span class="i18n" data-msg="report_issue_steps"></span>
           <p><textarea id="system-info" rows="25"></textarea></p>
-          <p>Then create a new issue and paste it at
-            <a href="https://github.com/manastungare/google-calendar-crx/issues">https://github.com/manastungare/google-calendar-crx/issues</a>.
+		  <p><span class="i18n" data-msg="report_create_issue"></span><br>
+            <a href="https://github.com/manastungare/google-calendar-crx/issues">https://github.com/manastungare/google-calendar-crx/issues</a>
           </p>
         </div>
         </div>

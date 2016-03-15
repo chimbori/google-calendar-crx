@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "__MSG_google_calendar_extension_name__",
   "description": "__MSG_google_calendar_extension_desc__",
-  "version": "2.3",
+  "version": "2.6",
   "default_locale": "en",
   "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCzO8gAn6n4s5Ohs50F2lmLGsO0FVKIwYyro8qZHlU+9pF85wGBEqoNwSeawr+AZdLgtnQRkIgatLM68EX8sB0DErp3Ds4qCvY8VufvvDIoqxdKtC3QlFxR9PoUZMY7/4lb/OadWnr0UjekxcSNVyk6nqZkTFCcE7RWDMDZ8qwqsQIDAQAB",
 
@@ -19,8 +19,8 @@
     "tabs",
     "http://*/*",
     "https://*/*",
-    "http://www.google.com/calendar/*",
-    "https://www.google.com/calendar/*"
+    "http://calendar.google.com/calendar/*",
+    "https://calendar.google.com/calendar/*"
   ],
 
   "oauth2": {
@@ -30,7 +30,7 @@
     ]
   },
 
-  "content_security_policy": "script-src 'self' https://www.google.com https://ssl.google-analytics.com; object-src 'self'",
+  "content_security_policy": "script-src 'self' https://calendar.google.com https://ssl.google-analytics.com; object-src 'self'",
 
   "background": {
     "scripts": [

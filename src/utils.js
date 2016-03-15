@@ -89,7 +89,7 @@ utils.processEvent = function(event) {
 utils.getGCalUrl_ = function(event) {
   // Basic event information: Title, Start, End.
   var link =
-      'https://www.google.com/calendar/event?action=TEMPLATE&trp=false&ctext=' +
+      'https://calendar.google.com/calendar/event?action=TEMPLATE&trp=false&ctext=' +
       encodeURIComponent(event.title);
 
   // Dates could be optional.
