@@ -3,144 +3,144 @@
     "message": "Google 日曆 (來自 Google)",
     "description": "The name of this extension."
   },
-
   "google_calendar_extension_desc": {
     "message": "以簡便的方式查看 Google 日曆及從您瀏覽的網頁中直接加入新事件。",
     "description": "Description of what this extension does."
   },
-
   "logo_text": {
     "message": "Google 日曆",
     "description": "The name of the Calendar product, including the word Google."
   },
-
   "read_more_at_original_url": {
     "message": "在原始網站上檢視更多：",
     "description": "Descriptive text for a link at the bottom of each event description that asks the user to click on the link for more information."
   },
-
   "view_agenda": {
     "message": "事件列表",
     "description": "Used in the popup view just before the actual calendar agenda."
   },
-
   "add_an_event": {
     "message": "新增事件",
     "description": "Header that appears just above the form that lets users add custom events."
   },
-
   "event_title_placeholder": {
     "message": "例如：晚上 7 點在晶華舉辦晚宴",
     "description": "Placeholder in the textarea where the user is instructed to type in the title of the event they want to create."
   },
-
   "events_on_this_page": {
     "message": "此頁面中的事件",
     "description": "Title used in the browser action popup for the list of events detected on the current page."
   },
-
   "quick_add_button": {
     "message": "新增",
     "description": "Text on the button that adds a new event to the calendar from user input."
   },
-
   "no_events_today": {
     "message": "今天沒有事件。",
     "description": "Message shown as a placeholder when there are no events today. It only applies to when there are no events today, not for other dates."
   },
-
+  "no_upcoming_events": {
+    "message": "未有即將進行的事件。",
+    "description": "Message shown as a placeholder when there are no future events at all. It applies both to today and all future dates."
+  },
   "authorization_required": {
     "message": "授權 Google 日曆存取",
     "description": "A message shown when the user needs to grant permission for this extension to read events from their calendar."
   },
-
   "authorization_in_progress": {
     "message": "正在授權……",
     "description": "A message shown after the user clicks on the Authorize button."
   },
-
   "authorization_explanation": {
     "message": "Chrome 適用的 Google 日曆讓您在瀏覽其他網站時都可以檢查日曆。為此，您需要授權擴充功能以存取您的日曆。此步驟只需在您使用擴充功能前執行一次。",
     "description": "A detailed message explaining the OAuth flow."
   },
-
   "problems": {
     "message": "有問題嗎？",
     "description": "A link that provides troubleshooting information related to authorization."
   },
-
   "error_saving_new_event": {
     "message": "儲存新事件時發生錯誤，請重試一次。",
     "description": "An error message shown when a user-added quick-add event could not be saved."
   },
-
   "add_to_google_calendar": {
     "message": "新增至 Google 日曆",
     "description": "Alt text and/or link text for the link that users click to add event to their calendar."
   },
-
   "sync_now": {
     "message": "從伺服器處更新事件列表",
     "description": "Alternate text for the icon that forces syncing the calendar right away."
   },
-
   "show_quick_add": {
     "message": "輸入事件詳情以加入事件",
     "description": "Alternate text for the icon that shows the text area where users add details of new events."
   },
-
   "show_options": {
     "message": "更改此擴充功能的設定",
     "description": "Alternate text for the icon that opens the Options screen in a new window."
   },
-
   "fetching_feed": {
     "message": "事件列表將被更新。",
     "description": "Tooltip text for when the extension is fetching the feed from the server."
   },
-
   "toolbar_icon": {
     "message": "工具列圖示",
     "description": "The section of the Options page that deals with the toolbar icon."
   },
-
   "view_web_calendar": {
     "message": "檢視完整日曆",
     "description": "A menu item that allows the user to view the full calendar on the Web."
   },
-
   "calendar_list_header": {
     "message": "日曆",
     "description": "The header for the Options section under which all calendars are shown."
   },
-
   "time_format": {
     "message": "時間格式",
     "description": "The header for the Options section under which the 12 hr/24 hr option is shown."
   },
-
   "announcement_new_features": {
     "message": "新功能！在此檢視 »",
     "description": "An announcement message shown after an upgrade that adds significant new features."
   },
-
   "option_show_time_until_next_event": {
     "message": "顯示距離下個事件的時間。",
     "description": "The name of the option that tells the user that the extension will display the time on the badge."
   },
-
   "option_time_until_next_includes_all_day_events": {
     "message": "計算距離下個事件的時間時，包含全日事件。",
     "description": "The name of the option that ensures all-day events are included when computing the time to next event."
   },
-
   "event_title_unknown": {
     "message": "忙碌",
     "description": "When a user does not have access to a particular calendar, the event title is not available; this placeholder text is used instead."
   },
-
+  "troubleshooting_header": {
+    "message": "疑難排解",
+    "description": "The header for the Troubleshooting section in Options."
+  },
+  "troubleshooting_authorizing": {
+    "message": "在授權的時候出現問題嗎？看看此疑難排解指示：",
+    "description": "Text that tells the user about the troubleshooting guide."
+  },
+  "report_it": {
+    "message": "如果您仍然遇到問題，請回報之。",
+    "description": "Text about reporting the problem."
+  },
   "debug_enable_logs": {
     "message": "啟用記錄檔。記錄檔會儲存於本機上。在您傳送錯誤報告時可選擇一併傳送記錄檔。",
     "description": "Text for a checkbox that enables logging."
+  },
+  "report_issue_button": {
+    "message": "回報問題",
+    "description": "Text on the button that shows a debug information."
+  },
+  "report_issue_steps": {
+    "message": "複製以下的除錯資訊，並加上可重現問題的具體步驟，以及螢幕截圖。",
+    "description": "Text that tells the user what to write in debug information."
+  },
+  "report_create_issue": {
+    "message": "然後在問題追蹤器建立新問題並把這些資料貼上：",
+    "description": "Text that tells the user where to put a debug information."
   }
 }
