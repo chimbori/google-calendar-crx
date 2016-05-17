@@ -240,7 +240,7 @@ browseraction.createQuickAddEvent_ = function(text, calendarId) {
       }
     });
     $('#quick-add').slideUp(200);
-	$('#show_quick_add').toggleClass('rotated');
+    $('#show_quick_add').toggleClass('rotated');
   });
 };
 
