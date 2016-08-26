@@ -114,33 +114,5 @@
   "event_title_unknown": {
     "message": "Meşgul",
     "description": "When a user does not have access to a particular calendar, the event title is not available; this placeholder text is used instead."
-  },
-  "troubleshooting_header": {
-    "message": "Sorun Giderme",
-    "description": "The header for the Troubleshooting section in Options."
-  },
-  "troubleshooting_authorizing": {
-    "message": "Yetkilendirme aşamasında sorun mu yaşıyorsunuz? Şuradaki yardımcı sorun çözümleri sayfamızı kontrol ediniz:",
-    "description": "Text that tells the user about the troubleshooting guide."
-  },
-  "report_it": {
-    "message": "Eğer sorununuz devam ediyorsa lütfen hatayı raporlayınız.",
-    "description": "Text about reporting the problem."
-  },
-  "debug_enable_logs": {
-    "message": "Günlük tutmayı etkinleştir. Günlükler bilgisayarınızda kayıt edilir. Arzu ederseniz hata raporuyla birlikte gönderebilirsiniz.",
-    "description": "Text for a checkbox that enables logging."
-  },
-  "report_issue_button": {
-    "message": "Bir hatayı raporla",
-    "description": "Text on the button that shows a debug information."
-  },
-  "report_issue_steps": {
-    "message": "Lütfen sırayla aşağıdaki kısımdaki soruları yanıtlayın(en üst kısımda bulunan bilgileri silmeden).\n “Hatayla tekrar oluşturmak için izleyeceğiniz adımlar” , \n “Normalde beklediğiniz davranış neydi”, \n “Beklentinizin tersine neyle karşılaştınız ?” ",
-    "description": "Text that tells the user what to write in debug information."
-  },
-  "report_create_issue": {
-    "message": "Ardından Tüm satırları kopyalayıp şu adrese yapıştırıp yeni bir hata kaydı oluşturun:",
-    "description": "Text that tells the user where to put a debug information."
   }
 }

@@ -137,10 +137,5 @@
   "event_title_unknown": {
     "message": "바쁨",
     "description": "When a user does not have access to a particular calendar, the event title is not available; this placeholder text is used instead."
-  },
-
-  "debug_enable_logs": {
-    "message": "로깅 활성화. 로그는 로컬에 저장됩니다. 버그 리포트를 할 때 해당내용을 보낼 수 있습니다.",
-    "description": "Text for a checkbox that enables logging."
   }
 }

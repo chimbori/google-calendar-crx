@@ -215,25 +215,6 @@ options.fillMessages_ = function() {
       $(this).text(i18nText);
     }
   });
-
-  $('#report-issue-button').on('click', function reportIssue_() {
-    chrome.extension.getBackgroundPage().background.log('Creating bug report.');
-    var systemInfo = [];
-    systemInfo.push('System Information:');
-    systemInfo.push('- Version: ' + chrome.app.getDetails().version);
-    systemInfo.push('- Language: ' + window.navigator.language);
-    systemInfo.push('- Timezone Offset: ' + moment().format('Z'));
-    systemInfo.push('- User Agent: ' + window.navigator.userAgent);
-    systemInfo.push('');
-    systemInfo.push('What steps will reproduce the problem?\n1. \n2. \n3. \n');
-    systemInfo.push('What is the expected result?\n\n');
-    systemInfo.push('What happens instead?\n\n');
-    systemInfo.push('Screenshot URL:\n\n');
-    systemInfo.push('Logs:\n');
-    systemInfo = systemInfo.concat(chrome.extension.getBackgroundPage().background.logs_);
-    $('#system-info').val(systemInfo.join('\n'));
-    $('#report-issue-steps').slideDown(100);
-  });
 };
 
 

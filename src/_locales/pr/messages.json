@@ -110,9 +110,5 @@
   "event_title_unknown": {
     "message": "در حال پردازش",
     "description": "When a user does not have access to a particular calendar, the event title is not available; this placeholder text is used instead."
-  },
-  "debug_enable_logs": {
-    "message": "گزارشگیری فعال شود. گزارشات به صورت محلی ذخیره می شوند. شما می توانید در صورت تمایل آن ها را به همراه گزارش مشکلات بفرستید",
-    "description": "Text for a checkbox that enables logging."
   }
 }

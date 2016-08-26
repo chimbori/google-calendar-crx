@@ -137,10 +137,5 @@
   "event_title_unknown": {
     "message": "Bezig",
     "description": "When a user does not have access to a particular calendar, the event title is not available; this placeholder text is used instead."
-  },
-
-  "debug_enable_logs": {
-    "message": "Logbestanden bijhouden. Logbestanden worden lokaal opgeslagen. U kunt er voor kiezen deze mee te sturen met een bug.",
-    "description": "Text for a checkbox that enables logging."
   }
 }

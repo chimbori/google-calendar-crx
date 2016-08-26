@@ -137,10 +137,5 @@
   "event_title_unknown": {
     "message": "Ocupat",
     "description": "When a user does not have access to a particular calendar, the event title is not available; this placeholder text is used instead."
-  },
-
-  "debug_enable_logs": {
-    "message": "Permite jurnarele. Jurnarele sunt stocate local. Le poți trimite cu un raport de eroare dacă vrei.",
-    "description": "Text for a checkbox that enables logging."
   }
 }

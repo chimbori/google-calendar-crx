@@ -138,10 +138,5 @@
   "event_title_unknown": {
     "message": "မအားလပ်ပါ",
     "description": "When a user does not have access to a particular calendar, the event title is not available; this placeholder text is used instead."
-  },
-
-  "debug_enable_logs": {
-    "message": "အသုံးပြုမှု မှတ်တမ်းကို ဖွင့်ပါ။ ထိုမှတ်တမ်းကို ဘရောက်ဇာတွင် သိမ်းထားပါမည်။ သင်သည် လိုအပ်ပါက ပြဿနာအစီအရင်ခံစာနှင့်အတူ တွဲပို့နိုင်ပါသည်။",
-    "description": "Text for a checkbox that enables logging."
   }
 }

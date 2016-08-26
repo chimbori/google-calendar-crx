@@ -137,10 +137,5 @@
   "event_title_unknown": {
     "message": "Occupato",
     "description": "When a user does not have access to a particular calendar, the event title is not available; this placeholder text is used instead."
-  },
-
-  "debug_enable_logs": {
-    "message": "Attiva logging. I log vengono memorizzati localmente e potranno essere allegati, a vostra scelta, ad un bug report.",
-    "description": "Text for a checkbox that enables logging."
   }
 }

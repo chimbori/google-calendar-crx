@@ -110,9 +110,5 @@
   "event_title_unknown": {
     "message": "Ikke tilgjengelig",
     "description": "When a user does not have access to a particular calendar, the event title is not available; this placeholder text is used instead."
-  },
-  "debug_enable_logs": {
-    "message": "Aktiver loggføring. Logger blir lagret lokalt. Du sende dem som vedlegg dersom du vil raportere en feil.",
-    "description": "Text for a checkbox that enables logging."
   }
 }

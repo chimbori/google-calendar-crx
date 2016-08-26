@@ -114,9 +114,5 @@
   "event_title_unknown": {
     "message": "Ocupat",
     "description": "When a user does not have access to a particular calendar, the event title is not available; this placeholder text is used instead."
-  },
-  "debug_enable_logs": {
-    "message": "Habilitar el registre. Els registres es guarden localment. Si ho vols, pots enviar informes d'error.",
-    "description": "Text for a checkbox that enables logging."
   }
 }

@@ -54,15 +54,3 @@ label {
   height: 14px;
   width: 14px;
 }
-
-#report-issue-steps {
-  display: none;  /* Hidden by default; revealed when the Report Issue button is clicked. */
-}
-
-#system-info {
-  width: 100%;
-}
-
-#report-issue-steps ol > li {
-  margin-bottom: 1em;
-}

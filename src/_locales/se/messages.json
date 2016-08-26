@@ -114,33 +114,5 @@
   "event_title_unknown": {
     "message": "Upptagen",
     "description": "When a user does not have access to a particular calendar, the event title is not available; this placeholder text is used instead."
-  },
-  "troubleshooting_header": {
-    "message": "Felsökning",
-    "description": "The header for the Troubleshooting section in Options."
-  },
-  "troubleshooting_authorizing": {
-    "message": "Har du problem med rättigheter? Ta hjälp av felsökningsguiden:",
-    "description": "Text that tells the user about the troubleshooting guide."
-  },
-  "report_it": {
-    "message": "Om problemet kvarstår så felanmäl det.",
-    "description": "Text about reporting the problem."
-  },
-  "debug_enable_logs": {
-    "message": "Aktivera spårningslogg. Spårningsloggar sparas lokalt. Du kan bifoga dessa till en felanmälan om du vill.",
-    "description": "Text for a checkbox that enables logging."
-  },
-  "report_issue_button": {
-    "message": "Skapa en felanmälan",
-    "description": "Text on the button that shows a debug information."
-  },
-  "report_issue_steps": {
-    "message": "Kopiera denna felsökningsinformation, beskriv vad du gjorde när felet uppstod och bifoga skärmbild.",
-    "description": "Text that tells the user what to write in debug information."
-  },
-  "report_create_issue": {
-    "message": "Därefter skapar du en felanmälan och bifogar informationen i rapporteringsverktyget:",
-    "description": "Text that tells the user where to put a debug information."
   }
 }
