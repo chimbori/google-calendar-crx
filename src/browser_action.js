@@ -395,7 +395,7 @@ browseraction.createEventDiv_ = function(event) {
     $('<a>').attr({
       'href': 'https://maps.google.com?q=' + encodeURIComponent(event.location),
       'target': '_blank'
-    }).append($('<img>').addClass('location-icon').attr({
+    }).append('<span>' + event.location + '</span>').append($('<img>').addClass('location-icon').attr({
       'src': chrome.extension.getURL('icons/ic_action_place.png')
     })).appendTo(eventDetails);
   }
