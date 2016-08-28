@@ -133,7 +133,7 @@ function detectHCalendarEvents() {
     event = utils.processEvent(event);
 
     var now = moment().valueOf();
-    if (event.end > now) {
+    if (event.end >= now) {
       events.push(event);
       // Insert a button inline near the title of the page.
       $(vevent).find('.summary').prepend(getInlineIconSmall_(event));
