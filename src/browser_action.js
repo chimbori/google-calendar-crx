@@ -391,7 +391,15 @@ browseraction.createEventDiv_ = function(event) {
       'src': chrome.extension.getURL('icons/ic_action_video.png')
     })).appendTo(eventDetails);
 
-  } else if (event.location) {
+  }
+
+  var eventTitle = $('<div>').addClass('event-title').text(event.title);
+  if (event.responseStatus == constants.EVENT_STATUS_DECLINED) {
+    eventTitle.addClass('declined');
+  }
+  eventTitle.appendTo(eventDetails);
+
+  if (event.location && !event.hangout_url) {
     $('<a>').attr({
       'href': 'https://maps.google.com?q=' + encodeURIComponent(event.location),
       'target': '_blank'
@@ -399,13 +407,6 @@ browseraction.createEventDiv_ = function(event) {
       'src': chrome.extension.getURL('icons/ic_action_place.png')
     })).appendTo(eventDetails);
   }
-
-  // The location icon goes before the title because it floats right.
-  var eventTitle = $('<div>').addClass('event-title').text(event.title);
-  if (event.responseStatus == constants.EVENT_STATUS_DECLINED) {
-    eventTitle.addClass('declined');
-  }
-  eventTitle.appendTo(eventDetails);
 
   if (event.allday && spansMultipleDays || isDetectedEvent) {
     $('<div>')
