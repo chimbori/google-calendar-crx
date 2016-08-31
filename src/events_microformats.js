@@ -131,10 +131,13 @@ function detectHCalendarEvents() {
     }
 
     event = utils.processEvent(event);
-    events.push(event);
 
-    // Insert a button inline near the title of the page.
-    $(vevent).find('.summary').prepend(getInlineIconSmall_(event));
+    if (event.end >= moment().valueOf()) {
+      events.push(event);
+      // Insert a button inline near the title of the page.
+      $(vevent).find('.summary').prepend(getInlineIconSmall_(event));
+    }
+
   });
 
   return events;
