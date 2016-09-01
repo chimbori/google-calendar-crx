@@ -209,6 +209,12 @@ h2 {
   padding: 6px;
 }
 
+.event-location {
+  color: #666;
+  font-size: 12px;
+  text-decoration: none;
+}
+
 .event-title {
   font-size: 14px;
   overflow: hidden;
