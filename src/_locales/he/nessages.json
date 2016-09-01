@@ -1,0 +1,118 @@
+{
+  "google_calendar_extension_name": {
+    "message": "Google Calendar (by Google)",
+    "description": "The name of this extension."
+  },
+  "google_calendar_extension_desc": {
+    "message": "בדוק בקלות את היומן של גוגל והוסף אירועים חדשים מאתרים בהם אתה מבקר.",
+    "description": "Description of what this extension does."
+  },
+  "logo_text": {
+    "message": "יומן גוגל",
+    "description": "The name of the Calendar product, including the word Google."
+  },
+  "read_more_at_original_url": {
+    "message": "קרא עוד באתר המקורי: ",
+    "description": "Descriptive text for a link at the bottom of each event description that asks the user to click on the link for more information."
+  },
+  "view_agenda": {
+    "message": "סדר יום",
+    "description": "Used in the popup view just before the actual calendar agenda."
+  },
+  "add_an_event": {
+    "message": "הוסף אירוע",
+    "description": "Header that appears just above the form that lets users add custom events."
+  },
+  "event_title_placeholder": {
+    "message": "למשל ״ארוחת ערב עם חברים ב 7pm מחר״",
+    "description": "Placeholder in the textarea where the user is instructed to type in the title of the event they want to create."
+  },
+  "events_on_this_page": {
+    "message": "אירועים בדף זה",
+    "description": "Title used in the browser action popup for the list of events detected on the current page."
+  },
+  "quick_add_button": {
+    "message": "הוסף",
+    "description": "Text on the button that adds a new event to the calendar from user input."
+  },
+  "no_events_today": {
+    "message": "אין אירועים היום.",
+    "description": "Message shown as a placeholder when there are no events today. It only applies to when there are no events today, not for other dates."
+  },
+  "no_upcoming_events": {
+    "message": "אין אירועים קרובים.",
+    "description": "Message shown as a placeholder when there are no future events at all. It applies both to today and all future dates."
+  },
+  "authorization_required": {
+    "message": "תן הרשאה ליומן של גוגל",
+    "description": "A message shown when the user needs to grant permission for this extension to read events from their calendar."
+  },
+  "authorization_in_progress": {
+    "message": "מאשר…",
+    "description": "A message shown after the user clicks on the Authorize button."
+  },
+  "authorization_explanation": {
+    "message": "יומן גוגל עבור כרום מאפשר לך לבדוק את לוח השנה שלך בזמן שאתה מבקר באתרים אחרים. בשביל זה אתה צריך להעניק גישה ללוח השנה שלך. זהו צעד התקנה חד פעמי הנדרש לפני שתוכל להשתמש באפליקציה זו.",
+    "description": "A detailed message explaining the OAuth flow."
+  },
+  "problems": {
+    "message": "בעיות?",
+    "description": "A link that provides troubleshooting information related to authorization."
+  },
+  "error_saving_new_event": {
+    "message": "שגיאה בעת שמירת אירוע חדש; אנא נסה שוב.",
+    "description": "An error message shown when a user-added quick-add event could not be saved."
+  },
+  "add_to_google_calendar": {
+    "message": "הוסף ליומן של גוגל",
+    "description": "Alt text and/or link text for the link that users click to add event to their calendar."
+  },
+  "sync_now": {
+    "message": "עדכן את רשימת האירועים מהשרת.",
+    "description": "Alternate text for the icon that forces syncing the calendar right away."
+  },
+  "show_quick_add": {
+    "message": "הוסף אירוע חדש על ידי הקלדת פרטי האירוע.",
+    "description": "Alternate text for the icon that shows the text area where users add details of new events."
+  },
+  "show_options": {
+    "message": "שינוי האפשרויות של תוסף זה",
+    "description": "Alternate text for the icon that opens the Options screen in a new window."
+  },
+  "fetching_feed": {
+    "message": "רשימת האירועים מתעדכנת כעת.",
+    "description": "Tooltip text for when the extension is fetching the feed from the server."
+  },
+  "toolbar_icon": {
+    "message": "אייקון סרגל כלים",
+    "description": "The section of the Options page that deals with the toolbar icon."
+  },
+  "view_web_calendar": {
+    "message": "הצג לוח שנה מלא",
+    "description": "A menu item that allows the user to view the full calendar on the Web."
+  },
+  "calendar_list_header": {
+    "message": "יומנים",
+    "description": "The header for the Options section under which all calendars are shown."
+  },
+  "time_format": {
+    "message": "פורמט זמן",
+    "description": "The header for the Options section under which the 12 hr/24 hr option is shown."
+  },
+  "announcement_new_features": {
+    "message": "פיצ׳רים חדשים! בדוק אותם »",
+    "description": "An announcement message shown after an upgrade that adds significant new features."
+  },
+  "option_show_time_until_next_event": {
+    "message": "הצג את הזמן שנותר עד לאירוע הבא.",
+    "description": "The name of the option that tells the user that the extension will display the time on the badge."
+  },
+  "option_time_until_next_includes_all_day_events": {
+    "message": "כלול את כל יום האירועים בעת חישוב הזמן עד לאירוע הבא.",
+    "description": "The name of the option that ensures all-day events are included when computing the time to next event."
+  },
+  "event_title_unknown": {
+    "message": "עסוק",
+    "description": "When a user does not have access to a particular calendar, the event title is not available; this placeholder text is used instead."
+  }
+}
