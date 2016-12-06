@@ -88,7 +88,7 @@ feeds.lastFetchedAt = null;
 feeds.requestInteractiveAuthToken = function() {
   background.log('feeds.requestInteractiveAuthToken()');
   chrome.identity.getAuthToken({'interactive': true}, function (accessToken) {
-    if (chrome.runtime.lastError || !authToken) {
+    if (chrome.runtime.lastError || !accessToken) {
       background.log('getAuthToken', chrome.runtime.lastError.message);
       return;
     }
