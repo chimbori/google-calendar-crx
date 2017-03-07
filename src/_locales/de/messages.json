@@ -4,7 +4,7 @@
     "description": "The name of this extension."
   },
   "google_calendar_extension_desc": {
-    "message": "Bearbeiten Sie Ihren Google Kalender ganz einfach. Fügen Sie neue Termine von Webseiten hinzu, die Sie gerade besuchen.",
+    "message": "Bearbeiten Sie Ihren Google Kalender ganz einfach und fügen Sie neue Termine von Webseiten hinzu, die Sie gerade besuchen.",
     "description": "Description of what this extension does."
   },
   "logo_text": {
@@ -12,7 +12,7 @@
     "description": "The name of the Calendar product, including the word Google."
   },
   "read_more_at_original_url": {
-    "message": "Weitere Informationen auf der Original-Website: ",
+    "message": "Weitere Informationen auf der ursprünglichen Website: ",
     "description": "Descriptive text for a link at the bottom of each event description that asks the user to click on the link for more information."
   },
   "view_agenda": {
@@ -40,7 +40,7 @@
     "description": "Message shown as a placeholder when there are no events today. It only applies to when there are no events today, not for other dates."
   },
   "no_upcoming_events": {
-    "message": "Keine zukünftigen Termine.",
+    "message": "Keine anstehenden Termine.",
     "description": "Message shown as a placeholder when there are no future events at all. It applies both to today and all future dates."
   },
   "authorization_required": {
@@ -60,7 +60,7 @@
     "description": "A link that provides troubleshooting information related to authorization."
   },
   "error_saving_new_event": {
-    "message": "Fehler beim Speichern der neuen Veranstaltung; Bitte versuchen Sie es erneut.",
+    "message": "Fehler beim Speichern der neuen Veranstaltung. Bitte versuchen Sie es erneut.",
     "description": "An error message shown when a user-added quick-add event could not be saved."
   },
   "add_to_google_calendar": {
@@ -84,7 +84,7 @@
     "description": "Tooltip text for when the extension is fetching the feed from the server."
   },
   "toolbar_icon": {
-    "message": "Einstellungen für das Taskleistensymbol",
+    "message": "Einstellungen für das Toolbarsymbol",
     "description": "The section of the Options page that deals with the toolbar icon."
   },
   "view_web_calendar": {
@@ -100,7 +100,7 @@
     "description": "The header for the Options section under which the 12 hr/24 hr option is shown."
   },
   "announcement_new_features": {
-    "message": "Neue Funktionen! Probieren Sie diese aus »",
+    "message": "Neue Funktionen! Erfahren Sie mehr »",
     "description": "An announcement message shown after an upgrade that adds significant new features."
   },
   "option_show_time_until_next_event": {
@@ -108,11 +108,11 @@
     "description": "The name of the option that tells the user that the extension will display the time on the badge."
   },
   "option_time_until_next_includes_all_day_events": {
-    "message": "Ganztägigen Veranstaltungen bei der Berechnung der Zeit bis zur nächsten Veranstaltung miteinbeziehen.",
+    "message": "Ganztägige Veranstaltungen bei der Berechnung der Zeit bis zur nächsten Veranstaltung miteinbeziehen.",
     "description": "The name of the option that ensures all-day events are included when computing the time to next event."
   },
   "event_title_unknown": {
-    "message": "Kein Zugriff",
+    "message": "Beschäftigt",
     "description": "When a user does not have access to a particular calendar, the event title is not available; this placeholder text is used instead."
   }
 }
