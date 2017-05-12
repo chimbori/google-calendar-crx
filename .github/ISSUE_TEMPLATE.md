@@ -1,4 +1,9 @@
+* [ ] I have searched through existing [Issues](https://github.com/manastungare/google-calendar-crx/issues) and confirmed that this particular issue has not already been reported.
+* [ ] I have read and performed all the steps listed under the [Troubleshooting section](https://github.com/manastungare/google-calendar-crx/wiki/Troubleshooting).
+
+
 What steps will reproduce the problem?
+
 1. 
 2. 
 3. 
@@ -11,20 +16,14 @@ What happens instead?
 
 
 
-Screenshot URL:
+Screenshot:
 
-
-
-Logs:
-
+- Upload to GitHub directly, do not post to a different site.
 
 
 System Information:
-(This can be captured automatically if you click on Report Issue from the Chrome extension)
+
 - Version:
 - Language:
 - Timezone Offset:
 - User Agent:
-
-[ ] I have read and performed all the steps listed under the Troubleshooting section:
-    https://github.com/manastungare/google-calendar-crx/wiki/Troubleshooting
