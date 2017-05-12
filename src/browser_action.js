@@ -295,7 +295,7 @@ browseraction.showEventsFromFeed_ = function(events) {
   // under today's date header, not under the date it started.
   var headerDate = moment().hours(0).minutes(0).seconds(0).millisecond(0);
   $('<div>').addClass('date-header')
-      .text(headerDate.format('dddd, MMMM D'))
+      .text(headerDate.format(chrome.i18n.getMessage('language_date_format')))
       .appendTo($('#calendar-events'));
 
   // If there are no events today, then avoid showing an empty date section.
@@ -317,7 +317,7 @@ browseraction.showEventsFromFeed_ = function(events) {
     if (startDate.diff(headerDate, 'hours') > 23) {
       headerDate = startDate;
       $('<div>').addClass('date-header')
-          .text(headerDate.format('dddd, MMMM D'))
+          .text(headerDate.format(chrome.i18n.getMessage('language_date_format')))
           .appendTo($('#calendar-events'));
     }
 
