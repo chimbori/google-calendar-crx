@@ -223,6 +223,7 @@ browseraction.createQuickAddEvent_ = function(text, calendarId) {
         'Authorization': 'Bearer ' + authToken
       },
       success: function(response) {
+        addAlert('section', response.summary, response.htmlLink);
         browseraction.stopSpinner();
         chrome.extension.sendMessage({method: 'events.feed.fetch'});
       },
@@ -243,6 +244,15 @@ browseraction.createQuickAddEvent_ = function(text, calendarId) {
     $('#show_quick_add').toggleClass('rotated');
   });
 };
+
+function addAlert(element, summary, link) {
+  $('.fab').fadeOut();
+  $(element).prepend(`<div id="alert-new-event">${chrome.i18n.getMessage('alert_new_event_added')} <a href="${link}">${summary}</a></div>`).fadeIn();
+  return setTimeout(function() {
+    $('#alert-new-event').fadeOut();
+    $('.fab').fadeIn();
+  }, 3000);
+}
 
 
 /**
