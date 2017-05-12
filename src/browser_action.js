@@ -247,9 +247,12 @@ browseraction.createQuickAddEvent_ = function(text, calendarId) {
 
 function addAlert(element, summary, link) {
   $('.fab').fadeOut();
-  $(element).prepend(`<div id="alert-new-event">${chrome.i18n.getMessage('alert_new_event_added')} <a href="${link}">${summary}</a></div>`).fadeIn();
+  $(element).prepend(`<div class="alert-new-event event" data-url="${link}"><div class="start-time" style="background: #FFEB3B;"></div><div class="event-details"><div class="event-title" style="white-space: normal;">${chrome.i18n.getMessage('alert_new_event_added')} ${summary}</div></div></div>`).fadeIn();
+  $('.alert-new-event').on('click', function() {
+    chrome.tabs.create({'url': $(this).attr('data-url')});
+  });
   return setTimeout(function() {
-    $('#alert-new-event').fadeOut();
+    $('.alert-new-event').fadeOut();
     $('.fab').fadeIn();
   }, 3000);
 }
