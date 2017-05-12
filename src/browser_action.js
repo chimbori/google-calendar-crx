@@ -425,3 +425,10 @@ browseraction.createEventDiv_ = function(event) {
 window.addEventListener('load', function() {
   browseraction.initialize();
 }, false);
+
+window.addEventListener('keydown', function(event) {
+  if (event.ctrlKey && event.keyCode == 13 && $('#quick_add_button').is(':visible') && $('#quick-add-event-title').val() !== '') {
+    // Ctrl-Enter pressed
+    $('#quick_add_button').click();
+  }
+})
