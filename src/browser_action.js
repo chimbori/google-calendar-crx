@@ -145,7 +145,7 @@ browseraction.installButtonClickHandlers_ = function() {
 browseraction.installKeydownHandlers_ = function() {
   $('#quick-add-event-title').on('keydown', function(e) {
     // Check for Windows and Mac keyboards for event on Ctrl + Enter
-    if (e.ctrlKey || e.metaKey && e.keyCode == 13 || e.keyCode == 10
+    if ((e.ctrlKey || e.metaKey) && (e.keyCode == 13 || e.keyCode == 10)
       && $('#quick-add-event-title').val() !== '') {
       // Ctrl-Enter pressed
       browseraction.addNewEventIntoCalendar_();
