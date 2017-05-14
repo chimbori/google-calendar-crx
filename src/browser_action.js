@@ -39,6 +39,7 @@ browseraction.initialize = function() {
   _gaq.push(['_trackEvent', 'Popup', 'Shown']);
   browseraction.fillMessages_();
   browseraction.installButtonClickHandlers_();
+  browseraction.installKeydownHandlers_();
   browseraction.showLoginMessageIfNotAuthenticated_();
   browseraction.loadCalendarsIntoQuickAdd_();
   browseraction.listenForRequests_();
@@ -135,11 +136,30 @@ browseraction.installButtonClickHandlers_ = function() {
   });
 
   $('#quick_add_button').on('click', function() {
-    _gaq.push(['_trackEvent', 'Quick Add', 'Event Created']);
-    browseraction.createQuickAddEvent_($('#quick-add-event-title').val().toString(),
-        $('#quick-add-calendar-list').val());
-    $('#quick-add-event-title').val('');  // Remove the existing text from the field.
+    browseraction.addNewEventIntoCalendar_();
   });
+};
+
+
+/** @private */
+browseraction.installKeydownHandlers_ = function() {
+  $('#quick-add-event-title').on('keydown', function(e) {
+    // Check for Windows and Mac keyboards for event on Ctrl + Enter
+    if (e.ctrlKey || e.metaKey && e.keyCode == 13 || e.keyCode == 10
+      && $('#quick-add-event-title').val() !== '') {
+      // Ctrl-Enter pressed
+      browseraction.addNewEventIntoCalendar_();
+    }
+  })
+};
+
+/** @private */
+// Allow user to add a new event into his/her calendar
+browseraction.addNewEventIntoCalendar_ = function() {
+  _gaq.push(['_trackEvent', 'Quick Add', 'Event Created']);
+  browseraction.createQuickAddEvent_($('#quick-add-event-title').val().toString(),
+      $('#quick-add-calendar-list').val());
+  $('#quick-add-event-title').val('');  // Remove the existing text from the field.
 };
 
 
@@ -425,10 +445,3 @@ browseraction.createEventDiv_ = function(event) {
 window.addEventListener('load', function() {
   browseraction.initialize();
 }, false);
-
-window.addEventListener('keydown', function(event) {
-  if (event.ctrlKey && event.keyCode == 13 && $('#quick_add_button').is(':visible') && $('#quick-add-event-title').val() !== '') {
-    // Ctrl-Enter pressed
-    $('#quick_add_button').click();
-  }
-})
