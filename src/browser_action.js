@@ -19,6 +19,11 @@
  */
 
 /**
+ * Constants
+ */
+var fadeInDuration = 3000;
+
+/**
  * Namespace for browser action functionality.
  */
 var browseraction = {};
@@ -223,7 +228,7 @@ browseraction.createQuickAddEvent_ = function(text, calendarId) {
         'Authorization': 'Bearer ' + authToken
       },
       success: function(response) {
-        addAlert('section', response.summary, response.htmlLink);
+        showToast('section', response.summary, response.htmlLink);
         browseraction.stopSpinner();
         chrome.extension.sendMessage({method: 'events.feed.fetch'});
       },
@@ -245,16 +250,36 @@ browseraction.createQuickAddEvent_ = function(text, calendarId) {
   });
 };
 
-function addAlert(element, summary, link) {
+function showToast(element, summary, linkUrl) {
+  var toastDiv = $('<div>')
+    .addClass('alert-new-event event')
+    .attr('data-url', linkUrl);
+  var toastYellowCorner = $('<div>')
+    .addClass('start-time')
+    .css('background', '#FFEB3B');
+  var toastDetails = $('<div>')
+    .addClass('event-details');
+  var title = chrome.i18n.getMessage('alert_new_event_added') + ' ' + summary;
+  var toastText = $('<div>')
+    .addClass('event-title')
+    .css('white-space', 'normal')
+    .text(title);
+
+  toastDetails.append(toastText);
+  toastDiv.append(toastYellowCorner)
+  .append(toastDetails);
+
   $('.fab').fadeOut();
-  $(element).prepend(`<div class="alert-new-event event" data-url="${link}"><div class="start-time" style="background: #FFEB3B;"></div><div class="event-details"><div class="event-title" style="white-space: normal;">${chrome.i18n.getMessage('alert_new_event_added')} ${summary}</div></div></div>`).fadeIn();
+  $(element).prepend(toastDiv).fadeIn();
+
   $('.alert-new-event').on('click', function() {
     chrome.tabs.create({'url': $(this).attr('data-url')});
   });
+
   return setTimeout(function() {
     $('.alert-new-event').fadeOut();
     $('.fab').fadeIn();
-  }, 3000);
+  }, fadeInDuration);
 }
 
 
