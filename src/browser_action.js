@@ -146,22 +146,23 @@ browseraction.installKeydownHandlers_ = function() {
   $('#quick-add-event-title').on('keydown', function(e) {
     // Check for Windows and Mac keyboards for event on Ctrl + Enter
     if ((e.ctrlKey || e.metaKey) && (e.keyCode == 13 || e.keyCode == 10)
-      && $('#quick-add-event-title').val() !== '') {
+        && $('#quick-add-event-title').val() !== '') {
       // Ctrl-Enter pressed
       browseraction.addNewEventIntoCalendar_();
     }
-  })
+  });
 };
 
-/** @private */
-// Allow user to add a new event into his/her calendar
+/**
+ * Allow user to add a new event into their calendar.
+ * @private
+ */
 browseraction.addNewEventIntoCalendar_ = function() {
   _gaq.push(['_trackEvent', 'Quick Add', 'Event Created']);
   browseraction.createQuickAddEvent_($('#quick-add-event-title').val().toString(),
       $('#quick-add-calendar-list').val());
   $('#quick-add-event-title').val('');  // Remove the existing text from the field.
 };
-
 
 /**
  * Checks if we're logged in and either shows or hides a message asking
