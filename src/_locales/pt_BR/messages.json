@@ -137,5 +137,9 @@
   "event_title_unknown": {
     "message": "Indisponível",
     "description": "When a user does not have access to a particular calendar, the event title is not available; this placeholder text is used instead."
+  },
+
+  "language_date_format": {
+    "message": "dddd, dd [de] mmm"
   }
 }
