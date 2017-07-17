@@ -308,3 +308,7 @@ h2 {
   -webkit-animation-timing-function: linear;
           animation-timing-function: linear;
 }
+
+.alert-new-event {
+  margin-top: 10px;
+}
