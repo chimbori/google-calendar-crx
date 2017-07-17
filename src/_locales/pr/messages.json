@@ -113,7 +113,7 @@
   },
 
   "alert_new_event_added": {
-    "message": "این رویداد فقط به تقویم خود اضافه:",
+    "message": "این رویداد فقط به تقویم خود اضافه: ",
     "description": "When a new event is added into the user's calendar, an alert message will be displayed for the user to click on it and see the details"
   }
 }

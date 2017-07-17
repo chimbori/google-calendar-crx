@@ -311,4 +311,6 @@ h2 {
 
 .alert-new-event {
   margin-top: 10px;
+  background-color: #f9eebc;
+  padding: 0 8px;
 }

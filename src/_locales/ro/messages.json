@@ -140,7 +140,7 @@
   },
 
   "alert_new_event_added": {
-    "message": "Acest eveniment tocmai a fost adăugat în calendarul dvs.:",
+    "message": "Acest eveniment tocmai a fost adăugat în calendarul dvs: ",
     "description": "When a new event is added into the user's calendar, an alert message will be displayed for the user to click on it and see the details"
   }
 }

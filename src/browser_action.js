@@ -19,11 +19,6 @@
  */
 
 /**
- * Constants
- */
-var fadeInDuration = 3000;
-
-/**
  * Namespace for browser action functionality.
  */
 var browseraction = {};
@@ -34,6 +29,12 @@ var browseraction = {};
  * @private
  */
 browseraction.QUICK_ADD_API_URL_ = 'https://www.googleapis.com/calendar/v3/calendars/{calendarId}/events/quickAdd';
+
+/**
+ * Milliseconds to wait before fading out the alert shown when the user adds
+ * a new event.
+ */
+browseraction.TOAST_FADE_OUT_DURATION_MS = 5000;
 
 /**
  * Initializes UI elements in the browser action popup.
@@ -249,7 +250,7 @@ browseraction.createQuickAddEvent_ = function(text, calendarId) {
         'Authorization': 'Bearer ' + authToken
       },
       success: function(response) {
-        showToast('section', response.summary, response.htmlLink);
+        showToast($('section'), response.summary, response.htmlLink);
         browseraction.stopSpinner();
         chrome.extension.sendMessage({method: 'events.feed.fetch'});
       },
@@ -271,36 +272,33 @@ browseraction.createQuickAddEvent_ = function(text, calendarId) {
   });
 };
 
-function showToast(element, summary, linkUrl) {
+function showToast(parent, summary, linkUrl) {
   var toastDiv = $('<div>')
-    .addClass('alert-new-event event')
-    .attr('data-url', linkUrl);
-  var toastYellowCorner = $('<div>')
-    .addClass('start-time')
-    .css('background', '#FFEB3B');
+      .addClass('alert-new-event event')
+      .attr('data-url', linkUrl);
   var toastDetails = $('<div>')
-    .addClass('event-details');
-  var title = chrome.i18n.getMessage('alert_new_event_added') + ' ' + summary;
+      .addClass('event-details');
   var toastText = $('<div>')
-    .addClass('event-title')
-    .css('white-space', 'normal')
-    .text(title);
+      .addClass('event-title')
+      .css('white-space', 'normal')
+      .text(chrome.i18n.getMessage('alert_new_event_added') + summary);
 
   toastDetails.append(toastText);
-  toastDiv.append(toastYellowCorner)
-  .append(toastDetails);
+  toastDiv.append(toastDetails);
 
   $('.fab').fadeOut();
-  $(element).prepend(toastDiv).fadeIn();
+  parent.prepend(toastDiv).fadeIn();
 
   $('.alert-new-event').on('click', function() {
-    chrome.tabs.create({'url': $(this).attr('data-url')});
+    chrome.tabs.create({
+      'url': $(this).attr('data-url')
+    });
   });
 
   return setTimeout(function() {
-    $('.alert-new-event').fadeOut();
-    $('.fab').fadeIn();
-  }, fadeInDuration);
+      $('.alert-new-event').fadeOut();
+      $('.fab').fadeIn();
+  }, browseraction.TOAST_FADE_OUT_DURATION_MS);
 }
 
 

@@ -117,7 +117,7 @@
   },
 
   "alert_new_event_added": {
-    "message": "Това събитие току-що е добавено към календара ви:",
+    "message": "Това събитие току-що е добавено към календара ви: ",
     "description": "When a new event is added into the user's calendar, an alert message will be displayed for the user to click on it and see the details"
   }
 }

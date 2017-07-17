@@ -113,7 +113,7 @@
   },
 
   "alert_new_event_added": {
-    "message": "Denne hendelsen har nettopp blitt lagt til i kalenderen din:",
+    "message": "Denne hendelsen har nettopp blitt lagt til i kalenderen din: ",
     "description": "When a new event is added into the user's calendar, an alert message will be displayed for the user to click on it and see the details"
   }
 }

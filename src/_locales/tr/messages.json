@@ -117,7 +117,7 @@
   },
 
   "alert_new_event_added": {
-    "message": "Bu etkinlik takviminize yeni eklendi:",
+    "message": "Bu etkinlik takviminize yeni eklendi: ",
     "description": "When a new event is added into the user's calendar, an alert message will be displayed for the user to click on it and see the details"
   }
 }

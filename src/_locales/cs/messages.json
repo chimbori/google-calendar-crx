@@ -145,7 +145,7 @@
   },
 
   "alert_new_event_added": {
-    "message": "Tato událost právě byla přidána do vašeho kalendáře:",
+    "message": "Tato událost právě byla přidána do vašeho kalendáře: ",
     "description": "When a new event is added into the user's calendar, an alert message will be displayed for the user to click on it and see the details"
   }
 }

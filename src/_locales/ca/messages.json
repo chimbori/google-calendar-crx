@@ -117,7 +117,7 @@
   },
 
   "alert_new_event_added": {
-    "message": "Aquest esdeveniment acaba de ser afegit al seu calendari:",
+    "message": "Aquest esdeveniment acaba de ser afegit al seu calendari: ",
     "description": "When a new event is added into the user's calendar, an alert message will be displayed for the user to click on it and see the details"
   }
 }
