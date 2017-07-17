@@ -39,7 +39,7 @@
     "message": "No hi ha esdeveniments per avui.",
     "description": "Misatge que es mostra quan no hi ha esdeveniemtns. Només aplica si no hi ha esdeveniments en el dia actual, no per altres dies."
   },
-   "no_upcoming_events": {
+  "no_upcoming_events": {
     "message": "No hi ha esdeveniments propers.",
     "description": "Message shown as a placeholder when there are no future events at all. It applies both to today and all future dates."
   },
@@ -115,7 +115,6 @@
     "message": "Ocupat",
     "description": "When a user does not have access to a particular calendar, the event title is not available; this placeholder text is used instead."
   },
-
   "alert_new_event_added": {
     "message": "Aquest esdeveniment acaba de ser afegit al seu calendari: ",
     "description": "When a new event is added into the user's calendar, an alert message will be displayed for the user to click on it and see the details"
