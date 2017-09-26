@@ -342,6 +342,7 @@ feeds.fetchEventsFromCalendar_ = function(feed, callback) {
               allday: !end || (start.hours() === 0 && start.minutes() === 0 && end.hours() === 0 && end.minutes() === 0),
               location: eventEntry.location,
               hangout_url: eventEntry.hangoutLink,
+              attachments: eventEntry.attachments,
               gcal_url: eventEntry.htmlLink,
               responseStatus: responseStatus
             });
