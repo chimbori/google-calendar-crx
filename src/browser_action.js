@@ -450,6 +450,15 @@ browseraction.createEventDiv_ = function(event) {
 
   }
 
+  if (event.attachments) {
+    $('<a>').attr({
+      'href': event.attachments[0].fileUrl,
+      'target': '_blank'
+    }).append($('<img>').addClass('attachment-icon').attr({
+      'src': event.attachments[0].iconLink
+    })).appendTo(eventDetails);
+  }
+
   var eventTitle = $('<div>').addClass('event-title').text(event.title);
   if (event.responseStatus == constants.EVENT_STATUS_DECLINED) {
     eventTitle.addClass('declined');
