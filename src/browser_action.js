@@ -451,6 +451,9 @@ browseraction.createEventDiv_ = function(event) {
   }
 
   if (event.attachments) {
+    // If there are multiple attachments, do nothing. This ideally would have
+    // a nice UI, but we can do without one because multiple attachments are
+    // the exception rather than the norm.
     $('<a>').attr({
       'href': event.attachments[0].fileUrl,
       'target': '_blank'
