@@ -55,7 +55,7 @@ feeds.CALENDAR_EVENTS_API_URL_ =
  * @const
  * @private
  */
-feeds.DAYS_IN_AGENDA_ = 14;
+feeds.DAYS_IN_AGENDA_ = 100;
 
 /**
  * All events from visible calendars obtained during the last fetch.
