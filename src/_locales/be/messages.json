@@ -104,7 +104,7 @@
     "description": "An announcement message shown after an upgrade that adds significant new features."
   },
   "option_show_time_until_next_event": {
-    "message": "Паказываць час, які застаецца да наступнай падзеі.",
+    "message": "Паказваць час, які застаецца да наступнай падзеі.",
     "description": "The name of the option that tells the user that the extension will display the time on the badge."
   },
   "option_time_until_next_includes_all_day_events": {
