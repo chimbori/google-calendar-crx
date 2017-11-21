@@ -450,6 +450,18 @@ browseraction.createEventDiv_ = function(event) {
 
   }
 
+  if (event.attachments) {
+    // If there are multiple attachments, do nothing. This ideally would have
+    // a nice UI, but we can do without one because multiple attachments are
+    // the exception rather than the norm.
+    $('<a>').attr({
+      'href': event.attachments[0].fileUrl,
+      'target': '_blank'
+    }).append($('<img>').addClass('attachment-icon').attr({
+      'src': event.attachments[0].iconLink
+    })).appendTo(eventDetails);
+  }
+
   var eventTitle = $('<div>').addClass('event-title').text(event.title);
   if (event.responseStatus == constants.EVENT_STATUS_DECLINED) {
     eventTitle.addClass('declined');
