@@ -17,6 +17,8 @@
     "identity",
     "storage",
     "tabs",
+    "alarms",
+    "notifications",
     "http://*/*",
     "https://*/*",
     "http://calendar.google.com/calendar/*",
