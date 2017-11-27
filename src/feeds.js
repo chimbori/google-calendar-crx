@@ -343,7 +343,6 @@ feeds.fetchEventsFromCalendar_ = function(feed, callback) {
               start: start ? start.valueOf() : null,
               end: end ? end.valueOf() : null,
               allday: !end || (start.hours() === 0 && start.minutes() === 0 && end.hours() === 0 && end.minutes() === 0),
-              updated: eventEntry.updated,
               location: eventEntry.location,
               hangout_url: eventEntry.hangoutLink,
               attachments: eventEntry.attachments,
@@ -374,11 +373,11 @@ feeds.fetchEventsFromCalendar_ = function(feed, callback) {
  * Updates the notification alarms
  */
 feeds.updateNotification = function() {
-  if (!options.get(options.Options.NOTIFICATION_SHOW)) {
+  if (!options.get(options.Options.SHOW_NOTIFICATIONS)) {
     return;
-  }
+  }  
   // If event deleted, then delete alarm
-  if(feeds.nextEvents.length === 0) {
+  if (feeds.nextEvents.length === 0) {
     chrome.alarms.getAll(function(alarms) {
       if(alarms.length > 0) {
         chrome.alarms.clearAll();        
@@ -389,8 +388,10 @@ feeds.updateNotification = function() {
 
   chrome.alarms.getAll(function(alarms) {
     // Check against one event at the time
-    for(var i = 0; i < feeds.nextEvents.length; i++) {
-      if(feeds.nextEvents[i].reminders.length === 0) return;
+    for (var i = 0; i < feeds.nextEvents.length; i++) {
+      if (feeds.nextEvents[i].reminders.length === 0) {
+        return;
+      }
       // Check if the event has an alarm. This also saves the index of the alarm
       var alarmIndex = 0;
       var hasEventAnAlarm = alarms.some(function(alarm, index) {
@@ -398,16 +399,16 @@ feeds.updateNotification = function() {
         return feeds.nextEvents[i].event_id === alarm.name;
       });
 
-      var MINUTES_BEFORE_ALARM = feeds.nextEvents[i].reminders[0].minutes * 60 * 1000;
-      var alarmSchedule = new Date(feeds.nextEvents[i].start).getTime() - MINUTES_BEFORE_ALARM;
-      // Cancel if reminder is passed
-      if(alarmSchedule < new Date().getTime()) {
+      var TIME_UNTIL_ALARM_MS = feeds.nextEvents[i].reminders[0].minutes * 60 * 1000;
+      var alarmSchedule = new Date(feeds.nextEvents[i].start).getTime() - TIME_UNTIL_ALARM_MS;
+      // Cancel if reminder has passed
+      if (alarmSchedule < new Date().getTime()) {
         return;
       }
 
-      if(hasEventAnAlarm) {
-        // If there is changes on event, then update alarm
-        if(feeds.nextEvents[i].start !== alarms[alarmIndex].scheduledTime + MINUTES_BEFORE_ALARM) {
+      if (hasEventAnAlarm) {
+        // If event has been changed, then update the alarm.
+        if (feeds.nextEvents[i].start !== alarms[alarmIndex].scheduledTime + TIME_UNTIL_ALARM_MS) {
           chrome.alarms.clear(feeds.nextEvents[i].event_id);
           chrome.alarms.create(feeds.nextEvents[i].event_id, {
             when: alarmSchedule
@@ -416,7 +417,7 @@ feeds.updateNotification = function() {
       } else {
         // Add new alarm
         chrome.alarms.create(feeds.nextEvents[i].event_id, {
-          when: new Date(feeds.nextEvents[i].start).getTime() - MINUTES_BEFORE_ALARM
+          when: new Date(feeds.nextEvents[i].start).getTime() - TIME_UNTIL_ALARM_MS
         })
       }
     }

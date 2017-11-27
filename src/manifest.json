@@ -13,12 +13,12 @@
   },
 
   "permissions": [
+    "alarms",
     "contextMenus",
     "identity",
+    "notifications",    
     "storage",
     "tabs",
-    "alarms",
-    "notifications",
     "http://*/*",
     "https://*/*",
     "http://calendar.google.com/calendar/*",
