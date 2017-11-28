@@ -236,7 +236,8 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
     requireInteraction: true,
     iconUrl: 'icons/logo_calendar_96.png',
     title: feeds.nextEvents[eventIndex].title,
-    message: chrome.i18n.getMessage('your_event_starts_in', [feeds.nextEvents[eventIndex].title, feeds.nextEvents[eventIndex].reminders[0].minutes])
+    message: chrome.i18n.getMessage('your_event_starts_in',
+    [feeds.nextEvents[eventIndex].title, feeds.nextEvents[eventIndex].reminders[0].minutes])
   });
 });
 

@@ -375,7 +375,7 @@ feeds.fetchEventsFromCalendar_ = function(feed, callback) {
 feeds.updateNotification = function() {
   if (!options.get(options.Options.SHOW_NOTIFICATIONS)) {
     return;
-  }  
+  }
   // If event deleted, then delete alarm
   if (feeds.nextEvents.length === 0) {
     chrome.alarms.getAll(function(alarms) {
