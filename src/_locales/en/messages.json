@@ -118,5 +118,24 @@
   "alert_new_event_added": {
     "message": "This event has just been added to your calendar: ",
     "description": "When a new event is added into the user's calendar, an alert message will be displayed for the user to click on it and see the details"
+  },
+  "option_show_notifications": {
+    "message": "Show notifications.",
+    "description": "Show notifications before an event starts."
+  },
+  "your_event_starts_in": {
+    "message": "$eventName$ starts in $minutes$ minutes",
+    "description": "Shows the reminder of the event",    
+    "placeholders": {
+      "eventName": {
+        "content":"$1",
+        "example": "SomeEvent"
+      },
+      "minutes": {
+        "content":"$2",
+        "example": "42"
+      }
+    }
+
   }
 }
