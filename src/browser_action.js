@@ -31,6 +31,12 @@ var browseraction = {};
 browseraction.QUICK_ADD_API_URL_ = 'https://www.googleapis.com/calendar/v3/calendars/{calendarId}/events/quickAdd';
 
 /**
+ * Milliseconds to wait before fading out the alert shown when the user adds
+ * a new event.
+ */
+browseraction.TOAST_FADE_OUT_DURATION_MS = 5000;
+
+/**
  * Initializes UI elements in the browser action popup.
  */
 browseraction.initialize = function() {
@@ -39,6 +45,7 @@ browseraction.initialize = function() {
   _gaq.push(['_trackEvent', 'Popup', 'Shown']);
   browseraction.fillMessages_();
   browseraction.installButtonClickHandlers_();
+  browseraction.installKeydownHandlers_();
   browseraction.showLoginMessageIfNotAuthenticated_();
   browseraction.loadCalendarsIntoQuickAdd_();
   browseraction.listenForRequests_();
@@ -135,13 +142,33 @@ browseraction.installButtonClickHandlers_ = function() {
   });
 
   $('#quick_add_button').on('click', function() {
-    _gaq.push(['_trackEvent', 'Quick Add', 'Event Created']);
-    browseraction.createQuickAddEvent_($('#quick-add-event-title').val().toString(),
-        $('#quick-add-calendar-list').val());
-    $('#quick-add-event-title').val('');  // Remove the existing text from the field.
+    browseraction.addNewEventIntoCalendar_();
   });
 };
 
+
+/** @private */
+browseraction.installKeydownHandlers_ = function() {
+  $('#quick-add-event-title').on('keydown', function(e) {
+    // Check for Windows and Mac keyboards for event on Ctrl + Enter
+    if ((e.ctrlKey || e.metaKey) && (e.keyCode == 13 || e.keyCode == 10)
+        && $('#quick-add-event-title').val() !== '') {
+      // Ctrl-Enter pressed
+      browseraction.addNewEventIntoCalendar_();
+    }
+  });
+};
+
+/**
+ * Allow user to add a new event into their calendar.
+ * @private
+ */
+browseraction.addNewEventIntoCalendar_ = function() {
+  _gaq.push(['_trackEvent', 'Quick Add', 'Event Created']);
+  browseraction.createQuickAddEvent_($('#quick-add-event-title').val().toString(),
+      $('#quick-add-calendar-list').val());
+  $('#quick-add-event-title').val('');  // Remove the existing text from the field.
+};
 
 /**
  * Checks if we're logged in and either shows or hides a message asking
@@ -223,6 +250,7 @@ browseraction.createQuickAddEvent_ = function(text, calendarId) {
         'Authorization': 'Bearer ' + authToken
       },
       success: function(response) {
+        showToast($('section'), response.summary, response.htmlLink);
         browseraction.stopSpinner();
         chrome.extension.sendMessage({method: 'events.feed.fetch'});
       },
@@ -243,6 +271,35 @@ browseraction.createQuickAddEvent_ = function(text, calendarId) {
     $('#show_quick_add').toggleClass('rotated');
   });
 };
+
+function showToast(parent, summary, linkUrl) {
+  var toastDiv = $('<div>')
+      .addClass('alert-new-event event')
+      .attr('data-url', linkUrl);
+  var toastDetails = $('<div>')
+      .addClass('event-details');
+  var toastText = $('<div>')
+      .addClass('event-title')
+      .css('white-space', 'normal')
+      .text(chrome.i18n.getMessage('alert_new_event_added') + summary);
+
+  toastDetails.append(toastText);
+  toastDiv.append(toastDetails);
+
+  $('.fab').fadeOut();
+  parent.prepend(toastDiv).fadeIn();
+
+  $('.alert-new-event').on('click', function() {
+    chrome.tabs.create({
+      'url': $(this).attr('data-url')
+    });
+  });
+
+  return setTimeout(function() {
+      $('.alert-new-event').fadeOut();
+      $('.fab').fadeIn();
+  }, browseraction.TOAST_FADE_OUT_DURATION_MS);
+}
 
 
 /**
@@ -391,6 +448,18 @@ browseraction.createEventDiv_ = function(event) {
       'src': chrome.extension.getURL('icons/ic_action_video.png')
     })).appendTo(eventDetails);
 
+  }
+
+  if (event.attachments) {
+    // If there are multiple attachments, do nothing. This ideally would have
+    // a nice UI, but we can do without one because multiple attachments are
+    // the exception rather than the norm.
+    $('<a>').attr({
+      'href': event.attachments[0].fileUrl,
+      'target': '_blank'
+    }).append($('<img>').addClass('attachment-icon').attr({
+      'src': event.attachments[0].iconLink
+    })).appendTo(eventDetails);
   }
 
   var eventTitle = $('<div>').addClass('event-title').text(event.title);

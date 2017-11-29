@@ -247,12 +247,18 @@ h2 {
   font-size: 13px;
 }
 
+.attachment-icon,
 .location-icon,
 .video-call-icon {
   float: right;
   height: 15px;
   padding: 0 3px;
   width: 21px;
+}
+
+.attachment-icon {
+  /* Desaturate attachment icons so they match the look of the other icons. */
+  filter: grayscale(100%);
 }
 
 .button {
@@ -307,4 +313,10 @@ h2 {
           animation-iteration-count: infinite;
   -webkit-animation-timing-function: linear;
           animation-timing-function: linear;
+}
+
+.alert-new-event {
+  margin-top: 10px;
+  background-color: #f9eebc;
+  padding: 0 8px;
 }
