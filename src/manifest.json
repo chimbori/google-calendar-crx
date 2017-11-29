@@ -13,8 +13,10 @@
   },
 
   "permissions": [
+    "alarms",
     "contextMenus",
     "identity",
+    "notifications",    
     "storage",
     "tabs",
     "http://*/*",
