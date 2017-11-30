@@ -218,4 +218,40 @@ background.updateBadge = function(props) {
   }
 };
 
+/**
+ * Creates notification alarm 
+ */
+chrome.alarms.onAlarm.addListener(function(alarm) {
+  if (!options.get(options.Options.SHOW_NOTIFICATIONS)) {
+    return;
+  }
+  
+  var eventIndex = 0;
+  feeds.nextEvents.some(function(event, index) {
+    eventIndex = index;
+    return event.event_id === alarm.name;
+  });
+  chrome.notifications.create(alarm.name, {
+    type: 'basic',
+    requireInteraction: true,
+    iconUrl: 'icons/logo_calendar_96.png',
+    title: feeds.nextEvents[eventIndex].title,
+    message: chrome.i18n.getMessage('your_event_starts_in',
+    [feeds.nextEvents[eventIndex].title, feeds.nextEvents[eventIndex].reminders[0].minutes])
+  });
+});
+
+/**
+ * Go to calendar on clicked
+ */
+chrome.notifications.onClicked.addListener(function(alarmName) {
+  var eventIndex = 0;
+  feeds.nextEvents.some(function(event, index) {
+    eventIndex = index;
+    return event.event_id === alarmName;
+  });
+  chrome.tabs.create({'url': feeds.nextEvents[eventIndex].gcal_url});
+});
+
+
 background.initialize();

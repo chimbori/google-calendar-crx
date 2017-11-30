@@ -33,7 +33,8 @@ var options = {};
 options.Options = {
   BADGE_TEXT_SHOWN: 'badge-text-shown',
   DEBUG_ENABLE_LOGS: 'debug-enable-logs',
-  TIME_UNTIL_NEXT_INCLUDES_ALL_DAY_EVENTS: 'time_until_next_includes_all_day_events'
+  TIME_UNTIL_NEXT_INCLUDES_ALL_DAY_EVENTS: 'time_until_next_includes_all_day_events',
+  SHOW_NOTIFICATIONS: 'show_notifications'
 };
 
 /**
@@ -43,6 +44,7 @@ options.Options = {
  */
 options.DEFAULTS_ = {};
 options.DEFAULTS_[options.Options.BADGE_TEXT_SHOWN] = true;
+options.DEFAULTS_[options.Options.SHOW_NOTIFICATIONS] = true;
 
 /**
  * All option names are prefixed with this when stored in local storage.

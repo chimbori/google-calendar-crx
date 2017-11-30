@@ -266,6 +266,7 @@ feeds.fetchEvents = function() {
             });
             feeds.events = allEvents;
             feeds.refreshUI();
+            feeds.updateNotification();
           }
         });
       } else {
@@ -334,6 +335,8 @@ feeds.fetchEventsFromCalendar_ = function(feed, callback) {
             }
 
             events.push({
+              event_id: eventEntry.id,
+              reminders: eventEntry.reminders.overrides ? eventEntry.reminders.overrides : data.defaultReminders,
               feed: feed,
               title: eventEntry.summary || chrome.i18n.getMessage('event_title_unknown'),
               description: eventEntry.description || '',
@@ -364,6 +367,62 @@ feeds.fetchEventsFromCalendar_ = function(feed, callback) {
     });
   });
 };
+
+
+/**
+ * Updates the notification alarms
+ */
+feeds.updateNotification = function() {
+  if (!options.get(options.Options.SHOW_NOTIFICATIONS)) {
+    return;
+  }
+  // If event deleted, then delete alarm
+  if (feeds.nextEvents.length === 0) {
+    chrome.alarms.getAll(function(alarms) {
+      if(alarms.length > 0) {
+        chrome.alarms.clearAll();        
+      }
+    });
+    return;
+  }
+
+  chrome.alarms.getAll(function(alarms) {
+    // Check against one event at the time
+    for (var i = 0; i < feeds.nextEvents.length; i++) {
+      if (feeds.nextEvents[i].reminders.length === 0) {
+        return;
+      }
+      // Check if the event has an alarm. This also saves the index of the alarm
+      var alarmIndex = 0;
+      var hasEventAnAlarm = alarms.some(function(alarm, index) {
+        alarmIndex = index;
+        return feeds.nextEvents[i].event_id === alarm.name;
+      });
+
+      var TIME_UNTIL_ALARM_MS = feeds.nextEvents[i].reminders[0].minutes * 60 * 1000;
+      var alarmSchedule = new Date(feeds.nextEvents[i].start).getTime() - TIME_UNTIL_ALARM_MS;
+      // Cancel if reminder has passed
+      if (alarmSchedule < new Date().getTime()) {
+        return;
+      }
+
+      if (hasEventAnAlarm) {
+        // If event has been changed, then update the alarm.
+        if (feeds.nextEvents[i].start !== alarms[alarmIndex].scheduledTime + TIME_UNTIL_ALARM_MS) {
+          chrome.alarms.clear(feeds.nextEvents[i].event_id);
+          chrome.alarms.create(feeds.nextEvents[i].event_id, {
+            when: alarmSchedule
+          })
+        }
+      } else {
+        // Add new alarm
+        chrome.alarms.create(feeds.nextEvents[i].event_id, {
+          when: new Date(feeds.nextEvents[i].start).getTime() - TIME_UNTIL_ALARM_MS
+        })
+      }
+    }
+  });
+}
 
 
 /**
