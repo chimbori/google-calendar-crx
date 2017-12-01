@@ -81,8 +81,7 @@ options.get = function(optionKey) {
  * @param {*} optionValue The value of the option.
  */
 options.set = function(optionKey, optionValue) {
-  window.localStorage[options.OPTION_KEY_PREFIX_ + optionKey] =
-      window.JSON.stringify(optionValue);
+  window.localStorage[options.OPTION_KEY_PREFIX_ + optionKey] = window.JSON.stringify(optionValue);
   chrome.extension.sendMessage({method: 'options.changed'});
 };
 
@@ -172,27 +171,35 @@ options.loadCalendarList = function() {
         var calendar = calendars[calendarId];
         var calendarListEntry = $('<label>');
 
-        $('<input>').attr({
-          'type': 'checkbox',
-          'name': calendar.id,
-          'checked': calendar.visible,
-          'data-color': calendar.backgroundColor
-        }).addClass('calendar-checkbox').css({
-          'outline': 'none',
-          'background': calendar.visible ? calendar.backgroundColor : '',
-          'border': '1px solid ' + calendar.backgroundColor
-        }).on('change', function() {
-          var checkBox = $(this);
-          checkBox.css({'background': checkBox.is(':checked') ? checkBox.attr('data-color') : ''});
-          calendars[ checkBox.attr('name') ].visible = checkBox.is(':checked');
-          chrome.storage.local.set({'calendars': calendars}, function() {
-            if (chrome.runtime.lastError) {
-              background.log('Error saving calendar list options.', chrome.runtime.lastError);
-              return;
-            }
-            chrome.extension.sendMessage({method: 'events.feed.fetch'});
-          });
-        }).appendTo(calendarListEntry);
+        $('<input>')
+            .attr({
+              'type': 'checkbox',
+              'name': calendar.id,
+              'checked': calendar.visible,
+              'data-color': calendar.backgroundColor
+            })
+            .addClass('calendar-checkbox')
+            .css({
+              'outline': 'none',
+              'background': calendar.visible ? calendar.backgroundColor : '',
+              'border': '1px solid ' + calendar.backgroundColor
+            })
+            .on('change',
+                function() {
+                  var checkBox = $(this);
+                  checkBox.css(
+                      {'background': checkBox.is(':checked') ? checkBox.attr('data-color') : ''});
+                  calendars[checkBox.attr('name')].visible = checkBox.is(':checked');
+                  chrome.storage.local.set({'calendars': calendars}, function() {
+                    if (chrome.runtime.lastError) {
+                      background.log(
+                          'Error saving calendar list options.', chrome.runtime.lastError);
+                      return;
+                    }
+                    chrome.extension.sendMessage({method: 'events.feed.fetch'});
+                  });
+                })
+            .appendTo(calendarListEntry);
 
         $('<span>').text(' ' + calendar.title).appendTo(calendarListEntry);
         calendarListEntry.attr('title', calendar.description);

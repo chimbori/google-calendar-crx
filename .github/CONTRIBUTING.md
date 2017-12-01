@@ -29,6 +29,11 @@ If you’re not a Developer, but would like to get involved in open-source, this
   automatically when you submit a pull request.
 
 - All JavaScript files must be formatted using the Google Style Guide.
+    ```
+    find . -iname "*.js" -exec sh -c 'clang-format "{}" >/tmp/tmp.js && mv /tmp/tmp.js "{}"' \;
+    ```
+
+  If you don’t have `clang-format` installed, get it from your favorite package manager.
 
 - All JSON files must be formatted consistently with a 2-space indent. Use the following one-liner
   to automatically format all JSON files before sending out your pull request:

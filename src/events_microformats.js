@@ -26,19 +26,15 @@
  * @private
  */
 function getInlineIconSmall_(event) {
-  return $('<a>').css({
-        'float': 'right'
-      }).attr({
-        'href': event.gcal_url,
-        'target': '_blank'
-      }).append(
-        $('<img>').attr({
-          'width': 19,
-          'height': 19,
-          'src': chrome.extension.getURL('icons/calendar_add_38.png'),
-          'alt': chrome.i18n.getMessage('add_to_google_calendar')
-        })
-      );
+  return $('<a>')
+      .css({'float': 'right'})
+      .attr({'href': event.gcal_url, 'target': '_blank'})
+      .append($('<img>').attr({
+        'width': 19,
+        'height': 19,
+        'src': chrome.extension.getURL('icons/calendar_add_38.png'),
+        'alt': chrome.i18n.getMessage('add_to_google_calendar')
+      }));
 }
 
 /**
@@ -105,14 +101,12 @@ function detectHCalendarEvents() {
     var urlElement = $(vevent).find('.url');
     if (urlElement && urlElement.attr('href')) {
       var hrefAttr = urlElement.attr('href').toString();
-      if (hrefAttr.indexOf('http://') === 0 ||
-          hrefAttr.indexOf('https://') === 0) {
+      if (hrefAttr.indexOf('http://') === 0 || hrefAttr.indexOf('https://') === 0) {
         // Absolute URL with hostname.
         event.url = hrefAttr;
       } else if (hrefAttr.indexOf('/') === 0) {
         // Absolute URL without hostname.
-        event.url = window.location.protocol + '//' +
-            window.location.host + hrefAttr;
+        event.url = window.location.protocol + '//' + window.location.host + hrefAttr;
       } else {
         // Relative URL
         event.url = window.location.href + hrefAttr;
@@ -124,8 +118,8 @@ function detectHCalendarEvents() {
     var adr = $(vevent).find('adr');
     var location = $(vevent).find('.location');
     if (adr.length) {
-      event.location = adr.find('.locality').text().trim() + ' ' +
-                       adr.find('.region').text().trim();
+      event.location =
+          adr.find('.locality').text().trim() + ' ' + adr.find('.region').text().trim();
     } else if (location.length) {
       event.location = location.html().replace(/<[^>]*>/g, ' ').trim();
     }
@@ -146,10 +140,5 @@ function detectHCalendarEvents() {
 
 var mfEvents = detectHCalendarEvents();
 if (mfEvents.length > 0) {
-  chrome.extension.sendMessage({
-    method: 'events.detected.set',
-    parameters: {
-      events: mfEvents
-    }
-  });
+  chrome.extension.sendMessage({method: 'events.detected.set', parameters: {events: mfEvents}});
 }

@@ -73,7 +73,8 @@ background.log = function(message, opt_dump) {
   if (options.get(options.Options.DEBUG_ENABLE_LOGS)) {
     var timestampedMessage = '[' + moment().toISOString() + '] ' + message;
     if (opt_dump) {
-      background.logs_.push(timestampedMessage + ' ' + JSON.stringify(opt_dump, null /* replacer */, '  '));
+      background.logs_.push(
+          timestampedMessage + ' ' + JSON.stringify(opt_dump, null /* replacer */, '  '));
       window.console.log(timestampedMessage, opt_dump);
     } else {  // Otherwise the log shows a spurious string "undefined" for every opt_dump.
       background.logs_.push(timestampedMessage);
@@ -103,15 +104,24 @@ background.initialize = function() {
  */
 background.initMomentJs_ = function() {
   moment.lang('relative-formatter', {
+    // clang-format off
     relativeTime: {
-      future : "%s", past : "%s",
-      s: "1s", ss : "%ds",
-      m: "1m", mm : "%dm",
-      h: "1h", hh : "%dh",
-      d: "1d", dd : "%dd",
-      M: "1mo", MM : "%dmo",
-      y: "1yr", yy : "%dy"
+      future: '%s',
+      past: '%s',
+      s: '1s',
+      ss: '%ds',
+      m: '1m',
+      mm: '%dm',
+      h: '1h',
+      hh: '%dh',
+      d: '1d',
+      dd: '%dd',
+      M: '1mo',
+      MM: '%dmo',
+      y: '1yr',
+      yy: '%dy'
     }
+    // clang-format on
   });
 };
 
@@ -136,15 +146,12 @@ background.setupMenus_ = function() {
  */
 background.listenForRequests_ = function() {
   chrome.extension.onMessage.addListener(function(request, sender, opt_callback) {
-    switch(request.method) {
+    switch (request.method) {
       case 'events.detected.set':
         background.selectedTabId = sender.tab.id;
         background.eventsFromPage['tab' + background.selectedTabId] = request.parameters.events;
         chrome.browserAction.setIcon({
-          path: {
-            "19": 'icons/calendar_add_19.png',
-            "38": 'icons/calendar_add_38.png'
-          },
+          path: {'19': 'icons/calendar_add_19.png', '38': 'icons/calendar_add_38.png'},
           tabId: sender.tab.id
         });
         break;
@@ -219,13 +226,13 @@ background.updateBadge = function(props) {
 };
 
 /**
- * Creates notification alarm 
+ * Creates notification alarm
  */
 chrome.alarms.onAlarm.addListener(function(alarm) {
   if (!options.get(options.Options.SHOW_NOTIFICATIONS)) {
     return;
   }
-  
+
   var eventIndex = 0;
   feeds.nextEvents.some(function(event, index) {
     eventIndex = index;
@@ -236,8 +243,9 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
     requireInteraction: true,
     iconUrl: 'icons/logo_calendar_96.png',
     title: feeds.nextEvents[eventIndex].title,
-    message: chrome.i18n.getMessage('your_event_starts_in',
-    [feeds.nextEvents[eventIndex].title, feeds.nextEvents[eventIndex].reminders[0].minutes])
+    message: chrome.i18n.getMessage(
+        'your_event_starts_in',
+        [feeds.nextEvents[eventIndex].title, feeds.nextEvents[eventIndex].reminders[0].minutes])
   });
 });
 

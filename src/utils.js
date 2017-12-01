@@ -56,10 +56,10 @@ utils.processEvent = function(event) {
 
   // Trim each field to a maximum acceptable length.
   for (var field in event) {
-    if (event.hasOwnProperty(field) &&
-        event[field].length > utils.MAX_CHARS_PER_FIELD_) {
-      event[field] = event[field].replace(/[\s]+/gi, ' ').
-          substring(0, utils.MAX_CHARS_PER_FIELD_ - 2) + ' \u2026';
+    if (event.hasOwnProperty(field) && event[field].length > utils.MAX_CHARS_PER_FIELD_) {
+      event[field] =
+          event[field].replace(/[\s]+/gi, ' ').substring(0, utils.MAX_CHARS_PER_FIELD_ - 2) +
+          ' \u2026';
     }
   }
 
@@ -88,21 +88,18 @@ utils.processEvent = function(event) {
  */
 utils.getGCalUrl_ = function(event) {
   // Basic event information: Title, Start, End.
-  var link =
-      'https://calendar.google.com/calendar/event?action=TEMPLATE&trp=false&ctext=' +
+  var link = 'https://calendar.google.com/calendar/event?action=TEMPLATE&trp=false&ctext=' +
       encodeURIComponent(event.title);
 
   // Dates could be optional.
   if (event.start) {
     // If the time is exactly midnight, this might be an all-day event, so skip
     // the T000000 part.
-    link += '&dates=' +
-        moment(event.start).format('YYYYMMDDTHHmmss').replace('T000000', '');
+    link += '&dates=' + moment(event.start).format('YYYYMMDDTHHmmss').replace('T000000', '');
 
     // Even if start date is present, end date could be missing.
     if (event.end) {
-      link += '/' +
-          moment(event.end).format('YYYYMMDDTHHmmss').replace('T000000', '');
+      link += '/' + moment(event.end).format('YYYYMMDDTHHmmss').replace('T000000', '');
     }
   }
 
@@ -126,8 +123,7 @@ utils.getGCalUrl_ = function(event) {
     }
 
     if (event.url) {
-      link += chrome.i18n.getMessage('read_more_at_original_url') +
-          encodeURIComponent(event.url);
+      link += chrome.i18n.getMessage('read_more_at_original_url') + encodeURIComponent(event.url);
     }
   }
 
@@ -141,7 +137,8 @@ utils.getGCalUrl_ = function(event) {
  * @return {Moment} Parsed JavaScript date object.
  */
 utils.fromIso8601 = function(date) {
-  // TODO(manas): Audit and fix this so that it's not used for dates expressed as milliseconds since the epoch.
+  // TODO(manas): Audit and fix this so that it's not used for dates expressed as milliseconds since
+  // the epoch.
 
   if (!date) {
     return null;
@@ -149,6 +146,7 @@ utils.fromIso8601 = function(date) {
 
   if (typeof date === 'string') {
     date = date.replace('Z', '+00:00');
+    // clang-format off
     return moment(date, [
       'YYYY-MM-DDTHH:mm:ssZZ', 'YYYY-MM-DDTHHmmssZZ', 'YYYYMMDDTHHmmssZZ',
       'YYYY-MM-DDTHH:mm:ss',   'YYYY-MM-DDTHHmmss',   'YYYYMMDDTHHmmss',
@@ -157,6 +155,7 @@ utils.fromIso8601 = function(date) {
       'YYYY-MM-DDTHH',                                'YYYYMMDDTHH',
       'YYYY-MM-DD',                                   'YYYYMMDD'
     ]);
+    // clang-format on
   } else {
     return moment(date);
   }
