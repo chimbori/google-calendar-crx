@@ -46,6 +46,9 @@ options.DEFAULTS_ = {};
 options.DEFAULTS_[options.Options.BADGE_TEXT_SHOWN] = true;
 options.DEFAULTS_[options.Options.SHOW_NOTIFICATIONS] = true;
 
+// Turn on when debugging! There is no UI for this.
+// options.DEFAULTS_[options.Options.DEBUG_ENABLE_LOGS] = true;
+
 /**
  * All option names are prefixed with this when stored in local storage.
  * @type {string}
