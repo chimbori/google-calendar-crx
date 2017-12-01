@@ -38,6 +38,16 @@ browseraction.QUICK_ADD_API_URL_ =
 browseraction.TOAST_FADE_OUT_DURATION_MS = 5000;
 
 /**
+ * Milliseconds to wait before rendering calendar entries.
+ * The delay is needed to work aroud a Chrome extension popup layout bug
+ * (https://crbug.com/428044). The value was picked via trial-and-error;
+ * 100ms was the least amount that made the issue go away (on Chrome 64
+ * and macOS Sierra). See also:
+ * https://github.com/manastungare/google-calendar-crx/issues/224
+ */
+browseraction.SHOW_EVENTS_DELAY_MS = 100;
+
+/**
  * Initializes UI elements in the browser action popup.
  */
 browseraction.initialize = function() {
@@ -340,6 +350,8 @@ browseraction.showEventsFromFeed_ = function(events) {
     }
   });
 
+  var calendarEventsDiv = $('<div>', {id: 'calendar-events'});
+
   // Insert a date header for Today as the first item in the list. Any ongoing
   // multi-day events (i.e., started last week, ends next week) will be shown
   // under today's date header, not under the date it started.
@@ -347,14 +359,14 @@ browseraction.showEventsFromFeed_ = function(events) {
   $('<div>')
       .addClass('date-header')
       .text(headerDate.format('dddd, MMMM D'))
-      .appendTo($('#calendar-events'));
+      .appendTo(calendarEventsDiv);
 
   // If there are no events today, then avoid showing an empty date section.
   if (events.length == 0 || moment(events[0].start).diff(headerDate, 'hours') > 23) {
     $('<div>')
         .addClass('no-events-today')
         .append(chrome.i18n.getMessage('no_events_today'))
-        .appendTo($('#calendar-events'));
+        .appendTo(calendarEventsDiv);
   }
 
   for (var i = 0; i < events.length; i++) {
@@ -370,11 +382,16 @@ browseraction.showEventsFromFeed_ = function(events) {
       $('<div>')
           .addClass('date-header')
           .text(headerDate.format('dddd, MMMM D'))
-          .appendTo($('#calendar-events'));
+          .appendTo(calendarEventsDiv);
     }
-
-    browseraction.createEventDiv_(event).appendTo($('#calendar-events'));
+    browseraction.createEventDiv_(event).appendTo(calendarEventsDiv);
   }
+
+  // Add delay to work around Chrome extension popup layout bug
+  // (https://github.com/manastungare/google-calendar-crx/issues/224)
+  setTimeout(function() {
+    $('#calendar-events').replaceWith(calendarEventsDiv);
+  }, browseraction.SHOW_EVENTS_DELAY_MS);
 };
 
 
