@@ -329,8 +329,9 @@ feeds.fetchEventsFromCalendar_ = function(feed, callback) {
 
             events.push({
               event_id: eventEntry.id,
-              reminders: eventEntry.reminders.overrides ? eventEntry.reminders.overrides :
-                                                          data.defaultReminders,
+              reminders: eventEntry.reminders && eventEntry.reminders.overrides ?
+                  eventEntry.reminders.overrides :
+                  data.defaultReminders,
               feed: feed,
               title: eventEntry.summary || chrome.i18n.getMessage('event_title_unknown'),
               description: eventEntry.description || '',
