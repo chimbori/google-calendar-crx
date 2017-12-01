@@ -369,8 +369,7 @@ feeds.fetchEventsFromCalendar_ = function(feed, callback) {
 /**
  * Updates the notification alarms
  */
-feeds.updateNotification =
-    function() {
+feeds.updateNotification = function() {
   if (!options.get(options.Options.SHOW_NOTIFICATIONS)) {
     return;
   }
@@ -418,14 +417,13 @@ feeds.updateNotification =
       }
     }
   });
-}
+};
 
-
-    /**
-     * Updates the 'minutes/hours/days until' visible badge from the events
-     * obtained during the last fetch. Does not fetch new data.
-     */
-    feeds.refreshUI = function() {
+/**
+ * Updates the 'minutes/hours/days until' visible badge from the events
+ * obtained during the last fetch. Does not fetch new data.
+ */
+feeds.refreshUI = function() {
   chrome.identity.getAuthToken({'interactive': false}, function(authToken) {
     if (chrome.runtime.lastError || !authToken) {
       background.updateBadge({
