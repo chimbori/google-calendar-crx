@@ -125,7 +125,7 @@
   },
   "your_event_starts_in": {
     "message": "$eventName$ beginnt in $minutes$ Minuten",
-    "description": "Shows the reminder of the event",    
+    "description": "Shows the reminder of the event",
     "placeholders": {
       "eventName": {
         "content": "$1",

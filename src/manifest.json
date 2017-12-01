@@ -5,18 +5,16 @@
   "version": "2.8",
   "default_locale": "en",
   "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCzO8gAn6n4s5Ohs50F2lmLGsO0FVKIwYyro8qZHlU+9pF85wGBEqoNwSeawr+AZdLgtnQRkIgatLM68EX8sB0DErp3Ds4qCvY8VufvvDIoqxdKtC3QlFxR9PoUZMY7/4lb/OadWnr0UjekxcSNVyk6nqZkTFCcE7RWDMDZ8qwqsQIDAQAB",
-
   "icons": {
     "16": "icons/logo_calendar_32.png",
     "48": "icons/logo_calendar_96.png",
     "128": "icons/logo_calendar_256.png"
   },
-
   "permissions": [
     "alarms",
     "contextMenus",
     "identity",
-    "notifications",    
+    "notifications",
     "storage",
     "tabs",
     "http://*/*",
@@ -24,16 +22,13 @@
     "http://calendar.google.com/calendar/*",
     "https://calendar.google.com/calendar/*"
   ],
-
   "oauth2": {
     "client_id": "840256951321-stskg5tsvdfjcf1c5cthd6n5k54nq7q0.apps.googleusercontent.com",
     "scopes": [
       "https://www.googleapis.com/auth/calendar"
     ]
   },
-
   "content_security_policy": "script-src 'self' https://calendar.google.com https://ssl.google-analytics.com; object-src 'self'",
-
   "background": {
     "scripts": [
       "lib/jstz-1.0.4.min.js",
@@ -48,18 +43,15 @@
       "background.js"
     ]
   },
-
   "options_page": "options.html",
-
   "browser_action": {
-     "default_icon": {
-        "19": "icons/logo_calendar_19.png",
-        "38": "icons/logo_calendar_38.png"
-      },
-     "default_title": "__MSG_google_calendar_extension_name__",
-     "default_popup": "browser_action.html"
+    "default_icon": {
+      "19": "icons/logo_calendar_19.png",
+      "38": "icons/logo_calendar_38.png"
+    },
+    "default_title": "__MSG_google_calendar_extension_name__",
+    "default_popup": "browser_action.html"
   },
-
   "content_scripts": [
     {
       "matches": [
@@ -75,7 +67,6 @@
       "run_at": "document_idle"
     }
   ],
-
   "web_accessible_resources": [
     "icons/calendar_add_19.png",
     "icons/calendar_add_38.png"
