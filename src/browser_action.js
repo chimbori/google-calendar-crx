@@ -11,6 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+/* globals constants, utils, versioning */
 
 /**
  * @fileoverview Script that runs in the context of the browser action popup.
@@ -96,11 +97,12 @@ browseraction.loadCalendarsIntoQuickAdd_ = function() {
   chrome.extension.getBackgroundPage().background.log('browseraction.loadCalendarsIntoQuickAdd_()');
   chrome.storage.local.get('calendars', function(storage) {
     if (chrome.runtime.lastError) {
-      background.log('Error retrieving calendars:', chrome.runtime.lastError);
+      chrome.extension.getBackgroundPage().background.log(
+          'Error retrieving calendars:', chrome.runtime.lastError);
     }
 
-    if (storage['calendars']) {
-      var calendars = storage['calendars'];
+    if (storage.calendars) {
+      var calendars = storage.calendars;
       var dropDown = $('#quick-add-calendar-list');
       for (var calendarId in calendars) {
         var calendar = calendars[calendarId];
@@ -228,6 +230,30 @@ browseraction.stopSpinnerRightNow = function() {
   $('#sync_now').removeClass('spinning');
 };
 
+function showToast(parent, summary, linkUrl) {
+  var toastDiv = $('<div>').addClass('alert-new-event event').attr('data-url', linkUrl);
+  var toastDetails = $('<div>').addClass('event-details');
+  var toastText = $('<div>')
+                      .addClass('event-title')
+                      .css('white-space', 'normal')
+                      .text(chrome.i18n.getMessage('alert_new_event_added') + summary);
+
+  toastDetails.append(toastText);
+  toastDiv.append(toastDetails);
+
+  $('.fab').fadeOut();
+  parent.prepend(toastDiv).fadeIn();
+
+  $('.alert-new-event').on('click', function() {
+    chrome.tabs.create({'url': $(this).attr('data-url')});
+  });
+
+  return setTimeout(function() {
+    $('.alert-new-event').fadeOut();
+    $('.fab').fadeIn();
+  }, browseraction.TOAST_FADE_OUT_DURATION_MS);
+}
+
 /** @private */
 browseraction.createQuickAddEvent_ = function(text, calendarId) {
   var quickAddUrl =
@@ -268,30 +294,6 @@ browseraction.createQuickAddEvent_ = function(text, calendarId) {
     $('#show_quick_add').toggleClass('rotated');
   });
 };
-
-function showToast(parent, summary, linkUrl) {
-  var toastDiv = $('<div>').addClass('alert-new-event event').attr('data-url', linkUrl);
-  var toastDetails = $('<div>').addClass('event-details');
-  var toastText = $('<div>')
-                      .addClass('event-title')
-                      .css('white-space', 'normal')
-                      .text(chrome.i18n.getMessage('alert_new_event_added') + summary);
-
-  toastDetails.append(toastText);
-  toastDiv.append(toastDetails);
-
-  $('.fab').fadeOut();
-  parent.prepend(toastDiv).fadeIn();
-
-  $('.alert-new-event').on('click', function() {
-    chrome.tabs.create({'url': $(this).attr('data-url')});
-  });
-
-  return setTimeout(function() {
-    $('.alert-new-event').fadeOut();
-    $('.fab').fadeIn();
-  }, browseraction.TOAST_FADE_OUT_DURATION_MS);
-}
 
 
 /**
@@ -350,7 +352,7 @@ browseraction.showEventsFromFeed_ = function(events) {
       .appendTo($('#calendar-events'));
 
   // If there are no events today, then avoid showing an empty date section.
-  if (events.length == 0 || moment(events[0].start).diff(headerDate, 'hours') > 23) {
+  if (events.length === 0 || moment(events[0].start).diff(headerDate, 'hours') > 23) {
     $('<div>')
         .addClass('no-events-today')
         .append(chrome.i18n.getMessage('no_events_today'))
@@ -409,7 +411,8 @@ browseraction.createEventDiv_ = function(event) {
     chrome.tabs.create({'url': $(this).attr('data-url')});
   });
 
-  var timeFormat = options.get('format24HourTime') ? 'HH:mm' : 'h:mma';
+  var timeFormat =
+      chrome.extension.getBackgroundPage().options.get('format24HourTime') ? 'HH:mm' : 'h:mma';
   var dateTimeFormat =
       event.allday ? 'MMM D, YYYY' : (isDetectedEvent ? 'MMM D, YYYY ' + timeFormat : timeFormat);
   var startTimeDiv = $('<div>').addClass('start-time');

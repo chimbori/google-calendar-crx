@@ -11,6 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+/*global background*/
 
 /**
  * @fileoverview Handles setting and getting options.
@@ -94,7 +95,8 @@ options.set = function(optionKey, optionValue) {
  */
 options.installAutoSaveHandlers = function() {
   var optionInputs = document.querySelectorAll(options.OPTIONS_WIDGET_SELECTOR_);
-  for (var i = 0, option; option = optionInputs[i]; ++i) {
+  for (var i = 0; i < optionInputs.length; ++i) {
+    var option = optionInputs[i];
     var type = option.getAttribute('type');
     if (type == 'checkbox') {
       option.addEventListener('change', function(event) {
@@ -140,14 +142,15 @@ options.writeDefaultsToStorage = function() {
  */
 options.loadOptionsUIFromSavedState = function() {
   var optionInputs = document.querySelectorAll(options.OPTIONS_WIDGET_SELECTOR_);
-  for (var i = 0, option; option = optionInputs[i]; ++i) {
+  for (var i = 0; i < optionInputs.length; ++i) {
+    var option = optionInputs[i];
     var type = option.getAttribute('type');
     var name = option.getAttribute('name');
     var value = options.get(name);
     if (type == 'checkbox') {
       option.checked = value ? 'checked' : '';
     } else {
-      if (value != null) {
+      if (value !== null) {
         option.value = value;
       }
     }
@@ -164,11 +167,12 @@ options.loadCalendarList = function() {
 
   chrome.storage.local.get('calendars', function(storage) {
     if (chrome.runtime.lastError) {
-      background.log('Error retrieving settings:', chrome.runtime.lastError);
+      chrome.extension.getBackgroundPage().background.log(
+          'Error retrieving settings:', chrome.runtime.lastError);
     }
 
-    if (storage['calendars']) {
-      var calendars = storage['calendars'];
+    if (storage.calendars) {
+      var calendars = storage.calendars;
 
       for (var calendarId in calendars) {
         var calendar = calendars[calendarId];
@@ -195,7 +199,7 @@ options.loadCalendarList = function() {
                   calendars[checkBox.attr('name')].visible = checkBox.is(':checked');
                   chrome.storage.local.set({'calendars': calendars}, function() {
                     if (chrome.runtime.lastError) {
-                      background.log(
+                      chrome.extension.getBackgroundPage().background.log(
                           'Error saving calendar list options.', chrome.runtime.lastError);
                       return;
                     }

@@ -11,6 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+/* globals feeds */
 
 /**
  * @fileoverview Performs operations that must be done on a schedule: e.g.
@@ -53,7 +54,7 @@ scheduler.BADGE_UPDATE_INTERVAL_MS_ = 60 * 1000;
  * the calendar (less often).
  */
 scheduler.start = function() {
-  background.log('scheduler.start()');
+  chrome.extension.getBackgroundPage().background.log('scheduler.start()');
 
   // Do a one-time initial fetch on load. Settings are only refreshed when restarting Chrome.
   feeds.fetchSettings();

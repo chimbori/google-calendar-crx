@@ -29,7 +29,7 @@ chrome.app.getDetails = function() {
  * @param {Array.<string>|string=} opt_formatString
  * return {Moment}
  */
-function moment(opt_date, opt_formatString) {};
+function moment(opt_date, opt_formatString) {}
 
 /**
  * @param {string} locale
@@ -42,7 +42,7 @@ moment.lang = function(locale, opt_languageStrings) {};
  * Externs for the Moment.js library.
  * @constructor
  */
-function Moment() {};
+function Moment() {}
 
 /** @return {string} */
 Moment.prototype.calendar = function() {};

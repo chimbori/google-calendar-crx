@@ -1,0 +1,30 @@
+{
+  "boss": true,
+  "browser": true,
+  "curly": true,
+  "devel": true,
+  "eqeqeq": false,
+  "eqnull": true,
+  "es5": true,
+  "evil": true,
+  "globalstrict": true,
+  "immed": true,
+  "jquery": true,
+  "latedef": true,
+  "loopfunc": true,
+  "newcap": true,
+  "noarg": true,
+  "node": true,
+  "noempty": true,
+  "nonew": true,
+  "strict": false,
+  "sub": true,
+  "trailing": true,
+  "undef": true,
+  "globals": {
+    "$": true,
+    "chrome": true,
+    "moment": true,
+    "_gaq": false
+  }
+}

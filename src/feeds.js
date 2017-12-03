@@ -11,6 +11,8 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+/* globals background, constants, options, utils */
+
 
 /**
  * @fileoverview Retrieves and parses a calendar feed from the server.
@@ -148,7 +150,7 @@ feeds.fetchCalendars = function() {
       background.log('Error retrieving settings: ', chrome.runtime.lastError.message);
     }
 
-    var storedCalendars = storage['calendars'] || {};
+    var storedCalendars = storage.calendars || {};
     chrome.identity.getAuthToken({'interactive': false}, function(authToken) {
       if (chrome.runtime.lastError) {
         chrome.extension.sendMessage({method: 'sync-icon.spinning.stop'});
@@ -232,14 +234,14 @@ feeds.fetchEvents = function() {
       return;
     }
 
-    if (!storage['calendars']) {
+    if (!storage.calendars) {
       // We don't have any calendars yet? Probably the first time.
       feeds.fetchCalendars();
       return;
     }
 
-    var calendars = storage['calendars'] || {};
-    background.log('storage[calendars]:', calendars);
+    var calendars = storage.calendars || {};
+    background.log('storage.calendars:', calendars);
 
     var hiddenCalendars = [];
     var allEvents = [];
@@ -407,13 +409,13 @@ feeds.updateNotification = function() {
         // If event has been changed, then update the alarm.
         if (feeds.nextEvents[i].start !== alarms[alarmIndex].scheduledTime + TIME_UNTIL_ALARM_MS) {
           chrome.alarms.clear(feeds.nextEvents[i].event_id);
-          chrome.alarms.create(feeds.nextEvents[i].event_id, {when: alarmSchedule})
+          chrome.alarms.create(feeds.nextEvents[i].event_id, {when: alarmSchedule});
         }
       } else {
         // Add new alarm
         chrome.alarms.create(
             feeds.nextEvents[i].event_id,
-            {when: new Date(feeds.nextEvents[i].start).getTime() - TIME_UNTIL_ALARM_MS})
+            {when: new Date(feeds.nextEvents[i].start).getTime() - TIME_UNTIL_ALARM_MS});
       }
     }
   });
