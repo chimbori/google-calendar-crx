@@ -222,7 +222,7 @@ h2 {
   white-space: nowrap;
 }
 
-.event-title.declined {
+.declined {
   text-decoration: line-through;
   color: #999;
 }

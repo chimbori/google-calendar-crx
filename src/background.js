@@ -11,6 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+/* globals options, feeds, utils, scheduler, constants */
 
 /**
  * @fileoverview Script that runs in the context of the background page.
@@ -61,7 +62,7 @@ background.eventsFromPage = {};
  *   title: (string|undefined)
  * }}
  */
-background.BadgeProperties;
+background.BadgeProperties;  // jshint ignore:line
 
 /**
  * A function that logs all its arguments to memory and to the console if the

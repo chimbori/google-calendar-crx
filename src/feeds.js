@@ -11,6 +11,8 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+/* globals background, constants, options, utils */
+
 
 /**
  * @fileoverview Retrieves and parses a calendar feed from the server.
@@ -143,12 +145,12 @@ feeds.fetchCalendars = function() {
   background.log('feeds.fetchCalendars()');
   chrome.extension.sendMessage({method: 'sync-icon.spinning.start'});
 
-  chrome.storage.local.get('calendars', function(storage) {
+  chrome.storage.local.get(constants.CALENDARS_STORAGE_KEY, function(storage) {
     if (chrome.runtime.lastError) {
       background.log('Error retrieving settings: ', chrome.runtime.lastError.message);
     }
 
-    var storedCalendars = storage['calendars'] || {};
+    var storedCalendars = storage[constants.CALENDARS_STORAGE_KEY] || {};
     chrome.identity.getAuthToken({'interactive': false}, function(authToken) {
       if (chrome.runtime.lastError) {
         chrome.extension.sendMessage({method: 'sync-icon.spinning.stop'});
@@ -191,7 +193,9 @@ feeds.fetchCalendars = function() {
             calendars[serverCalendarID] = mergedCalendar;
           }
 
-          chrome.storage.local.set({'calendars': calendars}, function() {
+          var store = {};
+          store[constants.CALENDARS_STORAGE_KEY] = calendars;
+          chrome.storage.local.set(store, function() {
             if (chrome.runtime.lastError) {
               background.log('Error saving settings: ', chrome.runtime.lastError.message);
               return;
@@ -226,20 +230,20 @@ feeds.fetchEvents = function() {
   feeds.lastFetchedAt = new Date();
   background.updateBadge({'title': chrome.i18n.getMessage('fetching_feed')});
 
-  chrome.storage.local.get('calendars', function(storage) {
+  chrome.storage.local.get(constants.CALENDARS_STORAGE_KEY, function(storage) {
     if (chrome.runtime.lastError) {
       background.log('Error retrieving settings:', chrome.runtime.lastError.message);
       return;
     }
 
-    if (!storage['calendars']) {
+    if (!storage[constants.CALENDARS_STORAGE_KEY]) {
       // We don't have any calendars yet? Probably the first time.
       feeds.fetchCalendars();
       return;
     }
 
-    var calendars = storage['calendars'] || {};
-    background.log('storage[calendars]:', calendars);
+    var calendars = storage[constants.CALENDARS_STORAGE_KEY] || {};
+    background.log('storage[constants.CALENDARS_STORAGE_KEY]: ', calendars);
 
     var hiddenCalendars = [];
     var allEvents = [];
@@ -407,13 +411,13 @@ feeds.updateNotification = function() {
         // If event has been changed, then update the alarm.
         if (feeds.nextEvents[i].start !== alarms[alarmIndex].scheduledTime + TIME_UNTIL_ALARM_MS) {
           chrome.alarms.clear(feeds.nextEvents[i].event_id);
-          chrome.alarms.create(feeds.nextEvents[i].event_id, {when: alarmSchedule})
+          chrome.alarms.create(feeds.nextEvents[i].event_id, {when: alarmSchedule});
         }
       } else {
         // Add new alarm
         chrome.alarms.create(
             feeds.nextEvents[i].event_id,
-            {when: new Date(feeds.nextEvents[i].start).getTime() - TIME_UNTIL_ALARM_MS})
+            {when: new Date(feeds.nextEvents[i].start).getTime() - TIME_UNTIL_ALARM_MS});
       }
     }
   });

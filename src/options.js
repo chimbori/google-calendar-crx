@@ -11,6 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+/*global background, constants*/
 
 /**
  * @fileoverview Handles setting and getting options.
@@ -94,7 +95,8 @@ options.set = function(optionKey, optionValue) {
  */
 options.installAutoSaveHandlers = function() {
   var optionInputs = document.querySelectorAll(options.OPTIONS_WIDGET_SELECTOR_);
-  for (var i = 0, option; option = optionInputs[i]; ++i) {
+  for (var i = 0; i < optionInputs.length; ++i) {
+    var option = optionInputs[i];
     var type = option.getAttribute('type');
     if (type == 'checkbox') {
       option.addEventListener('change', function(event) {
@@ -140,14 +142,15 @@ options.writeDefaultsToStorage = function() {
  */
 options.loadOptionsUIFromSavedState = function() {
   var optionInputs = document.querySelectorAll(options.OPTIONS_WIDGET_SELECTOR_);
-  for (var i = 0, option; option = optionInputs[i]; ++i) {
+  for (var i = 0; i < optionInputs.length; ++i) {
+    var option = optionInputs[i];
     var type = option.getAttribute('type');
     var name = option.getAttribute('name');
     var value = options.get(name);
     if (type == 'checkbox') {
       option.checked = value ? 'checked' : '';
     } else {
-      if (value != null) {
+      if (value !== null) {
         option.value = value;
       }
     }
@@ -162,13 +165,14 @@ options.loadOptionsUIFromSavedState = function() {
 options.loadCalendarList = function() {
   chrome.extension.getBackgroundPage().background.log('options.loadCalendarList()');
 
-  chrome.storage.local.get('calendars', function(storage) {
+  chrome.storage.local.get(constants.CALENDARS_STORAGE_KEY, function(storage) {
     if (chrome.runtime.lastError) {
-      background.log('Error retrieving settings:', chrome.runtime.lastError);
+      chrome.extension.getBackgroundPage().background.log(
+          'Error retrieving settings:', chrome.runtime.lastError);
     }
 
-    if (storage['calendars']) {
-      var calendars = storage['calendars'];
+    if (storage[constants.CALENDARS_STORAGE_KEY]) {
+      var calendars = storage[constants.CALENDARS_STORAGE_KEY];
 
       for (var calendarId in calendars) {
         var calendar = calendars[calendarId];
@@ -193,9 +197,11 @@ options.loadCalendarList = function() {
                   checkBox.css(
                       {'background': checkBox.is(':checked') ? checkBox.attr('data-color') : ''});
                   calendars[checkBox.attr('name')].visible = checkBox.is(':checked');
-                  chrome.storage.local.set({'calendars': calendars}, function() {
+                  var store = {};
+                  store[constants.CALENDARS_STORAGE_KEY] = calendars;
+                  chrome.storage.local.set(store, function() {
                     if (chrome.runtime.lastError) {
-                      background.log(
+                      chrome.extension.getBackgroundPage().background.log(
                           'Error saving calendar list options.', chrome.runtime.lastError);
                       return;
                     }
