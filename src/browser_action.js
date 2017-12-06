@@ -95,14 +95,14 @@ browseraction.fillMessages_ = function() {
 /** @private */
 browseraction.loadCalendarsIntoQuickAdd_ = function() {
   chrome.extension.getBackgroundPage().background.log('browseraction.loadCalendarsIntoQuickAdd_()');
-  chrome.storage.local.get('calendars', function(storage) {
+  chrome.storage.local.get(constants.CALENDARS_STORAGE_KEY, function(storage) {
     if (chrome.runtime.lastError) {
       chrome.extension.getBackgroundPage().background.log(
           'Error retrieving calendars:', chrome.runtime.lastError);
     }
 
-    if (storage.calendars) {
-      var calendars = storage.calendars;
+    if (storage[constants.CALENDARS_STORAGE_KEY]) {
+      var calendars = storage[constants.CALENDARS_STORAGE_KEY];
       var dropDown = $('#quick-add-calendar-list');
       for (var calendarId in calendars) {
         var calendar = calendars[calendarId];

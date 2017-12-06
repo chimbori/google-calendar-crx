@@ -11,7 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-/*global background*/
+/*global background, constants*/
 
 /**
  * @fileoverview Handles setting and getting options.
@@ -165,14 +165,14 @@ options.loadOptionsUIFromSavedState = function() {
 options.loadCalendarList = function() {
   chrome.extension.getBackgroundPage().background.log('options.loadCalendarList()');
 
-  chrome.storage.local.get('calendars', function(storage) {
+  chrome.storage.local.get(constants.CALENDARS_STORAGE_KEY, function(storage) {
     if (chrome.runtime.lastError) {
       chrome.extension.getBackgroundPage().background.log(
           'Error retrieving settings:', chrome.runtime.lastError);
     }
 
-    if (storage.calendars) {
-      var calendars = storage.calendars;
+    if (storage[constants.CALENDARS_STORAGE_KEY]) {
+      var calendars = storage[constants.CALENDARS_STORAGE_KEY];
 
       for (var calendarId in calendars) {
         var calendar = calendars[calendarId];
@@ -197,7 +197,9 @@ options.loadCalendarList = function() {
                   checkBox.css(
                       {'background': checkBox.is(':checked') ? checkBox.attr('data-color') : ''});
                   calendars[checkBox.attr('name')].visible = checkBox.is(':checked');
-                  chrome.storage.local.set({'calendars': calendars}, function() {
+                  var store = {};
+                  store[constants.CALENDARS_STORAGE_KEY] = calendars;
+                  chrome.storage.local.set(store, function() {
                     if (chrome.runtime.lastError) {
                       chrome.extension.getBackgroundPage().background.log(
                           'Error saving calendar list options.', chrome.runtime.lastError);
