@@ -418,7 +418,7 @@ browseraction.createEventDiv_ = function(event) {
   var isDetectedEvent = !event.feed;
   var isHappeningNow = start.valueOf() < now && end.valueOf() >= now;
   var spansMultipleDays = (end.diff(start, 'seconds') > 86400);
-  if (event.allday) {
+  if (event.allday || !event.allday && spansMultipleDays) {
     eventDiv.addClass('all-day');
   }
   if (isDetectedEvent) {
@@ -488,7 +488,7 @@ browseraction.createEventDiv_ = function(event) {
         .appendTo(eventDetails);
   }
 
-  if (event.allday && spansMultipleDays || isDetectedEvent) {
+  if (event.allday && spansMultipleDays || !event.allday && spansMultipleDays || isDetectedEvent) {
     $('<div>')
         .addClass('start-and-end-times')
         .append(start.format(dateTimeFormat) + ' — ' + end.format(dateTimeFormat))
