@@ -214,12 +214,13 @@ h2 {
 
 .start-time {
   color: #fff;
-  flex: 0 0 66px;
+  flex: 0 0 50px;
   font-size: 12px;
   overflow: hidden;
-  text-align: right;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  text-align: center;
+  white-space: pre-line;
+  display: inline-flex;
+  align-items: center;
 }
 
 .start-and-end-times {

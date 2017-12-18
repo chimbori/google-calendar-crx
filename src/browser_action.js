@@ -430,8 +430,7 @@ browseraction.createEventDiv_ = function(event) {
 
   var timeFormat =
       chrome.extension.getBackgroundPage().options.get('format24HourTime') ? 'HH:mm' : 'h:mma';
-  var dateTimeFormat =
-      event.allday ? 'MMM D, YYYY' : (isDetectedEvent ? 'MMM D, YYYY ' + timeFormat : timeFormat);
+  var dateTimeFormat = event.allday ? 'MMM D, YYYY' : (isDetectedEvent ? 'MMM D, YYYY ' + timeFormat : (spansMultipleDays ? 'MMM D, YYYY ' + timeFormat : timeFormat));
   var startTimeDiv = $('<div>').addClass('start-time');
   if (isDetectedEvent) {
     startTimeDiv.append($('<img>').attr({
@@ -443,8 +442,8 @@ browseraction.createEventDiv_ = function(event) {
   } else {
     startTimeDiv.css({'background-color': event.feed.backgroundColor});
   }
-  if (!event.allday && !isDetectedEvent) {
-    startTimeDiv.text(start.format(dateTimeFormat));
+  if (!event.allday && !isDetectedEvent && !spansMultipleDays) {
+    startTimeDiv.text(start.format(dateTimeFormat) + ' ' + end.format(dateTimeFormat));
   }
   startTimeDiv.appendTo(eventDiv);
 
