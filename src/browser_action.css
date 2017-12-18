@@ -13,6 +13,31 @@ body {
   padding: 0;
   margin: 0;
 }
+::-webkit-scrollbar {
+  background: transparent;
+  height: 8px;
+  width: 8px;
+}
+
+::-webkit-scrollbar:hover {
+  background-color: rgba(0, 0, 0, 0.07);
+}
+
+::-webkit-scrollbar-thumb {
+  border: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  background: #afafaf;
+  min-height: 40px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a0a0a0
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: #989898
+}
 
 textarea {
   border: 1px solid #ccc;
