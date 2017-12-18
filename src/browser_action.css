@@ -165,6 +165,7 @@ section {
   margin: 8px 0;
   padding: 16px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+  border-radius: 2px;
 }
 
 h2 {
@@ -206,6 +207,7 @@ h2 {
   cursor: pointer;
   display: flex;
   margin: 0 0 4px 0;
+  border-radius: 2px;
   overflow: hidden;
   position: relative;
 }
