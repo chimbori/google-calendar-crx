@@ -425,7 +425,7 @@ browseraction.createEventDiv_ = function(event) {
     eventDiv.addClass('detected-event');
   }
   eventDiv.on('click', function() {
-    chrome.tabs.create({'url': $(this).attr('data-url')});
+    goToCalendar($(this).attr('data-url'));
   });
 
   var timeFormat =
@@ -497,6 +497,25 @@ browseraction.createEventDiv_ = function(event) {
   return eventDiv;
 };
 
+function getGCalUrl() {
+  return "https://calendar.google.com/calendar/";
+}
+
+function isGCalUrl(url) {
+  return url.indexOf(getGCalUrl()) == 0;
+}
+
+function goToCalendar(eventUrl) {
+  chrome.tabs.getAllInWindow(undefined, function(tabs) {
+    for (var i = 0, tab; tab = tabs[i]; i++) {
+      if (tab.url && isGCalUrl(tab.url)) {
+        chrome.tabs.update(tab.id, {selected: true, url: eventUrl});
+        return;
+      }
+    }
+    chrome.tabs.create({url: eventUrl});
+  });
+}
 
 /**
  * When the popup is loaded, fetch the events in this tab from the
