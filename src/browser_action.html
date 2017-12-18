@@ -27,28 +27,29 @@
         <img width="24" height="24" src="icons/ic_add_white_24dp.png" id="show_quick_add" class="i18n">
       </div>
     </header>
-    <div class="header-placeholder"></div>
-    <section>
-      <a id="announcement_new_features" class="i18n" href="https://github.com/manastungare/google-calendar-crx/wiki/Changes" target="_blank"></a>
-      <div id="info_bar"></div>
-      <div id="error">
-        <p class="i18n" id="authorization_explanation"></p>
-        <p><button class="button i18n" id="authorization_required"></button></p>
-        <p>
-          <a class="i18n" id="problems" target="_blank"
-              href="https://github.com/manastungare/google-calendar-crx/wiki/Troubleshooting">Problems?</a>
-        </p>
-      </div>
-      <div id="quick-add">
-        <h2 class="i18n" id="add_an_event">Add an Event</h2>
-        <select id="quick-add-calendar-list"/>
-        <textarea id="quick-add-event-title" rows="5" tabindex="1"></textarea>
-        <div class="quick-add-buttons">
-          <button id="quick_add_button" class="button i18n" tabindex="2">Quick Add</button>
+    <div class="section-container">
+      <section>
+        <a id="announcement_new_features" class="i18n" href="https://github.com/manastungare/google-calendar-crx/wiki/Changes" target="_blank"></a>
+        <div id="info_bar"></div>
+        <div id="error">
+          <p class="i18n" id="authorization_explanation"></p>
+          <p><button class="button i18n" id="authorization_required"></button></p>
+          <p>
+            <a class="i18n" id="problems" target="_blank"
+                href="https://github.com/manastungare/google-calendar-crx/wiki/Troubleshooting">Problems?</a>
+          </p>
         </div>
-      </div>
-      <div id="detected-events"></div>
-      <div id="calendar-events"></div>
-    </section>
+        <div id="quick-add">
+          <h2 class="i18n" id="add_an_event">Add an Event</h2>
+          <select id="quick-add-calendar-list"/>
+          <textarea id="quick-add-event-title" rows="5" tabindex="1"></textarea>
+          <div class="quick-add-buttons">
+            <button id="quick_add_button" class="button i18n" tabindex="2">Quick Add</button>
+          </div>
+        </div>
+        <div id="detected-events"></div>
+        <div id="calendar-events"></div>
+      </section>
+    </div>
   </body>
 </html>
