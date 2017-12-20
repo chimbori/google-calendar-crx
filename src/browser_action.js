@@ -507,24 +507,29 @@ browseraction.createEventDiv_ = function(event) {
   return eventDiv;
 };
 
-function getGCalUrl() {
-  return "https://calendar.google.com/calendar/";
-}
-
-function isGCalUrl(url) {
-  return url.indexOf(getGCalUrl()) == 0;
-}
-
+// Search for a Google Calendar tab and re-use this one, if none exists, then create a new one.
 function goToCalendar(eventUrl) {
-  chrome.tabs.getAllInWindow(undefined, function(tabs) {
-    for (var i = 0, tab; tab = tabs[i]; i++) {
-      if (tab.url && isGCalUrl(tab.url)) {
-        chrome.tabs.update(tab.id, {selected: true, url: eventUrl});
-        return;
-      }
+  chrome.tabs.query({
+    // All URLs showing Calendar UI Home Screen, except '/eventedit/', so current edits of events are not discarded.
+    url : [
+            constants.CALENDAR_UI_URL + '*/day*',
+            constants.CALENDAR_UI_URL + '*/week*',
+            constants.CALENDAR_UI_URL + '*/month*',
+            constants.CALENDAR_UI_URL + '*/year*',
+            constants.CALENDAR_UI_URL + '*/agenda*',
+            constants.CALENDAR_UI_URL + '*/custom*'
+      ],
+    currentWindow: true // Only search in current window.
+  }, function (tabs) {
+    // If one or more tabs match these conditions, select the first one of them and open the event URL.
+    if (tabs.length > 0) {
+      chrome.tabs.update(tabs[0].id, {selected: true, url: eventUrl});
+    } else {
+      // No matches, create a new tab.
+      chrome.tabs.create({url: eventUrl});
     }
-    chrome.tabs.create({url: eventUrl});
   });
+  return;
 }
 
 /**
