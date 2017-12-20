@@ -13,16 +13,23 @@ body {
   padding: 0;
   margin: 0;
 }
+
+/* Customized Scrollbar */
 ::-webkit-scrollbar {
+  background: transparent; /* only show scrollbar-thumb with no background (clean appearance) */
+  width: 8px; /* same width as scrollbar from Google Calendar */
 }
 
 ::-webkit-scrollbar:hover {
-  background-color: rgba(0, 0, 0, 0.07);
+  background-color: rgba(0, 0, 0, 0.07); /* show "path" of scrollbar-thumb */
 }
 
 ::-webkit-scrollbar-thumb {
+  background: #afafaf; /* a bit darker as the original, because of the extensions background */
+  min-height: 40px; /* to make the scrollbar not too small. Maybe in the future it is possible to load more and more events */
 }
 
+/* Color changes on interaction */
 ::-webkit-scrollbar-thumb:hover {
   background: #a0a0a0
 }
@@ -50,6 +57,7 @@ header {
   z-index: 10;
 }
 
+/* Separate section from <header>, so only the section is a scrollable area */
 .section-container {
   display: flex;
   overflow: hidden;
@@ -207,7 +215,7 @@ h2 {
   font-size: 12px;
   overflow: hidden;
   text-align: center;
-  white-space: pre-line;
+  white-space: pre-line; /* start and end times vertically aligned */
   display: inline-flex;
   align-items: center;
 }
