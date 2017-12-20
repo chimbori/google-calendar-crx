@@ -68,7 +68,7 @@ section {
   flex: 1;
   overflow: auto;
   height: auto;
-  padding: .5rem;
+  padding: 0 8px;
 }
 
 .fab {
@@ -132,10 +132,6 @@ section {
   padding: 8px;
   width: 100%;
   margin-bottom: 8px;
-}
-
-section {
-  padding: 0 8px;
 }
 
 #error {
