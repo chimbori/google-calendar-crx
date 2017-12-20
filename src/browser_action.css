@@ -14,9 +14,6 @@ body {
   margin: 0;
 }
 ::-webkit-scrollbar {
-  background: transparent;
-  height: 8px;
-  width: 8px;
 }
 
 ::-webkit-scrollbar:hover {
@@ -24,11 +21,6 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  border: none;
-  -webkit-box-shadow: none;
-  box-shadow: none;
-  background: #afafaf;
-  min-height: 40px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -65,9 +57,6 @@ header {
 }
 
 section {
-  -webkit-box-flex: 1;
-  -webkit-flex: 1;
-  -ms-flex: 1;
   flex: 1;
   overflow: auto;
   height: auto;
