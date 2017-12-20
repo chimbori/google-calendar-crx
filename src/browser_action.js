@@ -418,7 +418,8 @@ browseraction.createEventDiv_ = function(event) {
   var isDetectedEvent = !event.feed;
   var isHappeningNow = start.valueOf() < now && end.valueOf() >= now;
   var spansMultipleDays = (end.diff(start, 'seconds') > 86400);
-  if (event.allday || !event.allday && spansMultipleDays) {
+  var isMultiDayEventWithTime = (!event.allday && spansMultipleDays); // Not an all-day event implies that times are given.
+  if (event.allday || isMultiDayEventWithTime) { // Multi-day events with time should look like all-day events.
     eventDiv.addClass('all-day');
   }
   if (isDetectedEvent) {
@@ -430,7 +431,15 @@ browseraction.createEventDiv_ = function(event) {
 
   var timeFormat =
       chrome.extension.getBackgroundPage().options.get('format24HourTime') ? 'HH:mm' : 'h:mma';
-  var dateTimeFormat = event.allday ? 'MMM D, YYYY' : (isDetectedEvent ? 'MMM D, YYYY ' + timeFormat : (spansMultipleDays ? 'MMM D, YYYY ' + timeFormat : timeFormat));
+  
+  if(event.allday) { // Choose the correct time format.
+    var dateTimeFormat = 'MMM D, YYYY';
+  } else if(isDetectedEvent || isMultiDayEventWithTime) {
+    var dateTimeFormat = 'MMM D, YYYY ' + timeFormat;
+  } else {
+    var dateTimeFormat = timeFormat;
+  }
+
   var startTimeDiv = $('<div>').addClass('start-time');
   if (isDetectedEvent) {
     startTimeDiv.append($('<img>').attr({
@@ -443,7 +452,7 @@ browseraction.createEventDiv_ = function(event) {
     startTimeDiv.css({'background-color': event.feed.backgroundColor});
   }
   if (!event.allday && !isDetectedEvent && !spansMultipleDays) {
-    startTimeDiv.text(start.format(dateTimeFormat) + ' ' + end.format(dateTimeFormat));
+    startTimeDiv.text(start.format(dateTimeFormat) + ' ' + end.format(dateTimeFormat)); // Start and end times for partial-day events.
   }
   startTimeDiv.appendTo(eventDiv);
 
@@ -488,7 +497,8 @@ browseraction.createEventDiv_ = function(event) {
         .appendTo(eventDetails);
   }
 
-  if (event.allday && spansMultipleDays || !event.allday && spansMultipleDays || isDetectedEvent) {
+  if (isDetectedEvent || spansMultipleDays || isMultiDayEventWithTime) {
+    // If an event spans over multiple days, show start and end dates and if given, show also times.
     $('<div>')
         .addClass('start-and-end-times')
         .append(start.format(dateTimeFormat) + ' — ' + end.format(dateTimeFormat))
