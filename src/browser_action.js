@@ -418,8 +418,10 @@ browseraction.createEventDiv_ = function(event) {
   var isDetectedEvent = !event.feed;
   var isHappeningNow = start.valueOf() < now && end.valueOf() >= now;
   var spansMultipleDays = (end.diff(start, 'seconds') > 86400);
-  var isMultiDayEventWithTime = (!event.allday && spansMultipleDays); // Not an all-day event implies that times are given.
-  if (event.allday || isMultiDayEventWithTime) { // Multi-day events with time should look like all-day events.
+  // Not an all-day event implies that times are given.
+  var isMultiDayEventWithTime = (!event.allday && spansMultipleDays);
+  // Multi-day events with time should look like all-day events.
+  if (event.allday || isMultiDayEventWithTime) {
     eventDiv.addClass('all-day');
   }
   if (isDetectedEvent) {
@@ -431,10 +433,10 @@ browseraction.createEventDiv_ = function(event) {
 
   var timeFormat =
       chrome.extension.getBackgroundPage().options.get('format24HourTime') ? 'HH:mm' : 'h:mma';
-  
-  if(event.allday) { // Choose the correct time format.
+
+  if (event.allday) {  // Choose the correct time format.
     var dateTimeFormat = 'MMM D, YYYY';
-  } else if(isDetectedEvent || isMultiDayEventWithTime) {
+  } else if (isDetectedEvent || isMultiDayEventWithTime) {
     var dateTimeFormat = 'MMM D, YYYY ' + timeFormat;
   } else {
     var dateTimeFormat = timeFormat;
@@ -452,7 +454,8 @@ browseraction.createEventDiv_ = function(event) {
     startTimeDiv.css({'background-color': event.feed.backgroundColor});
   }
   if (!event.allday && !isDetectedEvent && !spansMultipleDays) {
-    startTimeDiv.text(start.format(dateTimeFormat) + ' ' + end.format(dateTimeFormat)); // Start and end times for partial-day events.
+    // Start and end times for partial-day events.
+    startTimeDiv.text(start.format(dateTimeFormat) + ' ' + end.format(dateTimeFormat));
   }
   startTimeDiv.appendTo(eventDiv);
 
@@ -498,7 +501,8 @@ browseraction.createEventDiv_ = function(event) {
   }
 
   if (isDetectedEvent || spansMultipleDays || isMultiDayEventWithTime) {
-    // If an event spans over multiple days, show start and end dates and if given, show also times.
+    // If an event spans over multiple days,
+    // show start and end dates and if given, show also times.
     $('<div>')
         .addClass('start-and-end-times')
         .append(start.format(dateTimeFormat) + ' — ' + end.format(dateTimeFormat))
@@ -509,26 +513,27 @@ browseraction.createEventDiv_ = function(event) {
 
 // Search for a Google Calendar tab and re-use this one, if none exists, then create a new one.
 function goToCalendar(eventUrl) {
-  chrome.tabs.query({
-    // All URLs showing Calendar UI Home Screen, except '/eventedit/', so current edits of events are not discarded.
-    url : [
-            constants.CALENDAR_UI_URL + '*/day*',
-            constants.CALENDAR_UI_URL + '*/week*',
-            constants.CALENDAR_UI_URL + '*/month*',
-            constants.CALENDAR_UI_URL + '*/year*',
-            constants.CALENDAR_UI_URL + '*/agenda*',
-            constants.CALENDAR_UI_URL + '*/custom*'
-      ],
-    currentWindow: true // Only search in current window.
-  }, function (tabs) {
-    // If one or more tabs match these conditions, select the first one of them and open the event URL.
-    if (tabs.length > 0) {
-      chrome.tabs.update(tabs[0].id, {selected: true, url: eventUrl});
-    } else {
-      // No matches, create a new tab.
-      chrome.tabs.create({url: eventUrl});
-    }
-  });
+  chrome.tabs.query(
+      {
+        // All URLs showing Calendar UI Home Screen, except '/eventedit/',
+        // so current edits of events are not discarded.
+        url: [
+          constants.CALENDAR_UI_URL + '*/day*', constants.CALENDAR_UI_URL + '*/week*',
+          constants.CALENDAR_UI_URL + '*/month*', constants.CALENDAR_UI_URL + '*/year*',
+          constants.CALENDAR_UI_URL + '*/agenda*', constants.CALENDAR_UI_URL + '*/custom*'
+        ],
+        currentWindow: true  // Only search in current window.
+      },
+      function(tabs) {
+        // If one or more tabs match these conditions,
+        // select the first one of them and open the event URL.
+        if (tabs.length > 0) {
+          chrome.tabs.update(tabs[0].id, {selected: true, url: eventUrl});
+        } else {
+          // No matches, create a new tab.
+          chrome.tabs.create({url: eventUrl});
+        }
+      });
   return;
 }
 
