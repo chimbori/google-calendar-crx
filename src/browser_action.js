@@ -452,6 +452,7 @@ browseraction.createEventDiv_ = function(event) {
     }));
   } else {
     startTimeDiv.css({'background-color': event.feed.backgroundColor});
+    startTimeDiv.attr({'title': event.feed.title}); // Show calendar name on mouseover
   }
   if (!event.allday && !isDetectedEvent && !spansMultipleDays) {
     // Start and end times for partial-day events.
