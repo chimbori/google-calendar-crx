@@ -418,20 +418,30 @@ browseraction.createEventDiv_ = function(event) {
   var isDetectedEvent = !event.feed;
   var isHappeningNow = start.valueOf() < now && end.valueOf() >= now;
   var spansMultipleDays = (end.diff(start, 'seconds') > 86400);
-  if (event.allday) {
+  // Not an all-day event implies that times are given.
+  var isMultiDayEventWithTime = (!event.allday && spansMultipleDays);
+  // Multi-day events with time should look like all-day events.
+  if (event.allday || isMultiDayEventWithTime) {
     eventDiv.addClass('all-day');
   }
   if (isDetectedEvent) {
     eventDiv.addClass('detected-event');
   }
   eventDiv.on('click', function() {
-    chrome.tabs.create({'url': $(this).attr('data-url')});
+    goToCalendar($(this).attr('data-url'));
   });
 
   var timeFormat =
       chrome.extension.getBackgroundPage().options.get('format24HourTime') ? 'HH:mm' : 'h:mma';
-  var dateTimeFormat =
-      event.allday ? 'MMM D, YYYY' : (isDetectedEvent ? 'MMM D, YYYY ' + timeFormat : timeFormat);
+
+  if (event.allday) {  // Choose the correct time format.
+    var dateTimeFormat = 'MMM D, YYYY';
+  } else if (isDetectedEvent || isMultiDayEventWithTime) {
+    var dateTimeFormat = 'MMM D, YYYY ' + timeFormat;
+  } else {
+    var dateTimeFormat = timeFormat;
+  }
+
   var startTimeDiv = $('<div>').addClass('start-time');
   if (isDetectedEvent) {
     startTimeDiv.append($('<img>').attr({
@@ -443,8 +453,9 @@ browseraction.createEventDiv_ = function(event) {
   } else {
     startTimeDiv.css({'background-color': event.feed.backgroundColor});
   }
-  if (!event.allday && !isDetectedEvent) {
-    startTimeDiv.text(start.format(dateTimeFormat));
+  if (!event.allday && !isDetectedEvent && !spansMultipleDays) {
+    // Start and end times for partial-day events.
+    startTimeDiv.text(start.format(dateTimeFormat) + ' ' + end.format(dateTimeFormat));
   }
   startTimeDiv.appendTo(eventDiv);
 
@@ -489,7 +500,9 @@ browseraction.createEventDiv_ = function(event) {
         .appendTo(eventDetails);
   }
 
-  if (event.allday && spansMultipleDays || isDetectedEvent) {
+  if (isDetectedEvent || spansMultipleDays || isMultiDayEventWithTime) {
+    // If an event spans over multiple days,
+    // show start and end dates and if given, show also times.
     $('<div>')
         .addClass('start-and-end-times')
         .append(start.format(dateTimeFormat) + ' — ' + end.format(dateTimeFormat))
@@ -498,6 +511,31 @@ browseraction.createEventDiv_ = function(event) {
   return eventDiv;
 };
 
+// Search for a Google Calendar tab and re-use this one, if none exists, then create a new one.
+function goToCalendar(eventUrl) {
+  chrome.tabs.query(
+      {
+        // All URLs showing Calendar UI Home Screen, except '/eventedit/',
+        // so current edits of events are not discarded.
+        url: [
+          constants.CALENDAR_UI_URL + '*/day*', constants.CALENDAR_UI_URL + '*/week*',
+          constants.CALENDAR_UI_URL + '*/month*', constants.CALENDAR_UI_URL + '*/year*',
+          constants.CALENDAR_UI_URL + '*/agenda*', constants.CALENDAR_UI_URL + '*/custom*'
+        ],
+        currentWindow: true  // Only search in current window.
+      },
+      function(tabs) {
+        // If one or more tabs match these conditions,
+        // select the first one of them and open the event URL.
+        if (tabs.length > 0) {
+          chrome.tabs.update(tabs[0].id, {selected: true, url: eventUrl});
+        } else {
+          // No matches, create a new tab.
+          chrome.tabs.create({url: eventUrl});
+        }
+      });
+  return;
+}
 
 /**
  * When the popup is loaded, fetch the events in this tab from the

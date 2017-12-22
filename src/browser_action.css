@@ -14,6 +14,36 @@ body {
   margin: 0;
 }
 
+/* Customized Scrollbar */
+::-webkit-scrollbar {
+  /* Only show scrollbar-thumb with no background (clean appearance) */
+  background: transparent;
+  /* Same width as scrollbar from Google Calendar */
+  width: 8px;
+}
+
+::-webkit-scrollbar:hover {
+  /* Show "path" of scrollbar-thumb */
+  background-color: rgba(0, 0, 0, 0.07);
+}
+
+::-webkit-scrollbar-thumb {
+  /* A bit darker than the original, because of the extensions background */
+  background: #afafaf;
+  /* To make the scrollbar not too small.
+  Maybe in the future it is possible to load more and more events */
+  min-height: 40px;
+}
+
+/* Color changes on interaction */
+::-webkit-scrollbar-thumb:hover {
+  background: #a0a0a0
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: #989898
+}
+
 textarea {
   border: 1px solid #ccc;
   font-size: 15px;
@@ -25,7 +55,7 @@ header {
   height: 48px;
   background: #0086f4;
   padding: 12px;
-  position: fixed;
+  position: relative;
   width: 100%;
   top: 0;
   left: 0;
@@ -33,8 +63,18 @@ header {
   z-index: 10;
 }
 
-.header-placeholder {
-  height: 48px;
+/* Separate section from <header>, so only the section is a scrollable area */
+.section-container {
+  display: flex;
+  overflow: hidden;
+  height: 432px;
+}
+
+section {
+  flex: 1;
+  overflow: auto;
+  height: auto;
+  padding: 0 8px;
 }
 
 .fab {
@@ -100,10 +140,6 @@ header {
   margin-bottom: 8px;
 }
 
-section {
-  padding: 0 8px;
-}
-
 #error {
   padding: 72px 12px;
   text-align: center;
@@ -128,6 +164,7 @@ section {
   margin: 8px 0;
   padding: 16px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+  border-radius: 2px;
 }
 
 h2 {
@@ -169,18 +206,21 @@ h2 {
   cursor: pointer;
   display: flex;
   margin: 0 0 4px 0;
+  border-radius: 2px;
   overflow: hidden;
   position: relative;
 }
 
 .start-time {
   color: #fff;
-  flex: 0 0 66px;
+  flex: 0 0 60px;
   font-size: 12px;
   overflow: hidden;
-  text-align: right;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  text-align: center;
+  /* Start and end times vertically aligned */
+  white-space: pre-line;
+  display: inline-flex;
+  align-items: center;
 }
 
 .start-and-end-times {
