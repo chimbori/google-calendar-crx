@@ -451,7 +451,9 @@ browseraction.createEventDiv_ = function(event) {
       'alt': chrome.i18n.getMessage('add_to_google_calendar')
     }));
   } else {
-    startTimeDiv.css({'background-color': event.feed.backgroundColor});
+    startTimeDiv.css({'background-color': event.feed.backgroundColor}).attr({
+      'title': event.feed.title  // Show calendar name on mouseover
+    });
   }
   if (!event.allday && !isDetectedEvent && !spansMultipleDays) {
     // Start and end times for partial-day events.
