@@ -174,8 +174,12 @@ browseraction.installKeydownHandlers_ = function() {
 browseraction.addNewEventIntoCalendar_ = function() {
   _gaq.push(['_trackEvent', 'Quick Add', 'Event Created']);
   browseraction.createQuickAddEvent_(
-      $('#quick-add-event-title').val().toString(), $('#quick-add-calendar-list').val());
+    $('#quick-add-event-title').val().toString(),
+    $('#quick-add-calendar-list').val(),
+    $("#quick_add_send_notifications_checkbox").is(':checked')
+  );
   $('#quick-add-event-title').val('');  // Remove the existing text from the field.
+  $("#quick_add_send_notifications_checkbox").prop('checked', false);
 };
 
 /**
@@ -265,10 +269,11 @@ function showToast(parent, summary, linkUrl) {
 }
 
 /** @private */
-browseraction.createQuickAddEvent_ = function(text, calendarId) {
+browseraction.createQuickAddEvent_ = function(text, calendarId, sendNotifications) {
   var quickAddUrl =
-      browseraction.QUICK_ADD_API_URL_.replace('{calendarId}', encodeURIComponent(calendarId)) +
-      '?text=' + encodeURIComponent(text);
+    browseraction.QUICK_ADD_API_URL_.replace('{calendarId}', encodeURIComponent(calendarId)) +
+    '?text=' + encodeURIComponent(text) +
+    '&sendNotifications=' + encodeURIComponent(sendNotifications);
   chrome.identity.getAuthToken({'interactive': false}, function(authToken) {
     if (chrome.runtime.lastError || !authToken) {
       chrome.extension.getBackgroundPage().background.log(

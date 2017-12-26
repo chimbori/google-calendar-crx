@@ -177,7 +177,8 @@ h2 {
   width: 100%;
 }
 
-.quick-add-buttons {
+.quick-add-buttons,
+.quick-add-send-notifications {
   text-align: right;
 }
 
