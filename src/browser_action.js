@@ -428,7 +428,7 @@ browseraction.createEventDiv_ = function(event) {
     eventDiv.addClass('detected-event');
   }
   eventDiv.on('click', function() {
-    goToCalendar($(this).attr('data-url'));
+    browseraction.goToCalendar_($(this).attr('data-url'));
   });
 
   var timeFormat =
@@ -514,8 +514,12 @@ browseraction.createEventDiv_ = function(event) {
   return eventDiv;
 };
 
-// Search for a Google Calendar tab and re-use this one, if none exists, then create a new one.
-function goToCalendar(eventUrl) {
+/**
+ * Search for a Google Calendar tab and re-use that one. If none exists, then
+ * create a new tab.
+ * @private
+ */
+browseraction.goToCalendar_ = function(eventUrl) {
   chrome.tabs.query(
       {
         // All URLs showing Calendar UI Home Screen, except '/eventedit/',
@@ -538,7 +542,7 @@ function goToCalendar(eventUrl) {
         }
       });
   return;
-}
+};
 
 /**
  * When the popup is loaded, fetch the events in this tab from the
