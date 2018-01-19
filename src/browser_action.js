@@ -434,12 +434,13 @@ browseraction.createEventDiv_ = function(event) {
   var timeFormat =
       chrome.extension.getBackgroundPage().options.get('format24HourTime') ? 'HH:mm' : 'h:mma';
 
+  var dateTimeFormat;
   if (event.allday) {  // Choose the correct time format.
-    var dateTimeFormat = 'MMM D, YYYY';
+    dateTimeFormat = 'MMM D, YYYY';
   } else if (isDetectedEvent || isMultiDayEventWithTime) {
-    var dateTimeFormat = 'MMM D, YYYY ' + timeFormat;
+    dateTimeFormat = 'MMM D, YYYY ' + timeFormat;
   } else {
-    var dateTimeFormat = timeFormat;
+    dateTimeFormat = timeFormat;
   }
 
   var startTimeDiv = $('<div>').addClass('start-time');
