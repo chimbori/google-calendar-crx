@@ -1,0 +1,140 @@
+{
+  "google_calendar_extension_name": {
+    "message": "Google კალენდარი (by Google)",
+    "description": "The name of this extension."
+  },
+  "google_calendar_extension_desc": {
+    "message": "მარტივად შეამოწმე Google კალენდარი და დაამატე ივენთები საიტებიდან, რომლებსაც სტუმრობ.",
+    "description": "Description of what this extension does."
+  },
+  "logo_text": {
+    "message": "Google კალენდარი",
+    "description": "The name of the Calendar product, including the word Google."
+  },
+  "read_more_at_original_url": {
+    "message": "გაიგე მეტი ორიგინალ საიტზე: ",
+    "description": "Descriptive text for a link at the bottom of each event description that asks the user to click on the link for more information."
+  },
+  "view_agenda": {
+    "message": "დღის განრიგი",
+    "description": "Used in the popup view just before the actual calendar agenda."
+  },
+  "add_an_event": {
+    "message": "დაამატე ივენთი",
+    "description": "Header that appears just above the form that lets users add custom events."
+  },
+  "event_title_placeholder": {
+    "message": "მაგ.: “სადილი მეგობრებთან 7pm tomorrow”",
+    "description": "Placeholder in the textarea where the user is instructed to type in the title of the event they want to create."
+  },
+  "events_on_this_page": {
+    "message": "ივენთები ამ გვერდზე",
+    "description": "Title used in the browser action popup for the list of events detected on the current page."
+  },
+  "quick_add_button": {
+    "message": "დამატება",
+    "description": "Text on the button that adds a new event to the calendar from user input."
+  },
+  "no_events_today": {
+    "message": "დღეს ივენთები არ არის.",
+    "description": "Message shown as a placeholder when there are no events today. It only applies to when there are no events today, not for other dates."
+  },
+  "no_upcoming_events": {
+    "message": "მომავალი ივენთები არ არის.",
+    "description": "Message shown as a placeholder when there are no future events at all. It applies both to today and all future dates."
+  },
+  "authorization_required": {
+    "message": "Google კალენდარის ავტორიზება",
+    "description": "A message shown when the user needs to grant permission for this extension to read events from their calendar."
+  },
+  "authorization_in_progress": {
+    "message": "ავტორიზაცია...",
+    "description": "A message shown after the user clicks on the Authorize button."
+  },
+  "authorization_explanation": {
+    "message": "Google კალენდარი ქრომისთვის, გაძლევს საშუალებას, შეამოწმო კალენდარი სხვადასხვა საიტებზე სტუმრობისას. ამისათვის მას უნდა მისცე კლანდარზე წვდომის უფლება. ეს არის ერთჯერადი, აუცილებელი მოქმედება აპლიკაციის გასამართად და შემდგომ მის გამოსაყენებლად.",
+    "description": "A detailed message explaining the OAuth flow."
+  },
+  "problems": {
+    "message": "პრობლემებია?",
+    "description": "A link that provides troubleshooting information related to authorization."
+  },
+  "error_saving_new_event": {
+    "message": "შეცდომა ივენთის შენახვისას. გთხოვთ გაიმეოროთ.",
+    "description": "An error message shown when a user-added quick-add event could not be saved."
+  },
+  "add_to_google_calendar": {
+    "message": "დაამატე Google კალენდარს",
+    "description": "Alt text and/or link text for the link that users click to add event to their calendar."
+  },
+  "sync_now": {
+    "message": "ივენთების სიის განახლება სერვერიდან.",
+    "description": "Alternate text for the icon that forces syncing the calendar right away."
+  },
+  "show_quick_add": {
+    "message": "დაამატე ივენთი დეტალების ჩაწერით.",
+    "description": "Alternate text for the icon that shows the text area where users add details of new events."
+  },
+  "show_options": {
+    "message": "გაფართოების პარამეტრების შეცვლა",
+    "description": "Alternate text for the icon that opens the Options screen in a new window."
+  },
+  "fetching_feed": {
+    "message": "მიმდინარეობს ივენთების სიის განახლება.",
+    "description": "Tooltip text for when the extension is fetching the feed from the server."
+  },
+  "toolbar_icon": {
+    "message": "პანელის ხატულა",
+    "description": "The section of the Options page that deals with the toolbar icon."
+  },
+  "view_web_calendar": {
+    "message": "სრული კალენდრის ნახვა",
+    "description": "A menu item that allows the user to view the full calendar on the Web."
+  },
+  "calendar_list_header": {
+    "message": "კალენდრები",
+    "description": "The header for the Options section under which all calendars are shown."
+  },
+  "time_format": {
+    "message": "დროის ფორმატი",
+    "description": "The header for the Options section under which the 12 hr/24 hr option is shown."
+  },
+  "announcement_new_features": {
+    "message": "ახალი შესაძლებლობები! სცადე ახლავე! »",
+    "description": "An announcement message shown after an upgrade that adds significant new features."
+  },
+  "option_show_time_until_next_event": {
+    "message": "აჩვენე მომდევნო ივენთამდე დარჩენილი დრო.",
+    "description": "The name of the option that tells the user that the extension will display the time on the badge."
+  },
+  "option_time_until_next_includes_all_day_events": {
+    "message": "ანგარიშისას გამოიყენე ივენთები, რომლების მთელი დღე გრძელდება.",
+    "description": "The name of the option that ensures all-day events are included when computing the time to next event."
+  },
+  "event_title_unknown": {
+    "message": "დაკავებული",
+    "description": "When a user does not have access to a particular calendar, the event title is not available; this placeholder text is used instead."
+  },
+  "alert_new_event_added": {
+    "message": "ეს ივენთი ახლახან დაემატა კალენდარს: ",
+    "description": "When a new event is added into the user's calendar, an alert message will be displayed for the user to click on it and see the details"
+  },
+  "option_show_notifications": {
+    "message": "აჩვენე შეტყობინებები.",
+    "description": "Show notifications before an event starts."
+  },
+  "your_event_starts_in": {
+    "message": "$eventName$ იწყება $minutes$ წუთში",
+    "description": "Shows the reminder of the event",
+    "placeholders": {
+      "eventName": {
+        "content": "$1",
+        "example": "SomeEvent"
+      },
+      "minutes": {
+        "content": "$2",
+        "example": "42"
+      }
+    }
+  }
+}
