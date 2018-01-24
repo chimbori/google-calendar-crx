@@ -429,6 +429,9 @@ browseraction.createEventDiv_ = function(event) {
   }
   eventDiv.on('click', function() {
     browseraction.goToCalendar_($(this).attr('data-url'));
+  }).on('click', 'a', function(event) {
+    // Clicks on anchor tags shouldn't propagate to eventDiv handler.
+    event.stopPropagation();
   });
 
   var timeFormat =
