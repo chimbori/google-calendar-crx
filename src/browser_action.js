@@ -59,6 +59,7 @@ browseraction.initialize = function() {
   browseraction.installButtonClickHandlers_();
   browseraction.installKeydownHandlers_();
   browseraction.showLoginMessageIfNotAuthenticated_();
+  browseraction.copySelectionIntoQuickAdd_();
   browseraction.loadCalendarsIntoQuickAdd_();
   browseraction.listenForRequests_();
   versioning.checkVersion();
@@ -101,6 +102,18 @@ browseraction.fillMessages_ = function() {
   });
 };
 
+/** @private */
+browseraction.copySelectionIntoQuickAdd_ = function() {
+  chrome.tabs.executeScript({code: 'window.getSelection().toString();'}, function(selections) {
+    var selection = selections[0];
+    if (selection !== '') {
+      $('#show_quick_add').toggleClass('rotated');
+      $('#quick-add').slideToggle(200);
+      $('#quick-add-event-title').focus();
+      $('#quick-add-event-title').val(selection);
+    }
+  });
+};
 
 /** @private */
 browseraction.loadCalendarsIntoQuickAdd_ = function() {
@@ -430,12 +443,12 @@ browseraction.createEventDiv_ = function(event) {
   eventDiv
       .on('click',
           function() {
-    browseraction.goToCalendar_($(this).attr('data-url'));
+            browseraction.goToCalendar_($(this).attr('data-url'));
           })
       .on('click', 'a', function(event) {
-    // Clicks on anchor tags shouldn't propagate to eventDiv handler.
-    event.stopPropagation();
-  });
+        // Clicks on anchor tags shouldn't propagate to eventDiv handler.
+        event.stopPropagation();
+      });
 
   var timeFormat =
       chrome.extension.getBackgroundPage().options.get('format24HourTime') ? 'HH:mm' : 'h:mma';
