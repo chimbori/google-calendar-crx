@@ -59,6 +59,15 @@ feeds.CALENDAR_EVENTS_API_URL_ =
 feeds.DAYS_IN_AGENDA_ = 14;
 
 /**
+ * When the interval in DAYS_IN_AGENDA_ has no events, keep looking forward until this number is
+ * reached.
+ * @type {number}
+ * @const
+ * @private
+ */
+feeds.MAX_DAYS_IN_AGENDA_ = 100;
+
+/**
  * All events from visible calendars obtained during the last fetch.
  * @type {Array.<Object>}
  */
@@ -289,16 +298,6 @@ feeds.fetchEvents = function() {
 feeds.fetchEventsFromCalendar_ = function(feed, callback) {
   background.log('feeds.fetchEventsFromCalendar_()', feed.title);
 
-  var fromDate = moment();
-  var toDate = moment().add('days', feeds.DAYS_IN_AGENDA_);
-
-  var feedUrl =
-      feeds.CALENDAR_EVENTS_API_URL_.replace('{calendarId}', encodeURIComponent(feed.id)) + ([
-        'timeMin=' + encodeURIComponent(fromDate.toISOString()),
-        'timeMax=' + encodeURIComponent(toDate.toISOString()), 'maxResults=500',
-        'orderBy=startTime', 'singleEvents=true'
-      ].join('&'));
-
   chrome.identity.getAuthToken({'interactive': false}, function(authToken) {
     if (chrome.runtime.lastError || !authToken) {
       background.log('getAuthToken', chrome.runtime.lastError.message);
@@ -308,64 +307,88 @@ feeds.fetchEventsFromCalendar_ = function(feed, callback) {
     }
     _gaq.push(['_trackEvent', 'Fetch', 'Events']);
 
-    $.ajax(feedUrl, {
-      headers: {'Authorization': 'Bearer ' + authToken},
-      success: (function(feed) {
-        return function(data) {
-          background.log('Received events, now parsing.', feed.title);
-          var events = [];
-          for (var i = 0; i < data.items.length; i++) {
-            var eventEntry = data.items[i];
-            var start = utils.fromIso8601(eventEntry.start.dateTime || eventEntry.start.date);
-            var end = utils.fromIso8601(eventEntry.end.dateTime || eventEntry.end.date);
+    var fromDate = moment();
+    var fetchEventsRecursively = function(days) {
+      var toDate = moment().add('days', days);
+      var feedUrl =
+          feeds.CALENDAR_EVENTS_API_URL_.replace('{calendarId}', encodeURIComponent(feed.id)) + ([
+            'timeMin=' + encodeURIComponent(fromDate.toISOString()),
+            'timeMax=' + encodeURIComponent(toDate.toISOString()), 'maxResults=500',
+            'orderBy=startTime', 'singleEvents=true'
+          ].join('&'));
 
-            var responseStatus = '';
-            if (eventEntry.attendees) {
-              for (var attendeeId in eventEntry.attendees) {
-                var attendee = eventEntry.attendees[attendeeId];
-                if (attendee.self) {
-                  // Of all attendees, only look at the entry for this user (self).
-                  responseStatus = attendee.responseStatus;
-                  break;
-                }
+      $.ajax(feedUrl, {
+        headers: {'Authorization': 'Bearer ' + authToken},
+        success: (function(feed) {
+          return function(data) {
+            if (data.items.length == 0) {
+              var nextInterval = days + feeds.DAYS_IN_AGENDA_;
+              if (nextInterval < feeds.MAX_DAYS_IN_AGENDA_) {
+                fetchEventsRecursively(nextInterval);
+                return;
               }
             }
 
-            events.push({
-              event_id: eventEntry.id,
-              reminders: eventEntry.reminders && eventEntry.reminders.overrides ?
-                  eventEntry.reminders.overrides :
-                  data.defaultReminders,
-              feed: feed,
-              title: eventEntry.summary || chrome.i18n.getMessage('event_title_unknown'),
-              description: eventEntry.description || '',
-              start: start ? start.valueOf() : null,
-              end: end ? end.valueOf() : null,
-              allday: !end ||
-                  (start.hours() === 0 && start.minutes() === 0 && end.hours() === 0 &&
-                   end.minutes() === 0),
-              location: eventEntry.location,
-              hangout_url: eventEntry.hangoutLink,
-              attachments: eventEntry.attachments,
-              gcal_url: eventEntry.htmlLink,
-              responseStatus: responseStatus
-            });
+            background.log('Received events, now parsing.', feed.title);
+            var events = [];
+            for (var i = 0; i < data.items.length; i++) {
+              var eventEntry = data.items[i];
+              var start = utils.fromIso8601(eventEntry.start.dateTime || eventEntry.start.date);
+              var end = utils.fromIso8601(eventEntry.end.dateTime || eventEntry.end.date);
+
+              var responseStatus = '';
+              if (eventEntry.attendees) {
+                for (var attendeeId in eventEntry.attendees) {
+                  var attendee = eventEntry.attendees[attendeeId];
+                  if (attendee.self) {
+                    // Of all attendees, only look at the entry for this user (self).
+                    responseStatus = attendee.responseStatus;
+                    break;
+                  }
+                }
+              }
+
+              events.push({
+                event_id: eventEntry.id,
+                reminders: eventEntry.reminders && eventEntry.reminders.overrides ?
+                    eventEntry.reminders.overrides :
+                    data.defaultReminders,
+                feed: feed,
+                title: eventEntry.summary || chrome.i18n.getMessage('event_title_unknown'),
+                description: eventEntry.description || '',
+                start: start ? start.valueOf() : null,
+                end: end ? end.valueOf() : null,
+                allday: !end ||
+                    (start.hours() === 0 && start.minutes() === 0 && end.hours() === 0 &&
+                     end.minutes() === 0),
+                location: eventEntry.location,
+                hangout_url: eventEntry.hangoutLink,
+                attachments: eventEntry.attachments,
+                gcal_url: eventEntry.htmlLink,
+                responseStatus: responseStatus
+              });
+            }
+            callback(events);
+          };
+        })(feed),
+        error: function(response) {
+          chrome.extension.sendMessage({method: 'sync-icon.spinning.stop'});
+          _gaq.push(['_trackEvent', 'Fetch', 'Error (Events)', response.statusText]);
+          background.log('Fetch Error (Events)', response.statusText);
+          if (response.status === 401) {
+            feeds.refreshUI();
+            chrome.identity.removeCachedAuthToken({'token': authToken}, function() {});
           }
-          callback(events);
-        };
-      })(feed),
-      error: function(response) {
-        chrome.extension.sendMessage({method: 'sync-icon.spinning.stop'});
-        _gaq.push(['_trackEvent', 'Fetch', 'Error (Events)', response.statusText]);
-        background.log('Fetch Error (Events)', response.statusText);
-        if (response.status === 401) {
-          feeds.refreshUI();
-          chrome.identity.removeCachedAuthToken({'token': authToken}, function() {});
+          // Must callback here, otherwise the caller keeps waiting for all calendars to load.
+          callback(null);
         }
-        // Must callback here, otherwise the caller keeps waiting for all calendars to load.
-        callback(null);
-      }
-    });
+      });
+    };
+
+    /* Start the recursion here. While the interval has no events and we are still within
+     * MAX_DAYS_IN_AGENDA_, keep recursing. When events are found or 100 days is reached, break the
+     * recursion and continue with the rest of the logic. */
+    fetchEventsRecursively(feeds.DAYS_IN_AGENDA_);
   });
 };
 
