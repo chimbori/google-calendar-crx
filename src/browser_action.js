@@ -427,12 +427,15 @@ browseraction.createEventDiv_ = function(event) {
   if (isDetectedEvent) {
     eventDiv.addClass('detected-event');
   }
-  eventDiv.on('click', function() {
-    browseraction.goToCalendar_($(this).attr('data-url'));
-  }).on('click', 'a', function(event) {
-    // Clicks on anchor tags shouldn't propagate to eventDiv handler.
-    event.stopPropagation();
-  });
+  eventDiv
+      .on('click',
+          function() {
+            browseraction.goToCalendar_($(this).attr('data-url'));
+          })
+      .on('click', 'a', function(event) {
+        // Clicks on anchor tags shouldn't propagate to eventDiv handler.
+        event.stopPropagation();
+      });
 
   var timeFormat =
       chrome.extension.getBackgroundPage().options.get('format24HourTime') ? 'HH:mm' : 'h:mma';
