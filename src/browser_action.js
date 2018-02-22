@@ -152,7 +152,6 @@ browseraction.installButtonClickHandlers_ = function() {
 
 /** @private */
 browseraction.installKeydownHandlers_ = function() {
-  
   // Add new event to calendar on pressing `Ctrl + Enter`
   $('#quick-add-event-title').on('keydown', function(e) {
     // Check for Windows and Mac keyboards for event on Ctrl + Enter
@@ -161,31 +160,29 @@ browseraction.installKeydownHandlers_ = function() {
       // Ctrl-Enter pressed
       browseraction.addNewEventIntoCalendar_();
     }
-    
+
     // Close quick add box, if empty, on `Esc`
     if (e.keyCode == 27) {
       // Prevent popup from closing if quick-add-box is open and has unsaved input
       e.stopPropagation();
       e.preventDefault();
-      
+
       // Close quick add box if empty
       if ($('#quick-add-event-title').val() === '') {
         browseraction.toggleQuickAddBox_(false);
       }
     }
-
   });
-  
+
   // Open quick-add-box on pressing `a`
   $(document).on('keypress', function(e) {
-    
     // Do nothing if in an input element
     if ($(e.target).is('input, textarea, select')) {
       return;
     }
-    
+
     // Open quick add form on `a`
-    if(e.key.toLowerCase() === "a"){
+    if (e.key.toLowerCase() === 'a') {
       e.stopPropagation();
       e.preventDefault();
       browseraction.toggleQuickAddBox_(true);
@@ -199,19 +196,19 @@ browseraction.installKeydownHandlers_ = function() {
  */
 browseraction.toggleQuickAddBox_ = function(show) {
   _gaq.push(['_trackEvent', 'Quick Add', 'Toggled']);
-  
-  if (typeof show !== "boolean") {
-    show = !$('#quick-add').is(":visible");
+
+  if (typeof show !== 'boolean') {
+    show = !$('#quick-add').is(':visible');
   }
-  
+
   if (show) {
-    $("#show_quick_add").addClass('rotated');
+    $('#show_quick_add').addClass('rotated');
     $('#quick-add').slideDown(200);
-    $('#quick-add-event-title').focus();    
+    $('#quick-add-event-title').focus();
   }
-  
+
   else {
-    $("#show_quick_add").removeClass('rotated');
+    $('#show_quick_add').removeClass('rotated');
     $('#quick-add').slideUp(200);
     $('#quick-add-event-title').blur();
   }
