@@ -49,6 +49,19 @@ browseraction.TOAST_FADE_OUT_DURATION_MS = 5000;
 browseraction.SHOW_EVENTS_DELAY_MS = 100;
 
 /**
+ * Key codes for `Esc`, `Enter - CR`, `Enter - LF`
+ */
+browseraction.KEY_CODE_ESCAPE = 27;
+browseraction.KEY_CODE_CR = 13;
+browseraction.KEY_CODE_LF = 10;
+
+/**
+ * Char `a`, keyboard shortcut key for quick add box
+ */
+browseraction.SHORTCUT_OPEN_QUICK_ADD = 'a';
+
+
+/**
  * Initializes UI elements in the browser action popup.
  */
 browseraction.initialize = function() {
@@ -132,7 +145,7 @@ browseraction.installButtonClickHandlers_ = function() {
     chrome.extension.sendMessage({method: 'authtoken.update'});
   });
 
-  $('#show_quick_add').on('click', browseraction.toggleQuickAddBox_);
+  $('#show_quick_add').on('click', browseraction.toggleQuickAddBoxVisibility_);
 
   $('#sync_now').on('click', function() {
     _gaq.push(['_trackEvent', 'Popup', 'Manual Refresh']);
@@ -155,21 +168,22 @@ browseraction.installKeydownHandlers_ = function() {
   // Add new event to calendar on pressing `Ctrl + Enter`
   $('#quick-add-event-title').on('keydown', function(e) {
     // Check for Windows and Mac keyboards for event on Ctrl + Enter
-    if ((e.ctrlKey || e.metaKey) && (e.keyCode == 13 || e.keyCode == 10) &&
+    if ((e.ctrlKey || e.metaKey) &&
+        (e.keyCode == browseraction.KEY_CODE_CR || e.keyCode == browseraction.KEY_CODE_LF) &&
         $('#quick-add-event-title').val() !== '') {
       // Ctrl-Enter pressed
       browseraction.addNewEventIntoCalendar_();
     }
 
     // Close quick add box, if empty, on `Esc`
-    if (e.keyCode == 27) {
+    if (e.keyCode == browseraction.KEY_CODE_ESCAPE) {
       // Prevent popup from closing if quick-add-box is open and has unsaved input
       e.stopPropagation();
       e.preventDefault();
 
       // Close quick add box if empty
       if ($('#quick-add-event-title').val() === '') {
-        browseraction.toggleQuickAddBox_(false);
+        browseraction.toggleQuickAddBoxVisibility_(false);
       }
     }
   });
@@ -182,26 +196,27 @@ browseraction.installKeydownHandlers_ = function() {
     }
 
     // Open quick add form on `a`
-    if (e.key.toLowerCase() === 'a') {
+    if (e.key.toLowerCase() === browseraction.SHORTCUT_OPEN_QUICK_ADD) {
       e.stopPropagation();
       e.preventDefault();
-      browseraction.toggleQuickAddBox_(true);
+      browseraction.toggleQuickAddBoxVisibility_(true);
     }
   });
 };
 
-/**
- * Toggle quick add box visibility
- * @private
- */
-browseraction.toggleQuickAddBox_ = function(show) {
+
+/** @private */
+browseraction.toggleQuickAddBoxVisibility_ = function(shouldShow) {
   _gaq.push(['_trackEvent', 'Quick Add', 'Toggled']);
 
-  if (typeof show !== 'boolean') {
-    show = !$('#quick-add').is(':visible');
+  // If method is called from click-handler on FAB,
+  // shouldShow would contain an Event object instead of boolean.
+  // Set shouldShow to toggle visibility
+  if (typeof shouldShow !== 'boolean') {
+    shouldShow = !$('#quick-add').is(':visible');
   }
 
-  if (show) {
+  if (shouldShow) {
     $('#show_quick_add').addClass('rotated');
     $('#quick-add').slideDown(200);
     $('#quick-add-event-title').focus();
