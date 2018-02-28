@@ -123,6 +123,14 @@
     "message": "Show notifications.",
     "description": "Show notifications before an event starts."
   },
+  "show_add_to_google_calendar_in_context_menu": {
+    "message": "Show 'Add to Google Calendar' in context menu",
+    "description": "Add the 'Add to Google Calendar' action in context menu"    
+  },
+  "other_options": {
+    "message": "Other settings",
+    "description": "The section of the Options page that deals with other/misc options."
+  },
   "your_event_starts_in": {
     "message": "$eventName$ starts in $minutes$ minutes",
     "description": "Shows the reminder of the event",
