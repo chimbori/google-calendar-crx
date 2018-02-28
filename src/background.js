@@ -11,7 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-/* globals options, feeds, utils, scheduler, constants, menu */
+/* globals options, feeds, utils, scheduler, constants */
 
 /**
  * @fileoverview Script that runs in the context of the background page.
@@ -175,14 +175,6 @@ background.listenForRequests_ = function() {
 
       case 'options.changed':
         feeds.refreshUI();
-        break;
-
-      case 'options.add_from_context_menu_shown_changed':
-        if (options.get(options.Options.ADD_FROM_CONTEXT_MENU_SHOWN)) {
-          menu.initialize();
-        } else {
-          menu.removeContextMenu();
-        }
         break;
 
       case 'authtoken.update':
