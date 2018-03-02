@@ -88,7 +88,6 @@ options.get = function(optionKey) {
  */
 options.set = function(optionKey, optionValue) {
   window.localStorage[options.OPTION_KEY_PREFIX_ + optionKey] = window.JSON.stringify(optionValue);
-
   chrome.extension.sendMessage({method: 'options.changed', optionKey: optionKey});
 };
 

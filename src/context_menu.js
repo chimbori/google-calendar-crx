@@ -53,9 +53,23 @@ menu.installContextMenu_ = function() {
 
 /**
  * Removes the context menu from all pages
+ * @param {enum} menuID Identifier for menu to be removed
+ * @private
  */
-menu.removeContextMenu = function(menuID) {
+menu.removeContextMenu_ = function(menuID) {
   chrome.contextMenus.remove(menuID);
+};
+
+
+/**
+ * Update the context menu - add or remove based on changes in user settings
+ */
+menu.updateContextMenus = function() {
+  if (options.get(options.Options.ADD_FROM_CONTEXT_MENU_SHOWN)) {
+    menu.installContextMenu_();
+  } else {
+    menu.removeContextMenu_(menu.MenuIDs.CONTEXT_MENU_ADD_TO_CALENDAR_);
+  }
 };
 
 
@@ -78,10 +92,9 @@ menu.onClicked_ = function(info, tab) {
 
 
 /**
- * Initializes the context menu functionality.
+ * Sets up the context menu functionality.
  */
-menu.initialize = function() {
-  // Add the context menu to all pages, if enabled in options
+menu.initialize = function(menuIDs) {
   if (options.get(options.Options.ADD_FROM_CONTEXT_MENU_SHOWN)) {
     menu.installContextMenu_();
   }

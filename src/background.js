@@ -175,11 +175,7 @@ background.listenForRequests_ = function() {
 
       case 'options.changed':
         if (request.optionKey === options.Options.ADD_FROM_CONTEXT_MENU_SHOWN) {
-          if (options.get(options.Options.ADD_FROM_CONTEXT_MENU_SHOWN)) {
-            menu.initialize();
-          } else {
-            menu.removeContextMenu(menu.MenuIDs.CONTEXT_MENU_ADD_TO_CALENDAR_);
-          }
+          menu.updateContextMenus();
         } else {
           feeds.refreshUI();
         }
