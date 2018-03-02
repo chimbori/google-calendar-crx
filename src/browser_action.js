@@ -49,10 +49,18 @@ browseraction.TOAST_FADE_OUT_DURATION_MS = 5000;
 browseraction.SHOW_EVENTS_DELAY_MS = 100;
 
 /**
- * Key codes for `Esc`, `Enter - CR`, `Enter - LF`
+ * Key code for `Esc`
  */
 browseraction.KEY_CODE_ESCAPE = 27;
+
+/**
+ * Key code for `Enter - CR`
+ */
 browseraction.KEY_CODE_CR = 13;
+
+/**
+ * Key code for `Enter - LF`
+ */
 browseraction.KEY_CODE_LF = 10;
 
 /**
@@ -145,7 +153,9 @@ browseraction.installButtonClickHandlers_ = function() {
     chrome.extension.sendMessage({method: 'authtoken.update'});
   });
 
-  $('#show_quick_add').on('click', browseraction.toggleQuickAddBoxVisibility_);
+  $('#show_quick_add').on('click', function() {
+    browseraction.toggleQuickAddBoxVisibility_(!$('#quick-add').is(':visible'));
+  });
 
   $('#sync_now').on('click', function() {
     _gaq.push(['_trackEvent', 'Popup', 'Manual Refresh']);
@@ -209,20 +219,11 @@ browseraction.installKeydownHandlers_ = function() {
 browseraction.toggleQuickAddBoxVisibility_ = function(shouldShow) {
   _gaq.push(['_trackEvent', 'Quick Add', 'Toggled']);
 
-  // If method is called from click-handler on FAB,
-  // shouldShow would contain an Event object instead of boolean.
-  // Set shouldShow to toggle visibility
-  if (typeof shouldShow !== 'boolean') {
-    shouldShow = !$('#quick-add').is(':visible');
-  }
-
   if (shouldShow) {
     $('#show_quick_add').addClass('rotated');
     $('#quick-add').slideDown(200);
     $('#quick-add-event-title').focus();
-  }
-
-  else {
+  } else {
     $('#show_quick_add').removeClass('rotated');
     $('#quick-add').slideUp(200);
     $('#quick-add-event-title').blur();
