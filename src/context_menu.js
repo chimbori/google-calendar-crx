@@ -31,8 +31,8 @@ var menu = {};
  * @enum {string}
  * @const
  */
-menu.Menu_IDs = {
-  CONTEXT_MENU_ID_: 'add_to_google_calendar'
+menu.MenuIDs = {
+  CONTEXT_MENU_ADD_TO_CALENDAR_: 'add_to_google_calendar'
 };
 
 
@@ -43,7 +43,7 @@ menu.Menu_IDs = {
  */
 menu.installContextMenu_ = function() {
   chrome.contextMenus.create({
-    'id': menu.Menu_IDs.CONTEXT_MENU_ID_,
+    'id': menu.MenuIDs.CONTEXT_MENU_ADD_TO_CALENDAR_,
     'title': chrome.i18n.getMessage('add_to_google_calendar'),
     'contexts': ['selection', 'editable'],
     'onclick': menu.onClicked_
@@ -54,8 +54,8 @@ menu.installContextMenu_ = function() {
 /**
  * Removes the context menu from all pages
  */
-menu.removeContextMenu = function() {
-  chrome.contextMenus.remove(menu.Menu_IDs.CONTEXT_MENU_ID_);
+menu.removeContextMenu = function(menuID) {
+  chrome.contextMenus.remove(menuID);
 };
 
 

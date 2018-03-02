@@ -32,11 +32,11 @@ var options = {};
  * @const
  */
 options.Options = {
+  ADD_FROM_CONTEXT_MENU_SHOWN: 'add_from_context_menu_shown',
   BADGE_TEXT_SHOWN: 'badge-text-shown',
   DEBUG_ENABLE_LOGS: 'debug-enable-logs',
-  TIME_UNTIL_NEXT_INCLUDES_ALL_DAY_EVENTS: 'time_until_next_includes_all_day_events',
   SHOW_NOTIFICATIONS: 'show_notifications',
-  ADD_FROM_CONTEXT_MENU_SHOWN: 'add_from_context_menu_shown'
+  TIME_UNTIL_NEXT_INCLUDES_ALL_DAY_EVENTS: 'time_until_next_includes_all_day_events'
 };
 
 /**
@@ -45,9 +45,9 @@ options.Options = {
  * @private
  */
 options.DEFAULTS_ = {};
+options.DEFAULTS_[options.Options.ADD_FROM_CONTEXT_MENU_SHOWN] = true;
 options.DEFAULTS_[options.Options.BADGE_TEXT_SHOWN] = true;
 options.DEFAULTS_[options.Options.SHOW_NOTIFICATIONS] = true;
-options.DEFAULTS_[options.Options.ADD_FROM_CONTEXT_MENU_SHOWN] = true;
 
 // Turn on when debugging! There is no UI for this.
 // options.DEFAULTS_[options.Options.DEBUG_ENABLE_LOGS] = true;
@@ -89,11 +89,7 @@ options.get = function(optionKey) {
 options.set = function(optionKey, optionValue) {
   window.localStorage[options.OPTION_KEY_PREFIX_ + optionKey] = window.JSON.stringify(optionValue);
 
-  if (optionKey === options.Options.ADD_FROM_CONTEXT_MENU_SHOWN) {
-    chrome.extension.sendMessage({method: 'options.add_from_context_menu_shown_changed'});
-  } else {
-    chrome.extension.sendMessage({method: 'options.changed'});
-  }
+  chrome.extension.sendMessage({method: 'options.changed', optionKey: optionKey});
 };
 
 /**

@@ -174,14 +174,14 @@ background.listenForRequests_ = function() {
         break;
 
       case 'options.changed':
-        feeds.refreshUI();
-        break;
-
-      case 'options.add_from_context_menu_shown_changed':
-        if (options.get(options.Options.ADD_FROM_CONTEXT_MENU_SHOWN)) {
-          menu.initialize();
+        if (request.optionKey === options.Options.ADD_FROM_CONTEXT_MENU_SHOWN) {
+          if (options.get(options.Options.ADD_FROM_CONTEXT_MENU_SHOWN)) {
+            menu.initialize();
+          } else {
+            menu.removeContextMenu(menu.MenuIDs.CONTEXT_MENU_ADD_TO_CALENDAR_);
+          }
         } else {
-          menu.removeContextMenu();
+          feeds.refreshUI();
         }
         break;
 
