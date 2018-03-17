@@ -28,18 +28,22 @@ If you’re not a Developer, but would like to get involved in open-source, this
 - Please accept and sign Google’s Contributor License Agreement. You’ll be prompted to do this 
   automatically when you submit a pull request.
 
-- All JavaScript files must be formatted using the Google Style Guide.
-    ```
-    find . -iname "*.js" -exec sh -c 'clang-format "{}" >/tmp/tmp.js && mv /tmp/tmp.js "{}"' \;
-    ```
-
-  If you don’t have `clang-format` installed, get it from your favorite package manager.
-
-- All JSON files must be formatted consistently with a 2-space indent. Use the following one-liner
-  to automatically format all JSON files before sending out your pull request:
+- Run `grunt` to automatically format source files and highlight potential issues. **Make sure to address all the issues it finds before creating a pull request.**
 
     ```
-    find . -iname "*.json" -exec sh -c 'cat "{}" | jq . --indent 2 -r >/tmp/tmp.json && mv /tmp/tmp.json "{}"' \;
+    cd src/
+    grunt
     ```
 
-  If you don’t have `jq` installed, get it from your favorite package manager.
+- If you don’t have `grunt` setup for this project, run this once:
+
+    ```
+    # Example: using HomeBrew for Mac OS X. Use any package manager for your operating system.
+    brew install grunt npm   
+
+    # After `npm` is installed:
+    npm install -g grunt-cli
+    npm install grunt grunt-contrib-jshint grunt-contrib-csslint grunt-clang-format --save-dev 
+    ```
+
+- Do not include `package.json` or `package-lock.json` in your code commits.

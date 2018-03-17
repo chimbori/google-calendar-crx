@@ -132,7 +132,6 @@ function detectHCalendarEvents() {
       // Insert a button inline near the title of the page.
       $(vevent).find('.summary').prepend(getInlineIconSmall_(event));
     }
-
   });
 
   return events;

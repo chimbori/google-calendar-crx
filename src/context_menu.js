@@ -11,7 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-/* globals utils */
+/* globals utils, options*/
 
 /**
  * @fileoverview Creates and handles context menus on web pages to let the user
@@ -25,6 +25,17 @@
  */
 var menu = {};
 
+
+/**
+ * A list of context menu IDs so they can be toggled on/off from options page
+ * @enum {string}
+ * @const
+ */
+menu.MenuIDs = {
+  CONTEXT_MENU_ADD_TO_CALENDAR_: 'add_to_google_calendar'
+};
+
+
 /**
  * Adds a context menu to every page that lets the user select text and add
  * an event to calendar.
@@ -32,10 +43,33 @@ var menu = {};
  */
 menu.installContextMenu_ = function() {
   chrome.contextMenus.create({
+    'id': menu.MenuIDs.CONTEXT_MENU_ADD_TO_CALENDAR_,
     'title': chrome.i18n.getMessage('add_to_google_calendar'),
     'contexts': ['selection', 'editable'],
     'onclick': menu.onClicked_
   });
+};
+
+
+/**
+ * Removes the context menu from all pages
+ * @param {enum} menuID Identifier for menu to be removed
+ * @private
+ */
+menu.removeContextMenu_ = function(menuID) {
+  chrome.contextMenus.remove(menuID);
+};
+
+
+/**
+ * Update the context menu - add or remove based on changes in user settings
+ */
+menu.updateContextMenus = function() {
+  if (options.get(options.Options.ADD_FROM_CONTEXT_MENU_SHOWN)) {
+    menu.installContextMenu_();
+  } else {
+    menu.removeContextMenu_(menu.MenuIDs.CONTEXT_MENU_ADD_TO_CALENDAR_);
+  }
 };
 
 
@@ -58,10 +92,12 @@ menu.onClicked_ = function(info, tab) {
 
 
 /**
- * Initializes the context menu functionality.
+ * Sets up the context menu functionality.
  */
-menu.initialize = function() {
-  menu.installContextMenu_();
+menu.initialize = function(menuIDs) {
+  if (options.get(options.Options.ADD_FROM_CONTEXT_MENU_SHOWN)) {
+    menu.installContextMenu_();
+  }
 };
 
 

@@ -1,122 +1,140 @@
 {
   "google_calendar_extension_name": {
-    "message": "Google Каляндар",
+    "message": "Google Kalendar (Google applikacija)",
     "description": "The name of this extension."
   },
   "google_calendar_extension_desc": {
-    "message": "Сачыце за Календаром ад Google і дадавайце новыя падзеі падчас наведвання іншых сайтаў.",
+    "message": "Jednostavno provjeri Google Kalendar i dodaj nove događaje sa web stranica koje posječuješ.",
     "description": "Description of what this extension does."
   },
   "logo_text": {
-    "message": "Google Каляндар",
+    "message": "Google Kalendar",
     "description": "The name of the Calendar product, including the word Google."
   },
   "read_more_at_original_url": {
-    "message": "Чытайце больш на асноўным сайце: ",
+    "message": "Pročitaj više na originalnoj web stranici: ",
     "description": "Descriptive text for a link at the bottom of each event description that asks the user to click on the link for more information."
   },
   "view_agenda": {
-    "message": "Расклад",
+    "message": "Dnevni red događanja",
     "description": "Used in the popup view just before the actual calendar agenda."
   },
   "add_an_event": {
-    "message": "Дадаць падзею",
+    "message": "Dodaj događaj",
     "description": "Header that appears just above the form that lets users add custom events."
   },
   "event_title_placeholder": {
-    "message": "Напрыклад “Вячэра з сябрамі заўтра а сёмай”",
+    "message": "Npr. “Večera s prijateljem sutra u 7 navečer.”",
     "description": "Placeholder in the textarea where the user is instructed to type in the title of the event they want to create."
   },
   "events_on_this_page": {
-    "message": "Падзеі на гэтай старонцы",
+    "message": "Događaji sa ove stranice.",
     "description": "Title used in the browser action popup for the list of events detected on the current page."
   },
   "quick_add_button": {
-    "message": "Дадаць",
+    "message": "Dodaj",
     "description": "Text on the button that adds a new event to the calendar from user input."
   },
   "no_events_today": {
-    "message": "Ніякіх падзеяў на сёння",
+    "message": "Danas nema događaja",
     "description": "Message shown as a placeholder when there are no events today. It only applies to when there are no events today, not for other dates."
   },
   "no_upcoming_events": {
-    "message": "Няма надыходзячых падзеяў",
+    "message": "Nema nadolazećih događaja.",
     "description": "Message shown as a placeholder when there are no future events at all. It applies both to today and all future dates."
   },
   "authorization_required": {
-    "message": "Аўтарызаваць Google Каляндар",
+    "message": "Autoriziraj Google Kalendar",
     "description": "A message shown when the user needs to grant permission for this extension to read events from their calendar."
   },
   "authorization_in_progress": {
-    "message": "Аўтарызацыя...",
+    "message": "Autoriziram…",
     "description": "A message shown after the user clicks on the Authorize button."
   },
   "authorization_explanation": {
-    "message": "Для працы пашырэння Вам неабходна даць доступ да Вашага Google Календара. Гэта адзінаразовае патрабаванне, якое вам трэба выканаць перад тым, як карыстацца пашырэннем.",
+    "message": "Google Kalendar za Chrome vam omogučuje da pogledate svoj kalendar dok posječujete druge stranice. Zbog ovoga potrebno je dopuštenje pristupa vašem kalendaru. Ovo je potrebno učiniti samo jedamput prije početka korištenja aplikacije.",
     "description": "A detailed message explaining the OAuth flow."
   },
   "problems": {
-    "message": "Сутыкнуліся ў праблемамі?",
+    "message": "Problemi?",
     "description": "A link that provides troubleshooting information related to authorization."
   },
   "error_saving_new_event": {
-    "message": "Не атрымалася захаваць новую падзею; калі ласка, паспрабуйце ізноў.",
+    "message": "Pogreška prilikom snimanja događaja. Molimo pokušajte ponovo.",
     "description": "An error message shown when a user-added quick-add event could not be saved."
   },
   "add_to_google_calendar": {
-    "message": "Дадаць у Google Каляндар",
+    "message": "Dodaj u Google Kalendar",
     "description": "Alt text and/or link text for the link that users click to add event to their calendar."
   },
   "sync_now": {
-    "message": "Абнавіць спіс падзеяў з сервера.",
+    "message": "Sinkroniziraj događaje sa servera",
     "description": "Alternate text for the icon that forces syncing the calendar right away."
   },
   "show_quick_add": {
-    "message": "Дадайце дэталяў для стварэння новай падзеі",
+    "message": "Dodaj novi događaj tipkajući u detalje događaja.",
     "description": "Alternate text for the icon that shows the text area where users add details of new events."
   },
   "show_options": {
-    "message": "Налады пашырэння",
+    "message": "Promjeni postavke ove ekstenzije",
     "description": "Alternate text for the icon that opens the Options screen in a new window."
   },
   "fetching_feed": {
-    "message": "Спіс падзеяў абнаўляецца",
+    "message": "Obnavljamo listu događaja.",
     "description": "Tooltip text for when the extension is fetching the feed from the server."
   },
   "toolbar_icon": {
-    "message": "Значак на панэлі інструментаў",
+    "message": "Ikonica za alatnu traku",
     "description": "The section of the Options page that deals with the toolbar icon."
   },
   "view_web_calendar": {
-    "message": "Перайсці ў поўны Каляндар",
+    "message": "Pogledaj cijeli kalendar",
     "description": "A menu item that allows the user to view the full calendar on the Web."
   },
   "calendar_list_header": {
-    "message": "Календары",
+    "message": "Kalendari",
     "description": "The header for the Options section under which all calendars are shown."
   },
   "time_format": {
-    "message": "Фармат часу",
+    "message": "Format vremena",
     "description": "The header for the Options section under which the 12 hr/24 hr option is shown."
   },
   "announcement_new_features": {
-    "message": "Новыя опцыі! Паспрабуйце »",
+    "message": "Nove funkcionalnosti! Pogledaj sada »",
     "description": "An announcement message shown after an upgrade that adds significant new features."
   },
   "option_show_time_until_next_event": {
-    "message": "Паказваць час, які застаецца да наступнай падзеі.",
+    "message": "Vrijeme do sljedećeg događaja.",
     "description": "The name of the option that tells the user that the extension will display the time on the badge."
   },
   "option_time_until_next_includes_all_day_events": {
-    "message": "Ігнараваць падзеі, якія цягнуцца ўвесь дзень, пры падліку часу да наступнай падзеі.",
+    "message": "Uključi cijelodnevne događaje prilikom računanja vremena do sljedečeg događaja.",
     "description": "The name of the option that ensures all-day events are included when computing the time to next event."
   },
   "event_title_unknown": {
-    "message": "Заняты",
+    "message": "Zaposlen",
     "description": "When a user does not have access to a particular calendar, the event title is not available; this placeholder text is used instead."
   },
   "alert_new_event_added": {
-    "message": "Гэтая падзея была толькі што дададзеная ў Ваш Каляндар: ",
+    "message": "Ovaj događaj je upravo dodan na tvoj kalendar: ",
     "description": "When a new event is added into the user's calendar, an alert message will be displayed for the user to click on it and see the details"
+  },
+  "option_show_notifications": {
+    "message": "Pokaži podsjetnik prije početka događaja.",
+    "description": "Show notifications before an event starts."
+  },
+  "your_event_starts_in": {
+    "message": "$eventName$ počinje za $minutes$ minuta",
+    "description": "Shows the reminder of the event",
+    "placeholders": {
+      "eventName": {
+        "content": "$1",
+        "example": "SomeEvent"
+      },
+      "minutes": {
+        "content": "$2",
+        "example": "42"
+      }
+    }
   }
 }
