@@ -49,6 +49,27 @@ browseraction.TOAST_FADE_OUT_DURATION_MS = 5000;
 browseraction.SHOW_EVENTS_DELAY_MS = 100;
 
 /**
+ * Key code for `Esc`
+ */
+browseraction.KEY_CODE_ESCAPE = 27;
+
+/**
+ * Key code for `Enter - CR`
+ */
+browseraction.KEY_CODE_CR = 13;
+
+/**
+ * Key code for `Enter - LF`
+ */
+browseraction.KEY_CODE_LF = 10;
+
+/**
+ * Char `a`, keyboard shortcut key for quick add box
+ */
+browseraction.SHORTCUT_OPEN_QUICK_ADD = 'a';
+
+
+/**
  * Initializes UI elements in the browser action popup.
  */
 browseraction.initialize = function() {
@@ -133,10 +154,7 @@ browseraction.installButtonClickHandlers_ = function() {
   });
 
   $('#show_quick_add').on('click', function() {
-    _gaq.push(['_trackEvent', 'Quick Add', 'Toggled']);
-    $(this).toggleClass('rotated');
-    $('#quick-add').slideToggle(200);
-    $('#quick-add-event-title').focus();
+    browseraction.toggleQuickAddBoxVisibility_(!$('#quick-add').is(':visible'));
   });
 
   $('#sync_now').on('click', function() {
@@ -157,14 +175,59 @@ browseraction.installButtonClickHandlers_ = function() {
 
 /** @private */
 browseraction.installKeydownHandlers_ = function() {
+  // Add new event to calendar on pressing `Ctrl + Enter`
   $('#quick-add-event-title').on('keydown', function(e) {
     // Check for Windows and Mac keyboards for event on Ctrl + Enter
-    if ((e.ctrlKey || e.metaKey) && (e.keyCode == 13 || e.keyCode == 10) &&
+    if ((e.ctrlKey || e.metaKey) &&
+        (e.keyCode == browseraction.KEY_CODE_CR || e.keyCode == browseraction.KEY_CODE_LF) &&
         $('#quick-add-event-title').val() !== '') {
       // Ctrl-Enter pressed
       browseraction.addNewEventIntoCalendar_();
     }
+
+    // Close quick add box, if empty, on `Esc`
+    if (e.keyCode == browseraction.KEY_CODE_ESCAPE) {
+      // Prevent popup from closing if quick-add-box is open and has unsaved input
+      e.stopPropagation();
+      e.preventDefault();
+
+      // Close quick add box if empty
+      if ($('#quick-add-event-title').val() === '') {
+        browseraction.toggleQuickAddBoxVisibility_(false);
+      }
+    }
   });
+
+  // Open quick-add-box on pressing `a`
+  $(document).on('keypress', function(e) {
+    // Do nothing if in an input element
+    if ($(e.target).is('input, textarea, select')) {
+      return;
+    }
+
+    // Open quick add form on `a`
+    if (e.key.toLowerCase() === browseraction.SHORTCUT_OPEN_QUICK_ADD) {
+      e.stopPropagation();
+      e.preventDefault();
+      browseraction.toggleQuickAddBoxVisibility_(true);
+    }
+  });
+};
+
+
+/** @private */
+browseraction.toggleQuickAddBoxVisibility_ = function(shouldShow) {
+  _gaq.push(['_trackEvent', 'Quick Add', 'Toggled']);
+
+  if (shouldShow) {
+    $('#show_quick_add').addClass('rotated');
+    $('#quick-add').slideDown(200);
+    $('#quick-add-event-title').focus();
+  } else {
+    $('#show_quick_add').removeClass('rotated');
+    $('#quick-add').slideUp(200);
+    $('#quick-add-event-title').blur();
+  }
 };
 
 /**
