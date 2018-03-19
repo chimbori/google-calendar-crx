@@ -391,33 +391,34 @@ feeds.updateNotification = function() {
     // Check against one event at the time
     for (var i = 0; i < feeds.nextEvents.length; i++) {
       if (feeds.nextEvents[i].reminders.length === 0) {
-        return;
+        continue;
       }
+
       // Check if the event has an alarm. This also saves the index of the alarm
-      var alarmIndex = 0;
+      var alarmIndex = -1;
       var hasEventAnAlarm = alarms.some(function(alarm, index) {
         alarmIndex = index;
         return feeds.nextEvents[i].event_id === alarm.name;
       });
 
-      var TIME_UNTIL_ALARM_MS = feeds.nextEvents[i].reminders[0].minutes * 60 * 1000;
-      var alarmSchedule = new Date(feeds.nextEvents[i].start).getTime() - TIME_UNTIL_ALARM_MS;
+      var reminderMinutes = feeds.nextEvents[i].reminders[0].minutes;
+      var alarmSchedule = moment(feeds.nextEvents[i].start).subtract(reminderMinutes, 'minutes');
+
       // Cancel if reminder has passed
-      if (alarmSchedule < new Date().getTime()) {
-        return;
+      if (alarmSchedule.isBefore(moment())) {
+        chrome.alarms.clear(feeds.nextEvents[i].event_id);
+        continue;
       }
 
       if (hasEventAnAlarm) {
         // If event has been changed, then update the alarm.
-        if (feeds.nextEvents[i].start !== alarms[alarmIndex].scheduledTime + TIME_UNTIL_ALARM_MS) {
+        if (!moment(feeds.nextEvents[i].start).isSame(moment(alarms[alarmIndex].scheduledTime).add(reminderMinutes, 'minutes'))) {
           chrome.alarms.clear(feeds.nextEvents[i].event_id);
-          chrome.alarms.create(feeds.nextEvents[i].event_id, {when: alarmSchedule});
+          chrome.alarms.create(feeds.nextEvents[i].event_id, {when: alarmSchedule.valueOf()});
         }
       } else {
         // Add new alarm
-        chrome.alarms.create(
-            feeds.nextEvents[i].event_id,
-            {when: new Date(feeds.nextEvents[i].start).getTime() - TIME_UNTIL_ALARM_MS});
+        chrome.alarms.create(feeds.nextEvents[i].event_id, {when: alarmSchedule.valueOf()});
       }
     }
   });
