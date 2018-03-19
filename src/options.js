@@ -44,8 +44,18 @@ options.Options = {
  * @private
  */
 options.DEFAULTS_ = {};
+
+/**
+ * Whether or not Time Remaining until the next event is shown.
+ */
 options.DEFAULTS_[options.Options.BADGE_TEXT_SHOWN] = true;
-options.DEFAULTS_[options.Options.SHOW_NOTIFICATIONS] = true;
+
+/**
+ * Many users are reporting that notifications are being shown at the wrong
+ * time, so this is disabled by default until the original author can debug
+ * this.
+ */
+options.DEFAULTS_[options.Options.SHOW_NOTIFICATIONS] = false;
 
 // Turn on when debugging! There is no UI for this.
 // options.DEFAULTS_[options.Options.DEBUG_ENABLE_LOGS] = true;
