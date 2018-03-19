@@ -558,7 +558,7 @@ browseraction.createEventDiv_ = function(event) {
   }
   eventTitle.appendTo(eventDetails);
 
-  if (event.location && !event.hangout_url) {
+  if (event.location) {
     $('<a>')
         .attr({
           'href': 'https://maps.google.com?q=' + encodeURIComponent(event.location),
