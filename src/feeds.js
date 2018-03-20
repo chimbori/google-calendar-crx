@@ -377,17 +377,25 @@ feeds.updateNotification = function() {
   if (!options.get(options.Options.SHOW_NOTIFICATIONS)) {
     return;
   }
-  // If event deleted, then delete alarm
-  if (feeds.events.length === 0) {
-    chrome.alarms.getAll(function(alarms) {
-      if (alarms.length > 0) {
-        chrome.alarms.clearAll();
-      }
-    });
-    return;
-  }
 
   chrome.alarms.getAll(function(alarms) {
+    // If event deleted, then delete alarm
+    var isAlarmEventFound = false;
+    for(var i = 0; i < alarms.length; i++) {
+      isAlarmEventFound = false;
+      for(var j = 0; j < feeds.events.length; j++) {
+        if(alarms[i].name === feeds.events[j].event_id) {
+          isAlarmEventFound = true;
+          break;
+        }
+      }
+      // The event is deleted, delete alarm
+      if(!isAlarmEventFound) {
+        var alarmName = alarms[i].name;
+        chrome.alarms.clear(alarmName);
+      }
+    }
+
     // Check against one event at the time
     for (var i = 0; i < feeds.events.length; i++) {
       if (feeds.events[i].reminders.length === 0) {
