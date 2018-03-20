@@ -239,7 +239,7 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
   }
 
   var eventIndex = 0;
-  feeds.nextEvents.some(function(event, index) {
+  feeds.events.some(function(event, index) {
     eventIndex = index;
     return event.event_id === alarm.name;
   });
@@ -247,10 +247,10 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
     type: 'basic',
     requireInteraction: true,
     iconUrl: 'icons/logo_calendar_96.png',
-    title: feeds.nextEvents[eventIndex].title,
+    title: feeds.events[eventIndex].title,
     message: chrome.i18n.getMessage(
         'your_event_starts_in',
-        [feeds.nextEvents[eventIndex].title, feeds.nextEvents[eventIndex].reminders[0].minutes])
+        [feeds.events[eventIndex].title, feeds.events[eventIndex].reminders[0].minutes])
   });
 });
 
@@ -259,11 +259,11 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
  */
 chrome.notifications.onClicked.addListener(function(alarmName) {
   var eventIndex = 0;
-  feeds.nextEvents.some(function(event, index) {
+  feeds.events.some(function(event, index) {
     eventIndex = index;
     return event.event_id === alarmName;
   });
-  chrome.tabs.create({'url': feeds.nextEvents[eventIndex].gcal_url});
+  chrome.tabs.create({'url': feeds.events[eventIndex].gcal_url});
 });
 
 
