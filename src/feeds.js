@@ -378,7 +378,7 @@ feeds.updateNotification = function() {
     return;
   }
   // If event deleted, then delete alarm
-  if (feeds.nextEvents.length === 0) {
+  if (feeds.events.length === 0) {
     chrome.alarms.getAll(function(alarms) {
       if (alarms.length > 0) {
         chrome.alarms.clearAll();
@@ -389,8 +389,8 @@ feeds.updateNotification = function() {
 
   chrome.alarms.getAll(function(alarms) {
     // Check against one event at the time
-    for (var i = 0; i < feeds.nextEvents.length; i++) {
-      if (feeds.nextEvents[i].reminders.length === 0) {
+    for (var i = 0; i < feeds.events.length; i++) {
+      if (feeds.events[i].reminders.length === 0) {
         continue;
       }
 
@@ -398,27 +398,26 @@ feeds.updateNotification = function() {
       var alarmIndex = -1;
       var hasEventAnAlarm = alarms.some(function(alarm, index) {
         alarmIndex = index;
-        return feeds.nextEvents[i].event_id === alarm.name;
+        return feeds.events[i].event_id === alarm.name;
       });
 
-      var reminderMinutes = feeds.nextEvents[i].reminders[0].minutes;
-      var alarmSchedule = moment(feeds.nextEvents[i].start).subtract(reminderMinutes, 'minutes');
-
+      var reminderMinutes = feeds.events[i].reminders[0].minutes;
+      var alarmSchedule = moment(feeds.events[i].start).subtract(reminderMinutes, 'minutes');
       // Cancel if reminder has passed
       if (alarmSchedule.isBefore(moment())) {
-        chrome.alarms.clear(feeds.nextEvents[i].event_id);
+        chrome.alarms.clear(feeds.events[i].event_id);
         continue;
       }
 
       if (hasEventAnAlarm) {
         // If event has been changed, then update the alarm.
-        if (!moment(feeds.nextEvents[i].start).isSame(moment(alarms[alarmIndex].scheduledTime).add(reminderMinutes, 'minutes'))) {
-          chrome.alarms.clear(feeds.nextEvents[i].event_id);
-          chrome.alarms.create(feeds.nextEvents[i].event_id, {when: alarmSchedule.valueOf()});
+        if (!moment(feeds.events[i].start).isSame(moment(alarms[alarmIndex].scheduledTime).add(reminderMinutes, 'minutes'))) {
+          chrome.alarms.clear(feeds.events[i].event_id);
+          chrome.alarms.create(feeds.events[i].event_id, {when: alarmSchedule.valueOf()});
         }
       } else {
         // Add new alarm
-        chrome.alarms.create(feeds.nextEvents[i].event_id, {when: alarmSchedule.valueOf()});
+        chrome.alarms.create(feeds.events[i].event_id, {when: alarmSchedule.valueOf()});
       }
     }
   });
