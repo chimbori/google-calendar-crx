@@ -243,6 +243,13 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
     eventIndex = index;
     return event.event_id === alarm.name;
   });
+  var reminderMinutes = feeds.events[eventIndex].reminders[0].minutes;
+  // Check if reminder has passed more than one minute
+  var alarmSchedule = moment(feeds.events[eventIndex].start).subtract(reminderMinutes-1, 'minutes');
+  // Cancel if reminder has passed
+  if (alarmSchedule.isBefore(moment())) {
+    return;
+  }
   chrome.notifications.create(alarm.name, {
     type: 'basic',
     requireInteraction: true,
