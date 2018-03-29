@@ -250,12 +250,12 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
   }
   var triggeredAlarm = JSON.parse(alarm.name);
   var eventIndex = -1;
-  feeds.events.some(function(event, index) {
+  var hasAlarm = feeds.events.some(function(event, index) {
     eventIndex = index;
     return event.event_id === triggeredAlarm.event_id;
   });
 
-  if (eventIndex < 0) {
+  if (!hasAlarm) {
     return;
   }
 
