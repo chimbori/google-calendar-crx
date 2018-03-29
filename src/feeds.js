@@ -378,7 +378,6 @@ feeds.updateNotification = function() {
   }
   chrome.alarms.clearAll();
 
-  // Check against one event at the time
   for (var i = 0; i < feeds.events.length; i++) {
     if (feeds.events[i].reminders.length === 0) {
       continue;
@@ -389,7 +388,6 @@ feeds.updateNotification = function() {
         continue;
       }
 
-      // Check if the event has an alarm. This also saves the index of the alarm
       var timeUntilReminderMinutes = feeds.events[i].reminders[j].minutes;
       var eventId = {event_id: feeds.events[i].event_id, reminder: timeUntilReminderMinutes};
 

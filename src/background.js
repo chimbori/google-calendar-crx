@@ -249,7 +249,6 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
     return;
   }
   var triggeredAlarm = JSON.parse(alarm.name);
-  var alarmNameSplit = alarm.name.split(':');
   var eventIndex = -1;
   feeds.events.some(function(event, index) {
     eventIndex = index;
