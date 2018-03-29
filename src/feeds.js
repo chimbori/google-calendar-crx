@@ -369,7 +369,6 @@ feeds.fetchEventsFromCalendar_ = function(feed, callback) {
   });
 };
 
-
 /**
  * Updates the notification alarms
  */
@@ -377,58 +376,34 @@ feeds.updateNotification = function() {
   if (!options.get(options.Options.SHOW_NOTIFICATIONS)) {
     return;
   }
+  // If event deleted, then delete alarm
+  chrome.alarms.clearAll();
 
-  chrome.alarms.getAll(function(alarms) {
-    // If event deleted, then delete alarm
-    var isAlarmEventFound = false;
-    for(var i = 0; i < alarms.length; i++) {
-      isAlarmEventFound = false;
-      for(var j = 0; j < feeds.events.length; j++) {
-        if(alarms[i].name === feeds.events[j].event_id) {
-          isAlarmEventFound = true;
-          break;
-        }
-      }
-      // The event is deleted, delete alarm
-      if(!isAlarmEventFound) {
-        var alarmName = alarms[i].name;
-        chrome.alarms.clear(alarmName);
-      }
+  // Check against one event at the time
+  for (var i = 0; i < feeds.events.length; i++) {
+    if (feeds.events[i].reminders.length === 0) {
+      continue;
     }
-
-    // Check against one event at the time
-    for (var i = 0; i < feeds.events.length; i++) {
-      if (feeds.events[i].reminders.length === 0) {
+    for (var j = 0; j < feeds.events[i].reminders.length; j++) {
+      // Only create notifications of popup types
+      if (feeds.events[i].reminders[j].method !== 'popup') {
         continue;
       }
 
       // Check if the event has an alarm. This also saves the index of the alarm
-      var alarmIndex = -1;
-      var hasEventAnAlarm = alarms.some(function(alarm, index) {
-        alarmIndex = index;
-        return feeds.events[i].event_id === alarm.name;
-      });
+      var timeUntilReminderMinutes = feeds.events[i].reminders[j].minutes;
+      var eventId = feeds.events[i].event_id + ':reminder:' + timeUntilReminderMinutes;
 
-      var reminderMinutes = feeds.events[i].reminders[0].minutes;
-      var alarmSchedule = moment(feeds.events[i].start).subtract(reminderMinutes, 'minutes');
+      var alarmSchedule =
+          moment(feeds.events[i].start).subtract(timeUntilReminderMinutes, 'minutes');
       // Cancel if reminder has passed
       if (alarmSchedule.isBefore(moment())) {
-        chrome.alarms.clear(feeds.events[i].event_id);
         continue;
       }
-
-      if (hasEventAnAlarm) {
-        // If event has been changed, then update the alarm.
-        if (!moment(feeds.events[i].start).isSame(moment(alarms[alarmIndex].scheduledTime).add(reminderMinutes, 'minutes'))) {
-          chrome.alarms.clear(feeds.events[i].event_id);
-          chrome.alarms.create(feeds.events[i].event_id, {when: alarmSchedule.valueOf()});
-        }
-      } else {
-        // Add new alarm
-        chrome.alarms.create(feeds.events[i].event_id, {when: alarmSchedule.valueOf()});
-      }
+      // Create alarm
+      chrome.alarms.create(eventId, {when: alarmSchedule.valueOf()});
     }
-  });
+  }
 };
 
 /**

@@ -231,6 +231,19 @@ background.updateBadge = function(props) {
 };
 
 /**
+ * Checks for expired alarms
+ * @param {Array.<Object>} event
+ * @param {Integer} timeUntilAlarmMinutes
+ */
+background.hasAlarmExpired = function(event, timeUntilAlarmMinutes) {
+  var alarmSchedule = moment(event.start).subtract(timeUntilAlarmMinutes - 1, 'minutes');
+  if (alarmSchedule.isBefore(moment())) {
+    return true;
+  }
+  return false;
+};
+
+/**
  * Creates notification alarm
  */
 chrome.alarms.onAlarm.addListener(function(alarm) {
@@ -238,26 +251,28 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
     return;
   }
 
-  var eventIndex = 0;
+  var alarmNameSplit = alarm.name.split(':');
+  var eventIndex = -1;
   feeds.events.some(function(event, index) {
     eventIndex = index;
-    return event.event_id === alarm.name;
+    return event.event_id === alarmNameSplit[0];
   });
-  var reminderMinutes = feeds.events[eventIndex].reminders[0].minutes;
-  // Check if reminder has passed more than one minute
-  var alarmSchedule = moment(feeds.events[eventIndex].start).subtract(reminderMinutes-1, 'minutes');
-  // Cancel if reminder has passed
-  if (alarmSchedule.isBefore(moment())) {
+
+  if (eventIndex < 0) {
     return;
   }
+
+  if (background.hasAlarmExpired(feeds.events[eventIndex], alarmNameSplit[2])) {
+    return;
+  }
+
   chrome.notifications.create(alarm.name, {
     type: 'basic',
     requireInteraction: true,
     iconUrl: 'icons/logo_calendar_96.png',
     title: feeds.events[eventIndex].title,
     message: chrome.i18n.getMessage(
-        'your_event_starts_in',
-        [feeds.events[eventIndex].title, feeds.events[eventIndex].reminders[0].minutes])
+        'your_event_starts_in', [feeds.events[eventIndex].title, alarmNameSplit[2]])
   });
 });
 
