@@ -376,7 +376,6 @@ feeds.updateNotification = function() {
   if (!options.get(options.Options.SHOW_NOTIFICATIONS)) {
     return;
   }
-  // If event deleted, then delete alarm
   chrome.alarms.clearAll();
 
   // Check against one event at the time
@@ -392,16 +391,14 @@ feeds.updateNotification = function() {
 
       // Check if the event has an alarm. This also saves the index of the alarm
       var timeUntilReminderMinutes = feeds.events[i].reminders[j].minutes;
-      var eventId = feeds.events[i].event_id + ':reminder:' + timeUntilReminderMinutes;
+      var eventId = {event_id: feeds.events[i].event_id, reminder: timeUntilReminderMinutes};
 
       var alarmSchedule =
           moment(feeds.events[i].start).subtract(timeUntilReminderMinutes, 'minutes');
-      // Cancel if reminder has passed
       if (alarmSchedule.isBefore(moment())) {
         continue;
       }
-      // Create alarm
-      chrome.alarms.create(eventId, {when: alarmSchedule.valueOf()});
+      chrome.alarms.create(JSON.stringify(eventId), {when: alarmSchedule.valueOf()});
     }
   }
 };

@@ -231,16 +231,14 @@ background.updateBadge = function(props) {
 };
 
 /**
- * Checks for expired alarms
+ * Returns true if all alarms for the given event have expired, relative to the current time.
  * @param {Array.<Object>} event
  * @param {Integer} timeUntilAlarmMinutes
+ * @private
  */
-background.hasAlarmExpired = function(event, timeUntilAlarmMinutes) {
+background.hasAlarmExpired_ = function(event, timeUntilAlarmMinutes) {
   var alarmSchedule = moment(event.start).subtract(timeUntilAlarmMinutes - 1, 'minutes');
-  if (alarmSchedule.isBefore(moment())) {
-    return true;
-  }
-  return false;
+  return alarmSchedule.isBefore(moment());
 };
 
 /**
@@ -250,19 +248,19 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
   if (!options.get(options.Options.SHOW_NOTIFICATIONS)) {
     return;
   }
-
+  var triggeredAlarm = JSON.parse(alarm.name);
   var alarmNameSplit = alarm.name.split(':');
   var eventIndex = -1;
   feeds.events.some(function(event, index) {
     eventIndex = index;
-    return event.event_id === alarmNameSplit[0];
+    return event.event_id === triggeredAlarm.event_id;
   });
 
   if (eventIndex < 0) {
     return;
   }
 
-  if (background.hasAlarmExpired(feeds.events[eventIndex], alarmNameSplit[2])) {
+  if (background.hasAlarmExpired_(feeds.events[eventIndex], triggeredAlarm.reminder)) {
     return;
   }
 
@@ -272,7 +270,7 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
     iconUrl: 'icons/logo_calendar_96.png',
     title: feeds.events[eventIndex].title,
     message: chrome.i18n.getMessage(
-        'your_event_starts_in', [feeds.events[eventIndex].title, alarmNameSplit[2]])
+        'your_event_starts_in', [feeds.events[eventIndex].title, triggeredAlarm.reminder])
   });
 });
 
