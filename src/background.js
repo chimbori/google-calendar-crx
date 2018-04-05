@@ -231,26 +231,45 @@ background.updateBadge = function(props) {
 };
 
 /**
+ * Returns true if all alarms for the given event have expired, relative to the current time.
+ * @param {Array.<Object>} event
+ * @param {Integer} timeUntilAlarmMinutes
+ * @private
+ */
+background.hasAlarmExpired_ = function(event, timeUntilAlarmMinutes) {
+  var alarmSchedule = moment(event.start).subtract(timeUntilAlarmMinutes - 1, 'minutes');
+  return alarmSchedule.isBefore(moment());
+};
+
+/**
  * Creates notification alarm
  */
 chrome.alarms.onAlarm.addListener(function(alarm) {
   if (!options.get(options.Options.SHOW_NOTIFICATIONS)) {
     return;
   }
-
-  var eventIndex = 0;
-  feeds.nextEvents.some(function(event, index) {
+  var triggeredAlarm = JSON.parse(alarm.name);
+  var eventIndex = -1;
+  var hasAlarm = feeds.events.some(function(event, index) {
     eventIndex = index;
-    return event.event_id === alarm.name;
+    return event.event_id === triggeredAlarm.event_id;
   });
+
+  if (!hasAlarm) {
+    return;
+  }
+
+  if (background.hasAlarmExpired_(feeds.events[eventIndex], triggeredAlarm.reminder)) {
+    return;
+  }
+
   chrome.notifications.create(alarm.name, {
     type: 'basic',
     requireInteraction: true,
     iconUrl: 'icons/logo_calendar_96.png',
-    title: feeds.nextEvents[eventIndex].title,
+    title: feeds.events[eventIndex].title,
     message: chrome.i18n.getMessage(
-        'your_event_starts_in',
-        [feeds.nextEvents[eventIndex].title, feeds.nextEvents[eventIndex].reminders[0].minutes])
+        'your_event_starts_in', [feeds.events[eventIndex].title, triggeredAlarm.reminder])
   });
 });
 
@@ -259,11 +278,11 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
  */
 chrome.notifications.onClicked.addListener(function(alarmName) {
   var eventIndex = 0;
-  feeds.nextEvents.some(function(event, index) {
+  feeds.events.some(function(event, index) {
     eventIndex = index;
     return event.event_id === alarmName;
   });
-  chrome.tabs.create({'url': feeds.nextEvents[eventIndex].gcal_url});
+  chrome.tabs.create({'url': feeds.events[eventIndex].gcal_url});
 });
 
 

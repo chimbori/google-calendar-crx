@@ -401,7 +401,6 @@ feeds.fetchEventsRecursively_ = function(feed, callback, authToken, days, fromDa
   });
 };
 
-
 /**
  * Updates the notification alarms
  */
@@ -409,50 +408,29 @@ feeds.updateNotification = function() {
   if (!options.get(options.Options.SHOW_NOTIFICATIONS)) {
     return;
   }
-  // If event deleted, then delete alarm
-  if (feeds.nextEvents.length === 0) {
-    chrome.alarms.getAll(function(alarms) {
-      if (alarms.length > 0) {
-        chrome.alarms.clearAll();
-      }
-    });
-    return;
-  }
+  chrome.alarms.clearAll();
 
-  chrome.alarms.getAll(function(alarms) {
-    // Check against one event at the time
-    for (var i = 0; i < feeds.nextEvents.length; i++) {
-      if (feeds.nextEvents[i].reminders.length === 0) {
-        return;
-      }
-      // Check if the event has an alarm. This also saves the index of the alarm
-      var alarmIndex = 0;
-      var hasEventAnAlarm = alarms.some(function(alarm, index) {
-        alarmIndex = index;
-        return feeds.nextEvents[i].event_id === alarm.name;
-      });
-
-      var TIME_UNTIL_ALARM_MS = feeds.nextEvents[i].reminders[0].minutes * 60 * 1000;
-      var alarmSchedule = new Date(feeds.nextEvents[i].start).getTime() - TIME_UNTIL_ALARM_MS;
-      // Cancel if reminder has passed
-      if (alarmSchedule < new Date().getTime()) {
-        return;
-      }
-
-      if (hasEventAnAlarm) {
-        // If event has been changed, then update the alarm.
-        if (feeds.nextEvents[i].start !== alarms[alarmIndex].scheduledTime + TIME_UNTIL_ALARM_MS) {
-          chrome.alarms.clear(feeds.nextEvents[i].event_id);
-          chrome.alarms.create(feeds.nextEvents[i].event_id, {when: alarmSchedule});
-        }
-      } else {
-        // Add new alarm
-        chrome.alarms.create(
-            feeds.nextEvents[i].event_id,
-            {when: new Date(feeds.nextEvents[i].start).getTime() - TIME_UNTIL_ALARM_MS});
-      }
+  for (var i = 0; i < feeds.events.length; i++) {
+    if (feeds.events[i].reminders.length === 0) {
+      continue;
     }
-  });
+    for (var j = 0; j < feeds.events[i].reminders.length; j++) {
+      // Only create notifications of popup types
+      if (feeds.events[i].reminders[j].method !== 'popup') {
+        continue;
+      }
+
+      var timeUntilReminderMinutes = feeds.events[i].reminders[j].minutes;
+      var eventId = {event_id: feeds.events[i].event_id, reminder: timeUntilReminderMinutes};
+
+      var alarmSchedule =
+          moment(feeds.events[i].start).subtract(timeUntilReminderMinutes, 'minutes');
+      if (alarmSchedule.isBefore(moment())) {
+        continue;
+      }
+      chrome.alarms.create(JSON.stringify(eventId), {when: alarmSchedule.valueOf()});
+    }
+  }
 };
 
 /**
