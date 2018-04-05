@@ -340,7 +340,7 @@ feeds.fetchEventsRecursively_ = function(feed, callback, authToken, days, fromDa
         if (data.items.length == 0) {
           var nextInterval = days + feeds.DAYS_IN_AGENDA_;
           if (nextInterval < feeds.MAX_DAYS_IN_AGENDA_) {
-            feeds.fetchEventsRecursively_(nextInterval);
+            feeds.fetchEventsRecursively_(feed, callback, authToken, nextInterval, fromDate);
             return;
           }
         }
