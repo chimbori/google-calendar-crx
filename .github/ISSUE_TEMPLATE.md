@@ -1,5 +1,5 @@
 * [ ] I have searched through existing [Issues](https://github.com/manastungare/google-calendar-crx/issues) and confirmed that this particular issue has not already been reported.
-* [ ] I have read and performed all the steps listed under the [Troubleshooting section](https://github.com/manastungare/google-calendar-crx/wiki/Troubleshooting).
+* [ ] I have read and performed all the steps listed in the [Wiki](https://github.com/manastungare/google-calendar-crx/wiki).
 
 
 What steps will reproduce the problem?
