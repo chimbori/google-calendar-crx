@@ -426,7 +426,9 @@ browseraction.showEventsFromFeed_ = function(events) {
   // 'position: sticky')
   var calendarDay =
       $('<div>', {class: 'calendar-day'})
-          .append($('<div>').addClass('date-header').text(headerDate.format('dddd, MMMM D')))
+          .append($('<div>')
+                      .addClass('date-header')
+                      .text(headerDate.format(chrome.i18n.getMessage('date_format_date_header'))))
           .appendTo(calendarEventsDiv);
 
   // If there are no events today, then avoid showing an empty date section.
@@ -449,7 +451,10 @@ browseraction.showEventsFromFeed_ = function(events) {
       headerDate = startDate;
       calendarDay =
           $('<div>', {class: 'calendar-day'})
-              .append($('<div>').addClass('date-header').text(headerDate.format('dddd, MMMM D')))
+              .append(
+                  $('<div>')
+                      .addClass('date-header')
+                      .text(headerDate.format(chrome.i18n.getMessage('date_format_date_header'))))
               .appendTo(calendarEventsDiv);
     }
     browseraction.createEventDiv_(event).appendTo(calendarDay);
@@ -508,9 +513,9 @@ browseraction.createEventDiv_ = function(event) {
 
   var dateTimeFormat;
   if (event.allday) {  // Choose the correct time format.
-    dateTimeFormat = 'MMM D, YYYY';
+    dateTimeFormat = chrome.i18n.getMessage('date_format_event_allday');
   } else if (isDetectedEvent || isMultiDayEventWithTime) {
-    dateTimeFormat = 'MMM D, YYYY ' + timeFormat;
+    dateTimeFormat = chrome.i18n.getMessage('date_format_event_allday') + ' ' + timeFormat;
   } else {
     dateTimeFormat = timeFormat;
   }
