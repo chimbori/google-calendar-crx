@@ -123,6 +123,14 @@
     "message": "Vis notifikationer.",
     "description": "Show notifications before an event starts."
   },
+  "date_format_date_header": {
+    "message": "dddd, D. MMMM",
+    "description": "Date format to be used in '.date-header'."
+  },
+  "date_format_event_allday": {
+    "message": "D. MMM, YYYY",
+    "description": "Date format to be used for all-day and multi-day events."
+  },
   "your_event_starts_in": {
     "message": "$eventName$ starter om $minutes$ minutter",
     "description": "Shows the reminder of the event",

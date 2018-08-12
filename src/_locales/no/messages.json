@@ -114,5 +114,13 @@
   "alert_new_event_added": {
     "message": "Denne hendelsen har nettopp blitt lagt til i kalenderen din: ",
     "description": "When a new event is added into the user's calendar, an alert message will be displayed for the user to click on it and see the details"
+  },
+  "date_format_date_header": {
+    "message": "dddd, D. MMMM",
+    "description": "Date format to be used in '.date-header'."
+  },
+  "date_format_event_allday": {
+    "message": "D. MMM, YYYY",
+    "description": "Date format to be used for all-day and multi-day events."
   }
 }
