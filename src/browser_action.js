@@ -425,7 +425,8 @@ browseraction.showEventsFromFeed_ = function(events) {
   // Insert a new div for every day, that contains all events of a single day (necessary for
   // 'position: sticky')
   var calendarDay =
-      $('<div>', {class: 'calendar-day'})
+      $('<div>')
+          .addClass('calendar-day')
           .append($('<div>')
                       .addClass('date-header')
                       .text(headerDate.format(chrome.i18n.getMessage('date_format_date_header'))))
@@ -450,7 +451,8 @@ browseraction.showEventsFromFeed_ = function(events) {
     if (startDate.diff(headerDate, 'hours') > 23) {
       headerDate = startDate;
       calendarDay =
-          $('<div>', {class: 'calendar-day'})
+          $('<div>')
+              .addClass('calendar-day')
               .append(
                   $('<div>')
                       .addClass('date-header')
