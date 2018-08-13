@@ -83,9 +83,9 @@
     "message": "Die Terminübersicht wird aktualisiert.",
     "description": "Tooltip text for when the extension is fetching the feed from the server."
   },
-  "toolbar_icon": {
-    "message": "Einstellungen für das Toolbarsymbol",
-    "description": "The section of the Options page that deals with the toolbar icon."
+  "settings_header": {
+    "message": "Einstellungen",
+    "description": "The header for the Options section that deals with extension settings"
   },
   "view_web_calendar": {
     "message": "Ganzen Kalender anzeigen",
@@ -122,6 +122,10 @@
   "option_show_notifications": {
     "message": "Zeige Benachrichtigungen.",
     "description": "Show notifications before an event starts."
+  },
+  "show_add_to_google_calendar_menu": {
+    "message": "Termine aus dem Menü heraus zu Google Kalender hinzufügen.",
+    "description": "Show the 'Add to Google Calendar' action in context menu"
   },
   "date_format_date_header": {
     "message": "dddd, D. MMMM",
