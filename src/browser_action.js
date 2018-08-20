@@ -421,17 +421,23 @@ browseraction.showEventsFromFeed_ = function(events) {
   // multi-day events (i.e., started last week, ends next week) will be shown
   // under today's date header, not under the date it started.
   var headerDate = moment().hours(0).minutes(0).seconds(0).millisecond(0);
-  $('<div>')
-      .addClass('date-header')
-      .text(headerDate.format('dddd, MMMM D'))
-      .appendTo(calendarEventsDiv);
+
+  // Insert a new div for every day, that contains all events of a single day (necessary for
+  // 'position: sticky')
+  var calendarDay =
+      $('<div>')
+          .addClass('calendar-day')
+          .append($('<div>')
+                      .addClass('date-header')
+                      .text(headerDate.format(chrome.i18n.getMessage('date_format_date_header'))))
+          .appendTo(calendarEventsDiv);
 
   // If there are no events today, then avoid showing an empty date section.
   if (events.length === 0 || moment(events[0].start).diff(headerDate, 'hours') > 23) {
     $('<div>')
         .addClass('no-events-today')
         .append(chrome.i18n.getMessage('no_events_today'))
-        .appendTo(calendarEventsDiv);
+        .appendTo(calendarDay);
   }
 
   for (var i = 0; i < events.length; i++) {
@@ -444,12 +450,16 @@ browseraction.showEventsFromFeed_ = function(events) {
     var startDate = start.clone().hours(0).minutes(0).seconds(0);
     if (startDate.diff(headerDate, 'hours') > 23) {
       headerDate = startDate;
-      $('<div>')
-          .addClass('date-header')
-          .text(headerDate.format('dddd, MMMM D'))
-          .appendTo(calendarEventsDiv);
+      calendarDay =
+          $('<div>')
+              .addClass('calendar-day')
+              .append(
+                  $('<div>')
+                      .addClass('date-header')
+                      .text(headerDate.format(chrome.i18n.getMessage('date_format_date_header'))))
+              .appendTo(calendarEventsDiv);
     }
-    browseraction.createEventDiv_(event).appendTo(calendarEventsDiv);
+    browseraction.createEventDiv_(event).appendTo(calendarDay);
   }
 
   // Add delay to work around Chrome extension popup layout bug
@@ -505,9 +515,9 @@ browseraction.createEventDiv_ = function(event) {
 
   var dateTimeFormat;
   if (event.allday) {  // Choose the correct time format.
-    dateTimeFormat = 'MMM D, YYYY';
+    dateTimeFormat = chrome.i18n.getMessage('date_format_event_allday');
   } else if (isDetectedEvent || isMultiDayEventWithTime) {
-    dateTimeFormat = 'MMM D, YYYY ' + timeFormat;
+    dateTimeFormat = chrome.i18n.getMessage('date_format_event_allday') + ' ' + timeFormat;
   } else {
     dateTimeFormat = timeFormat;
   }

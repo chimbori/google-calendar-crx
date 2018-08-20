@@ -187,11 +187,27 @@ h2 {
   margin: 4px 0;
 }
 
+/* Initial padding at the very top */
+#calendar-events {
+  padding-top: 16px;
+}
+
+/* Small fix for the sticky property, so the date-header moves after the last events shadow.
+Otherwise there would be a small black line. */
+.calendar-day {
+  padding-bottom: 1px;
+}
+
 .date-header {
   color: #666;
+  background: #e5e5e5;
   font-size: 16px;
-  margin: 16px 0 4px 0;
   padding: 4px 0;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  /* box-shadow on both sides to hide the underlying shadow of an event */
+  box-shadow: -5px 0 0 0 #e5e5e5, 5px 0 0 0 #e5e5e5;
 }
 
 .no-events-today {
@@ -209,6 +225,12 @@ h2 {
   border-radius: 2px;
   overflow: hidden;
   position: relative;
+}
+
+/* Last event of a single day used for spacing between 'calendar-day's
+(necessary for 'position: sticky'). */
+.event:last-child {
+  margin-bottom: 16px;
 }
 
 .start-time {

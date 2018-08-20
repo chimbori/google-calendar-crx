@@ -127,6 +127,14 @@
     "message": "Add to Google Calendar from menu",
     "description": "Show the 'Add to Google Calendar' action in context menu"
   },
+  "date_format_date_header": {
+    "message": "dddd, MMMM D",
+    "description": "Date format to be used in '.date-header'."
+  },
+  "date_format_event_allday": {
+    "message": "MMM D, YYYY",
+    "description": "Date format to be used for all-day and multi-day events."
+  },
   "your_event_starts_in": {
     "message": "$eventName$ starts in $minutes$ minutes",
     "description": "Shows the reminder of the event",
