@@ -39,6 +39,10 @@
     "message": "Không có sự kiện nào hôm nay.",
     "description": "Message shown as a placeholder when there are no events today. It only applies to when there are no events today, not for other dates."
   },
+  "no_upcoming_events": {
+    "message": "Không có sự kiện nào sắp diễn ra.",
+    "description": "Message shown as a placeholder when there are no future events at all. It applies both to today and all future dates."
+  },
   "authorization_required": {
     "message": "Ủy quyền từ Lịch Google",
     "description": "A message shown when the user needs to grant permission for this extension to read events from their calendar."
@@ -48,7 +52,7 @@
     "description": "A message shown after the user clicks on the Authorize button."
   },
   "authorization_explanation": {
-    "message": "Lịch Google cho Chrome cho phép bạn kiểm tra lịch của mình khi ghé thăm các trang web. Để thực hiện, bạn cần cho phép truy cập vào lịch của bạn. Đây là bước cài đặt một lần theo yêu cầu trước khi bạn có thể sử dụng ứng dụng này.",
+    "message": "Lịch Google cho Chrome cho phép bạn kiểm tra lịch của mình khi ghé thăm các trang web khác. Để bắt đầu, bạn cần cho phép truy cập vào lịch của bạn. Đây là bước cài đặt một lần bắt buộc trước khi bạn có thể sử dụng ứng dụng này.",
     "description": "A detailed message explaining the OAuth flow."
   },
   "problems": {
@@ -76,12 +80,12 @@
     "description": "Alternate text for the icon that opens the Options screen in a new window."
   },
   "fetching_feed": {
-    "message": "Danh sách các sự kiện đã được cập nhật.",
+    "message": "Danh sách các sự kiện đang được cập nhật.",
     "description": "Tooltip text for when the extension is fetching the feed from the server."
   },
-  "toolbar_icon": {
-    "message": "Biểu tượng trên thanh công cụ",
-    "description": "The section of the Options page that deals with the toolbar icon."
+  "settings_header": {
+    "message": "Cài đặt",
+    "description": "The header for the Options section that deals with extension settings"
   },
   "view_web_calendar": {
     "message": "Xem Lịch đầy đủ",
@@ -104,7 +108,7 @@
     "description": "The name of the option that tells the user that the extension will display the time on the badge."
   },
   "option_time_until_next_includes_all_day_events": {
-    "message": "Bao gồm các sự kiện cả ngày khi tính toán thời gian đến sự kiện tiếp theo.",
+    "message": "Bao gồm các sự kiện diễn ra cả ngày khi tính toán thời gian đến sự kiện tiếp theo.",
     "description": "The name of the option that ensures all-day events are included when computing the time to next event."
   },
   "event_title_unknown": {
@@ -114,5 +118,35 @@
   "alert_new_event_added": {
     "message": "Sự kiện này vừa được thêm vào lịch của bạn: ",
     "description": "When a new event is added into the user's calendar, an alert message will be displayed for the user to click on it and see the details"
+  },
+  "option_show_notifications": {
+    "message": "Hiện thông báo.",
+    "description": "Show notifications before an event starts."
+  },
+  "show_add_to_google_calendar_menu": {
+    "message": "Cho phép dùng Thêm vào Lịch Google ở trên menu",
+    "description": "Show the 'Add to Google Calendar' action in context menu"
+  },
+  "date_format_date_header": {
+    "message": "dddd, D. MMMM",
+    "description": "Date format to be used in '.date-header'."
+  },
+  "date_format_event_allday": {
+    "message": "D. MMM, YYYY",
+    "description": "Date format to be used for all-day and multi-day events."
+  },
+  "your_event_starts_in": {
+    "message": "$eventName$ bắt đầu trong $minutes$ phút",
+    "description": "Shows the reminder of the event",
+    "placeholders": {
+      "eventName": {
+        "content": "$1",
+        "example": "Cuộc hẹn"
+      },
+      "minutes": {
+        "content": "$2",
+        "example": "42"
+      }
+    }
   }
 }
