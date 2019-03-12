@@ -74,8 +74,6 @@ browseraction.SHORTCUT_OPEN_QUICK_ADD = 'a';
  */
 browseraction.initialize = function() {
   chrome.extension.getBackgroundPage().background.log('browseraction.initialize()');
-  utils.startAnalytics_();
-  _gaq.push(['_trackEvent', 'Popup', 'Shown']);
   browseraction.fillMessages_();
   browseraction.installButtonClickHandlers_();
   browseraction.installKeydownHandlers_();
@@ -157,12 +155,10 @@ browseraction.installButtonClickHandlers_ = function() {
   });
 
   $('#sync_now').on('click', function() {
-    _gaq.push(['_trackEvent', 'Popup', 'Manual Refresh']);
     chrome.extension.sendMessage({method: 'events.feed.fetch'}, browseraction.showEventsFromFeed_);
   });
 
   $('#show_options').on('click', function() {
-    _gaq.push(['_trackEvent', 'Options', 'Shown']);
     chrome.tabs.create({'url': 'options.html'});
   });
 
@@ -216,8 +212,6 @@ browseraction.installKeydownHandlers_ = function() {
 
 /** @private */
 browseraction.toggleQuickAddBoxVisibility_ = function(shouldShow) {
-  _gaq.push(['_trackEvent', 'Quick Add', 'Toggled']);
-
   if (shouldShow) {
     $('#show_quick_add').addClass('rotated');
     $('#quick-add').slideDown(200);
@@ -234,7 +228,6 @@ browseraction.toggleQuickAddBoxVisibility_ = function(shouldShow) {
  * @private
  */
 browseraction.addNewEventIntoCalendar_ = function() {
-  _gaq.push(['_trackEvent', 'Quick Add', 'Event Created']);
   browseraction.createQuickAddEvent_(
       $('#quick-add-event-title').val().toString(), $('#quick-add-calendar-list').val());
   $('#quick-add-event-title').val('');  // Remove the existing text from the field.
@@ -337,7 +330,6 @@ browseraction.createQuickAddEvent_ = function(text, calendarId) {
           'getAuthToken', chrome.runtime.lastError.message);
       return;
     }
-    _gaq.push(['_trackEvent', 'Quick Add', 'Add']);
 
     browseraction.startSpinner();
     $.ajax(quickAddUrl, {
@@ -354,7 +346,6 @@ browseraction.createQuickAddEvent_ = function(text, calendarId) {
         window.setTimeout(function() {
           $('#info_bar').slideUp();
         }, constants.INFO_BAR_DISMISS_TIMEOUT_MS);
-        _gaq.push(['_trackEvent', 'Quick Add', 'Error', response.statusText]);
         chrome.extension.getBackgroundPage().background.log(
             'Error adding Quick Add event', response.statusText);
         if (response.status === 401) {

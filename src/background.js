@@ -81,7 +81,6 @@ background.log = function(message, opt_dump) {
  * Initializes the background page by registering listeners.
  */
 background.initialize = function() {
-  utils.startAnalytics_();
   background.initMomentJs_();
   background.setupMenus_();
   background.listenForRequests_();

@@ -119,7 +119,6 @@ feeds.fetchSettings = function() {
       background.log('getAuthToken', chrome.runtime.lastError.message);
       return;
     }
-    _gaq.push(['_trackEvent', 'Fetch', 'Settings']);
 
     $.ajax(feeds.SETTINGS_API_URL_, {
       headers: {'Authorization': 'Bearer ' + authToken},
@@ -137,7 +136,6 @@ feeds.fetchSettings = function() {
         background.log('Remote settings saved to local storage.', settings.items);
       },
       error: function(response) {
-        _gaq.push(['_trackEvent', 'Fetch', 'Error (Settings)', response.statusText]);
         background.log('Fetch Error (Settings)', response.statusText);
       }
     });
@@ -166,7 +164,6 @@ feeds.fetchCalendars = function() {
         feeds.refreshUI();
         return;
       }
-      _gaq.push(['_trackEvent', 'Fetch', 'CalendarList']);
 
       $.ajax(feeds.CALENDAR_LIST_API_URL_, {
         headers: {'Authorization': 'Bearer ' + authToken},
@@ -214,7 +211,6 @@ feeds.fetchCalendars = function() {
         },
         error: function(response) {
           chrome.extension.sendMessage({method: 'sync-icon.spinning.stop'});
-          _gaq.push(['_trackEvent', 'Fetch', 'Error (Calendars)', response.statusText]);
           background.log('Fetch Error (Calendars)', response.statusText);
           if (response.status === 401) {
             feeds.refreshUI();
@@ -305,7 +301,6 @@ feeds.fetchEventsFromCalendar_ = function(feed, callback) {
       feeds.refreshUI();
       return;
     }
-    _gaq.push(['_trackEvent', 'Fetch', 'Events']);
 
     var fromDate = moment();
     feeds.fetchEventsRecursively_(feed, callback, authToken, feeds.DAYS_IN_AGENDA_, fromDate);
@@ -389,7 +384,6 @@ feeds.fetchEventsRecursively_ = function(feed, callback, authToken, days, fromDa
     })(feed),
     error: function(response) {
       chrome.extension.sendMessage({method: 'sync-icon.spinning.stop'});
-      _gaq.push(['_trackEvent', 'Fetch', 'Error (Events)', response.statusText]);
       background.log('Fetch Error (Events)', response.statusText);
       if (response.status === 401) {
         feeds.refreshUI();

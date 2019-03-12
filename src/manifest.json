@@ -23,7 +23,7 @@
       "https://www.googleapis.com/auth/calendar"
     ]
   },
-  "content_security_policy": "script-src 'self' https://calendar.google.com https://ssl.google-analytics.com; object-src 'self'",
+  "content_security_policy": "script-src 'self' https://calendar.google.com; object-src 'self'",
   "background": {
     "scripts": [
       "lib/jstz-1.0.4.min.js",
