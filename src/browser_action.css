@@ -268,7 +268,9 @@ Otherwise there would be a small black line. */
 }
 
 .event-title {
-  font-size: 14px;
+  font-size: 11pt;
+  margin: 6px 0;
+  font-weight: bold;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
