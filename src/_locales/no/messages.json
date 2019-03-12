@@ -27,10 +27,6 @@
     "message": "F.eks. “Middag med venner i morgen klokken 19:00”",
     "description": "Placeholder in the textarea where the user is instructed to type in the title of the event they want to create."
   },
-  "events_on_this_page": {
-    "message": "Hendelser på denne siden",
-    "description": "Title used in the browser action popup for the list of events detected on the current page."
-  },
   "quick_add_button": {
     "message": "Legg til",
     "description": "Text on the button that adds a new event to the calendar from user input."

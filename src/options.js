@@ -32,7 +32,6 @@ var options = {};
  * @const
  */
 options.Options = {
-  ADD_FROM_CONTEXT_MENU_SHOWN: 'add_from_context_menu_shown',
   BADGE_TEXT_SHOWN: 'badge-text-shown',
   DEBUG_ENABLE_LOGS: 'debug-enable-logs',
   SHOW_NOTIFICATIONS: 'show_notifications',
@@ -45,11 +44,6 @@ options.Options = {
  * @private
  */
 options.DEFAULTS_ = {};
-
-/**
- * Whether the Add To Calendar menu item is shown in the context menu.
- */
-options.DEFAULTS_[options.Options.ADD_FROM_CONTEXT_MENU_SHOWN] = true;
 
 /**
  * Whether or not Time Remaining until the next event is shown.

@@ -27,10 +27,6 @@
     "message": "Npr. “Večera s prijateljem sutra u 7 navečer.”",
     "description": "Placeholder in the textarea where the user is instructed to type in the title of the event they want to create."
   },
-  "events_on_this_page": {
-    "message": "Događaji sa ove stranice.",
-    "description": "Title used in the browser action popup for the list of events detected on the current page."
-  },
   "quick_add_button": {
     "message": "Dodaj",
     "description": "Text on the button that adds a new event to the calendar from user input."

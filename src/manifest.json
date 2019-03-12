@@ -15,12 +15,7 @@
     "contextMenus",
     "identity",
     "notifications",
-    "storage",
-    "tabs",
-    "http://*/*",
-    "https://*/*",
-    "http://calendar.google.com/calendar/*",
-    "https://calendar.google.com/calendar/*"
+    "storage"
   ],
   "oauth2": {
     "client_id": "840256951321-stskg5tsvdfjcf1c5cthd6n5k54nq7q0.apps.googleusercontent.com",
@@ -39,7 +34,6 @@
       "utils.js",
       "feeds.js",
       "scheduler.js",
-      "context_menu.js",
       "background.js"
     ]
   },
@@ -51,24 +45,5 @@
     },
     "default_title": "__MSG_google_calendar_extension_name__",
     "default_popup": "browser_action.html"
-  },
-  "content_scripts": [
-    {
-      "matches": [
-        "http://*/*",
-        "https://*/*"
-      ],
-      "js": [
-        "lib/jquery.min.js",
-        "lib/moment+langs.min.js",
-        "utils.js",
-        "events_microformats.js"
-      ],
-      "run_at": "document_idle"
-    }
-  ],
-  "web_accessible_resources": [
-    "icons/calendar_add_19.png",
-    "icons/calendar_add_38.png"
-  ]
+  }
 }

@@ -27,10 +27,6 @@
     "message": "Per exemple “Sopar amb amics demà a les 19:00”",
     "description": "Descripció en el textarea on s'explica a l'usuari que ha d'escriure el títol de l'esdeveniment que vol crear."
   },
-  "events_on_this_page": {
-    "message": "Esdeveniments a la página",
-    "description": "Titol utilitzat a l'acció de popup del navegador per la llista de eseveniments detectats a la página."
-  },
   "quick_add_button": {
     "message": "Afegir",
     "description": "Text del botó per a que lu'usuari pugui afegir un nou esdeveniment al calendari."

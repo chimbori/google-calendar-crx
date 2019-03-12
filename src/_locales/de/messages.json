@@ -27,10 +27,6 @@
     "message": "z.B. “Abendessen mit Freunden morgen um 19:00 Uhr”",
     "description": "Placeholder in the textarea where the user is instructed to type in the title of the event they want to create."
   },
-  "events_on_this_page": {
-    "message": "Termine auf dieser Seite",
-    "description": "Title used in the browser action popup for the list of events detected on the current page."
-  },
   "quick_add_button": {
     "message": "Hinzufügen",
     "description": "Text on the button that adds a new event to the calendar from user input."
@@ -122,10 +118,6 @@
   "option_show_notifications": {
     "message": "Zeige Benachrichtigungen.",
     "description": "Show notifications before an event starts."
-  },
-  "show_add_to_google_calendar_menu": {
-    "message": "Termine aus dem Menü heraus zu Google Kalender hinzufügen.",
-    "description": "Show the 'Add to Google Calendar' action in context menu"
   },
   "date_format_date_header": {
     "message": "dddd, D. MMMM",

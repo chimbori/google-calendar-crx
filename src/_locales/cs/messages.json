@@ -27,10 +27,6 @@
     "message": "Např. “Snídaně se Sašou”",
     "description": "Placeholder in the textarea where the user is instructed to type in the title of the event they want to create."
   },
-  "events_on_this_page": {
-    "message": "Události na této stránce",
-    "description": "Title used in the browser action popup for the list of events detected on the current page."
-  },
   "quick_add_button": {
     "message": "Vytvořit",
     "description": "Text on the button that adds a new event to the calendar from user input."

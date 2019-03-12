@@ -83,7 +83,6 @@ browseraction.initialize = function() {
   browseraction.loadCalendarsIntoQuickAdd_();
   browseraction.listenForRequests_();
   versioning.checkVersion();
-  browseraction.showDetectedEvents_();
   chrome.extension.sendMessage({method: 'events.feed.get'}, browseraction.showEventsFromFeed_);
 };
 
@@ -370,28 +369,6 @@ browseraction.createQuickAddEvent_ = function(text, calendarId) {
 
 
 /**
- * Shows events detected on the current page (by one of the parsers) in a list
- * inside the browser action popup.
- * @private
- */
-browseraction.showDetectedEvents_ = function() {
-  chrome.extension.sendMessage({method: 'events.detected.get'}, function(eventsFromPage) {
-    // Pick a layout based on how many events we have to show: 0, 1, or >1.
-    if (eventsFromPage && eventsFromPage.length > 0) {
-      $('<div>')
-          .addClass('date-header')
-          .text(chrome.i18n.getMessage('events_on_this_page'))
-          .appendTo($('#detected-events'));
-      $.each(eventsFromPage, function(i, event) {
-        browseraction.createEventDiv_(event).appendTo($('#detected-events'));
-      });
-      $('#add-events').click();
-    }
-  });
-};
-
-
-/**
  * Retrieves events from the calendar feed, sorted by start time, and displays
  * them in the browser action popup.
  * @param {Array} events The events to display.
@@ -488,7 +465,6 @@ browseraction.createEventDiv_ = function(event) {
     return eventDiv;
   }
 
-  var isDetectedEvent = !event.feed;
   var isHappeningNow = start.valueOf() < now && end.valueOf() >= now;
   var spansMultipleDays = (end.diff(start, 'seconds') > 86400);
   // Not an all-day event implies that times are given.
@@ -496,9 +472,6 @@ browseraction.createEventDiv_ = function(event) {
   // Multi-day events with time should look like all-day events.
   if (event.allday || isMultiDayEventWithTime) {
     eventDiv.addClass('all-day');
-  }
-  if (isDetectedEvent) {
-    eventDiv.addClass('detected-event');
   }
   eventDiv
       .on('click',
@@ -516,26 +489,18 @@ browseraction.createEventDiv_ = function(event) {
   var dateTimeFormat;
   if (event.allday) {  // Choose the correct time format.
     dateTimeFormat = chrome.i18n.getMessage('date_format_event_allday');
-  } else if (isDetectedEvent || isMultiDayEventWithTime) {
+  } else if (isMultiDayEventWithTime) {
     dateTimeFormat = chrome.i18n.getMessage('date_format_event_allday') + ' ' + timeFormat;
   } else {
     dateTimeFormat = timeFormat;
   }
 
   var startTimeDiv = $('<div>').addClass('start-time');
-  if (isDetectedEvent) {
-    startTimeDiv.append($('<img>').attr({
-      'width': 19,
-      'height': 19,
-      'src': chrome.extension.getURL('icons/calendar_add_38.png'),
-      'alt': chrome.i18n.getMessage('add_to_google_calendar')
-    }));
-  } else {
-    startTimeDiv.css({'background-color': event.feed.backgroundColor}).attr({
-      'title': event.feed.title  // Show calendar name on mouseover
-    });
-  }
-  if (!event.allday && !isDetectedEvent && !spansMultipleDays) {
+  startTimeDiv.css({'background-color': event.feed.backgroundColor}).attr({
+    'title': event.feed.title  // Show calendar name on mouseover
+  });
+
+  if (!event.allday && !spansMultipleDays) {
     // Start and end times for partial-day events.
     startTimeDiv.text(start.format(dateTimeFormat) + ' ' + end.format(dateTimeFormat));
   }
@@ -582,7 +547,7 @@ browseraction.createEventDiv_ = function(event) {
         .appendTo(eventDetails);
   }
 
-  if (isDetectedEvent || spansMultipleDays || isMultiDayEventWithTime) {
+  if (spansMultipleDays || isMultiDayEventWithTime) {
     // If an event spans over multiple days,
     // show start and end dates and if given, show also times.
     $('<div>')

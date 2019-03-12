@@ -50,12 +50,6 @@ background.BADGE_COLORS = {
 background.selectedTabId = 0;
 
 /**
- * A map of tab IDs to the list of events we have detected in that tab.
- * @type {Object.<string,Array.<Object>>}
- */
-background.eventsFromPage = {};
-
-/**
  * @typedef {{
  *   text: (string|undefined),
  *   color: (string|undefined),
@@ -91,7 +85,6 @@ background.initialize = function() {
   background.initMomentJs_();
   background.setupMenus_();
   background.listenForRequests_();
-  background.listenForTabUpdates_();
   scheduler.start();
 };
 
@@ -148,21 +141,6 @@ background.setupMenus_ = function() {
 background.listenForRequests_ = function() {
   chrome.extension.onMessage.addListener(function(request, sender, opt_callback) {
     switch (request.method) {
-      case 'events.detected.set':
-        background.selectedTabId = sender.tab.id;
-        background.eventsFromPage['tab' + background.selectedTabId] = request.parameters.events;
-        chrome.browserAction.setIcon({
-          path: {'19': 'icons/calendar_add_19.png', '38': 'icons/calendar_add_38.png'},
-          tabId: sender.tab.id
-        });
-        break;
-
-      case 'events.detected.get':
-        if (opt_callback) {
-          opt_callback(background.eventsFromPage['tab' + background.selectedTabId]);
-        }
-        break;
-
       case 'events.feed.get':
         if (opt_callback) {
           opt_callback(feeds.events);
@@ -174,11 +152,7 @@ background.listenForRequests_ = function() {
         break;
 
       case 'options.changed':
-        if (request.optionKey === options.Options.ADD_FROM_CONTEXT_MENU_SHOWN) {
-          menu.updateContextMenus();
-        } else {
-          feeds.refreshUI();
-        }
+        feeds.refreshUI();
         break;
 
       case 'authtoken.update':
@@ -189,27 +163,6 @@ background.listenForRequests_ = function() {
     // Indicates to Chrome that a pending async request will eventually issue
     // the callback passed to this function.
     return true;
-  });
-};
-
-
-/**
- * Listen to when user changes the tab, so we can show/hide the icon.
- * @private
- */
-background.listenForTabUpdates_ = function() {
-  chrome.tabs.onSelectionChanged.addListener(function(tabId, selectInfo) {
-    background.selectedTabId = tabId;
-  });
-
-  // We need to reset the events detected in case the page was reloaded
-  // in the same tab. Otherwise, even after the user clicks away
-  // from the page that originally contained that event, we would
-  // continue to show the orange button and events list.
-  chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
-    if (changeInfo.status == 'loading') {
-      delete background.eventsFromPage['tab' + tabId];
-    }
   });
 };
 

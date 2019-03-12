@@ -27,10 +27,6 @@
     "message": "例如：晚上 7 點在晶華舉辦晚宴",
     "description": "Placeholder in the textarea where the user is instructed to type in the title of the event they want to create."
   },
-  "events_on_this_page": {
-    "message": "此頁面中的事件",
-    "description": "Title used in the browser action popup for the list of events detected on the current page."
-  },
   "quick_add_button": {
     "message": "新增",
     "description": "Text on the button that adds a new event to the calendar from user input."

@@ -27,10 +27,6 @@
     "message": "V.d. “Ăn tối với bạn lúc 7h tối mai”",
     "description": "Placeholder in the textarea where the user is instructed to type in the title of the event they want to create."
   },
-  "events_on_this_page": {
-    "message": "Các sự kiện trên trang này",
-    "description": "Title used in the browser action popup for the list of events detected on the current page."
-  },
   "quick_add_button": {
     "message": "Thêm",
     "description": "Text on the button that adds a new event to the calendar from user input."
@@ -122,10 +118,6 @@
   "option_show_notifications": {
     "message": "Hiện thông báo.",
     "description": "Show notifications before an event starts."
-  },
-  "show_add_to_google_calendar_menu": {
-    "message": "Cho phép dùng Thêm vào Lịch Google ở trên menu",
-    "description": "Show the 'Add to Google Calendar' action in context menu"
   },
   "date_format_date_header": {
     "message": "dddd, D. MMMM",

@@ -163,22 +163,6 @@ utils.fromIso8601 = function(date) {
 
 
 /**
- * In a DOMElement, locate the first instance of the given selector. If
- * such an instance is present, then return its text. Else return "".
- * @param {Element} element The DOMElement to start looking under.
- * @param {string} selector What to look for, as a CSS selector.
- * @return {string} The text of the first child if found; "" otherwise.
- */
-utils.getFirstFieldText = function(element, selector) {
-  var rawField = $(element).find(selector);
-  if (rawField && rawField.length > 0) {
-    return $(rawField[0]).text().trim();
-  }
-  return '';
-};
-
-
-/**
  * Loads Google Analytics.
  */
 utils.startAnalytics_ = function() {
