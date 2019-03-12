@@ -91,10 +91,6 @@
     "message": "시간 형식",
     "description": "The header for the Options section under which the 12 hr/24 hr option is shown."
   },
-  "announcement_new_features": {
-    "message": "새로운 기능! 지금 확인해 보세요 »",
-    "description": "An announcement message shown after an upgrade that adds significant new features."
-  },
   "option_show_time_until_next_event": {
     "message": "다음 일정까지 남은 시간을 표시합니다.",
     "description": "The name of the option that tells the user that the extension will display the time on the badge."

@@ -95,10 +95,6 @@
     "message": "פורמט זמן",
     "description": "The header for the Options section under which the 12 hr/24 hr option is shown."
   },
-  "announcement_new_features": {
-    "message": "פיצ׳רים חדשים! בדוק אותם »",
-    "description": "An announcement message shown after an upgrade that adds significant new features."
-  },
   "option_show_time_until_next_event": {
     "message": "הצג את הזמן שנותר עד לאירוע הבא.",
     "description": "The name of the option that tells the user that the extension will display the time on the badge."

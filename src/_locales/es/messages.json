@@ -95,10 +95,6 @@
     "message": "Formato de hora",
     "description": "The header for the Options section under which the 12 hr/24 hr option is shown."
   },
-  "announcement_new_features": {
-    "message": "Agregamos nuevas características! Échales un vistazo »",
-    "description": "An announcement message shown after an upgrade that adds significant new features."
-  },
   "option_show_time_until_next_event": {
     "message": "Mostrar el tiempo restante hasta el próximo evento.",
     "description": "The name of the option that tells the user that the extension will display the time on the badge."

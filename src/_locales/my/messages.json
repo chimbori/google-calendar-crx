@@ -91,10 +91,6 @@
     "message": "အချိန်ပြရန် ပုံစံ",
     "description": "The header for the Options section under which the 12 hr/24 hr option is shown."
   },
-  "announcement_new_features": {
-    "message": "စွမ်းဆောင်ရည်အသစ်များကို သွားကြည့်ပါ »",
-    "description": "An announcement message shown after an upgrade that adds significant new features."
-  },
   "option_show_time_until_next_event": {
     "message": "နောက်ထပ်အစီအစဉ်မစမီ လိုအပ်သောအချိန်ကို ပြရန်။",
     "description": "The name of the option that tells the user that the extension will display the time on the badge."

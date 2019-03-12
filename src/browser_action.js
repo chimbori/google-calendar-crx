@@ -11,7 +11,8 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-/* globals constants, utils, versioning */
+
+/* globals constants, utils */
 
 /**
  * @fileoverview Script that runs in the context of the browser action popup.
@@ -80,7 +81,6 @@ browseraction.initialize = function() {
   browseraction.showLoginMessageIfNotAuthenticated_();
   browseraction.loadCalendarsIntoQuickAdd_();
   browseraction.listenForRequests_();
-  versioning.checkVersion();
   chrome.extension.sendMessage({method: 'events.feed.get'}, browseraction.showEventsFromFeed_);
 };
 
