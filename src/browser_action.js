@@ -525,11 +525,11 @@ browseraction.createEventDiv_ = function(event) {
   eventTitle.appendTo(eventDetails);
 
   if (event.location) {
+    var url = event.location.match(/^https?:\/\//) ?
+        event.location :
+        'https://maps.google.com?q=' + encodeURIComponent(event.location);
     $('<a>')
-        .attr({
-          'href': 'https://maps.google.com?q=' + encodeURIComponent(event.location),
-          'target': '_blank'
-        })
+        .attr({'href': url, 'target': '_blank', 'class': 'location-link'})
         .append($('<span>').text(event.location))
         .addClass('event-location')
         .append($('<img>').addClass('location-icon').attr({
