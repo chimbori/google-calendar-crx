@@ -529,7 +529,7 @@ browseraction.createEventDiv_ = function(event) {
         event.location :
         'https://maps.google.com?q=' + encodeURIComponent(event.location);
     $('<a>')
-        .attr({'href': url, 'target': '_blank', 'class': 'location-link'})
+        .attr({'href': url, 'target': '_blank'})
         .append($('<span>').text(event.location))
         .addClass('event-location')
         .append($('<img>').addClass('location-icon').attr({
