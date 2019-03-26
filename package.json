@@ -2,7 +2,7 @@
   "name": "google-calendar-crx",
   "version": "3.0.0",
   "devDependencies": {
-    "grunt": "^1.0.3",
+    "grunt": "^1.0.4",
     "grunt-clang-format": "^1.1.0",
     "grunt-contrib-csslint": "^2.0.0",
     "grunt-contrib-jshint": "^1.1.0"
