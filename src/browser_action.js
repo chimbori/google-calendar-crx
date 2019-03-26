@@ -401,7 +401,9 @@ browseraction.showEventsFromFeed_ = function(events) {
           .appendTo(calendarEventsDiv);
 
   // If there are no events today, then avoid showing an empty date section.
-  if (events.length === 0 || moment(events[0].start).diff(headerDate, 'hours') > 23) {
+  if (events === null ||
+      events.length === 0 ||
+      moment(events[0].start).diff(headerDate, 'hours') > 23) {
     $('<div>')
         .addClass('no-events-today')
         .append(chrome.i18n.getMessage('no_events_today'))
