@@ -51,21 +51,24 @@ feeds.CALENDAR_EVENTS_API_URL_ =
     'https://www.googleapis.com/calendar/v3/calendars/{calendarId}/events?';
 
 /**
- * The number of days of events to show in the list.
+ * The number of days of events to show in the list. If there are no events detected within the
+ * next N days, then follow-up requests will be made. This number is intentionally slightly larger
+ * than 0.5 * MAX_DAYS_IN_AGENDA_ so only a maximum of two requests will ever be made per fetch.
  * @type {number}
  * @const
  * @private
  */
-feeds.DAYS_IN_AGENDA_ = 14;
+feeds.DAYS_IN_AGENDA_ = 16;
 
 /**
  * When the interval in DAYS_IN_AGENDA_ has no events, keep looking forward until this number is
- * reached.
+ * reached. This should not be significantly larger than DAYS_IN_AGENDA_, otherwise the number of
+ * API requests per fetch period causes the extension to hit API quota limits.
  * @type {number}
  * @const
  * @private
  */
-feeds.MAX_DAYS_IN_AGENDA_ = 100;
+feeds.MAX_DAYS_IN_AGENDA_ = 31;
 
 /**
  * All events from visible calendars obtained during the last fetch.
