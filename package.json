@@ -1,6 +1,8 @@
 {
   "name": "google-calendar-crx",
   "version": "3.0.0",
+  "license": "Apache-2.0",
+  "repository": "https://github.com/manastungare/google-calendar-crx",
   "devDependencies": {
     "grunt": "^1.0.4",
     "grunt-clang-format": "^1.1.0",
