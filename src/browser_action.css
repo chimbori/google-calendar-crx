@@ -78,8 +78,8 @@ section {
 }
 
 .fab {
-  height: 42px;
-  width: 42px;
+  height: 38px;
+  width: 38px;
   cursor: pointer;
   border-radius: 50%;
   box-shadow: 0 0 4px rgba(0,0,0,.14), 0 4px 8px rgba(0,0,0,.28);
@@ -89,8 +89,8 @@ section {
   color: #fff;
   position: fixed;
   right: 16px;
-  top: 64px;
-  padding: 9px;
+  top: 50px;
+  padding: 7px;
   z-index: 10;
 }
 
