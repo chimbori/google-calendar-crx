@@ -15,3 +15,9 @@ locations or attached documents in one click.
     Chrome.
 *   If you want to use a Google Apps calendar, you should login to that account
     first, then open the extension.
+
+# Tech Support
+
+I cannot and will not offer tech support about this extension; please do not email me your questions.
+
+Please read through the [Wiki](https://github.com/manastungare/google-calendar-crx/wiki), and if you think you have genuinely discovered a new issue, [read through the existing issues first](https://github.com/manastungare/google-calendar-crx/issues?q=is%3Aissue+is%3Aclosed).
