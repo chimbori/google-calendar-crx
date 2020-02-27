@@ -229,10 +229,11 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
  * Go to calendar on clicked
  */
 chrome.notifications.onClicked.addListener(function(alarmName) {
+  var alarm = JSON.parse(alarmName);
   var eventIndex = 0;
   feeds.events.some(function(event, index) {
     eventIndex = index;
-    return event.event_id === alarmName;
+    return event.event_id === alarm.event_id;
   });
   chrome.tabs.create({'url': feeds.events[eventIndex].gcal_url});
 });
