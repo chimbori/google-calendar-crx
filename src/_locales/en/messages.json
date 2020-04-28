@@ -99,6 +99,10 @@
     "message": "Show time remaining until the next event.",
     "description": "The name of the option that tells the user that the extension will display the time on the badge."
   },
+  "option_show_duration_of_current_events": {
+    "message": "Show total duration of events in current view.",
+    "description": "The name of the option that tells the user that the extension will display the duration of displayed events."
+  },
   "option_time_until_next_includes_all_day_events": {
     "message": "Include all-day events when computing the time until the next event.",
     "description": "The name of the option that ensures all-day events are included when computing the time to next event."
