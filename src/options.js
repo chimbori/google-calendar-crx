@@ -33,6 +33,7 @@ var options = {};
  */
 options.Options = {
   BADGE_TEXT_SHOWN: 'badge-text-shown',
+  BADGE_DURATION_SHOWN: 'badge-duration-shown',
   DEBUG_ENABLE_LOGS: 'debug-enable-logs',
   SHOW_NOTIFICATIONS: 'show_notifications',
   TIME_UNTIL_NEXT_INCLUDES_ALL_DAY_EVENTS: 'time_until_next_includes_all_day_events'
@@ -49,6 +50,11 @@ options.DEFAULTS_ = {};
  * Whether or not Time Remaining until the next event is shown.
  */
 options.DEFAULTS_[options.Options.BADGE_TEXT_SHOWN] = true;
+
+/**
+ * Whether or not Time Remaining until the next event is shown.
+ */
+options.DEFAULTS_[options.Options.BADGE_DURATION_SHOWN] = true;
 
 /**
  * Many users are reporting that notifications are being shown at the wrong
