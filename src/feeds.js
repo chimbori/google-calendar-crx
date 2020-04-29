@@ -455,9 +455,9 @@ feeds.refreshUI = function() {
     return;
   }
 
-  if (options.get(options.Options.BADGE_TEXT_SHOWN)) {
+  if (options.get(options.Options.BADGE_DURATION_SHOWN)) {
     var nextEvent = feeds.nextEvents[0];
-    var badgeText = moment(nextEvent.start).lang('relative-formatter').fromNow();
+    var badgeText = moment(nextEvent.end).lang('relative-formatter').fromNow();
 
     background.updateBadge({
       'color': nextEvent.feed.backgroundColor,
