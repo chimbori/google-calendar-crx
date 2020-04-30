@@ -457,7 +457,7 @@ feeds.refreshUI = function() {
 
   if (options.get(options.Options.BADGE_DURATION_SHOWN)) {
     var nextEvent = feeds.nextEvents[0];
-    var badgeText = moment(nextEvent.end).lang('relative-formatter').fromNow();
+    var badgeText = moment(nextEvent.end).lang('relative-formatter').from(nextEvent.start);
 
     background.updateBadge({
       'color': nextEvent.feed.backgroundColor,
