@@ -457,16 +457,14 @@ feeds.refreshUI = function() {
 
   if (options.get(options.Options.BADGE_DURATION_SHOWN)) {
     var nextEvent = feeds.nextEvents[0];
-    // var badgeText = moment(nextEvent.start).lang('relative-formatter').fromNow();
+    var badgeText = moment(nextEvent.start).lang('relative-formatter').fromNow();
 
     var eventDuration = new moment('00:00:00', 'HH:mm:ss');
     var totalDuration = new moment('00:00:00', 'HH:mm:ss');
     for (var i = 0; i < feeds.nextEvents.length; ++i) {
       eventDuration = moment(feeds.nextEvents[i].end).lang('relative-formatter').from(feeds.nextEvents[i].start);
-      totalDuration += eventDuration;
+      feeds.totalDuration += eventDuration;
     }
-    var badgeText = totalDuration
-
 
     background.updateBadge({
       'color': nextEvent.feed.backgroundColor,
@@ -568,8 +566,9 @@ feeds.determineNextEvents_ = function() {
 feeds.getTooltipForEvents_ = function(nextEvents) {
   var tooltipLines = [];
   if (nextEvents.length > 0) {
-    var startMoment = moment(nextEvents[0].start);
-    tooltipLines.push(startMoment.calendar() + ' (' + startMoment.fromNow() + ')');
+    // var startMoment = moment(nextEvents[0].start);
+    // tooltipLines.push(startMoment.calendar() + ' (' + startMoment.fromNow() + ')');
+    tooltipLines.push(feeds.totalDuration);
   }
 
   for (var i = 0; i < nextEvents.length; i++) {
