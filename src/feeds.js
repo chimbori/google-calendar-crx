@@ -457,7 +457,16 @@ feeds.refreshUI = function() {
 
   if (options.get(options.Options.BADGE_DURATION_SHOWN)) {
     var nextEvent = feeds.nextEvents[0];
-    var badgeText = moment(nextEvent.end).lang('relative-formatter').from(nextEvent.start);
+    // var badgeText = moment(nextEvent.start).lang('relative-formatter').fromNow();
+
+    var eventDuration = new moment('00:00:00', 'HH:mm:ss');
+    var totalDuration = new moment('00:00:00', 'HH:mm:ss');
+    for (var i = 0; i < feeds.nextEvents.length; ++i) {
+      eventDuration = moment(feeds.nextEvents[i].end).lang('relative-formatter').from(feeds.nextEvents[i].start);
+      totalDuration += eventDuration;
+    }
+    var badgeText = totalDuration
+
 
     background.updateBadge({
       'color': nextEvent.feed.backgroundColor,
