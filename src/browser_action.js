@@ -450,6 +450,8 @@ browseraction.createEventDiv_ = function(event) {
   var start = utils.fromIso8601(event.start);
   var end = utils.fromIso8601(event.end);
   var now = moment().valueOf();
+  var duration = moment(event.end).from(event.start);
+  // utils.fromIso8601(moment(event.end).lang('relative-formatter').from(event.start));
 
   var eventDiv =
       /** @type {jQuery} */ ($('<div>').addClass('event').attr({'data-url': event.gcal_url}));
@@ -495,7 +497,7 @@ browseraction.createEventDiv_ = function(event) {
 
   if (!event.allday && !spansMultipleDays) {
     // Start and end times for partial-day events.
-    startTimeDiv.text(start.format(dateTimeFormat) + ' ' + end.format(dateTimeFormat));
+    startTimeDiv.text(start.format(dateTimeFormat) + ' ' + end.format(dateTimeFormat) + ' ' + duration);
   }
   startTimeDiv.appendTo(eventDiv);
 
