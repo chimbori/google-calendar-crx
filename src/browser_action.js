@@ -401,8 +401,7 @@ browseraction.showEventsFromFeed_ = function(events) {
           .appendTo(calendarEventsDiv);
 
   // If there are no events today, then avoid showing an empty date section.
-  if (events === null ||
-      events.length === 0 ||
+  if (events === null || events.length === 0 ||
       moment(events[0].start).diff(headerDate, 'hours') > 23) {
     $('<div>')
         .addClass('no-events-today')
@@ -410,10 +409,14 @@ browseraction.showEventsFromFeed_ = function(events) {
         .appendTo(calendarDay);
   }
 
+  var totalDuration = moment.duration(0);
   for (var i = 0; i < events.length; i++) {
     var event = events[i];
     var start = utils.fromIso8601(event.start);
     var end = utils.fromIso8601(event.end);
+    var duration = moment.duration(moment(event.end).diff(moment(event.start)));
+
+    totalDuration = totalDuration.add(duration);
 
     // Insert a new date header if the date of this event is not the same as
     // that of the previous event.
@@ -436,6 +439,7 @@ browseraction.showEventsFromFeed_ = function(events) {
   // (https://github.com/manastungare/google-calendar-crx/issues/224)
   setTimeout(function() {
     $('#calendar-events').replaceWith(calendarEventsDiv);
+    $('#duration-sum').replaceWith(totalDuration.get('hours') + ':' + totalDuration.get('minutes'));
   }, browseraction.SHOW_EVENTS_DELAY_MS);
 };
 
@@ -496,7 +500,9 @@ browseraction.createEventDiv_ = function(event) {
 
   if (!event.allday && !spansMultipleDays) {
     // Start and end times for partial-day events.
-    startTimeDiv.text(start.format(dateTimeFormat) + ' ' + end.format(dateTimeFormat) + ' ' + duration.get('hours') + ':' + duration.get('minutes'));
+    startTimeDiv.text(
+        start.format(dateTimeFormat) + ' ' + end.format(dateTimeFormat) + ' ' +
+        duration.get('hours') + ':' + duration.get('minutes'));
   }
   startTimeDiv.appendTo(eventDiv);
 
