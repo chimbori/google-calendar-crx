@@ -454,7 +454,6 @@ browseraction.createEventDiv_ = function(event) {
   var start = utils.fromIso8601(event.start);
   var end = utils.fromIso8601(event.end);
   var now = moment().valueOf();
-  var duration = moment.duration(moment(event.end).diff(moment(event.start)));
 
   var eventDiv =
       /** @type {jQuery} */ ($('<div>').addClass('event').attr({'data-url': event.gcal_url}));
@@ -501,8 +500,8 @@ browseraction.createEventDiv_ = function(event) {
   if (!event.allday && !spansMultipleDays) {
     // Start and end times for partial-day events.
     startTimeDiv.text(
-        start.format(dateTimeFormat) + ' ' + end.format(dateTimeFormat) + ' ' +
-        duration.get('hours') + ':' + duration.get('minutes'));
+        start.format(dateTimeFormat) + ' ' + end.format(dateTimeFormat)
+        );
   }
   startTimeDiv.appendTo(eventDiv);
 

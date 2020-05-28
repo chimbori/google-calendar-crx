@@ -323,7 +323,11 @@ feeds.fetchEventsFromCalendar_ = function(feed, callback) {
  * @private
  */
 feeds.fetchEventsRecursively_ = function(feed, callback, authToken, days, fromDate) {
-  var toDate = moment().add('days', days);
+  if (typeof days == "number"){
+    var toDate = moment().add('days', days);
+  } else if (typeof days == fromDate) {
+    var toDate = days;
+  }
   var feedUrl =
       feeds.CALENDAR_EVENTS_API_URL_.replace('{calendarId}', encodeURIComponent(feed.id)) + ([
         'timeMin=' + encodeURIComponent(fromDate.toISOString()),
