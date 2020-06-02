@@ -77,23 +77,6 @@ section {
   padding: 0 8px;
 }
 
-.fab {
-  height: 42px;
-  width: 42px;
-  cursor: pointer;
-  border-radius: 50%;
-  box-shadow: 0 0 4px rgba(0,0,0,.14), 0 4px 8px rgba(0,0,0,.28);
-  transform: scale(1) rotate(360deg);
-  transition: transform 150ms cubic-bezier(.4,0,1,1);
-  background: #db4437;
-  color: #fff;
-  position: fixed;
-  right: 16px;
-  top: 64px;
-  padding: 9px;
-  z-index: 10;
-}
-
 #show_quick_add {
   transition: transform 0.2s ease-in;
 }
