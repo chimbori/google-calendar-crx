@@ -42,14 +42,6 @@ background.BADGE_COLORS = {
 };
 
 /**
- * The ID of the currently-selected tab. This is required because the same
- * browser action icon shows the status for multiple tabs, and must be updated
- * on every tab switch to indicate the events in that particular tab.
- * @type {number}
- */
-background.selectedTabId = 0;
-
-/**
  * @typedef {{
  *   text: (string|undefined),
  *   color: (string|undefined),
@@ -82,7 +74,6 @@ background.log = function(message, opt_dump) {
  */
 background.initialize = function() {
   background.initMomentJs_();
-  background.setupMenus_();
   background.listenForRequests_();
   scheduler.start();
 };
@@ -115,20 +106,6 @@ background.initMomentJs_ = function() {
       yy: '%dy'
     }
     // clang-format on
-  });
-};
-
-background.setupMenus_ = function() {
-  chrome.contextMenus.create({
-    id: constants.MENU_ITEM_VIEW_CALENDAR_WEB,
-    title: chrome.i18n.getMessage('view_web_calendar'),
-    contexts: ['browser_action']
-  });
-
-  chrome.contextMenus.onClicked.addListener(function(menu) {
-    if (menu.menuItemId == constants.MENU_ITEM_VIEW_CALENDAR_WEB) {
-      chrome.tabs.create({'url': constants.CALENDAR_UI_URL});
-    }
   });
 };
 
@@ -237,6 +214,5 @@ chrome.notifications.onClicked.addListener(function(alarmName) {
   });
   chrome.tabs.create({'url': feeds.events[eventIndex].gcal_url});
 });
-
 
 background.initialize();

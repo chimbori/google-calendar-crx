@@ -12,7 +12,6 @@
   },
   "permissions": [
     "alarms",
-    "contextMenus",
     "identity",
     "notifications",
     "storage"

@@ -79,10 +79,6 @@
     "message": "أيقونة شريط الأدوات",
     "description": "The section of the Options page that deals with the toolbar icon."
   },
-  "view_web_calendar": {
-    "message": "عرض التقويم كامل",
-    "description": "A menu item that allows the user to view the full calendar on the Web."
-  },
   "calendar_list_header": {
     "message": "التقويمات",
     "description": "The header for the Options section under which all calendars are shown."

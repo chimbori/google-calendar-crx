@@ -79,10 +79,6 @@
     "message": "တူးလ်ဘားရှိ ရုပ်ပုံငယ်",
     "description": "The section of the Options page that deals with the toolbar icon."
   },
-  "view_web_calendar": {
-    "message": "ပြက္ခဒိန်ကို အပြည့်အစုံ ကြည့်ရန်",
-    "description": "A menu item that allows the user to view the full calendar on the Web."
-  },
   "calendar_list_header": {
     "message": "ပြက္ခဒိန်များ",
     "description": "The header for the Options section under which all calendars are shown."

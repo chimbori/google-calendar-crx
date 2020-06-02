@@ -79,10 +79,6 @@
     "message": "Barre  d'icones",
     "description": "The section of the Options page that deals with the toolbar icon."
   },
-  "view_web_calendar": {
-    "message": "Voir le calendrier complet",
-    "description": "A menu item that allows the user to view the full calendar on the Web."
-  },
   "calendar_list_header": {
     "message": "Calendriers",
     "description": "The header for the Options section under which all calendars are shown."

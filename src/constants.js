@@ -11,13 +11,6 @@ var constants = {};
 constants.CALENDAR_UI_URL = 'https://calendar.google.com/calendar/';
 
 /**
- * Menu item used to open Google Calendar in a new tab.
- * @type {string}
- * @const
- */
-constants.MENU_ITEM_VIEW_CALENDAR_WEB = 'view_web_calendar';
-
-/**
  * A string used by the Calendar API to indicate when a user has declined attending an event.
  * @type {string}
  * @const

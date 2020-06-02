@@ -83,10 +83,6 @@
     "message": "設定",
     "description": "The header for the Options section that deals with extension settings"
   },
-  "view_web_calendar": {
-    "message": "カレンダーの全てを見る",
-    "description": "A menu item that allows the user to view the full calendar on the Web."
-  },
   "calendar_list_header": {
     "message": "カレンダー",
     "description": "The header for the Options section under which all calendars are shown."
