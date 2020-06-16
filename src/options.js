@@ -33,7 +33,7 @@ var options = {};
  */
 options.Options = {
   BADGE_TEXT_SHOWN: 'badge-text-shown',
-  BADGE_DURATION_SHOWN: 'badge-duration-shown',
+  BADGE_DURATION_SHOWN: 'badge-text-shown',
   DEBUG_ENABLE_LOGS: 'debug-enable-logs',
   SHOW_NOTIFICATIONS: 'show_notifications',
   TIME_UNTIL_NEXT_INCLUDES_ALL_DAY_EVENTS: 'time_until_next_includes_all_day_events'
