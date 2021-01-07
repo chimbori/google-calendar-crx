@@ -68,10 +68,10 @@ textarea {
 }
 
 header {
-  height: 48px;
   background: #0086f4;
   padding: 12px;
   position: relative;
+  color: #fff;
   width: 100%;
   top: 0;
   left: 0;
@@ -101,12 +101,23 @@ section {
   transform: rotate(45deg);
 }
 
-.popup-title a {
+.popup-title {
+  height: 36px;
   font-size: 16px;
+  line-height: 24px;
+}
+
+.popup-title a {
   color: #fff;
   outline: none;
-  line-height: 24px;
   text-decoration: none;
+}
+
+.warning {
+  background: #FFD54F;
+  padding: 4px 8px;
+  border-radius: 8px;
+  color: #000;
 }
 
 #action-bar {
