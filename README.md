@@ -1,23 +1,25 @@
 # Google Calendar for Chrome
 
-[![Install Now](https://developer.chrome.com/webstore/images/ChromeWebStore_BadgeWBorder_v2_206x58.png)](https://chrome.google.com/webstore/detail/google-calendar-by-google/gmbgaklkmjakoegficnlkhebmhkjfich)
+## Soon To Be Unpublished
 
-## Quick overview of your Google Calendar with one-click access to locations & documents
+This Chrome extension is no longer available, and will soon be unpublished from the Chrome Extensions Store.
 
-Get a button on your browser toolbar that you can easily click to see upcoming
-events from Google Calendar, without ever leaving your page. Access any map
-locations or attached documents in one click.
+For more than a decade, this has been a side project for me, and I have enjoyed working on it for most of that time. But during the last couple of years, the sheer number of requests I have received from various teams at Google to make changes (small and large) to this extension far outweigh the amount of time I am able to spend on it.
 
-# Features
+This was originally a hackathon project encouraged by the Chrome and Calendar teams before the public launch of the Chrome Extensions API. Since then, I have tried unsuccessfully to transition formal ownership to the Calendar team, but they are not interested in adopting it as part of their first-party roadmap, which I fully understand.
 
-*   Displays a preview of your calendar in your browser.
-*   This extension shows events from whatever calendars you are logged in within
-    Chrome.
-*   If you want to use a Google Apps calendar, you should login to that account
-    first, then open the extension.
+It’s best for our 4 MM+ users, for Google, and for myself to declare this project formally shut down.
 
-# Tech Support
+Thanks to all the users and contributors for your hard work, especially our volunteer translators, and everyone who has contributed bug fixes and performance improvements over the years.
 
-I cannot and will not offer tech support about this extension; please do not email me your questions.
+## Alternatives
 
-Please read through the [Wiki](https://github.com/manastungare/google-calendar-crx/wiki), and if you think you have genuinely discovered a new issue, [read through the existing issues first](https://github.com/manastungare/google-calendar-crx/issues?q=is%3Aissue+is%3Aclosed).
+### Source Code
+
+This Git repo will remain available, in case anyone is interested in forking it and releasing it as their own extension under their own account. The [Apache 2 License](COPYING) explicitly permits it, and I encourage you to do that.
+
+### Other Extensions
+
+There are several other extensions available that include similar features. Feel free to send pull requests editing this README to list your extension here.
+
+- Search the Chrome Extensions Store for [“calendar”](https://chrome.google.com/webstore/search/calendar)
