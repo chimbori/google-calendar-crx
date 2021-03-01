@@ -24,6 +24,8 @@ This Git repo will remain available, in case anyone is interested in forking it 
 
 There are several other extensions available that include similar features. Feel free to send pull requests editing this README to list your extension here.
 
-- [Checker Plus for Google Calendar](https://chrome.google.com/webstore/detail/checker-plus-for-google-c/hkhggnncdpfibdhinjiegagmopldibha)
+- An exact copy of this extension — [Button for Google Calendar™](https://chrome.google.com/webstore/detail/button-for-google-calenda/lfjnmopldodmmdhddmeacgjnjeakjpki).
 
-- Or search the Chrome Extensions Store for [“calendar”](https://chrome.google.com/webstore/search/calendar)
+- [Checker Plus for Google Calendar](https://chrome.google.com/webstore/detail/checker-plus-for-google-c/hkhggnncdpfibdhinjiegagmopldibha).
+
+Or search the Chrome Extensions Store for “[calendar](https://chrome.google.com/webstore/search/calendar)”.
