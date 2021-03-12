@@ -26,6 +26,8 @@ There are several other extensions available that include similar features. Feel
 
 - An exact copy of this extension — [Button for Google Calendar™](https://chrome.google.com/webstore/detail/button-for-google-calenda/lfjnmopldodmmdhddmeacgjnjeakjpki).
 
+- A custom take on this extension - [Quick View for Google Calendar](https://chrome.google.com/webstore/detail/quick-view-for-google-cal/jjmfhjhfkipdojpiohplpfoliolcemlp).
+
 - [Checker Plus for Google Calendar](https://chrome.google.com/webstore/detail/checker-plus-for-google-c/hkhggnncdpfibdhinjiegagmopldibha).
 
 Or search the Chrome Extensions Store for “[calendar](https://chrome.google.com/webstore/search/calendar)”.
