@@ -1,8 +1,10 @@
 # Google Calendar for Chrome
 
-## Soon To Be Unpublished
+## No Longer Available to Install
 
-This Chrome extension is no longer available, and will soon be unpublished from the Chrome Extensions Store.
+This Chrome extension is **no longer available to install**, though the source code is available here to fork & modify.
+
+### Why?
 
 For more than a decade, this has been a side project for me, and I have enjoyed working on it for most of that time. Thanks to all the users and contributors for your hard work, especially our volunteer translators, and everyone who has contributed bug fixes and performance improvements over the years!
 
@@ -10,7 +12,7 @@ This was originally a hackathon project encouraged by the Chrome and Calendar te
 
 Over the years, I’ve attempted to convince the Calendar team to adopt it as part of their first-party roadmap, but it is not something they’d like to take on, which I fully understand. During the last couple of years, the number of requests I have received from various teams at Google to make changes (small and large) to this extension far outweigh the amount of time I am able to spend on it.
 
-At this point, it is clear to me that it’s best for our 4 MM+ users, for Google, and for myself to declare this project formally shut down.
+At this point, it is clear to me that it’s best for our 5 MM+ users, for Google, and for myself to declare this project formally shut down.
 
 I realize this is disruptive to those of you who have come to depend on this little tool, but fear not, there are alternatives! If you’d like to continue using this, you can also run it directly from source on your own machine.
 
@@ -24,11 +26,11 @@ This Git repo will remain available, in case anyone is interested in forking it 
 
 There are several other extensions available that include similar features. Feel free to send pull requests editing this README to list your extension here.
 
-- An exact copy of this extension — [Button for Google Calendar™](https://chrome.google.com/webstore/detail/button-for-google-calenda/lfjnmopldodmmdhddmeacgjnjeakjpki).
+- [Button for Google Calendar™](https://chrome.google.com/webstore/detail/button-for-google-calenda/lfjnmopldodmmdhddmeacgjnjeakjpki) — An exact copy of this extension.
 
-- To easily join online calls — [MeetApps](https://chrome.google.com/webstore/detail/jgliplolinicikblamobaaagffepghie).
+- [MeetApps](https://chrome.google.com/webstore/detail/jgliplolinicikblamobaaagffepghie) — To easily join online calls.
 
-- A custom take on this extension - [Quick View for Google Calendar](https://chrome.google.com/webstore/detail/quick-view-for-google-cal/jjmfhjhfkipdojpiohplpfoliolcemlp).
+- [Quick View for Google Calendar](https://chrome.google.com/webstore/detail/quick-view-for-google-cal/jjmfhjhfkipdojpiohplpfoliolcemlp) — A custom take on this extension.
 
 - [Checker Plus for Google Calendar](https://chrome.google.com/webstore/detail/checker-plus-for-google-c/hkhggnncdpfibdhinjiegagmopldibha).
 
