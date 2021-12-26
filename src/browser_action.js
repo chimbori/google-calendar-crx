@@ -31,7 +31,7 @@ var browseraction = {};
  * @private
  */
 browseraction.QUICK_ADD_API_URL_ =
-    'https://www.googleapis.com/calendar/v3/calendars/{calendarId}/events/quickAdd';
+  'https://www.googleapis.com/calendar/v3/calendars/{calendarId}/events/quickAdd';
 
 /**
  * Milliseconds to wait before fading out the alert shown when the user adds
@@ -73,7 +73,7 @@ browseraction.SHORTCUT_OPEN_QUICK_ADD = 'a';
 /**
  * Initializes UI elements in the browser action popup.
  */
-browseraction.initialize = function() {
+browseraction.initialize = function () {
   chrome.extension.getBackgroundPage().background.log('browseraction.initialize()');
   browseraction.fillMessages_();
   browseraction.installButtonClickHandlers_();
@@ -81,7 +81,7 @@ browseraction.initialize = function() {
   browseraction.showLoginMessageIfNotAuthenticated_();
   browseraction.loadCalendarsIntoQuickAdd_();
   browseraction.listenForRequests_();
-  chrome.extension.sendMessage({method: 'events.feed.get'}, browseraction.showEventsFromFeed_);
+  chrome.extension.sendMessage({ method: 'events.feed.get' }, browseraction.showEventsFromFeed_);
 };
 
 
@@ -89,7 +89,7 @@ browseraction.initialize = function() {
  * Fills i18n versions of messages from the Chrome API into DOM objects.
  * @private
  */
-browseraction.fillMessages_ = function() {
+browseraction.fillMessages_ = function () {
   // Initialize language for Moment.js.
   moment.lang('en');
   moment.lang(window.navigator.language);
@@ -98,16 +98,16 @@ browseraction.fillMessages_ = function() {
   }
 
   // Load internationalized messages.
-  $('.i18n').each(function() {
+  $('.i18n').each(function () {
     var i18nText = chrome.i18n.getMessage($(this).attr('id').toString());
     if (!i18nText) {
       chrome.extension.getBackgroundPage().background.log(
-          'Error getting string for: ', $(this).attr('id').toString());
+        'Error getting string for: ', $(this).attr('id').toString());
       return;
     }
 
     if ($(this).prop('tagName') == 'IMG') {
-      $(this).attr({'title': i18nText});
+      $(this).attr({ 'title': i18nText });
     } else {
       $(this).text(i18nText);
     }
@@ -121,12 +121,12 @@ browseraction.fillMessages_ = function() {
 
 
 /** @private */
-browseraction.loadCalendarsIntoQuickAdd_ = function() {
+browseraction.loadCalendarsIntoQuickAdd_ = function () {
   chrome.extension.getBackgroundPage().background.log('browseraction.loadCalendarsIntoQuickAdd_()');
-  chrome.storage.local.get(constants.CALENDARS_STORAGE_KEY, function(storage) {
+  chrome.storage.local.get(constants.CALENDARS_STORAGE_KEY, function (storage) {
     if (chrome.runtime.lastError) {
       chrome.extension.getBackgroundPage().background.log(
-          'Error retrieving calendars:', chrome.runtime.lastError);
+        'Error retrieving calendars:', chrome.runtime.lastError);
     }
 
     if (storage[constants.CALENDARS_STORAGE_KEY]) {
@@ -135,7 +135,7 @@ browseraction.loadCalendarsIntoQuickAdd_ = function() {
       for (var calendarId in calendars) {
         var calendar = calendars[calendarId];
         if (calendar.editable && calendar.visible) {
-          dropDown.append($('<option>', {value: calendar.id, text: calendar.title}));
+          dropDown.append($('<option>', { value: calendar.id, text: calendar.title }));
         }
       }
     }
@@ -144,38 +144,38 @@ browseraction.loadCalendarsIntoQuickAdd_ = function() {
 
 
 /** @private */
-browseraction.installButtonClickHandlers_ = function() {
-  $('#authorization_required').on('click', function() {
+browseraction.installButtonClickHandlers_ = function () {
+  $('#authorization_required').on('click', function () {
     $('#authorization_required').text(chrome.i18n.getMessage('authorization_in_progress'));
-    chrome.extension.sendMessage({method: 'authtoken.update'});
+    chrome.extension.sendMessage({ method: 'authtoken.update' });
   });
 
-  $('#show_quick_add').on('click', function() {
+  $('#show_quick_add').on('click', function () {
     browseraction.toggleQuickAddBoxVisibility_(!$('#quick-add').is(':visible'));
   });
 
-  $('#sync_now').on('click', function() {
-    chrome.extension.sendMessage({method: 'events.feed.fetch'}, browseraction.showEventsFromFeed_);
+  $('#sync_now').on('click', function () {
+    chrome.extension.sendMessage({ method: 'events.feed.fetch' }, browseraction.showEventsFromFeed_);
   });
 
-  $('#show_options').on('click', function() {
-    chrome.tabs.create({'url': 'options.html'});
+  $('#show_options').on('click', function () {
+    chrome.tabs.create({ 'url': 'options.html' });
   });
 
-  $('#quick_add_button').on('click', function() {
+  $('#quick_add_button').on('click', function () {
     browseraction.addNewEventIntoCalendar_();
   });
 };
 
 
 /** @private */
-browseraction.installKeydownHandlers_ = function() {
+browseraction.installKeydownHandlers_ = function () {
   // Add new event to calendar on pressing `Ctrl + Enter`
-  $('#quick-add-event-title').on('keydown', function(e) {
+  $('#quick-add-event-title').on('keydown', function (e) {
     // Check for Windows and Mac keyboards for event on Ctrl + Enter
     if ((e.ctrlKey || e.metaKey) &&
-        (e.keyCode == browseraction.KEY_CODE_CR || e.keyCode == browseraction.KEY_CODE_LF) &&
-        $('#quick-add-event-title').val() !== '') {
+      (e.keyCode == browseraction.KEY_CODE_CR || e.keyCode == browseraction.KEY_CODE_LF) &&
+      $('#quick-add-event-title').val() !== '') {
       // Ctrl-Enter pressed
       browseraction.addNewEventIntoCalendar_();
     }
@@ -194,7 +194,7 @@ browseraction.installKeydownHandlers_ = function() {
   });
 
   // Open quick-add-box on pressing `a`
-  $(document).on('keypress', function(e) {
+  $(document).on('keypress', function (e) {
     // Do nothing if in an input element
     if ($(e.target).is('input, textarea, select')) {
       return;
@@ -211,7 +211,7 @@ browseraction.installKeydownHandlers_ = function() {
 
 
 /** @private */
-browseraction.toggleQuickAddBoxVisibility_ = function(shouldShow) {
+browseraction.toggleQuickAddBoxVisibility_ = function (shouldShow) {
   if (shouldShow) {
     $('#show_quick_add').addClass('rotated');
     $('#quick-add').slideDown(200);
@@ -227,9 +227,9 @@ browseraction.toggleQuickAddBoxVisibility_ = function(shouldShow) {
  * Allow user to add a new event into their calendar.
  * @private
  */
-browseraction.addNewEventIntoCalendar_ = function() {
+browseraction.addNewEventIntoCalendar_ = function () {
   browseraction.createQuickAddEvent_(
-      $('#quick-add-event-title').val().toString(), $('#quick-add-calendar-list').val());
+    $('#quick-add-event-title').val().toString(), $('#quick-add-calendar-list').val());
   $('#quick-add-event-title').val('');  // Remove the existing text from the field.
 };
 
@@ -238,11 +238,11 @@ browseraction.addNewEventIntoCalendar_ = function() {
  * the user to login.
  * @private
  */
-browseraction.showLoginMessageIfNotAuthenticated_ = function() {
-  chrome.identity.getAuthToken({'interactive': false}, function(authToken) {
+browseraction.showLoginMessageIfNotAuthenticated_ = function () {
+  chrome.identity.getAuthToken({ 'interactive': false }, function (authToken) {
     if (chrome.runtime.lastError || !authToken) {
       chrome.extension.getBackgroundPage().background.log(
-          'getAuthToken', chrome.runtime.lastError.message);
+        'getAuthToken', chrome.runtime.lastError.message);
       browseraction.stopSpinnerRightNow();
       $('#error').show();
       $('#action-bar').hide();
@@ -261,12 +261,12 @@ browseraction.showLoginMessageIfNotAuthenticated_ = function() {
  * the appropriate (local) functions.
  * @private
  */
-browseraction.listenForRequests_ = function() {
-  chrome.extension.onMessage.addListener(function(request, sender, opt_callback) {
+browseraction.listenForRequests_ = function () {
+  chrome.extension.onMessage.addListener(function (request, sender, opt_callback) {
     switch (request.method) {
       case 'ui.refresh':
         chrome.extension.sendMessage(
-            {method: 'events.feed.get'}, browseraction.showEventsFromFeed_);
+          { method: 'events.feed.get' }, browseraction.showEventsFromFeed_);
         break;
 
       case 'sync-icon.spinning.start':
@@ -281,17 +281,17 @@ browseraction.listenForRequests_ = function() {
 };
 
 
-browseraction.startSpinner = function() {
+browseraction.startSpinner = function () {
   $('#sync_now').addClass('spinning');
 };
 
-browseraction.stopSpinner = function() {
-  $('#sync_now').one('animationiteration webkitAnimationIteration', function() {
+browseraction.stopSpinner = function () {
+  $('#sync_now').one('animationiteration webkitAnimationIteration', function () {
     $(this).removeClass('spinning');
   });
 };
 
-browseraction.stopSpinnerRightNow = function() {
+browseraction.stopSpinnerRightNow = function () {
   $('#sync_now').removeClass('spinning');
 };
 
@@ -299,9 +299,9 @@ function showToast(parent, summary, linkUrl) {
   var toastDiv = $('<div>').addClass('alert-new-event event').attr('data-url', linkUrl);
   var toastDetails = $('<div>').addClass('event-details');
   var toastText = $('<div>')
-                      .addClass('event-title')
-                      .css('white-space', 'normal')
-                      .text(chrome.i18n.getMessage('alert_new_event_added') + summary);
+    .addClass('event-title')
+    .css('white-space', 'normal')
+    .text(chrome.i18n.getMessage('alert_new_event_added') + summary);
 
   toastDetails.append(toastText);
   toastDiv.append(toastDetails);
@@ -309,25 +309,25 @@ function showToast(parent, summary, linkUrl) {
   $('.fab').fadeOut();
   parent.prepend(toastDiv).fadeIn();
 
-  $('.alert-new-event').on('click', function() {
-    chrome.tabs.create({'url': $(this).attr('data-url')});
+  $('.alert-new-event').on('click', function () {
+    chrome.tabs.create({ 'url': $(this).attr('data-url') });
   });
 
-  return setTimeout(function() {
+  return setTimeout(function () {
     $('.alert-new-event').fadeOut();
     $('.fab').fadeIn();
   }, browseraction.TOAST_FADE_OUT_DURATION_MS);
 }
 
 /** @private */
-browseraction.createQuickAddEvent_ = function(text, calendarId) {
+browseraction.createQuickAddEvent_ = function (text, calendarId) {
   var quickAddUrl =
-      browseraction.QUICK_ADD_API_URL_.replace('{calendarId}', encodeURIComponent(calendarId)) +
-      '?text=' + encodeURIComponent(text);
-  chrome.identity.getAuthToken({'interactive': false}, function(authToken) {
+    browseraction.QUICK_ADD_API_URL_.replace('{calendarId}', encodeURIComponent(calendarId)) +
+    '?text=' + encodeURIComponent(text);
+  chrome.identity.getAuthToken({ 'interactive': false }, function (authToken) {
     if (chrome.runtime.lastError || !authToken) {
-      chrome.extension.getBackgroundPage().background.log(
-          'getAuthToken', chrome.runtime.lastError.message);
+      chrome.extension.getBackgroƒundPage().background.log(
+        'getAuthToken', chrome.runtime.lastError.message);
       return;
     }
 
@@ -335,21 +335,21 @@ browseraction.createQuickAddEvent_ = function(text, calendarId) {
     $.ajax(quickAddUrl, {
       type: 'POST',
       headers: {'Authorization': 'Bearer ' + authToken},
-      success: function(response) {
+      success: function (response) {
         showToast($('section'), response.summary, response.htmlLink);
         browseraction.stopSpinner();
-        chrome.extension.sendMessage({method: 'events.feed.fetch'});
+        chrome.extension.sendMessage({ method: 'events.feed.fetch' });
       },
-      error: function(response) {
+      error: function (response) {
         browseraction.stopSpinner();
         $('#info_bar').text(chrome.i18n.getMessage('error_saving_new_event')).slideDown();
-        window.setTimeout(function() {
+        window.setTimeout(function () {
           $('#info_bar').slideUp();
         }, constants.INFO_BAR_DISMISS_TIMEOUT_MS);
         chrome.extension.getBackgroundPage().background.log(
-            'Error adding Quick Add event', response.statusText);
+          'Error adding Quick Add event', response.statusText);
         if (response.status === 401) {
-          chrome.identity.removeCachedAuthToken({'token': authToken}, function() {});
+          chrome.identity.removeCachedAuthToken({ 'token': authToken }, function () { });
         }
       }
     });
@@ -365,14 +365,14 @@ browseraction.createQuickAddEvent_ = function(text, calendarId) {
  * @param {Array} events The events to display.
  * @private
  */
-browseraction.showEventsFromFeed_ = function(events) {
+browseraction.showEventsFromFeed_ = function (events) {
   chrome.extension.getBackgroundPage().background.log('browseraction.showEventsFromFeed_()');
   $('#calendar-events').empty();
 
-  chrome.identity.getAuthToken({'interactive': false}, function(authToken) {
+  chrome.identity.getAuthToken({ 'interactive': false }, function (authToken) {
     if (chrome.runtime.lastError || !authToken) {
       chrome.extension.getBackgroundPage().background.log(
-          'getAuthToken', chrome.runtime.lastError.message);
+        'getAuthToken', chrome.runtime.lastError.message);
       $('#error').show();
       $('#action-bar').hide();
       $('#calendar-events').hide();
@@ -383,7 +383,7 @@ browseraction.showEventsFromFeed_ = function(events) {
     }
   });
 
-  var calendarEventsDiv = $('<div>', {id: 'calendar-events'});
+  var calendarEventsDiv = $('<div>', { id: 'calendar-events' });
 
   // Insert a date header for Today as the first item in the list. Any ongoing
   // multi-day events (i.e., started last week, ends next week) will be shown
@@ -393,20 +393,20 @@ browseraction.showEventsFromFeed_ = function(events) {
   // Insert a new div for every day, that contains all events of a single day (necessary for
   // 'position: sticky')
   var calendarDay =
-      $('<div>')
-          .addClass('calendar-day')
-          .append($('<div>')
-                      .addClass('date-header')
-                      .text(headerDate.format(chrome.i18n.getMessage('date_format_date_header'))))
-          .appendTo(calendarEventsDiv);
+    $('<div>')
+      .addClass('calendar-day')
+      .append($('<div>')
+        .addClass('date-header')
+        .text(headerDate.format(chrome.i18n.getMessage('date_format_date_header'))))
+      .appendTo(calendarEventsDiv);
 
   // If there are no events today, then avoid showing an empty date section.
   if (events === null || events.length === 0 ||
-      moment(events[0].start).diff(headerDate, 'hours') > 23) {
+    moment(events[0].start).diff(headerDate, 'hours') > 23) {
     $('<div>')
-        .addClass('no-events-today')
-        .append(chrome.i18n.getMessage('no_events_today'))
-        .appendTo(calendarDay);
+      .addClass('no-events-today')
+      .append(chrome.i18n.getMessage('no_events_today'))
+      .appendTo(calendarDay);
   }
 
   for (var i = 0; i < events.length; i++) {
@@ -420,20 +420,20 @@ browseraction.showEventsFromFeed_ = function(events) {
     if (startDate.diff(headerDate, 'hours') > 23) {
       headerDate = startDate;
       calendarDay =
-          $('<div>')
-              .addClass('calendar-day')
-              .append(
-                  $('<div>')
-                      .addClass('date-header')
-                      .text(headerDate.format(chrome.i18n.getMessage('date_format_date_header'))))
-              .appendTo(calendarEventsDiv);
+        $('<div>')
+          .addClass('calendar-day')
+          .append(
+            $('<div>')
+              .addClass('date-header')
+              .text(headerDate.format(chrome.i18n.getMessage('date_format_date_header'))))
+          .appendTo(calendarEventsDiv);
     }
     browseraction.createEventDiv_(event).appendTo(calendarDay);
   }
 
   // Add delay to work around Chrome extension popup layout bug
   // (https://github.com/manastungare/google-calendar-crx/issues/224)
-  setTimeout(function() {
+  setTimeout(function () {
     $('#calendar-events').replaceWith(calendarEventsDiv);
   }, browseraction.SHOW_EVENTS_DELAY_MS);
 };
@@ -445,13 +445,13 @@ browseraction.showEventsFromFeed_ = function(events) {
  * @return {!jQuery} The rendered 'Add to Calendar' button.
  * @private
  */
-browseraction.createEventDiv_ = function(event) {
+browseraction.createEventDiv_ = function (event) {
   var start = utils.fromIso8601(event.start);
   var end = utils.fromIso8601(event.end);
   var now = moment().valueOf();
 
   var eventDiv =
-      /** @type {jQuery} */ ($('<div>').addClass('event').attr({'data-url': event.gcal_url}));
+      /** @type {jQuery} */ ($('<div>').addClass('event').attr({ 'data-url': event.gcal_url }));
 
   if (!start) {  // Some events detected via microformats are malformed.
     return eventDiv;
@@ -466,17 +466,17 @@ browseraction.createEventDiv_ = function(event) {
     eventDiv.addClass('all-day');
   }
   eventDiv
-      .on('click',
-          function() {
-            browseraction.goToCalendar_($(this).attr('data-url'));
-          })
-      .on('click', 'a', function(event) {
-        // Clicks on anchor tags shouldn't propagate to eventDiv handler.
-        event.stopPropagation();
-      });
+    .on('click',
+      function () {
+        browseraction.goToCalendar_($(this).attr('data-url'));
+      })
+    .on('click', 'a', function (event) {
+      // Clicks on anchor tags shouldn't propagate to eventDiv handler.
+      event.stopPropagation();
+    });
 
   var timeFormat =
-      chrome.extension.getBackgroundPage().options.get('format24HourTime') ? 'HH:mm' : 'h:mma';
+    chrome.extension.getBackgroundPage().options.get('format24HourTime') ? 'HH:mm' : 'h:mma';
 
   var dateTimeFormat;
   if (event.allday) {  // Choose the correct time format.
@@ -488,7 +488,7 @@ browseraction.createEventDiv_ = function(event) {
   }
 
   var startTimeDiv = $('<div>').addClass('start-time');
-  startTimeDiv.css({'background-color': event.feed.backgroundColor}).attr({
+  startTimeDiv.css({ 'background-color': event.feed.backgroundColor }).attr({
     'title': event.feed.title  // Show calendar name on mouseover
   });
 
@@ -502,11 +502,11 @@ browseraction.createEventDiv_ = function(event) {
 
   if (event.hangout_url) {
     $('<a>')
-        .attr({'href': event.hangout_url, 'target': '_blank'})
-        .append($('<img>').addClass('video-call-icon').attr({
-          'src': chrome.extension.getURL('icons/ic_action_video.png')
-        }))
-        .appendTo(eventDetails);
+      .attr({ 'href': event.hangout_url, 'target': '_blank' })
+      .append($('<img>').addClass('video-call-icon').attr({
+        'src': chrome.extension.getURL('icons/ic_action_video.png')
+      }))
+      .appendTo(eventDetails);
   }
 
   if (event.attachments) {
@@ -514,9 +514,9 @@ browseraction.createEventDiv_ = function(event) {
     // a nice UI, but we can do without one because multiple attachments are
     // the exception rather than the norm.
     $('<a>')
-        .attr({'href': event.attachments[0].fileUrl, 'target': '_blank'})
-        .append($('<img>').addClass('attachment-icon').attr({'src': event.attachments[0].iconLink}))
-        .appendTo(eventDetails);
+      .attr({ 'href': event.attachments[0].fileUrl, 'target': '_blank' })
+      .append($('<img>').addClass('attachment-icon').attr({ 'src': event.attachments[0].iconLink }))
+      .appendTo(eventDetails);
   }
 
   var eventTitle = $('<div>').addClass('event-title').text(event.title);
@@ -527,25 +527,25 @@ browseraction.createEventDiv_ = function(event) {
 
   if (event.location) {
     var url = event.location.match(/^https?:\/\//) ?
-        event.location :
-        'https://maps.google.com?q=' + encodeURIComponent(event.location);
+      event.location :
+      'https://maps.google.com?q=' + encodeURIComponent(event.location);
     $('<a>')
-        .attr({'href': url, 'target': '_blank'})
-        .append($('<span>').text(event.location))
-        .addClass('event-location')
-        .append($('<img>').addClass('location-icon').attr({
-          'src': chrome.extension.getURL('icons/ic_action_place.png')
-        }))
-        .appendTo(eventDetails);
+      .attr({ 'href': url, 'target': '_blank' })
+      .append($('<span>').text(event.location))
+      .addClass('event-location')
+      .append($('<img>').addClass('location-icon').attr({
+        'src': chrome.extension.getURL('icons/ic_action_place.png')
+      }))
+      .appendTo(eventDetails);
   }
 
   if (spansMultipleDays || isMultiDayEventWithTime) {
     // If an event spans over multiple days,
     // show start and end dates and if given, show also times.
     $('<div>')
-        .addClass('start-and-end-times')
-        .append(start.format(dateTimeFormat) + ' — ' + end.format(dateTimeFormat))
-        .appendTo(eventDetails);
+      .addClass('start-and-end-times')
+      .append(start.format(dateTimeFormat) + ' — ' + end.format(dateTimeFormat))
+      .appendTo(eventDetails);
   }
   return eventDiv;
 };
@@ -555,28 +555,28 @@ browseraction.createEventDiv_ = function(event) {
  * create a new tab.
  * @private
  */
-browseraction.goToCalendar_ = function(eventUrl) {
+browseraction.goToCalendar_ = function (eventUrl) {
   chrome.tabs.query(
-      {
-        // All URLs showing Calendar UI Home Screen, except '/eventedit/',
-        // so current edits of events are not discarded.
-        url: [
-          constants.CALENDAR_UI_URL + '*/day*', constants.CALENDAR_UI_URL + '*/week*',
-          constants.CALENDAR_UI_URL + '*/month*', constants.CALENDAR_UI_URL + '*/year*',
-          constants.CALENDAR_UI_URL + '*/agenda*', constants.CALENDAR_UI_URL + '*/custom*'
-        ],
-        currentWindow: true  // Only search in current window.
-      },
-      function(tabs) {
-        // If one or more tabs match these conditions,
-        // select the first one of them and open the event URL.
-        if (tabs.length > 0) {
-          chrome.tabs.update(tabs[0].id, {selected: true, url: eventUrl});
-        } else {
-          // No matches, create a new tab.
-          chrome.tabs.create({url: eventUrl});
-        }
-      });
+    {
+      // All URLs showing Calendar UI Home Screen, except '/eventedit/',
+      // so current edits of events are not discarded.
+      url: [
+        constants.CALENDAR_UI_URL + '*/day*', constants.CALENDAR_UI_URL + '*/week*',
+        constants.CALENDAR_UI_URL + '*/month*', constants.CALENDAR_UI_URL + '*/year*',
+        constants.CALENDAR_UI_URL + '*/agenda*', constants.CALENDAR_UI_URL + '*/custom*'
+      ],
+      currentWindow: true  // Only search in current window.
+    },
+    function (tabs) {
+      // If one or more tabs match these conditions,
+      // select the first one of them and open the event URL.
+      if (tabs.length > 0) {
+        chrome.tabs.update(tabs[0].id, { selected: true, url: eventUrl });
+      } else {
+        // No matches, create a new tab.
+        chrome.tabs.create({ url: eventUrl });
+      }
+    });
   return;
 };
 
@@ -584,6 +584,6 @@ browseraction.goToCalendar_ = function(eventUrl) {
  * When the popup is loaded, fetch the events in this tab from the
  * background page, set up the appropriate layout, etc.
  */
-window.addEventListener('load', function() {
+window.addEventListener('load', function () {
   browseraction.initialize();
 }, false);

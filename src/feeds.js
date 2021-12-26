@@ -122,7 +122,6 @@ feeds.fetchSettings = function() {
       background.log('getAuthToken', chrome.runtime.lastError.message);
       return;
     }
-
     $.ajax(feeds.SETTINGS_API_URL_, {
       headers: {'Authorization': 'Bearer ' + authToken},
       success: function(settings) {
@@ -130,7 +129,7 @@ feeds.fetchSettings = function() {
           var setting = settings.items[settingId];
           try {
             // The API is silly, it returns booleans and ints as strings ("false", "6").
-            setting.value = JSON.parse(setting.value);
+            setting.value = JSON.parse(setting.value);         
           } catch (e) {
             // Just use it as a string if unable to parse as JSON.
           }
@@ -174,6 +173,7 @@ feeds.fetchCalendars = function() {
           var calendars = {};
           for (var i = 0; i < data.items.length; i++) {
             var calendar = data.items[i];
+            
             // The list of calendars from the server must be merged with the list of
             // stored calendars. The ID is the key for each calendar feed. The title
             // and color provided by the server override whatever is stored locally
@@ -182,7 +182,7 @@ feeds.fetchCalendars = function() {
             // user preference set set locally (via Options) and overrides the
             // defaults provided by the server. If no such preference exists, then
             // a calendar is shown if it's selected and not hidden.
-
+            
             var serverCalendarID = calendar.id;
             var storedCalendar = storedCalendars[serverCalendarID] || {};
 
