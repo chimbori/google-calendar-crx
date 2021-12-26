@@ -2,13 +2,7 @@ workflows:
   version: 2
   main:
     jobs:
-      - test:
-          filters:
-            branches:
-              ignore: []
       - build:
-          requires:
-            - test
           filters:
             branches:
               only: master
@@ -21,17 +15,7 @@ workflows:
 
 version: 2
 jobs:
-  test:
-    docker:
-      - image: cibuilds/base:latest
-    steps:
-      - checkout
-      - run:
-          name: "Install Dependencies"
-          command: |
-            apk add --no-cache npm
-            npm i
-
+  
   build:
     docker:
       - image: cibuilds/chrome-extension:latest
