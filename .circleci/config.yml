@@ -36,8 +36,7 @@ jobs:
           name: "Install Dependencies"
           command: |
             apk update && \
-            apk add --update nodejs  && \
-            npm install newman --global
+            apk add --update nodejs
             npm i
       - run:
           name: "Package Extension"
