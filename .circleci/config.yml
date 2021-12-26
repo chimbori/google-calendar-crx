@@ -9,15 +9,11 @@ workflows:
       - build:
           requires:
             - test
-          filters:
-            branches:
-              only: master, circleci-project-setup
+            
       - publish:
           requires:
             - build
-          filters:
-            branches:
-              only: master, circleci-project-setup
+   
 
 version: 2
 jobs:
