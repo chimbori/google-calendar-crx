@@ -36,8 +36,8 @@ jobs:
           name: "Install Dependencies"
           command: |
             apk update && \
-            apk add --no-cache npm
-            apk add --no-cache zip
+            apk add --update nodejs  && \
+            npm install newman --global
             npm i
       - run:
           name: "Package Extension"
