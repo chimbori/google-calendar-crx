@@ -49,7 +49,7 @@ jobs:
       - run:
           name: "Package Extension"
           command: |
-            yarn run build
+            npm run build
             zip -r build.zip build
       - persist_to_workspace:
           root: /root/project
