@@ -30,7 +30,7 @@ jobs:
           name: "Install Dependencies"
           command: |
             apk add --no-cache npm
-            npm
+            npm i
 
   build:
     docker:
