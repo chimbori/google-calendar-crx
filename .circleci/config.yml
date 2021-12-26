@@ -40,9 +40,9 @@ jobs:
       - run:
           name: "Install Dependencies"
           command: |
-            apk add --no-cache yarn
+            apk add --no-cache npm
             apk add --no-cache zip
-            yarn
+            npm
       - run:
           name: "Package Extension"
           command: |
