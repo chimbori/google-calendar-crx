@@ -29,12 +29,9 @@ jobs:
       - run:
           name: "Install Dependencies"
           command: |
-            apk add --no-cache yarn
-            yarn
-      - run:
-          name: "Run Tests"
-          command: |
-            yarn run test
+            apk add --no-cache npm
+            npm
+
   build:
     docker:
       - image: cibuilds/chrome-extension:latest
