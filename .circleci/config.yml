@@ -25,7 +25,8 @@ jobs:
       - checkout
       - run:
           name: Install Dependencies
-          command: apt-get update
+          command:  
+                  apt-get update
                   apt-get -y install curl jq
       - run:
           name: Package Extension
